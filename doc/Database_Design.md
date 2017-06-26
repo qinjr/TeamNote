@@ -11,6 +11,10 @@ User(uid, username, password, phone, emai, role)
   {
 
   ​	"uid": ,
+  ​	
+  ​	"username": ,
+  ​	
+  ​	"personalStatus": ,
 
   ​	"notebook": [ book_A, book_B, book_C ] (bookId),
 
@@ -20,9 +24,15 @@ User(uid, username, password, phone, emai, role)
 
   ​	"feeds": [ "tag_A", "tag_B" ] (tag),
 
-  ​	"icon": ,
+  ​	"avator": ,
 
   ​	"collection": [ book_D, book_E, book_F ] (bookId)
+  ​	
+  ​	"valid": ,
+
+  	"deleteTime": ,
+
+  	"honor":
 
   }
 
@@ -39,12 +49,18 @@ User(uid, username, password, phone, emai, role)
   ​	"creator": ,
 
   ​	"owner": ,
+  ​	
+  ​	"star": ,
+  ​	
+  ​	"collected": ,
+  ​	
+  ​	"count": ,
 
   ​	"collobrator": [ user_A, user_B, user_C ] (uid),
 
-  ​	"contributor": [ { "name": user_D, "point":  },  
+  ​	"contributor": [ { "uid": user_D, "point":  },  
 
-  ​				{ "name": user_E, "point":  } ],
+  ​				{ "uid": user_E, "point":  } ],
 
   ​	"note": [ note_A, note_B, note_C ] (noteId),
 
@@ -57,10 +73,12 @@ User(uid, username, password, phone, emai, role)
   {
 
   ​	"noteId": ,
+  ​	
+  ​	"noteBookId":, 
 
   ​	"title": ,
 
-  ​	"history": {
+  ​	"history": [{
 
   ​		"editTime": ,
 
@@ -70,15 +88,15 @@ User(uid, username, password, phone, emai, role)
 
   ​		"editor": 
 
-  ​	},
+  ​	}],
 
-  ​	"comment": [ { "uid": , "datetime": , "content": , "valid": } ],
+  ​	"comment": [ { "uid": , "datetime": , "content": , "valid": "report":} ],
 
   ​	"upvote": [ user_A, user_B, user_C ] (uid),
 
   ​	"downvote": [ user_D, user_E, user_F ] (uid),
-
-  ​	"count": ,
+  ​	
+  ​	"report": 23
 
   ​	"valid": 1
 
@@ -139,3 +157,45 @@ User(uid, username, password, phone, emai, role)
   ​	"bookId": [ book_A, book_B ] (bookId)
 
   }
+  
+- Comment 
+  {
+  	"cid": ,
+
+ 	"uid": ,
+
+  	"datetime": ,
+
+  	"content": ,
+
+  	"report": ,
+
+  	"valid":
+
+  }
+
+ - Verify 
+  {
+  	"cid": [ CID_A, CID_B ] (cid),
+
+ 	"noteId":  [ note_A, note_B ] (noteID)
+  }
+
+- Suggestion
+ {
+ 	"uid": ,
+
+ 	"noteId":,
+
+ 	"noteBookId"
+
+ 	"content":,
+
+ 	"issue":,
+
+ 	"datetime":, 
+
+ 	"status":
+ }
+
+  
