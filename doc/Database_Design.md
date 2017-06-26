@@ -11,9 +11,9 @@ User(uid, username, password, phone, emai, role)
   {
 
   ​	"uid": ,
-  ​	
+
   ​	"username": ,
-  ​	
+
   ​	"personalStatus": ,
 
   ​	"notebook": [ book_A, book_B, book_C ] (bookId),
@@ -27,12 +27,13 @@ User(uid, username, password, phone, emai, role)
   ​	"avator": ,
 
   ​	"collection": [ book_D, book_E, book_F ] (bookId)
-  ​	
+
   ​	"valid": ,
 
-  	"deleteTime": ,
+  ​	"deleteTime": ,
 
-  	"honor":
+  ​	"honor":
+
 
   }
 
@@ -49,11 +50,11 @@ User(uid, username, password, phone, emai, role)
   ​	"creator": ,
 
   ​	"owner": ,
-  ​	
+
   ​	"star": ,
-  ​	
+
   ​	"collected": ,
-  ​	
+
   ​	"count": ,
 
   ​	"collobrator": [ user_A, user_B, user_C ] (uid),
@@ -73,7 +74,7 @@ User(uid, username, password, phone, emai, role)
   {
 
   ​	"noteId": ,
-  ​	
+
   ​	"noteBookId":, 
 
   ​	"title": ,
@@ -95,7 +96,7 @@ User(uid, username, password, phone, emai, role)
   ​	"upvote": [ user_A, user_B, user_C ] (uid),
 
   ​	"downvote": [ user_D, user_E, user_F ] (uid),
-  ​	
+
   ​	"report": 23
 
   ​	"valid": 1
@@ -157,45 +158,48 @@ User(uid, username, password, phone, emai, role)
   ​	"bookId": [ book_A, book_B ] (bookId)
 
   }
-  
+
 - Comment 
   {
-  	"cid": ,
 
- 	"uid": ,
+  ​	"cid": ,
 
-  	"datetime": ,
+  ​	"uid": ,
 
-  	"content": ,
+  ​	"datetime": ,
 
-  	"report": ,
+  ​	"content": ,
 
-  	"valid":
+  ​	"report": ,
+
+  ​	"valid":
 
   }
 
- - Verify 
+-  Verify 
   {
-  	"cid": [ CID_A, CID_B ] (cid),
 
- 	"noteId":  [ note_A, note_B ] (noteID)
+  ​	"cid": [ CID_A, CID_B ] (cid),
+
+
+  ​	"noteId":  [ note_A, note_B ] (noteID)
   }
 
 - Suggestion
- {
- 	"uid": ,
+   {
 
- 	"noteId":,
+   ​	"uid": ,
 
- 	"noteBookId"
+   ​	"noteId": ,
 
- 	"content":,
+   ​	"noteBookId": ,
 
- 	"issue":,
+   ​	"content": ,
 
- 	"datetime":, 
+   ​	"issue": ,
 
- 	"status":
- }
+   ​	"datetime": , 
 
-  
+   ​	"status":
+    }
+
