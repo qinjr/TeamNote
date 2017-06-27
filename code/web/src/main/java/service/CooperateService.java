@@ -27,11 +27,12 @@ public interface CooperateService {
     /**
      * pushUpdate
      * @param userId 更新者Id
+     * @param noteId 更新笔记Id
      * @param content 更新后笔记内容
      * @param datetime 更新时间
      * @return 1为更新成功，0为失败
      */
-    public int pushUpdate(int userId, String content, Date datetime);
+    public int pushUpdate(int userId, int noteId, String content, Date datetime);
 
 
     /**
@@ -41,4 +42,18 @@ public interface CooperateService {
      * @return 1为回滚成功，0为失败
      */
     public int reset(int userId, int noteId);
+
+
+    /**
+     * raiseAdvice
+     * @param userId 提意见者Id
+     * @param noteId 提出意见的noteId
+     * @param notebookId note所在的笔记本Id
+     * @param content 修改后的笔记内容
+     * @param description 解释修改的原因
+     * @return 1为提交成功，0为失败
+     */
+    public int raiseAdvice(int userId, int noteId, int notebookId, String content, String description);
+
+    public int mergeAdvice();
 }
