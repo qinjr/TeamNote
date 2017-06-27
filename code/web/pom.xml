@@ -103,11 +103,11 @@
             <version>5.2.10.Final</version>
         </dependency>
 
-        <!-- Javax Servlet -->
+        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.0-b05</version>
             <scope>provided</scope>
         </dependency>
 
