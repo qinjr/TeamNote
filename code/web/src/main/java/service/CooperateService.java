@@ -10,9 +10,9 @@ public interface CooperateService {
      * inviteCooperator
      * @param userId 邀请者Id
      * @param notebookId 笔记本Id
-     * @return 接受请求页面的链接（之后由通知服务向指定用户发送通知）
+     * @return 1为请求发送成功，0为失败
      */
-    public String inviteCooperator(int userId, int notebookId);
+    public int inviteCooperator(int userId, int notebookId);
 
 
     /**
