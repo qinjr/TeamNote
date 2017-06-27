@@ -2,7 +2,13 @@
 
 #### Relational Database (MySQL)
 
-User(uid, username, password, phone, emai, role)
+User(uid, username, password, phone, emai, role)(role:user, admin)
+
+Notebook(notebookid)
+
+Auth(uid, notebookid, role)(role:owner, collaborator)
+
+
 
 #### Document Database (MongoDB)
 
@@ -187,12 +193,14 @@ User(uid, username, password, phone, emai, role)
 
 
   ​   "noteId":  [ note\_A, note\_B ] (noteID)
+  
   }
 
 - Suggestion
 
    {
-
+   ​  "sid": ,
+   
    ​  "uid": ,
 
    ​  "noteId": ,
@@ -206,4 +214,12 @@ User(uid, username, password, phone, emai, role)
    ​  "datetime": , 
 
    ​  "status":
-	}
+   }
+- Notice
+
+  {
+  ​  "uid": ,
+  
+  ​  "notice": [{"read":1, "content": }]
+  
+  }
