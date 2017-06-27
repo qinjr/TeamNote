@@ -105,7 +105,7 @@ User(uid, username, password, phone, emai, role)
 
   }
 
-- Groupchat
+- GroupChat
 
   {
 
@@ -162,6 +162,7 @@ User(uid, username, password, phone, emai, role)
   }
 
 - Comment 
+
   {
 
   ​	"cid": ,
@@ -179,6 +180,7 @@ User(uid, username, password, phone, emai, role)
   }
 
 - Verify 
+
   {
 
   ​	"cid": [ CID_A, CID_B ] (cid),
@@ -188,6 +190,7 @@ User(uid, username, password, phone, emai, role)
   }
 
 - Suggestion
+
    {
 
    ​	"uid": ,
