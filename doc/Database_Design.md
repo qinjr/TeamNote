@@ -34,6 +34,8 @@ User(uid, username, password, phone, emai, role)
 
   ​	"honor":
 
+  ​	"reward": { "valid": 1, "qrcode":  }
+
 
   }
 
@@ -176,7 +178,7 @@ User(uid, username, password, phone, emai, role)
 
   }
 
--  Verify 
+- Verify 
   {
 
   ​	"cid": [ CID_A, CID_B ] (cid),
