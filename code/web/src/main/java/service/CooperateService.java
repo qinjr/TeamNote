@@ -41,5 +41,4 @@ public interface CooperateService {
      * @return 1为回滚成功，0为失败
      */
     public int reset(int userId, int noteId);
-
 }
