@@ -2,9 +2,9 @@
 
 #### Relational Database (MySQL)
 
-User(uid, username, password, phone, emai, role)(role:user, admin)
+UserInfo(uid, username, password, phone, emai, role)(role:user, admin)
 
-Notebook(notebookid)
+NotebookInfo(notebookid)
 
 Auth(uid, notebookid, role)(role:owner, collaborator)
 
