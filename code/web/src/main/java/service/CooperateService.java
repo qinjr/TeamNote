@@ -10,9 +10,9 @@ public interface CooperateService {
      * inviteCooperator
      * @param userId 邀请者Id
      * @param notebookId 笔记本Id
-     * @return 1为成功发送邀请，0为失败
+     * @return 接受请求页面的链接（之后由通知服务向指定用户发送通知）
      */
-    public int inviteCooperator(int userId, int notebookId);
+    public String inviteCooperator(int userId, int notebookId);
 
 
     /**
@@ -48,12 +48,19 @@ public interface CooperateService {
      * raiseAdvice
      * @param userId 提意见者Id
      * @param noteId 提出意见的noteId
-     * @param notebookId note所在的笔记本Id
      * @param content 修改后的笔记内容
      * @param description 解释修改的原因
-     * @return 1为提交成功，0为失败
+     * @return 审核contributor修改的链接
      */
-    public int raiseAdvice(int userId, int noteId, int notebookId, String content, String description);
+    public String raiseAdvice(int userId, int noteId, String content, String description);
 
-    public int mergeAdvice();
+
+    /**
+     *
+     * @param userId 提出意见者的Id
+     * @param noteId 被提出意见的note的Id
+     * @param datetime 提出意见的时间（在Suggestion表中寻找到要merge的版本）（做为审核contributor修改的链接的一部分传入）
+     * @return 1为接受意见merge成功，0为未merge
+     */
+    public int mergeAdvice(int userId, int noteId, Date datetime);
 }
