@@ -7,10 +7,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>$Title$</title>
-</head>
-<body>
-    $END$
-</body>
+    <head>
+        <title>title</title>
+        <% String path = request.getContextPath();%>
+        <link href="<%=path%>/app/css/bootstrap.min.css" rel="stylesheet" >
+
+    </head>
+    <body>
+        <a href="<%=path%>/app/jsp/editor.jsp">editor</a>
+        Begin
+    </body>
 </html>
