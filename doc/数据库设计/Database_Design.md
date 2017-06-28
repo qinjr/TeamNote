@@ -2,7 +2,13 @@
 
 #### Relational Database (MySQL)
 
-User(uid, username, password, phone, emai, role)
+UserInfo(uid, username, password, phone, emai, role)(role:user, admin)
+
+NotebookInfo(notebookid)
+
+Auth(uid, notebookid, role)(role:owner, collaborator)
+
+
 
 #### Document Database (MongoDB)
 
@@ -10,31 +16,31 @@ User(uid, username, password, phone, emai, role)
 
   {
 
-  ​	"uid": ,
+  ​   "uid": ,
 
-  ​	"username": ,
+  ​   "username": ,
 
-  ​	"personalStatus": ,
+  ​   "personalStatus": ,
 
-  ​	"notebook": [ book_A, book_B, book_C ] (bookId),
+  ​   "notebook": [ book\_A, book\_B, book\_C ] (bookId),
 
-  ​	"follow": [ user_A, user_B, user_C ] (uid),
+  ​   "follow": [ user\_A, user\_B, user\_C ] (uid),
 
-  ​	"followed": [ user_D, user_E, user_F ] (uid),
+  ​   "followed": [ user\_D, user\_E, user\_F ] (uid),
 
-  ​	"feeds": [ "tag_A", "tag_B" ] (tag),
+  ​   "feeds": [ "tag\_A", "tag\_B" ] (tag),
 
-  ​	"avator": ,
+  ​   "avator": ,
 
-  ​	"collection": [ book_D, book_E, book_F ] (bookId)
+  ​   "collection": [ book\_D, book\_E, book\_F ] (bookId)
 
-  ​	"valid": ,
+  ​   "valid": ,
 
-  ​	"deleteTime": ,
+  ​   "deleteTime": ,
 
-  ​	"honor":
+  ​   "honor":
 
-  ​	"reward": { "valid": 1, "qrcode":  }
+  ​   "reward": { "valid": 1, "qrcode":  }
 
 
   }
@@ -43,31 +49,31 @@ User(uid, username, password, phone, emai, role)
 
   {
 
-  ​	"notebookId": ,
+  ​   "notebookId": ,
 
-  ​	"title": ,
+  ​   "title": ,
 
-  ​	"description": ,
+  ​   "description": ,
 
-  ​	"creator": ,
+  ​   "creator": ,
 
-  ​	"owner": ,
+  ​   "owner": ,
 
-  ​	"star": ,
+  ​   "star": ,
 
-  ​	"collected": ,
+  ​   "collected": ,
 
-  ​	"count": ,
+  ​   "count": ,
 
-  ​	"collobrator": [ user_A, user_B, user_C ] (uid),
+  ​   "collobrator": [ user\_A, user\_B, user\_C ] (uid),
 
-  ​	"contributor": [ { "uid": user_D, "point":  },  
+  ​   "contributor": [ { "uid": user\_D, "point":  },  
 
-  ​				{ "uid": user_E, "point":  } ],
+  ​               { "uid": user\_E, "point":  } ],
 
-  ​	"note": [ note_A, note_B, note_C ] (noteId),
+  ​   "note": [ note\_A, note\_B, note\_C ] (noteId),
 
-  ​	"createTime": ,
+  ​   "createTime": ,
 
   }
 
@@ -75,33 +81,33 @@ User(uid, username, password, phone, emai, role)
 
   {
 
-  ​	"noteId": ,
+  ​   "noteId": ,
 
-  ​	"noteBookId":, 
+  ​   "noteBookId":, 
 
-  ​	"title": ,
+  ​   "title": ,
 
-  ​	"history": [{
+  ​   "history": [{
 
-  ​		"editTime": ,
+  ​       "editTime": ,
 
-  ​		"message": ,
+  ​       "message": ,
 
-  ​		"content": ,
+  ​       "content": ,
 
-  ​		"editor": 
+  ​       "editor": 
 
-  ​	}],
+  ​   }],
 
-  ​	"comment": [ { "uid": , "datetime": , "content": , "valid": "report":} ],
+  ​   "comment": [ { "uid": , "datetime": , "content": , "valid": "report":} ],
 
-  ​	"upvote": [ user_A, user_B, user_C ] (uid),
+  ​   "upvote": [ user\_A, user\_B, user\_C ] (uid),
 
-  ​	"downvote": [ user_D, user_E, user_F ] (uid),
+  ​   "downvote": [ user\_D, user\_E, user\_F ] (uid),
 
-  ​	"report": 23
+  ​   "report": 23
 
-  ​	"valid": 1
+  ​   "valid": 1
 
   }
 
@@ -109,21 +115,21 @@ User(uid, username, password, phone, emai, role)
 
   {
 
-  ​	"notebookId": ,
+  ​   "notebookId": ,
 
-  ​	"content": [
+  ​   "content": [
 
-  ​		{
+  ​       {
 
-  ​			"uid": ,
+  ​           "uid": ,
 
-  ​			"datetime": ,
+  ​           "datetime": ,
 
-  ​			"content":
+  ​           "content":
 
-  ​		}
+  ​       }
 
-  ​	]
+  ​   ]
 
   }
 
@@ -131,23 +137,23 @@ User(uid, username, password, phone, emai, role)
 
   {
 
-  ​	"uid_A": ,
+  ​   "uid\_A": ,
 
-  ​	"uid_B": ,
+  ​   "uid\_B": ,
 
-  ​	"content": [
+  ​   "content": [
 
-  ​		{
+  ​       {
 
-  ​			"uid": ,
+  ​           "uid": ,
 
-  ​			"datetime": ,
+  ​           "datetime": ,
 
-  ​			"content":
+  ​           "content":
 
-  ​		}
+  ​       }
 
-  ​	]
+  ​   ]
 
   }
 
@@ -155,56 +161,64 @@ User(uid, username, password, phone, emai, role)
 
   {
 
-  ​	"tagName": ,
+  ​   "tagName": ,
 
-  ​	"bookId": [ book_A, book_B ] (bookId)
-
-  }
-
-- Comment 
-
-  {
-
-  ​	"cid": ,
-
-  ​	"uid": ,
-
-  ​	"datetime": ,
-
-  ​	"content": ,
-
-  ​	"report": ,
-
-  ​	"valid":
+  ​   "bookId": [ book\_A, book\_B ] (bookId)
 
   }
 
-- Verify 
+- Comment
 
   {
 
-  ​	"cid": [ CID_A, CID_B ] (cid),
+  ​   "cid": ,
+
+  ​   "uid": ,
+
+  ​   "datetime": ,
+
+  ​   "content": ,
+
+  ​   "report": ,
+
+  ​   "valid":
+
+  }
+
+- Verify
+
+  {
+
+  ​   "cid": [ CID\_A, CID\_B ] (cid),
 
 
-  ​	"noteId":  [ note_A, note_B ] (noteID)
+  ​   "noteId":  [ note\_A, note\_B ] (noteID)
+  
   }
 
 - Suggestion
 
    {
+   ​  "sid": ,
+   ​  "uid": ,
 
-   ​	"uid": ,
+   ​  "noteId": ,
 
-   ​	"noteId": ,
+   ​  "noteBookId": ,
 
-   ​	"noteBookId": ,
+   ​  "content": ,
 
-   ​	"content": ,
+   ​  "issue": ,
 
-   ​	"issue": ,
+   ​  "datetime": , 
 
-   ​	"datetime": , 
+   ​  "status":
+   }
+- Notice
 
-   ​	"status":
-    }
-
+  {
+  ​  "uid": ,
+  
+  ​  "notice": [{"read":1, "content": }]
+  
+  }
