@@ -22,11 +22,10 @@ public interface CooperateService {
     /**
      * takeInvitation
      * @param userId 受邀者Id
-     * @param notebookId 笔记本Id
-     * @param decision 笔记本Id
+     * @param decision 是否接受邀请，1为接受，0不接受
      * @return 1为接受，0为拒绝
      */
-    public int checkInvitation(int userId, int notebookId, int decision);
+    public int checkInvitation(int userId, int decision);
 
 
     /**
@@ -89,4 +88,23 @@ public interface CooperateService {
      * @return 这个工作组所有的群聊内容
      */
     public ArrayList<JsonObject> getGroupChat(int notebookId);
+
+
+    /**
+     * giveOwnership
+     * @param oldOwnerId 原来的owner
+     * @param newOwnerId 新owner
+     * @param notebookId 指定notebook
+     * @return 1为成功发送转让请求，0为失败
+     */
+    public int giveOwnership(int oldOwnerId, int newOwnerId, int notebookId);
+
+
+    /**
+     * checkOwnershipTransfer
+     * @param takerId 接受ownership者Id
+     * @param decision 1为接受，0不接受
+     * @return 1为接受，0为拒绝
+     */
+    public int checkOwnershipTransfer(int takerId, int decision);
 }
