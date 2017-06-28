@@ -1,5 +1,8 @@
 package service;
 
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -59,7 +62,7 @@ public interface CooperateService {
 
 
     /**
-     *
+     * mergeAdvice
      * @param advicerId 提出意见者的Id
      * @param managerId 笔记管理者的Id
      * @param noteId 被提出意见的note的Id
@@ -67,4 +70,23 @@ public interface CooperateService {
      * @return 1为接受意见merge成功，0为未merge
      */
     public int mergeAdvice(int advicerId, int managerId, int noteId, Date datetime);
+
+
+    /**
+     * sendGroupChat
+     * @param userId 发送小组群聊消息的用户id
+     * @param notebookId 所在的notebook的id
+     * @param datetime 发送时间
+     * @param content 消息内容
+     * @return 1为发送成功，0为失败
+     */
+    public int sendGroupChat(int userId, int  notebookId, Date datetime, String content);
+
+
+    /**
+     * getGroupChat
+     * @param notebookId 合作者所在的笔记本
+     * @return 这个工作组所有的群聊内容
+     */
+    public ArrayList<JsonObject> getGroupChat(int notebookId);
 }
