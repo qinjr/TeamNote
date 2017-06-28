@@ -14,9 +14,20 @@ public interface CooperateService {
      * @param inviterId 邀请者Id
      * @param targetId 受邀者Id
      * @param notebookId 笔记本Id
+     * @param description 邀请描述
      * @return 1为请求发送成功，0为失败
      */
-    public int inviteCooperator(int inviterId, int targetId, int notebookId);
+    int inviteCooperator(int inviterId, int targetId, int notebookId, String description);
+
+
+    /**
+     *
+     * @param inviterId 邀请者Id
+     * @param notebookId 笔记本Id，抽取笔记本详细信息
+     * @param description 邀请者要对受邀者说的话
+     * @return 邀请详细信息
+     */
+    ArrayList<JsonObject> viewInvitation(int inviterId, int notebookId, String description);
 
 
     /**
@@ -25,7 +36,7 @@ public interface CooperateService {
      * @param decision 是否接受邀请，1为接受，0不接受
      * @return 1为接受，0为拒绝
      */
-    public int checkInvitation(int userId, int decision);
+    int takeInvitation(int userId, int decision);
 
 
     /**
@@ -36,7 +47,7 @@ public interface CooperateService {
      * @param datetime 更新时间
      * @return 1为更新成功，0为失败
      */
-    public int pushUpdate(int userId, int noteId, String content, Date datetime);
+    int pushUpdate(int userId, int noteId, String content, Date datetime);
 
 
     /**
@@ -45,7 +56,7 @@ public interface CooperateService {
      * @param noteId 笔记Id
      * @return 1为回滚成功，0为失败
      */
-    public int reset(int userId, int noteId);
+    int reset(int userId, int noteId);
 
 
     /**
@@ -57,7 +68,7 @@ public interface CooperateService {
      * @param datetime 提交修改建议的时间
      * @return 1为提交成功，0为提交失败
      */
-    public int raiseAdvice(int userId, int noteId, String content, String description, Date datetime);
+    int raiseAdvice(int userId, int noteId, String content, String description, Date datetime);
 
 
     /**
@@ -68,7 +79,7 @@ public interface CooperateService {
      * @param datetime 提出意见的时间（在Suggestion表中寻找到要merge的版本）（做为审核contributor修改的链接的一部分传入）
      * @return 1为接受意见merge成功，0为未merge
      */
-    public int mergeAdvice(int advicerId, int managerId, int noteId, Date datetime);
+    int mergeAdvice(int advicerId, int managerId, int noteId, Date datetime);
 
 
     /**
@@ -79,7 +90,7 @@ public interface CooperateService {
      * @param content 消息内容
      * @return 1为发送成功，0为失败
      */
-    public int sendGroupChat(int userId, int  notebookId, Date datetime, String content);
+    int sendGroupChat(int userId, int  notebookId, Date datetime, String content);
 
 
     /**
@@ -87,7 +98,7 @@ public interface CooperateService {
      * @param notebookId 合作者所在的笔记本
      * @return 这个工作组所有的群聊内容
      */
-    public ArrayList<JsonObject> getGroupChat(int notebookId);
+    ArrayList<JsonObject> getGroupChat(int notebookId);
 
 
     /**
@@ -97,14 +108,6 @@ public interface CooperateService {
      * @param notebookId 指定notebook
      * @return 1为成功发送转让请求，0为失败
      */
-    public int giveOwnership(int oldOwnerId, int newOwnerId, int notebookId);
+    int giveOwnership(int oldOwnerId, int newOwnerId, int notebookId);
 
-
-    /**
-     * checkOwnershipTransfer
-     * @param takerId 接受ownership者Id
-     * @param decision 1为接受，0不接受
-     * @return 1为接受，0为拒绝
-     */
-    public int checkOwnershipTransfer(int takerId, int decision);
 }

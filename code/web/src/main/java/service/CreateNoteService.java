@@ -13,7 +13,7 @@ public interface CreateNoteService {
      * @param notebookName 笔记本名称
      * @return 1为成功，0为失败
      */
-    public int createNotebook(int userId, String notebookName);
+    int createNotebook(int userId, String notebookName);
 
     /**
      * uploadFileNote
@@ -23,7 +23,7 @@ public interface CreateNoteService {
      * @param datetime 上传时间
      * @return 1为成功，0为失败
      */
-    public int uploadFileNote(int userId, int notebookId, File content, Date datetime);
+    int uploadFileNote(int userId, int notebookId, File content, Date datetime);
 
 
     /**
@@ -34,5 +34,5 @@ public interface CreateNoteService {
      * @param datetime 上传时间
      * @return 1为成功，0为失败
      */
-    public int uploadTextNote(int userId, int notebookId, String content, Date datetime);
+    int uploadTextNote(int userId, int notebookId, String content, Date datetime);
 }
