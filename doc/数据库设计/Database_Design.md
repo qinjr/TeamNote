@@ -200,7 +200,6 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
    {
    ​  "sid": ,
-   
    ​  "uid": ,
 
    ​  "noteId": ,
