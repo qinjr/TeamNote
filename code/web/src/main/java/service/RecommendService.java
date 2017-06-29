@@ -1,6 +1,6 @@
 package service;
 
-import com.google.gson.JsonObject;
+import model.mongodb.Notebook;
 
 import java.util.ArrayList;
 
@@ -13,5 +13,5 @@ public interface RecommendService {
      * @param userId 发起首页浏览请求的用户Id（先登录，才能浏览首页）
      * @return 推荐系统选出的笔记本，以Json List的形式返回
      */
-    ArrayList<JsonObject> getRecommendNotebooks(int userId);
+    ArrayList<Notebook> getRecommendNotebooks(int userId);
 }

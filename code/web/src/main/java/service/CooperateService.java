@@ -1,6 +1,7 @@
 package service;
 
 import com.google.gson.JsonObject;
+import model.mongodb.GroupChat;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -98,7 +99,7 @@ public interface CooperateService {
      * @param notebookId 合作者所在的笔记本
      * @return 这个工作组所有的群聊内容
      */
-    ArrayList<JsonObject> getGroupChat(int notebookId);
+    ArrayList<GroupChat> getGroupChat(int notebookId);
 
 
     /**

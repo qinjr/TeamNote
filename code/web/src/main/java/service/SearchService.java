@@ -1,6 +1,6 @@
 package service;
 
-import com.google.gson.JsonObject;
+import model.mongodb.Notebook;
 
 import java.util.ArrayList;
 
@@ -14,5 +14,5 @@ public interface SearchService {
      * @param keyWord 搜索关键词
      * @return 返回搜索结果
      */
-    ArrayList<JsonObject> search(int userId, String keyWord);
+    ArrayList<Notebook> search(int userId, String keyWord);
 }

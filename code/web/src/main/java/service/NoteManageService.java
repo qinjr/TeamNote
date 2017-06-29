@@ -1,6 +1,7 @@
 package service;
 
-import com.google.gson.JsonObject;
+import model.mongodb.Note;
+import model.mongodb.Notebook;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,14 +26,14 @@ public interface NoteManageService {
      * @param notebookId 需要的笔记本Id
      * @return 笔记本详细信息，笔记本内包含的所有笔记
      */
-    ArrayList<JsonObject> getNotebookById(int notebookId);
+    ArrayList<Note> getNotebookById(int notebookId);
 
 
     /**
      * getAllNotebooks
      * @return 所有笔记本
      */
-    ArrayList<ArrayList<JsonObject>> getAllNotebooks();
+    ArrayList<Notebook> getAllNotebooks();
 
 
     /**
@@ -40,7 +41,7 @@ public interface NoteManageService {
      * @param noteId 笔记Id
      * @return 笔记详细信息
      */
-    JsonObject getNoteById(int noteId);
+    Note getNoteById(int noteId);
 
 
     /**

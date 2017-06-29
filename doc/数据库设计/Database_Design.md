@@ -218,7 +218,7 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
   {
   ​  "uid": ,
-  
+
   ​  "notice": [{"read":1, "content": }]
   
   }

@@ -1,6 +1,6 @@
 package service;
 
-import com.google.gson.JsonObject;
+import model.mongodb.Letter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,7 +26,7 @@ public interface LetterService {
      * @param letterId 信Id
      * @return 信的内容
      */
-    JsonObject readLetter(int userId, int letterId);
+    Letter readLetter(int userId, int letterId);
 
 
     /**
@@ -34,7 +34,7 @@ public interface LetterService {
      * @param userId 用户Id
      * @return 所有这个用户收到的信
      */
-    ArrayList<JsonObject> getAllReceivedLetters(int userId);
+    ArrayList<Letter> getAllReceivedLetters(int userId);
 
 
     /**
@@ -42,7 +42,7 @@ public interface LetterService {
      * @param userId 用户Id
      * @return 所有这个用户发出的信
      */
-    ArrayList<JsonObject> getAllSentLetters(int userId);
+    ArrayList<Letter> getAllSentLetters(int userId);
 
 
 }
