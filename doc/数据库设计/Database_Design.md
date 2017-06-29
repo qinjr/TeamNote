@@ -6,7 +6,7 @@ UserInfo(userId, username, password, phone, emai, role)(role:user, admin)
 
 NotebookInfo(notebookid)
 
-Auth(uid, notebookid, auth)(role:owner, collaborator)
+Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
 
 
 
