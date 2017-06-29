@@ -136,6 +136,8 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 - Letter
 
   {
+  
+  ​   "lid": ,
 
   ​   "uid\_A": ,
 
@@ -160,6 +162,8 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 - Tag
 
   {
+  
+  ​   "tid": ,
 
   ​   "tagName": ,
 
@@ -229,6 +233,6 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
   {
   ​  "rid": ,
   
-  ​  "rules": [rules1, rules2]
+  ​  "rules": [{"rule":"haha", "releaseTime":"xxx"}]
   
   }
