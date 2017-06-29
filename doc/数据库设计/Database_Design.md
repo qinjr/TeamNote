@@ -2,11 +2,11 @@
 
 #### Relational Database (MySQL)
 
-UserInfo(uid, username, password, phone, emai, role)(role:user, admin)
+UserInfo(userId, username, password, phone, emai, role)(role:user, admin)
 
 NotebookInfo(notebookid)
 
-Auth(uid, notebookid, role)(role:owner, collaborator)
+Auth(uid, notebookid, auth)(role:owner, collaborator)
 
 
 
@@ -16,29 +16,29 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
   {
 
-  ​   "uid": ,
+  ​   "userId": ,
 
   ​   "username": ,
 
   ​   "personalStatus": ,
 
-  ​   "notebook": [ book\_A, book\_B, book\_C ] (bookId),
+  ​   "notebooks": [ book\_A, book\_B, book\_C ] (bookId),
 
-  ​   "follow": [ user\_A, user\_B, user\_C ] (uid),
+  ​   "followers": [ user\_A, user\_B, user\_C ] (uid),
 
-  ​   "followed": [ user\_D, user\_E, user\_F ] (uid),
+  ​   "followings": [ user\_D, user\_E, user\_F ] (uid),
 
-  ​   "feeds": [ "tag\_A", "tag\_B" ] (tag),
+  ​   "tags": [ "tag\_A", "tag\_B" ] (tag),
 
   ​   "avator": ,
 
-  ​   "collection": [ book\_D, book\_E, book\_F ] (bookId)
+  ​   "collections": [ book\_D, book\_E, book\_F ] (bookId)
 
   ​   "valid": ,
 
-  ​   "deleteTime": ,
+  ​   "deleteCount": ,
 
-  ​   "honor":
+  ​   "reputation":
 
   ​   "reward": { "valid": 1, "qrcode":  }
 
@@ -63,15 +63,15 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
   ​   "collected": ,
 
-  ​   "count": ,
+  ​   "clickCount": ,
 
-  ​   "collobrator": [ user\_A, user\_B, user\_C ] (uid),
+  ​   "collaborators": [ user\_A, user\_B, user\_C ] (uid),
 
-  ​   "contributor": [ { "uid": user\_D, "point":  },  
+  ​   "contributors": [ { "uid": user\_D, "point":  },  
 
   ​               { "uid": user\_E, "point":  } ],
 
-  ​   "note": [ note\_A, note\_B, note\_C ] (noteId),
+  ​   "notes": [ note\_A, note\_B, note\_C ] (noteId),
 
   ​   "createTime": ,
 
@@ -99,13 +99,13 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
   ​   }],
 
-  ​   "comment": [ { "uid": , "datetime": , "content": , "valid": "report":} ],
+  ​   "comments": [ { "uid": , "datetime": , "content": , "valid": "report":} ],
 
-  ​   "upvote": [ user\_A, user\_B, user\_C ] (uid),
+  ​   "upvoters": [ user\_A, user\_B, user\_C ] (uid),
 
-  ​   "downvote": [ user\_D, user\_E, user\_F ] (uid),
+  ​   "downvoters": [ user\_D, user\_E, user\_F ] (uid),
 
-  ​   "report": 23
+  ​   "reportCount": 23
 
   ​   "valid": 1
 
@@ -117,7 +117,7 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
   ​   "notebookId": ,
 
-  ​   "content": [
+  ​   "contents": [
 
   ​       {
 
@@ -137,25 +137,15 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
   {
   
-  ​   "lid": ,
+  ​   "letterId": ,
 
-  ​   "uid\_A": ,
+  ​   "senderId": ,
 
-  ​   "uid\_B": ,
+  ​   "receiverId": ,
 
-  ​   "content": [
+  ​   "content”: ,
 
-  ​       {
-
-  ​           "uid": ,
-
-  ​           "datetime": ,
-
-  ​           "content":
-
-  ​       }
-
-  ​   ]
+  ​   "sentTime": 
 
   }
 
@@ -163,11 +153,11 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
   {
   
-  ​   "tid": ,
+  ​   "tagId": ,
 
   ​   "tagName": ,
 
-  ​   "bookId": [ book\_A, book\_B ] (bookId)
+  ​   "booksOfTag": [ book\_A, book\_B ] (bookId)
 
   }
 
@@ -175,15 +165,15 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
   {
 
-  ​   "cid": ,
+  ​   "commentId": ,
 
-  ​   "uid": ,
+  ​   "userId": ,
 
-  ​   "datetime": ,
+  ​   “sentTime": ,
 
   ​   "content": ,
 
-  ​   "report": ,
+  ​   "reportCount": ,
 
   ​   "valid":
 
@@ -191,20 +181,23 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
 - Verify
 
-  {
+   {
 
-  ​   "cid": [ CID\_A, CID\_B ] (cid),
+  ​   "date": ,
 
+  ​   "comments": [ CID\_A, CID\_B ] (cid),
 
-  ​   "noteId":  [ note\_A, note\_B ] (noteID)
+  ​   "notes":  [ note\_A, note\_B ] (noteID)
+
   
   }
 
 - Suggestion
 
    {
-   ​  "sid": ,
-   ​  "uid": ,
+   ​  "suggestionId": ,
+
+   ​  "userId": ,
 
    ​  "noteId": ,
 
@@ -214,25 +207,24 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
    ​  "issue": ,
 
-   ​  "datetime": , 
+   ​  "raiseTime": , 
 
    ​  "status":
    }
-   
 - Notice
 
   {
-  ​  "uid": ,
+  ​  "userId": ,
 
-  ​  "notice": [{"read":1, "content": }]
+  ​  "notices": [{"read":1, "content": }]
   
   }
 
 - Rule
 
   {
-  ​  "rid": ,
+  ​  "ruleId": ,
   
-  ​  "rules": [{"rule":"haha", "releaseTime":"xxx"}]
+  ​  "rules": \{"rule":"haha", "releaseTime":"xxx"}
   
   }
