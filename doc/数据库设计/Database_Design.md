@@ -214,11 +214,21 @@ Auth(uid, notebookid, role)(role:owner, collaborator)
 
    ​  "status":
    }
+   
 - Notice
 
   {
   ​  "uid": ,
   
   ​  "notice": [{"read":1, "content": }]
+  
+  }
+
+- Rule
+
+  {
+  ​  "rid": ,
+  
+  ​  "rules": [rules1, rules2]
   
   }
