@@ -4,6 +4,7 @@ package model.mysql;
  * Created by qjr on 2017/6/27.
  */
 public class Auth {
+    private int authId;
     private int userId;
     private int notebookId;
     private String auth;
@@ -38,5 +39,13 @@ public class Auth {
 
     public void setAuth(String auth) {
         this.auth = auth;
+    }
+
+    public int getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(int authId) {
+        this.authId = authId;
     }
 }
