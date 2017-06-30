@@ -16,7 +16,7 @@ public class UserInfoDaoImpl extends HibernateDaoSupport implements UserInfoDao{
     }
 
     public void deleteUserInfo(UserInfo userInfo) {
-        getHibernateTemplate().save(userInfo);
+        getHibernateTemplate().delete(userInfo);
     }
 
     public void updateUserInfo(UserInfo userInfo) {
