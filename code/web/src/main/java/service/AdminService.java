@@ -1,6 +1,8 @@
 package service;
 
 import model.mongodb.*;
+import model.mysql.Auth;
+import model.mysql.UserInfo;
 
 import java.io.File;
 import java.util.ArrayList;

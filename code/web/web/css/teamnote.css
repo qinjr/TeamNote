@@ -1,0 +1,36 @@
+body {
+    background-color: #FAFAFA;
+    width: 100%;
+    height: 100%;
+}
+
+.navbar-toggleable-md {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 150px;
+    padding-right: 150px;
+    background: #FFFFFF;
+}
+
+.navbar-brand,
+.navbar-brand:hover,
+.navbar-brand:focus {
+    color: #4A90E2;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.nav-item > .nav-link,
+.nav-item > .nav-link:focus {
+    color: #000000;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #4A90E2;
+}
+
+.container .card {
+    width: 1000px;
+    margin: 20px auto;
+}
