@@ -13,15 +13,16 @@
 </head>
 <body>
 <div class="container">
-    <div class="col-lg-offset-2 col-lg-8">
-        <form>
-        <textarea name="editor1" id="editor1">
+    <div class="col-lg-offset-1 col-lg-10">
+        <form method="post" action="./save.jsp">
+            <textarea name="editor1" id="editor1">
                 This is my textarea to be replaced with CKEditor.
-        </textarea>
+            </textarea>
         </form>
     </div>
 </div>
-<script src="../ckeditor/ckeditor.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../../ckeditor4.7/ckeditor.js"></script>
 <script>
     // Replace the <textarea id="editor1"> with a CKEditor
     // instance.
