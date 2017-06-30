@@ -16,6 +16,7 @@
         <title>TeamNote</title>
         <meta name="author" content="TeamNote Team">
         <meta name="description" content="A platform for people to share and create notes together.">
+        <link rel="icon" href="<%=path%>/icon/favicon.png">
         <link type="text/css" rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/font-awesome.min.css"/>
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/teamnote.css"/>
@@ -112,8 +113,6 @@
                                             <i class="fa fa-flag fa-fw" aria-hidden="true"></i>&nbsp;举报
                                         </button>
                                     </footer>
-
-
                                 </div>
                             </div>
                         </div>
