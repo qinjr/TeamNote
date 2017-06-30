@@ -2,7 +2,7 @@ package dao.mongodbDao;
 
 import model.mongodb.Notebook;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by qjr on 2017/6/27.
@@ -12,5 +12,5 @@ public interface NotebookDao {
     void deleteNotebook(Notebook notebook);
     void updateNotebook(Notebook notebook);
     Notebook getNotebookById(int notebookId);
-    ArrayList<Notebook> getAllNotebooks();
+    List<Notebook> getAllNotebooks();
 }
