@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+  /*
+      http://www.oschina.net/question/124879_76399
+  */
+  
+  html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+   
+  body{
+      color:#444;
+      font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+      font-size:13px;
+      line-height:1.5em;
+      padding:1em;
+      margin:auto;
+      max-width:42em;
+      background:#fefefe;
+  }
+   
+  h1, h2, h3, h4, h5, h6 {
+      font-weight: bold;
+  }
+   
+  h1 {
+      color: #000000;
+      font-size: 28px;
+  }
+   
+  h2 {
+      border-bottom: 2px solid #CCCCCC;
+      color: #000000;
+      font-size: 24px;
+  }
+   
+  h3 {
+      border-bottom: 2px solid #CCCCCC;
+      font-size: 18px;
+  }
+   
+  h4 {
+      font-size: 16px;
+  }
+   
+  h5 {
+      font-size: 14px;
+  }
+   
+  h6 {
+      color: #777777;
+      background-color: inherit;
+      font-size: 14px;
+  }
+   
+  hr {
+      height: 0.2em;
+      border: 0;
+      color: #CCCCCC;
+      background-color: #CCCCCC;
+  }
+   
+  p, blockquote, ul, ol, dl, li, table, pre {
+      margin: 15px 0;
+  }
+   
+  p{
+      margin:1em 0;
+  }
+   
+  pre { 
+      background-color: #F8F8F8;    
+      border: 1px solid #CCCCCC;
+      border-radius: 3px;
+      overflow: auto;
+      padding: 5px;
+  }
+   
+  pre code {
+      background-color: #F8F8F8;
+      border: none;    
+      padding: 0;
+  }
+   
+  code {
+      font-family: Consolas, Monaco, Andale Mono, monospace;
+      background-color:#F8F8F8;
+      border: 1px solid #CCCCCC;
+      border-radius: 3px;
+      padding: 0 0.2em;
+      line-height: 1;
+  }
+   
+  pre > code {
+      border: 0;
+      margin: 0;
+      padding: 0;
+  }
+   
+   
+  a{ color: #0645ad; text-decoration:none;}
+  a:visited{ color: #0b0080; }
+  a:hover{ color: #06e; }
+  a:active{ color:#faa700; }
+  a:focus{ outline: thin dotted; }
+  a:hover, a:active{ outline: 0; }
+   
+  ::-moz-selection{background:rgba(255,255,0,0.3);color:#000}
+  ::selection{background:rgba(255,255,0,0.3);color:#000}
+   
+  a::-moz-selection{background:rgba(255,255,0,0.3);color:#0645ad}
+  a::selection{background:rgba(255,255,0,0.3);color:#0645ad}
+   
+  blockquote{
+      color:#666666;
+      margin:0;
+      padding-left: 3em;
+      border-left: 0.5em #EEE solid;
+  }
+   
+  ul, ol { margin: 1em 0; padding: 0 0 0 2em; }
+  li p:last-child { margin:0 }
+  dd { margin: 0 0 0 2em; }
+   
+  img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; max-width:100%;}
+   
+  table { border-collapse: collapse; border-spacing: 0; }
+  td { vertical-align: top; }
+   
+  @media only screen and (min-width: 480px) {
+      body{font-size:14px;}
+  }
+   
+  @media only screen and (min-width: 768px) {
+      body{font-size:16px;}
+  }
+  </style>
+</head>
+<body>
+<h3 id="database-design">Database Design</h3>
+<h4 id="relational-database-mysql">Relational Database (MySQL)</h4>
+<p>UserInfo(userId, username, password, phone, emai, role)(role:user, admin)</p>
+<p>NotebookInfo(notebookid)</p>
+<p>Auth(aid, uid, notebookid, auth)(role:owner, collaborator)</p>
+<h4 id="document-database-mongodb">Document Database (MongoDB)</h4>
+<ul>
+<li>User</li>
+</ul>
+<p>{</p>
+<p>&#8203; &quot;userId&quot;: ,</p>
+<p>&#8203; &quot;username&quot;: ,</p>
+<p>&#8203; &quot;personalStatus&quot;: ,</p>
+<p>&#8203; &quot;notebooks&quot;: [ book_A, book_B, book_C ] (bookId),</p>
+<p>&#8203; &quot;followers&quot;: [ user_A, user_B, user_C ] (uid),</p>
+<p>&#8203; &quot;followings&quot;: [ user_D, user_E, user_F ] (uid),</p>
+<p>&#8203; &quot;tags&quot;: [ &quot;tag_A&quot;, &quot;tag_B&quot; ] (tag),</p>
+<p>&#8203; &quot;avator&quot;: ,</p>
+<p>&#8203; &quot;collections&quot;: [ book_D, book_E, book_F ] (bookId)</p>
+<p>&#8203; &quot;valid&quot;: ,</p>
+<p>&#8203; &quot;deleteCount&quot;: ,</p>
+<p>&#8203; &quot;reputation&quot;:</p>
+<p>&#8203; &quot;reward&quot;: { &quot;valid&quot;: 1, &quot;qrcode&quot;: }</p>
+<p>}</p>
+<ul>
+<li>Notebook</li>
+</ul>
+<p>{</p>
+<p>&#8203; &quot;notebookId&quot;: ,</p>
+<p>&#8203; &quot;title&quot;: ,</p>
+<p>&#8203; &quot;description&quot;: ,</p>
+<p>&#8203; &quot;creator&quot;: ,</p>
+<p>&#8203; &quot;owner&quot;: ,</p>
+<p>&#8203; &quot;star&quot;: ,</p>
+<p>&#8203; &quot;collected&quot;: ,</p>
+<p>&#8203; &quot;clickCount&quot;: ,</p>
+<p>&#8203; &quot;collaborators&quot;: [ user_A, user_B, user_C ] (uid),</p>
+<p>&#8203; &quot;contributors&quot;: [ { &quot;uid&quot;: user_D, &quot;point&quot;: },</p>
+<p>&#8203; { &quot;uid&quot;: user_E, &quot;point&quot;: } ],</p>
+<p>&#8203; &quot;notes&quot;: [ note_A, note_B, note_C ] (noteId),</p>
+<p>&#8203; &quot;createTime&quot;: ,</p>
+<p>}</p>
+<ul>
+<li>Note</li>
+</ul>
+<p>{</p>
+<p>&#8203; &quot;noteId&quot;: ,</p>
+<p>&#8203; &quot;noteBookId&quot;:,</p>
+<p>&#8203; &quot;title&quot;: ,</p>
+<p>&#8203; &quot;history&quot;: [{</p>
+<p>&#8203; &quot;editTime&quot;: ,</p>
+<p>&#8203; &quot;message&quot;: ,</p>
+<p>&#8203; &quot;content&quot;: ,</p>
+<p>&#8203; &quot;editor&quot;:</p>
+<p>&#8203; }],</p>
+<p>&#8203; &quot;comments&quot;: [ { &quot;uid&quot;: , &quot;datetime&quot;: , &quot;content&quot;: , &quot;valid&quot;: &quot;report&quot;:} ],</p>
+<p>&#8203; &quot;upvoters&quot;: [ user_A, user_B, user_C ] (uid),</p>
+<p>&#8203; &quot;downvoters&quot;: [ user_D, user_E, user_F ] (uid),</p>
+<p>&#8203; &quot;reportCount&quot;: 23</p>
+<p>&#8203; &quot;valid&quot;: 1</p>
+<p>}</p>
+<ul>
+<li>GroupChat</li>
+</ul>
+<p>{</p>
+<p>&#8203; &quot;notebookId&quot;: ,</p>
+<p>&#8203; &quot;contents&quot;: [</p>
+<p>&#8203; {</p>
+<p>&#8203; &quot;uid&quot;: ,</p>
+<p>&#8203; &quot;datetime&quot;: ,</p>
+<p>&#8203; &quot;content&quot;:</p>
+<p>&#8203; }</p>
+<p>&#8203; ]</p>
+<p>}</p>
+<ul>
+<li>Letter</li>
+</ul>
+<p>{</p>
+<p>&#8203; &quot;letterId&quot;: ,</p>
+<p>&#8203; &quot;senderId&quot;: ,</p>
+<p>&#8203; &quot;receiverId&quot;: ,</p>
+<p>&#8203; &quot;content&#8221;: ,</p>
+<p>&#8203; &quot;sentTime&quot;:</p>
+<p>}</p>
+<ul>
+<li>Tag</li>
+</ul>
+<p>{</p>
+<p>&#8203; &quot;tagId&quot;: ,</p>
+<p>&#8203; &quot;tagName&quot;: ,</p>
+<p>&#8203; &quot;booksOfTag&quot;: [ book_A, book_B ] (bookId)</p>
+<p>}</p>
+<ul>
+<li>Comment</li>
+</ul>
+<p>{</p>
+<p>&#8203; &quot;commentId&quot;: ,</p>
+<p>&#8203; &quot;userId&quot;: ,</p>
+<p>&#8203; &#8220;sentTime&quot;: ,</p>
+<p>&#8203; &quot;content&quot;: ,</p>
+<p>&#8203; &quot;reportCount&quot;: ,</p>
+<p>&#8203; &quot;valid&quot;:</p>
+<p>}</p>
+<ul>
+<li>Verify</li>
+</ul>
+<p>{</p>
+<p>&#8203; &quot;date&quot;: ,</p>
+<p>&#8203; &quot;comments&quot;: [ CID_A, CID_B ] (cid),</p>
+<p>&#8203; &quot;notes&quot;: [ note_A, note_B ] (noteID)</p>
+<p>}</p>
+<ul>
+<li>Suggestion</li>
+</ul>
+<p>{ &#8203; &quot;suggestionId&quot;: ,</p>
+<p>&#8203; &quot;userId&quot;: ,</p>
+<p>&#8203; &quot;noteId&quot;: ,</p>
+<p>&#8203; &quot;noteBookId&quot;: ,</p>
+<p>&#8203; &quot;content&quot;: ,</p>
+<p>&#8203; &quot;issue&quot;: ,</p>
+<p>&#8203; &quot;raiseTime&quot;: ,</p>
+<p>&#8203; &quot;status&quot;: } - Notice</p>
+<p>{ &#8203; &quot;userId&quot;: ,</p>
+<p>&#8203; &quot;notices&quot;: [{&quot;read&quot;:1, &quot;content&quot;: }]</p>
+<p>}</p>
+<ul>
+<li>Rule</li>
+</ul>
+<p>{ &#8203; &quot;ruleId&quot;: ,</p>
+<p>&#8203; &quot;rules&quot;: {&quot;rule&quot;:&quot;haha&quot;, &quot;releaseTime&quot;:&quot;xxx&quot;}</p>
+<p>}</p>
+</body>
+</html>
