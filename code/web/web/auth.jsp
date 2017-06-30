@@ -25,12 +25,12 @@
         <div id="particles-js">
             <div class="container container-center" style="width: 500px;">
                 <p class="navbar-brand navbar-brand-center" style="font-size: 40px;">TeamNote</p>
-                <nav class="nav nav-tabs" id="myTab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-login-tab" data-toggle="tab" href="#nav-login" role="tab" aria-controls="nav-login" aria-expanded="true">登录</a>
-                    <a class="nav-item nav-link" id="nav-signup-tab" data-toggle="tab" href="#nav-signup" role="tab" aria-controls="nav-signup">注册</a>
+                <nav class="nav nav-tabs" id="authTab" role="tablist">
+                    <a class="nav-item nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-expanded="true">登录</a>
+                    <a class="nav-item nav-link" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="signup">注册</a>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
+                    <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
                         <form>
                             <div class="form-group">
                                 <label for="username" class="col-form-label">用户名</label>
@@ -50,7 +50,7 @@
                             <button type="submit" class="btn btn-primary">登录</button>
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="nav-signup" role="tabpanel" aria-labelledby="nav-signup-tab">
+                    <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
                         <form>
                             <div class="form-group">
                                 <label for="_username" class="col-form-label">用户名</label>
