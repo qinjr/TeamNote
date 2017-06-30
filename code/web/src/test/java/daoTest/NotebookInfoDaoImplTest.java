@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
@@ -40,6 +40,16 @@ public class NotebookInfoDaoImplTest {
         notebookInfo = notebookInfoDao.getAllNotebookInfos().get(0);
         notebookInfoDao.deleteNotebookInfo(notebookInfo);
 
-        //Assert.assertEquals();
+        Assert.assertEquals(notebookInfoDao.getAllNotebookInfos().size(), 0);
+    }
+
+    @Test
+    @Transactional
+    public void testGetNotebookById() {
+        NotebookInfo notebookInfo = new NotebookInfo();
+        notebookInfoDao.addNotebookInfo(notebookInfo);
+        int notebookId = notebookInfoDao.getAllNotebookInfos().get(0).getNotebookId();
+
+        Assert.assertEquals(notebookInfoDao.getNotebookInfoById(notebookId).getNotebookId(), notebookId);
     }
 }

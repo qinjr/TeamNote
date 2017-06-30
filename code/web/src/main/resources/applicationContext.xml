@@ -54,6 +54,9 @@
     <bean id="userInfoDao" class="dao.mysqlDaoImpl.UserInfoDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+    <bean id="authDao" class="dao.mysqlDaoImpl.AuthDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
 
 
 </beans>
