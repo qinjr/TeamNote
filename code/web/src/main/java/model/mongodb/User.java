@@ -1,6 +1,5 @@
 package model.mongodb;
 
-import com.google.gson.JsonObject;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -22,14 +21,14 @@ public class User {
     private int valid;
     private int deleteCount;
     private int reputation;
-    private JsonObject reward;
+    private String reward;
 
     public User() {}
 
     public User(String username, String personalStatus, ArrayList<Integer> notebooks,
                 ArrayList<Integer> followers, ArrayList<Integer> followings, ArrayList<Integer> tags,
                 Byte[] avator, ArrayList<Integer> collections, int valid, int deleteCount, int reputation,
-                JsonObject reward) {
+                String reward) {
         this.username = username;
         this.personalStatus = personalStatus;
         this.notebooks = notebooks;
@@ -140,11 +139,11 @@ public class User {
         this.reputation = reputation;
     }
 
-    public JsonObject getReward() {
+    public String getReward() {
         return reward;
     }
 
-    public void setReward(JsonObject reward) {
+    public void setReward(String reward) {
         this.reward = reward;
     }
 }

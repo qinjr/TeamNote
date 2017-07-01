@@ -1,17 +1,15 @@
 package model.mongodb;
 
-import com.google.gson.JsonObject;
-
 /**
  * Created by qjr on 2017/6/29.
  */
 public class Rule {
     private int ruleId;
-    private JsonObject rule;
+    private String rule;
 
     public Rule() {}
 
-    public Rule(JsonObject rule) {
+    public Rule(String rule) {
         this.rule = rule;
     }
 
@@ -23,11 +21,11 @@ public class Rule {
         this.ruleId = ruleId;
     }
 
-    public JsonObject getRule() {
+    public String getRule() {
         return rule;
     }
 
-    public void setRule(JsonObject rule) {
+    public void setRule(String rule) {
         this.rule = rule;
     }
 }

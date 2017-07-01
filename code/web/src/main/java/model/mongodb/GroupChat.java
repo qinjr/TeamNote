@@ -1,7 +1,5 @@
 package model.mongodb;
 
-import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
 
 /**
@@ -9,11 +7,11 @@ import java.util.ArrayList;
  */
 public class GroupChat {
     private int notebookId;
-    private ArrayList<JsonObject> contents;
+    private ArrayList<String> contents;
 
     public GroupChat() {}
 
-    public GroupChat(int notebookId, ArrayList<JsonObject> contents) {
+    public GroupChat(int notebookId, ArrayList<String> contents) {
         this.notebookId = notebookId;
         this.contents = contents;
     }
@@ -26,11 +24,11 @@ public class GroupChat {
         this.notebookId = notebookId;
     }
 
-    public ArrayList<JsonObject> getContents() {
+    public ArrayList<String> getContents() {
         return contents;
     }
 
-    public void setContents(ArrayList<JsonObject> contents) {
+    public void setContents(ArrayList<String> contents) {
         this.contents = contents;
     }
 }

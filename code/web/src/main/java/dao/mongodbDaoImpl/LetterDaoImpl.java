@@ -46,7 +46,7 @@ public class LetterDaoImpl implements LetterDao{
     }
     public void updateLetter(Letter letter){
         Query query = new Query();
-        query.addCriteria(new Criteria("LetterId").is(letter.getLetterId()));
+        query.addCriteria(new Criteria("letterId").is(letter.getLetterId()));
         Update update = new Update();
         update.set("senderId", letter.getSenderId());
         update.set("receiverId", letter.getReceiverId());
@@ -54,9 +54,9 @@ public class LetterDaoImpl implements LetterDao{
         update.set("sentTime", letter.getSentTime());
         mongoTemplate.updateFirst(query, update, Letter.class,"Letter");
     }
-    public Letter getLetterById(int notebookId){
+    public Letter getLetterById(int letterId){
         Query query = new Query();
-        query.addCriteria(new Criteria("notebookId").is(notebookId));
+        query.addCriteria(new Criteria("letterId").is(letterId));
         return mongoTemplate.findOne(query, Letter.class,"Letter");
     }
     public List<Letter> getAllLetters(){

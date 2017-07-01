@@ -29,12 +29,12 @@ public class NoticeDaoImpl implements NoticeDao {
     public void deleteNotice(Notice notice){
         Query query = new Query();
         query.addCriteria(new Criteria("userId").is(notice.getUserId()));
-        mongoTemplate.findAllAndRemove(query, Notice.class,"Notice");
+        mongoTemplate.findAndRemove(query, Notice.class,"Notice");
     }
 
     public void updateNotice(Notice notice){
         Query query = new Query();
-        query.addCriteria(new Criteria("UserId").is(notice.getUserId()));
+        query.addCriteria(new Criteria("userId").is(notice.getUserId()));
         Update update = new Update();
         update.set("notices", notice.getNotices());
         mongoTemplate.updateFirst(query, update, Notice.class,"Notice");

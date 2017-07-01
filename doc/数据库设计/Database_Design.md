@@ -42,7 +42,6 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
 
   ​   "reward": { "valid": 1, "qrcode":  }
 
-
   }
 
 - Notebook

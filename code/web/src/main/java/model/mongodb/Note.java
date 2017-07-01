@@ -1,7 +1,5 @@
 package model.mongodb;
 
-import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
 
 /**
@@ -11,8 +9,8 @@ public class Note {
     private int noteId;
     private int notebookId;
     private String title;
-    private ArrayList<JsonObject> history;
-    private ArrayList<JsonObject> comments;
+    private ArrayList<String> history;
+    private ArrayList<String> comments;
     private ArrayList<Integer> upvoters;
     private ArrayList<Integer> downvoters;
     private int reportCount;
@@ -20,8 +18,8 @@ public class Note {
 
     public Note() {}
 
-    public Note(int notebookId, String title, ArrayList<JsonObject> history,
-                ArrayList<JsonObject> comments, ArrayList<Integer> upvoters,
+    public Note(int notebookId, String title, ArrayList<String> history,
+                ArrayList<String> comments, ArrayList<Integer> upvoters,
                 ArrayList<Integer> downvoters, int reportCount, int valid) {
         this.notebookId = notebookId;
         this.title = title;
@@ -57,19 +55,19 @@ public class Note {
         this.title = title;
     }
 
-    public ArrayList<JsonObject> getHistory() {
+    public ArrayList<String> getHistory() {
         return history;
     }
 
-    public void setHistory(ArrayList<JsonObject> history) {
+    public void setHistory(ArrayList<String> history) {
         this.history = history;
     }
 
-    public ArrayList<JsonObject> getComments() {
+    public ArrayList<String> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<JsonObject> comments) {
+    public void setComments(ArrayList<String> comments) {
         this.comments = comments;
     }
 

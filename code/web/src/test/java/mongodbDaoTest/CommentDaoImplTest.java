@@ -47,7 +47,7 @@ public class CommentDaoImplTest {
         comment = commentDao.getAllComments().get(0);
         comment.setContent("hhhhh");
         commentDao.updateComment(comment);
-        Assert.assertEquals(commentDao.getAllComments().get(1).getContent(), "hhhhh");
+        Assert.assertEquals(commentDao.getAllComments().get(0).getContent(), "hhhhh");
 
         commentDao.deleteComment(comment);
     }

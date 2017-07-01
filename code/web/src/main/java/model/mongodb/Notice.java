@@ -1,6 +1,5 @@
 package model.mongodb;
 
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
@@ -9,11 +8,11 @@ import java.util.ArrayList;
  */
 public class Notice {
     private int userId;
-    private ArrayList<JsonObject> notices;
+    private ArrayList<String> notices;
 
     public Notice() {}
 
-    public Notice(int userId, ArrayList<JsonObject> notices) {
+    public Notice(int userId, ArrayList<String> notices) {
         this.userId = userId;
         this.notices = notices;
     }
@@ -26,11 +25,11 @@ public class Notice {
         this.userId = userId;
     }
 
-    public ArrayList<JsonObject> getNotices() {
+    public ArrayList<String> getNotices() {
         return notices;
     }
 
-    public void setNotices(ArrayList<JsonObject> notices) {
+    public void setNotices(ArrayList<String> notices) {
         this.notices = notices;
     }
 }

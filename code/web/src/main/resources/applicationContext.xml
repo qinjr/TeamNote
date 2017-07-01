@@ -88,6 +88,9 @@
     <bean id="verifyDao" class="dao.mongodbDaoImpl.VerifyDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
+    <bean id="ruleDao" class="dao.mongodbDaoImpl.RuleDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
 
 
 </beans>
