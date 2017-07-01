@@ -5,6 +5,7 @@ import model.mongodb.Note;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 
@@ -40,11 +41,22 @@ public class NoteDaoImpl implements NoteDao{
     public void deleteNote(Note note){
         Query query = new Query();
         query.addCriteria(new Criteria("noteId").is(note.getNoteId()));
-        mongoTemplate.remove(query, Note.class,"Note");
+        mongoTemplate.findAndRemove(query, Note.class,"Note");
     }
 
     public void updateNote(Note note){
-        mongoTemplate.save(note, "Note");
+        Query query = new Query();
+        query.addCriteria(new Criteria("NoteId").is(note.getNoteId()));
+        Update update = new Update();
+        update.set("notebookId", note.getNotebookId());
+        update.set("title", note.getTitle());
+        update.set("history", note.getHistory());
+        update.set("comments", note.getComments());
+        update.set("upvoters", note.getUpvoters());
+        update.set("downvoters", note.getDownvoters());
+        update.set("reportCount", note.getReportCount());
+        update.set("valid", note.getValid());
+        mongoTemplate.updateFirst(query, update, Note.class,"Note");
     }
 
     public Note getNoteById(int noteId){

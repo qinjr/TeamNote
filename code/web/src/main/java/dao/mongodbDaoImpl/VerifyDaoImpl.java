@@ -5,6 +5,7 @@ import model.mongodb.Verify;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.Date;
 import java.util.List;
@@ -32,11 +33,17 @@ public class VerifyDaoImpl implements VerifyDao{
     public void deleteVerify(Verify verify){
         Query query = new Query();
         query.addCriteria(new Criteria("date").is(verify.getDate()));
-        mongoTemplate.remove(query, Verify.class,"Verify");
+        mongoTemplate.findAndRemove(query, Verify.class,"Verify");
     }
 
     public void updateVerify(Verify verify){
-        mongoTemplate.save(verify, "Verify");
+        Query query = new Query();
+        query.addCriteria(new Criteria("date").is(verify.getDate()));
+        Update update = new Update();
+        update.set("date", verify.getDate());
+        update.set("comments", verify.getComments());
+        update.set("notes", verify.getNotes());
+        mongoTemplate.updateFirst(query, update, Verify.class,"Verify");
     }
 
     public Verify getVerifyByDate(Date date){

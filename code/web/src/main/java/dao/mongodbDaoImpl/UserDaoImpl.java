@@ -5,6 +5,7 @@ import model.mongodb.User;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 
@@ -31,11 +32,26 @@ public class UserDaoImpl implements UserDao{
     public void deleteUser(User user){
         Query query = new Query();
         query.addCriteria(new Criteria("userId").is(user.getUserId()));
-        mongoTemplate.remove(query, User.class,"User");
+        mongoTemplate.findAndRemove(query, User.class,"User");
     }
 
     public void updateUser(User user){
-        mongoTemplate.save(user, "User");
+        Query query = new Query();
+        query.addCriteria(new Criteria("UserId").is(user.getUserId()));
+        Update update = new Update();
+        update.set("username", user.getUsername());
+        update.set("personalStatus", user.getPersonalStatus());
+        update.set("notebooks", user.getNotebooks());
+        update.set("followers", user.getFollowers());
+        update.set("followings", user.getFollowings());
+        update.set("tags", user.getTags());
+        update.set("avator", user.getAvator());
+        update.set("collections", user.getCollections());
+        update.set("valid", user.getValid());
+        update.set("deleteCount", user.getDeleteTime());
+        update.set("reputation", user.getReputation());
+        update.set("reward", user.getReward());
+        mongoTemplate.updateFirst(query, update, User.class,"User");
     }
 
     public User getUserById(int userId){
