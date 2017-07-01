@@ -5,6 +5,7 @@ import model.mongodb.Comment;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 import java.util.Date;
@@ -43,11 +44,19 @@ public class CommentDaoImpl implements CommentDao {
     public void deleteComment(Comment comment) {
         Query query = new Query();
         query.addCriteria(new Criteria("commentId").is(comment.getCommentId()));
-        mongoTemplate.remove(query, Comment.class,"Comment");
+        mongoTemplate.findAndRemove(query, Comment.class,"Comment");
     }
 
     public void updateComment(Comment comment) {
-        mongoTemplate.save(comment, "Comment");
+        Query query = new Query();
+        query.addCriteria(new Criteria("CommentId").is(comment.getCommentId()));
+        Update update = new Update();
+        update.set("userId", comment.getUserId());
+        update.set("sentTime", comment.getSentTime());
+        update.set("content", comment.getContent());
+        update.set("reportCount", comment.getReportCount());
+        update.set("valid", comment.getValid());
+        mongoTemplate.updateFirst(query, update, Comment.class,"Comment");
     }
 
     public Comment getCommentById(int commentId) {

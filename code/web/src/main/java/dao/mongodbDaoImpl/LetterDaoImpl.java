@@ -5,6 +5,7 @@ import model.mongodb.Letter;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 import java.util.Date;
@@ -41,10 +42,17 @@ public class LetterDaoImpl implements LetterDao{
     public void deleteLetter(Letter letter){
         Query query = new Query();
         query.addCriteria(new Criteria("letterId").is(letter.getLetterId()));
-        mongoTemplate.remove(query, Letter.class,"Letter");
+        mongoTemplate.findAndRemove(query, Letter.class,"Letter");
     }
     public void updateLetter(Letter letter){
-        mongoTemplate.save(letter, "Letter");
+        Query query = new Query();
+        query.addCriteria(new Criteria("LetterId").is(letter.getLetterId()));
+        Update update = new Update();
+        update.set("senderId", letter.getSenderId());
+        update.set("receiverId", letter.getReceiverId());
+        update.set("content", letter.getContent());
+        update.set("sentTime", letter.getSentTime());
+        mongoTemplate.updateFirst(query, update, Letter.class,"Letter");
     }
     public Letter getLetterById(int notebookId){
         Query query = new Query();

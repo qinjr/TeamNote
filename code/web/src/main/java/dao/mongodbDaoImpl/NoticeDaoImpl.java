@@ -5,6 +5,7 @@ import model.mongodb.Notice;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 
@@ -28,11 +29,15 @@ public class NoticeDaoImpl implements NoticeDao {
     public void deleteNotice(Notice notice){
         Query query = new Query();
         query.addCriteria(new Criteria("userId").is(notice.getUserId()));
-        mongoTemplate.remove(query, Notice.class,"Notice");
+        mongoTemplate.findAllAndRemove(query, Notice.class,"Notice");
     }
 
     public void updateNotice(Notice notice){
-        mongoTemplate.save(notice, "Notice");
+        Query query = new Query();
+        query.addCriteria(new Criteria("UserId").is(notice.getUserId()));
+        Update update = new Update();
+        update.set("notices", notice.getNotices());
+        mongoTemplate.updateFirst(query, update, Notice.class,"Notice");
     }
 
     public Notice getNoticeById(int userId){

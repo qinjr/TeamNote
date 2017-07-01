@@ -5,6 +5,7 @@ import model.mongodb.Tag;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 
@@ -40,11 +41,16 @@ public class TagDaoImpl implements TagDao{
     public void deleteTag(Tag tag){
         Query query = new Query();
         query.addCriteria(new Criteria("tagId").is(tag.getTagId()));
-        mongoTemplate.remove(query, Tag.class,"Tag");
+        mongoTemplate.findAndRemove(query, Tag.class,"Tag");
     }
 
     public void updateTag(Tag tag){
-        mongoTemplate.save(tag, "Tag");
+        Query query = new Query();
+        query.addCriteria(new Criteria("TagId").is(tag.getTagId()));
+        Update update = new Update();
+        update.set("tagName", tag.getTagName());
+        update.set("booksOfTag", tag.getBooksOfTag());
+        mongoTemplate.updateFirst(query, update, Tag.class,"Tag");
     }
 
     public Tag getTagById(int tagId){

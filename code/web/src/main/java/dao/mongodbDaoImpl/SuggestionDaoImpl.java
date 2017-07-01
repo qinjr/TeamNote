@@ -5,6 +5,7 @@ import model.mongodb.Suggestion;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 import java.util.Date;
@@ -42,11 +43,21 @@ public class SuggestionDaoImpl implements SuggestionDao{
     public void deleteSuggestion(Suggestion suggestion){
         Query query = new Query();
         query.addCriteria(new Criteria("suggestionId").is(suggestion.getSuggestionId()));
-        mongoTemplate.remove(query, Suggestion.class,"Suggestion");
+        mongoTemplate.findAndRemove(query, Suggestion.class,"Suggestion");
     }
 
     public void updateSuggestion(Suggestion suggestion){
-        mongoTemplate.save(suggestion, "Suggestion");
+        Query query = new Query();
+        query.addCriteria(new Criteria("SuggestionId").is(suggestion.getSuggestionId()));
+        Update update = new Update();
+        update.set("userId", suggestion.getUserId());
+        update.set("noteId", suggestion.getNoteId());
+        update.set("notebookId", suggestion.getNotebookId());
+        update.set("content", suggestion.getContent());
+        update.set("issue", suggestion.getIssue());
+        update.set("raiseTime", suggestion.getRaiseTime());
+        update.set("status", suggestion.getStatus());
+        mongoTemplate.updateFirst(query, update, Suggestion.class,"Suggestion");
     }
 
     public Suggestion getSuggestionById(int suggestionId){

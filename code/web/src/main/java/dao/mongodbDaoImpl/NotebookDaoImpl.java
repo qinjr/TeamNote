@@ -5,6 +5,7 @@ import model.mongodb.Notebook;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.Date;
 import java.util.List;
@@ -33,11 +34,25 @@ public class NotebookDaoImpl implements NotebookDao{
     public void deleteNotebook(Notebook notebook){
         Query query = new Query();
         query.addCriteria(new Criteria("notebookId").is(notebook.getNotebookId()));
-        mongoTemplate.remove(query, Notebook.class,"Notebook");
+        mongoTemplate.findAndRemove(query, Notebook.class,"Notebook");
     }
 
     public void updateNotebook(Notebook notebook){
-        mongoTemplate.save(notebook, "Notebook");
+        Query query = new Query();
+        query.addCriteria(new Criteria("NotebookId").is(notebook.getNotebookId()));
+        Update update = new Update();
+        update.set("title", notebook.getTitle());
+        update.set("description", notebook.getDescription());
+        update.set("creator", notebook.getCreator());
+        update.set("owner", notebook.getOwner());
+        update.set("star", notebook.getStar());
+        update.set("collected", notebook.getCollected());
+        update.set("clickCount", notebook.getClickCount());
+        update.set("collaborators", notebook.getCollaborators());
+        update.set("contributors", notebook.getContributors());
+        update.set("notes", notebook.getNotes());
+        update.set("createTime", notebook.getCreateTime());
+        mongoTemplate.updateFirst(query, update, Notebook.class,"Notebook");
     }
 
     public Notebook getNotebookById(int notebookId){
