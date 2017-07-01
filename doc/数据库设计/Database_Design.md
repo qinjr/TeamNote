@@ -41,6 +41,8 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
   ​   "reputation":
 
   ​   "reward": { "valid": 1, "qrcode":  }
+  
+  ​   "upvoteBooks": [ book\_A, book\_B ](bookId)
 
 
   }
