@@ -2,7 +2,7 @@ package dao.mongodbDao;
 
 import model.mongodb.Verify;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 
 /**
@@ -13,5 +13,5 @@ public interface VerifyDao {
     void deleteVerify(Verify verify);
     void updateVerify(Verify verify);
     Verify getVerifyByDate(Date date);
-    ArrayList<Verify> getAllVerifies();
+    List<Verify> getAllVerifies();
 }

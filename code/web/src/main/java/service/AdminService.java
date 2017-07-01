@@ -7,6 +7,8 @@ import model.mysql.UserInfo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import model.mysql.Auth;
+import model.mysql.UserInfo;
 
 /**
  * Created by qjr on 2017/6/27.
@@ -100,7 +102,7 @@ public interface AdminService {
      * @param valid table field
      * @return 1/0
      */
-    int CUDNote(int noteId, String op, int notebookId, String title, Date editTime, String message, String content, int editer,
+    int CUDNote(int noteId, String op, int notebookId, String title, Date editTime, String message, String content, int editerId,
                 String comment, int upvoteUserId, int downvoteUserId, int report, int valid);
     /**
      * RNoteOfNotebook
@@ -211,7 +213,6 @@ public interface AdminService {
      * @param userId 操作对象
      * @param op 操作类型
      * @param username table field
-     * @param password table field
      * @param personalStatus table field
      * @param notebookId table field
      * @param followerId table field
