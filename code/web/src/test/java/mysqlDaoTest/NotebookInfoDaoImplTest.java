@@ -1,4 +1,4 @@
-package daoTest;
+package mysqlDaoTest;
 
 import dao.mysqlDao.NotebookInfoDao;
 import model.mysql.NotebookInfo;

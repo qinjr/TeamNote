@@ -1,4 +1,4 @@
-package daoTest;
+package mysqlDaoTest;
 
 import dao.mysqlDao.AuthDao;
 import dao.mysqlDao.NotebookInfoDao;

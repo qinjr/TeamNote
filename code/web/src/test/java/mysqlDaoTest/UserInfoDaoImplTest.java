@@ -1,4 +1,4 @@
-package daoTest;
+package mysqlDaoTest;
 
 import dao.mysqlDao.UserInfoDao;
 import model.mysql.UserInfo;
