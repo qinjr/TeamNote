@@ -17,7 +17,6 @@ import java.util.ArrayList;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:applicationContext.xml")
-
 public class UserInfoDaoImplTest {
     @Autowired
     private UserInfoDao userInfoDao;
