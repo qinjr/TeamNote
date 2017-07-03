@@ -12,7 +12,10 @@ import java.util.List;
  */
 public class UserInfoDaoImpl extends HibernateDaoSupport implements UserInfoDao{
     public Integer addUserInfo(UserInfo userInfo) {
-        return (Integer) getHibernateTemplate().save(userInfo);
+        getHibernateTemplate().save(userInfo);
+        List<UserInfo> userInfos = (List<UserInfo>) getHibernateTemplate().find(
+                "from UserInfo as u where u.username=?", userInfo.getUsername());
+        return userInfos.size() > 0 ? userInfos.get(0).getUserId() : -1;
     }
 
     public void deleteUserInfo(UserInfo userInfo) {
@@ -26,6 +29,12 @@ public class UserInfoDaoImpl extends HibernateDaoSupport implements UserInfoDao{
     public UserInfo getUserInfoById(int userId) {
         List<UserInfo> userInfos = (List<UserInfo>) getHibernateTemplate().find(
                 "from UserInfo as u where u.userId=?", userId);
+        return userInfos.size() > 0 ? userInfos.get(0) : null;
+    }
+
+    public UserInfo getUserInfoByUsername(String username) {
+        List<UserInfo> userInfos = (List<UserInfo>) getHibernateTemplate().find(
+                "from UserInfo as u where u.usernaem=?", username);
         return userInfos.size() > 0 ? userInfos.get(0) : null;
     }
 

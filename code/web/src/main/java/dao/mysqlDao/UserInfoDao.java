@@ -12,5 +12,6 @@ public interface UserInfoDao {
     void deleteUserInfo(UserInfo userInfo);
     void updateUserInfo(UserInfo userInfo);
     UserInfo getUserInfoById(int userId);
+    UserInfo getUserInfoByUsername(String username);
     ArrayList<UserInfo> getAllUserInfos();
 }

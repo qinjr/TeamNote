@@ -12,7 +12,10 @@ import java.util.List;
  */
 public class NotebookInfoDaoImpl extends HibernateDaoSupport implements NotebookInfoDao  {
     public Integer addNotebookInfo(NotebookInfo notebookInfo) {
-        return (Integer) getHibernateTemplate().save("notebookInfo", notebookInfo);
+        getHibernateTemplate().save(notebookInfo);
+        List<NotebookInfo> notebookInfos = (List<NotebookInfo>) getHibernateTemplate().find(
+                "from NotebookInfo as n where n.notebookId=(select max(notebookId) from NoteBookInfo)");
+        return notebookInfos.size() > 0 ? notebookInfos.get(0).getNotebookId() : -1;
     }
 
     public void deleteNotebookInfo(NotebookInfo notebookInfo) {
