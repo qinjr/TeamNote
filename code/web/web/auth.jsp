@@ -31,7 +31,7 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                        <form>
+                        <form action="login">
                             <div class="form-group">
                                 <label for="username" class="col-form-label">用户名</label>
                                 <input type="text" class="form-control" id="username" placeholder="用户名">
@@ -51,22 +51,22 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
-                        <form>
+                        <form method="post" action="register">
                             <div class="form-group">
                                 <label for="_username" class="col-form-label">用户名</label>
-                                <input type="text" class="form-control" id="_username" placeholder="用户名">
+                                <input type="text" class="form-control" id="_username" name="_username" placeholder="用户名">
                             </div>
                             <div class="form-group">
                                 <label for="_password" class="col-form-label">密码</label>
-                                <input type="password" class="form-control" id="_password" placeholder="密码">
+                                <input type="password" class="form-control" id="_password" name="_password" placeholder="密码">
                             </div>
                             <div class="form-group">
                                 <label for="phone" class="col-form-label">手机号码</label>
-                                <input type="text" class="form-control" id="phone" placeholder="手机号码">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号码">
                             </div>
                             <div class="form-group">
                                 <label for="email" class="col-form-label">邮箱</label>
-                                <input type="email" class="form-control" id="email" placeholder="邮箱">
+                                <input type="email" class="form-control" id="email" name="" placeholder="邮箱">
                             </div>
                             <button type="submit" class="btn btn-success">注册</button>
                         </form>

@@ -1,4 +1,4 @@
-package dao.mongodbDaoImpl;
+package dao.mongodbDao.impl;
 
 import dao.mongodbDao.SuggestionDao;
 import model.mongodb.Suggestion;
@@ -23,8 +23,9 @@ public class SuggestionDaoImpl implements SuggestionDao{
         this.mongoTemplate = mongoTemplate;
     }
 
-    public void addSuggestion(Suggestion suggestion){
+    public int addSuggestion(Suggestion suggestion){
         List<Suggestion> suggestions = getAllSuggestions();
+        int id = 0;
         if(suggestions.size() == 0) {
             suggestion.setSuggestionId(0);
         } else {
@@ -35,9 +36,11 @@ public class SuggestionDaoImpl implements SuggestionDao{
                 }
             }
             suggestion.setSuggestionId(maxSuggestion.getSuggestionId() + 1);
+            id = maxSuggestion.getSuggestionId() + 1;
         }
         suggestion.setRaiseTime(new Date());
         mongoTemplate.insert(suggestion, "Suggestion");
+        return id;
     }
 
     public void deleteSuggestion(Suggestion suggestion){

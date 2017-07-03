@@ -1,4 +1,4 @@
-package dao.mysqlDaoImpl;
+package dao.mysqlDao.impl;
 
 import dao.mysqlDao.AuthDao;
 import model.mysql.Auth;

@@ -28,16 +28,17 @@ public interface CooperateService {
      * @param description 邀请者要对受邀者说的话
      * @return 邀请详细信息
      */
-    ArrayList<JsonObject> viewInvitation(int inviterId, int notebookId, String description);
+    JsonObject viewInvitation(int inviterId, int notebookId, String description);
 
 
     /**
      * takeInvitation
      * @param userId 受邀者Id
      * @param decision 是否接受邀请，1为接受，0不接受
+     * @param notebookId 笔记本
      * @return 1为接受，0为拒绝
      */
-    int takeInvitation(int userId, int decision);
+    int takeInvitation(int userId, int decision, int notebookId);
 
 
     /**
@@ -46,9 +47,10 @@ public interface CooperateService {
      * @param noteId 更新笔记Id
      * @param content 更新后笔记内容
      * @param datetime 更新时间
+     * @param message 更新信息
      * @return 1为更新成功，0为失败
      */
-    int pushUpdate(int userId, int noteId, String content, Date datetime);
+    int pushUpdate(int userId, int noteId, String content, Date datetime, String message);
 
 
     /**
@@ -65,11 +67,11 @@ public interface CooperateService {
      * @param userId 提意见者Id
      * @param noteId 提出意见的noteId
      * @param content 修改后的笔记内容
-     * @param description 解释修改的原因
+     * @param issue 解释修改的原因
      * @param datetime 提交修改建议的时间
      * @return 1为提交成功，0为提交失败
      */
-    int raiseAdvice(int userId, int noteId, String content, String description, Date datetime);
+    int raiseAdvice(int userId, int noteId, String content, String issue, Date datetime);
 
 
     /**
@@ -78,9 +80,18 @@ public interface CooperateService {
      * @param managerId 笔记管理者的Id
      * @param noteId 被提出意见的note的Id
      * @param datetime 提出意见的时间（在Suggestion表中寻找到要merge的版本）（做为审核contributor修改的链接的一部分传入）
+     * @param suggestionId 建议Id
      * @return 1为接受意见merge成功，0为未merge
      */
-    int mergeAdvice(int advicerId, int managerId, int noteId, Date datetime);
+    int mergeAdvice(int advicerId, int managerId, int noteId, Date datetime, int suggestionId);
+
+
+    /**
+     * viewAdvice
+     * @param suggestionId suggestion
+     * @return suggestion的具体内容
+     */
+    JsonObject viewAdvice(int suggestionId);
 
 
     /**
@@ -110,5 +121,4 @@ public interface CooperateService {
      * @return 1为成功发送转让请求，0为失败
      */
     int giveOwnership(int oldOwnerId, int newOwnerId, int notebookId);
-
 }

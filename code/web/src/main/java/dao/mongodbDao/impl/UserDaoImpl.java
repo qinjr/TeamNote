@@ -1,4 +1,4 @@
-package dao.mongodbDaoImpl;
+package dao.mongodbDao.impl;
 
 import dao.mongodbDao.UserDao;
 import model.mongodb.User;

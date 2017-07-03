@@ -1,10 +1,9 @@
-package dao.mysqlDaoImpl;
+package dao.mysqlDao.impl;
 
 import dao.mysqlDao.NotebookInfoDao;
 import model.mysql.NotebookInfo;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

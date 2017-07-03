@@ -1,4 +1,4 @@
-package dao.mongodbDaoImpl;
+package dao.mongodbDao.impl;
 
 import dao.mongodbDao.CommentDao;
 import model.mongodb.Comment;

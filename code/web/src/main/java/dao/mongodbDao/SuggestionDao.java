@@ -8,7 +8,7 @@ import java.util.List;
  * Created by qjr on 2017/6/27.
  */
 public interface SuggestionDao {
-    void addSuggestion(Suggestion suggestion);
+    int addSuggestion(Suggestion suggestion);
     void deleteSuggestion(Suggestion suggestion);
     void updateSuggestion(Suggestion suggestion);
     Suggestion getSuggestionById(int suggestionId);
