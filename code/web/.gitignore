@@ -115,11 +115,3 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
-
-web/app/
-web/ckeditor4.7/
-/.gitignore
-/src/main/resources/applicationContext.xml
-/src/main/resources/orm/Auth.hbm.xml
-/src/main/resources/orm/NotebookInfo.hbm.xml
-/src/main/resources/orm/UserInfo.hbm.xml
