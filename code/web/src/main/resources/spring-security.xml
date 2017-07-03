@@ -7,15 +7,18 @@
 
     <http auto-config="true">
         <access-denied-handler error-page="/index"/>
-        <intercept-url access="permitAll" pattern="/**"/>
+        <intercept-url pattern="/auth.jsp" access="permitAll"/>
+        <intercept-url pattern="/*.jsp" access="hasRole('ROLE_USER')"/>
         <form-login
                 username-parameter="username"
                 password-parameter="password"
-                authentication-failure-url="/auth?login=error"
+                authentication-failure-url="/auth.jsp?login=error"
                 default-target-url="/index.jsp"
                 login-processing-url="/login"
                 login-page="/auth.jsp"/>
-        <logout invalidate-session="true" logout-success-url="/index.jsp" logout-url="/logout"/>
+        <logout invalidate-session="true"
+                logout-success-url="/index.jsp"
+                logout-url="/logout"/>
         <csrf disabled="true"/>
     </http>
 
