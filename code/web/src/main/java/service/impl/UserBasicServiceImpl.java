@@ -52,6 +52,10 @@ public class UserBasicServiceImpl implements UserBasicService {
 
 
     //public int login(String )
+    //not sure
+    /*public int login(String username, String password) {
+    }
+    public int logout();*/
 
 
     public int deleteAccount(int userId) {

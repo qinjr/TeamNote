@@ -16,13 +16,14 @@ import java.util.ArrayList;
 public class AuthController {
 
     private UserBasicService userBasicService;
+
     @Autowired
     public AuthController(UserBasicService userBasicService) {
         this.userBasicService = userBasicService;
     }
 
     @RequestMapping("/register")
-    public String Register(@RequestParam(value="_username") String username, @RequestParam(value = "_password") String password,
+    public String Register(@RequestParam(value = "_username") String username, @RequestParam(value = "_password") String password,
                            @RequestParam(value = "phone") String phone, @RequestParam(value = "email") String email) {
         userBasicService.register(username, password, phone, email, "", null, new ArrayList<Integer>());
         return "auth";

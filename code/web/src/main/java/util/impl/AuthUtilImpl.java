@@ -18,4 +18,3 @@ public class AuthUtilImpl implements AuthUtil {
         return encoder.matches(rawPassword, password);
     }
 }
-

@@ -11,4 +11,3 @@ public interface AuthUtil {
     public boolean match(String rawPassword, String password);
 
 }
-

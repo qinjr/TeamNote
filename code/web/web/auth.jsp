@@ -34,11 +34,11 @@
                         <form action="login">
                             <div class="form-group">
                                 <label for="username" class="col-form-label">用户名</label>
-                                <input type="text" class="form-control" id="username" placeholder="用户名">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
                             </div>
                             <div class="form-group">
                                 <label for="password" class="col-form-label">密码</label>
-                                <input type="password" class="form-control" id="password" placeholder="密码">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="密码">
                             </div>
                             <div class="form-group">
                                 <div class="form-check">
@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="email" class="col-form-label">邮箱</label>
-                                <input type="email" class="form-control" id="email" name="" placeholder="邮箱">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="邮箱">
                             </div>
                             <button type="submit" class="btn btn-success">注册</button>
                         </form>
