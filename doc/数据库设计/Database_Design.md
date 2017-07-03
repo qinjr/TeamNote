@@ -42,7 +42,7 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
 
   ​   "reward": { "valid": 1, "qrcode":  }
   
-  ​   "upvoteBooks": [ book\_A, book\_B ](bookId)
+  ​   "upvoteBooks": [ book\_A, book\_B ][1]
 
   }
 
@@ -217,7 +217,7 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
   {
   ​  "userId": ,
 
-  ​  "notices": [{"read":1, "content": }]
+  ​  "notices": [{"read":1, "content":xxx, "datetime"}]
   
   }
 
@@ -229,3 +229,5 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
   ​  "rules": \{"rule":"haha", "releaseTime":"xxx"}
   
   }
+
+[1]:	bookId
