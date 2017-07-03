@@ -108,6 +108,7 @@
         <property name="noteDao" ref="noteDao" />
         <property name="groupChatDao" ref="groupChatDao" />
         <property name="suggestionDao" ref="suggestionDao" />
+        <property name="userInfoDao" ref="userInfoDao" />
     </bean>
     <bean id="userBasicService" class="service.impl.UserBasicServiceImpl">
         <property name="userDao" ref="userDao" />
