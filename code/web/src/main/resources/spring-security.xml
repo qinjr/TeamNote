@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns="http://www.springframework.org/schema/security">
+
+
+    <http auto-config="true">
+        <access-denied-handler error-page="/index"/>
+        <intercept-url access="permitAll" pattern="/**"/>
+        <form-login
+                username-parameter="username"
+                password-parameter="password"
+                authentication-failure-url="/auth?login=error"
+                default-target-url="/index"
+                login-processing-url="/login"
+                login-page="/auth"/>
+        <logout invalidate-session="true" logout-success-url="/index" logout-url="/logout"/>
+        <csrf disabled="true"/>
+    </http>
+
+    <beans:bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+        <beans:constructor-arg name="secret" value="my-secret-key"/>
+    </beans:bean>
+
+    <authentication-manager>
+        <authentication-provider>
+            <jdbc-user-service
+                    authorities-by-username-query="select username, role from userInfo where username = ?"
+                    users-by-username-query="select username, password, 1 from userInfo where username = ?"
+                    data-source-ref="dataSource"/>
+            <password-encoder ref="encoder"/>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

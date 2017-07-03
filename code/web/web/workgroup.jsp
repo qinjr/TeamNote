@@ -21,7 +21,7 @@
             <label for="editor"></label>
             <textarea name="editor" id="editor">
                         This is my textarea to be replaced with CKEditor.
-                    </textarea>
+            </textarea>
         </div>
     </div>
     <div class="col-md-2">
