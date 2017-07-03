@@ -12,7 +12,10 @@ import java.util.List;
  */
 public class AuthDaoImpl extends HibernateDaoSupport implements AuthDao {
     public Integer addAuth(Auth auth) {
-        return (Integer) getHibernateTemplate().save(auth);
+        getHibernateTemplate().save(auth);
+        List<Auth> auths = (List<Auth>) getHibernateTemplate().find(
+                "from Auth as a where a.authId=(select max(authId) from Auth)");
+        return auths.size() > 0 ? auths.get(0).getAuthId() : -1;
     }
 
     public void deleteAuth(Auth auth) {
