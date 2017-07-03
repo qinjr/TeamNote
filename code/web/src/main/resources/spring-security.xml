@@ -7,7 +7,8 @@
 
     <http auto-config="true">
         <access-denied-handler error-page="/index"/>
-        <intercept-url access="permitAll" pattern="/**"/>
+        <intercept-url pattern="/auth.jsp" access="permitAll" />
+        <intercept-url pattern="/*.jsp" access="hasRole('ROLE_USER')"/>
         <form-login
                 username-parameter="username"
                 password-parameter="password"
