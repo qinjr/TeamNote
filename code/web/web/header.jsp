@@ -69,7 +69,7 @@
                                 <i class="fa fa-cog fa-spin fa-fw" aria-hidden="true"></i>&nbsp;设置
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" style="color: #D0021B">
+                            <a class="dropdown-item" href="logout" style="color: #D0021B">
                                 <i class="fa fa-exclamation-circle fa-fw" aria-hidden="true"></i>&nbsp;登出
                             </a>
                         </div>

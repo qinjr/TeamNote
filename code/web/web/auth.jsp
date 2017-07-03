@@ -22,6 +22,11 @@
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/teamnote.css"/>
     </head>
     <body>
+        <%
+            if ("error".equals(request.getParameter("login"))) {
+                response.getWriter().println("<script>alert('Invalid username or password')</script>");
+            }
+        %>
         <div id="particles-js">
             <div class="container container-center" style="width: 500px;">
                 <p class="navbar-brand navbar-brand-center" style="font-size: 40px;">TeamNote</p>
@@ -31,7 +36,7 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                        <form action="login">
+                        <form method="post" action="login">
                             <div class="form-group">
                                 <label for="username" class="col-form-label">用户名</label>
                                 <input type="text" class="form-control" id="username" name="username" placeholder="用户名">

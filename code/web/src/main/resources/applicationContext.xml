@@ -14,9 +14,9 @@
     <context:annotation-config/>
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/teamnote?serverTimezone=UTC "/>
-        <property name="username" value="root"/>
-        <property name="password" value="584109018"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/teamnote?useSSL=false"/>
+        <property name="username" value="qjr"/>
+        <property name="password" value=""/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -108,6 +108,7 @@
         <property name="noteDao" ref="noteDao" />
         <property name="groupChatDao" ref="groupChatDao" />
         <property name="suggestionDao" ref="suggestionDao" />
+        <property name="userInfoDao" ref="userInfoDao" />
     </bean>
     <bean id="userBasicService" class="service.impl.UserBasicServiceImpl">
         <property name="userDao" ref="userDao" />

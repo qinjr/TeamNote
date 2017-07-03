@@ -5,10 +5,12 @@ import dao.mongodbDao.GroupChatDao;
 import dao.mongodbDao.NoteDao;
 import dao.mongodbDao.NotebookDao;
 import dao.mongodbDao.SuggestionDao;
+import dao.mysqlDao.UserInfoDao;
 import model.mongodb.GroupChat;
 import model.mongodb.Note;
 import model.mongodb.Notebook;
 import model.mongodb.Suggestion;
+import model.mysql.UserInfo;
 import service.CooperateService;
 import util.NoticeUtil;
 
@@ -24,6 +26,11 @@ public class CooperateServiceImpl implements CooperateService {
     private NoteDao noteDao;
     private GroupChatDao groupChatDao;
     private SuggestionDao suggestionDao;
+    private UserInfoDao userInfoDao;
+
+    public void setUserInfoDao(UserInfoDao userInfoDao) {
+        this.userInfoDao = userInfoDao;
+    }
 
     public void setSuggestionDao(SuggestionDao suggestionDao) {
         this.suggestionDao = suggestionDao;
@@ -60,9 +67,29 @@ public class CooperateServiceImpl implements CooperateService {
         return json;
     }
 
-    public int takeInvitation(int userId, int decision, int bookId) {
-        if (decision == 1) {
+    public int takeInvitation(int userId, int decision, int notebookId) {
+        UserInfo userInfo = userInfoDao.getUserInfoById(userId);
+        Notebook notebook = notebookDao.getNotebookById(notebookId);
+        Date datetime = new Date();
 
+        if (decision == 1) {
+            //notify every body in the working group to know that userId has take the invitation
+            ArrayList<Integer> collaborators = notebook.getCollaborators();
+            for (int collaborator : collaborators) {
+                noticeUtil.sendNotice(collaborator, "User" + userInfo.getUsername() + "decided to attend our work group",
+                        datetime);
+            }
+            //add userId to collaborators
+            collaborators.add(userId);
+            notebook.setCollaborators(collaborators);
+            notebookDao.updateNotebook(notebook);
+        } else {
+            //notify every body in the working group to know that userId don't want to take the invitation
+            ArrayList<Integer> collaborators = notebook.getCollaborators();
+            for (int collaborator : collaborators) {
+                noticeUtil.sendNotice(collaborator, "User" + userInfo.getUsername() + "decided not to attend to our work group",
+                        datetime);
+            }
         }
         return 0;
     }
