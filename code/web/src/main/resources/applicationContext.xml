@@ -4,11 +4,11 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/data/mongo
-        http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/data/mongo
+       http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
     <context:annotation-config/>
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -49,49 +49,47 @@
         <constructor-arg name="databaseName" value="teamnote" />
     </bean>
 
-    <bean id="notebookInfoDao" class="dao.mysqlDaoImpl.NotebookInfoDaoImpl">
+    <bean id="notebookInfoDao" class="dao.mysqlDao.impl.NotebookInfoDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    <bean id="userInfoDao" class="dao.mysqlDaoImpl.UserInfoDaoImpl">
+    <bean id="userInfoDao" class="dao.mysqlDao.impl.UserInfoDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    <bean id="authDao" class="dao.mysqlDaoImpl.AuthDaoImpl">
+    <bean id="authDao" class="dao.mysqlDao.impl.AuthDaoImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
-    <bean id="commentDao" class="dao.mongodbDaoImpl.CommentDaoImpl">
+    <bean id="commentDao" class="dao.mongodbDao.impl.CommentDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-    <bean id="groupChatDao" class="dao.mongodbDaoImpl.GroupChatDaoImpl">
+    <bean id="groupChatDao" class="dao.mongodbDao.impl.GroupChatDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-    <bean id="letterDao" class="dao.mongodbDaoImpl.LetterDaoImpl">
+    <bean id="letterDao" class="dao.mongodbDao.impl.LetterDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-    <bean id="notebookDao" class="dao.mongodbDaoImpl.NotebookDaoImpl">
+    <bean id="notebookDao" class="dao.mongodbDao.impl.NotebookDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-    <bean id="noteDao" class="dao.mongodbDaoImpl.NoteDaoImpl">
+    <bean id="noteDao" class="dao.mongodbDao.impl.NoteDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-    <bean id="noticeDao" class="dao.mongodbDaoImpl.NoticeDaoImpl">
+    <bean id="noticeDao" class="dao.mongodbDao.impl.NoticeDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-    <bean id="suggestionDao" class="dao.mongodbDaoImpl.SuggestionDaoImpl">
+    <bean id="suggestionDao" class="dao.mongodbDao.impl.SuggestionDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-    <bean id="tagDao" class="dao.mongodbDaoImpl.TagDaoImpl">
+    <bean id="tagDao" class="dao.mongodbDao.impl.TagDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-    <bean id="userDao" class="dao.mongodbDaoImpl.UserDaoImpl">
+    <bean id="userDao" class="dao.mongodbDao.impl.UserDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-    <bean id="verifyDao" class="dao.mongodbDaoImpl.VerifyDaoImpl">
+    <bean id="verifyDao" class="dao.mongodbDao.impl.VerifyDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-    <bean id="ruleDao" class="dao.mongodbDaoImpl.RuleDaoImpl">
+    <bean id="ruleDao" class="dao.mongodbDao.impl.RuleDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
-
-
 </beans>
