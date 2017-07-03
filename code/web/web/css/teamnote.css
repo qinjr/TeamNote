@@ -48,3 +48,24 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.navbar-offcanvas {
+    top: 60px;
+}
+
+.navbar-offcanvas.in {
+    box-shadow: none;
+}
+
+.navbar-default .navbar-offcanvas {
+    background-color: #FFFFFF;
+}
+
+.sidebar-btn .btn {
+    width: 105px;
+}
+
+.workgroup-btn .btn {
+    width: 140px;
+    margin-bottom: 10px;
+}
