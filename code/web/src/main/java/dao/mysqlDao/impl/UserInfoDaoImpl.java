@@ -34,7 +34,7 @@ public class UserInfoDaoImpl extends HibernateDaoSupport implements UserInfoDao{
 
     public UserInfo getUserInfoByUsername(String username) {
         List<UserInfo> userInfos = (List<UserInfo>) getHibernateTemplate().find(
-                "from UserInfo as u where u.usernaem=?", username);
+                "from UserInfo as u where u.username=?", username);
         return userInfos.size() > 0 ? userInfos.get(0) : null;
     }
 

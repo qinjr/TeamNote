@@ -41,7 +41,7 @@ public class UserBasicServiceImpl implements UserBasicService {
                 return 2;
             }
             String finalPassword = authUtil.encrypt(password);
-            UserInfo userInfo = new UserInfo(username, finalPassword, phone, email, "user");
+            UserInfo userInfo = new UserInfo(username, finalPassword, phone, email, "ROLE_USER");
             User user = new User(username, ps, new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), feeds, avator, new ArrayList<Integer>(),
                     1, 0, 0, "{ \"valid\": 1, \"qrcode\": \"null\"}");
             int userId = userInfoDao.addUserInfo(userInfo);
