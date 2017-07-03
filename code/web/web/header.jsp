@@ -13,7 +13,7 @@
         %>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>TeamNote - rudeigerc</title>
+        <title>TeamNote</title>
         <meta name="author" content="TeamNote Team">
         <meta name="description" content="A platform for people to share and create notes together.">
         <link rel="icon" href="<%=path%>/icon/favicon.png">
@@ -41,10 +41,10 @@
                     <div class="input-group" style="height: 46px;">
                         <input type="text" class="form-control" placeholder="搜索" aria-label="search">
                         <span class="input-group-btn">
-                                    <button class="btn btn-outline-secondary" type="button">
-                                        <i class="fa fa-search" aria-hidden="true"></i>
-                                    </button>
-                                </span>
+                            <button class="btn btn-outline-secondary" type="button">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </span>
                     </div>
                 </div>
                 <button class="btn btn-outline-secondary" type="button" style="border: none">

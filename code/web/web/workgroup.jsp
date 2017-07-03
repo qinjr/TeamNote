@@ -69,7 +69,10 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.min.js"></script>
-<script type="text/javascript" src="ckeditor4.7/ckeditor.js"></script>
+<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
 <script>
-    CKEDITOR.replace( 'editor' );
+    CKEDITOR.replace( 'editor', {
+        customConfig: '<%=path%>/ckeditor/js/config.js',
+        skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
+    } );
 </script>
