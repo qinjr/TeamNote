@@ -22,6 +22,11 @@
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/teamnote.css"/>
     </head>
     <body>
+        <%
+            if ("error".equals(request.getParameter("login"))) {
+                response.getWriter().println("<script>alert('Invalid username or password')</script>");
+            }
+        %>
         <div id="particles-js">
             <div class="container container-center" style="width: 500px;">
                 <p class="navbar-brand navbar-brand-center" style="font-size: 40px;">TeamNote</p>
