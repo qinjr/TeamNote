@@ -250,7 +250,9 @@
         return this.bodyOverflow();
       };
 
+
       Offcanvas.prototype._documentClicked = function(e) {
+        /*
         var clickedEl;
         clickedEl = $(e.target);
         if (!clickedEl.hasClass('offcanvas-toggle') && clickedEl.parents('.offcanvas-toggle').length === 0 && clickedEl.parents('.navbar-offcanvas').length === 0 && !clickedEl.hasClass('navbar-offcanvas')) {
@@ -263,6 +265,7 @@
             return this.bodyOverflow();
           }
         }
+        */
       };
 
       Offcanvas.prototype._sendEventsBefore = function() {
