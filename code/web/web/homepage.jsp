@@ -52,11 +52,12 @@
                     <a class="nav-link" id="follow-tab" data-toggle="tab" href="#follow" role="tab" aria-controls="follow">关注</a>
                 </li>
             </ul>
-            <div class="tab-content" id="myTabContent">
+            <div class="tab-content" id="homepageTabContent">
                 <!-- TODO: activity -->
                 <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">activity</div>
                 <!-- TODO: notebook -->
                 <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">notebook</div>
+                <!-- TODO: serverside processing -->
                 <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab">
                     <div class="row">
                         <div class="col-md-12" style="margin-top: 20px;">
@@ -75,7 +76,6 @@
                                         <img src="image/test.jpg" style="width: 50px; height: 50px;">&nbsp;
                                         <img src="image/guest.png" style="width: 50px; height: 50px;">
                                     </div>
-
                                 </div>
                                 <div class="col-md-3 workgroup-btn">
                                     <a class="btn btn-outline-primary center-block" role="button" href="workgroup.jsp">
