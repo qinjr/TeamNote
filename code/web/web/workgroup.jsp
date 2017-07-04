@@ -7,6 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="header.jsp"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="model.mongodb.Notebook" %>
+<%@ page import="model.mongodb.Note" %>
+<%
+    Notebook notebook = (Notebook) request.getAttribute("notebook");
+    ArrayList<Note> notes = (ArrayList<Note>) request.getAttribute("notes");
+%>
 
 <div class="row">
     <div class="col-md-2">
@@ -64,12 +71,20 @@
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
             </button>
             <br><br>
-            <h4 class="card-title">
-                <c:out value="${notebookTitle}"/>
+            <%
+                if (notebook != null) {
+            %>
+            <h4 class="card-title notebook" id="<%=notebook.getNotebookId()%>">
+                <%=notebook.getTitle()%>
             </h4>
-            <c:forEach items="${noteTitles}" var="noteTitle">
-                <h5><c:out value="${noteTitle}"/></h5>
-            </c:forEach>
+            <%
+                    for (Note note : notes) {
+            %>
+            <h5 id="<%=note.getNoteId()%>"><%=note.getTitle()%></h5>
+            <%
+                    }
+                }
+            %>
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn">
