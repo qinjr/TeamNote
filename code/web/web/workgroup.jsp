@@ -78,13 +78,13 @@
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn">
-            <!--<button class="btn btn-outline-danger" style="padding: 8px">转让所有权</button>
+            <button class="btn btn-outline-danger" style="padding: 8px">转让所有权</button>
             <button class="btn btn-outline-primary">邀请用户</button>
             <br><br>
             <button class="btn btn-outline-warning">审核</button>
             <br><br>
             <button class="btn btn-outline-success">历史记录</button>
-            <button class="btn btn-outline-primary">设置</button>-->
+            <button class="btn btn-outline-primary">设置</button>
             <br><br>
             <button class="btn btn-danger">取消</button>
             <button class="btn btn-success" id="callDialog">保存</button>
