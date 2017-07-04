@@ -105,7 +105,6 @@ $(document).ready(function() {
         });
         $('#modal').modal('hide');
     });
-
 });
 
 function enterWorkgroup() {
@@ -125,7 +124,6 @@ function enterWorkgroup() {
                 html += '<h5>' + noteTitles[note] +'</h5>';
             }
             */
-
         }
     });
 }
