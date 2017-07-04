@@ -88,7 +88,7 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         ArrayList<String> history = new ArrayList<String>();
         history.add(firstEdition);
         Note note = new Note(notebookId, noteTitle, history, new ArrayList<String>(), new ArrayList<Integer>(),
-                                new ArrayList<Integer>(), 0, 1);
+                                new ArrayList<Integer>(), 0, 1, 0);
         noteDao.addNote(note);
 
         return 1;

@@ -15,12 +15,14 @@ public class Note {
     private ArrayList<Integer> downvoters;
     private int reportCount;
     private int valid;
+    private int versionPointer;
 
     public Note() {}
 
     public Note(int notebookId, String title, ArrayList<String> history,
                 ArrayList<String> comments, ArrayList<Integer> upvoters,
-                ArrayList<Integer> downvoters, int reportCount, int valid) {
+                ArrayList<Integer> downvoters, int reportCount, int valid,
+                int versionPointer) {
         this.notebookId = notebookId;
         this.title = title;
         this.history = history;
@@ -29,6 +31,7 @@ public class Note {
         this.downvoters = downvoters;
         this.reportCount = reportCount;
         this.valid = valid;
+        this.versionPointer = versionPointer;
     }
 
     public int getNoteId() {
@@ -101,5 +104,13 @@ public class Note {
 
     public void setValid(int valid) {
         this.valid = valid;
+    }
+
+    public int getVersionPointer() {
+        return versionPointer;
+    }
+
+    public void setVersionPointer(int versionPointer) {
+        this.versionPointer = versionPointer;
     }
 }

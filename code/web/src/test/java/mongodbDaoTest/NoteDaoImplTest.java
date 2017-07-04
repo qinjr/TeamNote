@@ -31,7 +31,7 @@ public class NoteDaoImplTest {
         upvoters.add(2);
         downvoters.add(3);
 
-        Note note = new Note(1, "CS229-lecture1", history, comments, upvoters, downvoters, 0, 1);
+        Note note = new Note(1, "CS229-lecture1", history, comments, upvoters, downvoters, 0, 1, 0);
         noteDao.addNote(note);
 
         Assert.assertNotNull(noteDao.getAllNotes().get(0));
@@ -51,7 +51,7 @@ public class NoteDaoImplTest {
         upvoters.add(2);
         downvoters.add(3);
 
-        Note note = new Note(1, "CS229-lecture1", history, comments, upvoters, downvoters, 0, 1);
+        Note note = new Note(1, "CS229-lecture1", history, comments, upvoters, downvoters, 0, 1, 0);
         noteDao.addNote(note);
         note = noteDao.getAllNotes().get(0);
         noteDao.deleteNote(note);
@@ -70,7 +70,7 @@ public class NoteDaoImplTest {
         upvoters.add(2);
         downvoters.add(3);
 
-        Note note = new Note(1, "CS229-lecture1", history, comments, upvoters, downvoters, 0, 1);
+        Note note = new Note(1, "CS229-lecture1", history, comments, upvoters, downvoters, 0, 1, 0);
         noteDao.addNote(note);
         note = noteDao.getAllNotes().get(0);
         note.setTitle("CS231n-lec1");
@@ -92,7 +92,7 @@ public class NoteDaoImplTest {
         upvoters.add(2);
         downvoters.add(3);
 
-        Note note = new Note(1, "CS229-lecture1", history, comments, upvoters, downvoters, 0, 1);
+        Note note = new Note(1, "CS229-lecture1", history, comments, upvoters, downvoters, 0, 1, 0);
         noteDao.addNote(note);
         note = noteDao.getAllNotes().get(0);
         int noteId = note.getNoteId();

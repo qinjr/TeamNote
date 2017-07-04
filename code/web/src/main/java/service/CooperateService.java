@@ -57,9 +57,19 @@ public interface CooperateService {
      * reset（笔记版本回滚）
      * @param userId 回滚者Id
      * @param noteId 笔记Id
+     * @param versionPointer 回退到的版本号
      * @return 1为回滚成功，0为失败
      */
-    int reset(int userId, int noteId);
+    public int reset(int userId, int noteId, int versionPointer);
+
+
+    /**
+     * getVersion
+     * @param noteId 笔记Id
+     * @param versionPointer 版本号
+     * @return history中的某项
+     */
+    public JsonObject getVersion(int noteId, int versionPointer);
 
 
     /**
