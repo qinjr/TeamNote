@@ -30,26 +30,35 @@ $(document).ready(function() {
             success: function(data) {
                 document.getElementById("workgroup").innerHTML = "";
                 var json = JSON.parse(data);
-                for (var notebook in json) {
+                var notebook = json[0];
+                var tags = json[1];
+                var creator = json[2];
+                var owner = json[3];
+                var collabrators = json[4];
+                for (var i in notebook) {
                     var html = '<div class="row">'+
                         '<div class="col-md-12" style="margin-top: 20px;">' +
                         '<div class="row">' +
                         '<div class="col-md-2 text-center mx-auto">' +
-                        '<img id="cover" src="'+ "image/" + json[notebook].cover +'" style="height: 75px; width: 75px;">' +
+                        '<img id="cover" src="'+ "image/" + notebook[i].cover +'" style="height: 75px; width: 75px;">' +
                         '</div>' +
                         '<div class="col-md-7">' +
-                        '<h4 class="card-title">' + json[notebook].title + '</h4>' +
+                        '<h4 class="card-title">' + notebook[i].title + '</h4>' +
                         '<h6 class="card-subtitle mb-2 text-muted"> ' +
                         // TODO: tag?
-                        '<i class="fa fa-tag" aria-hidden="true"></i>&nbsp;机器学习 · Logistic 回归' +
-                        '</h6>' +
-                        // TODO: userID => user
+                        '<i class="fa fa-tag" aria-hidden="true"></i>&nbsp;';
+
+                    for (var tag in tags[i]) {
+                        html += '<kbd>' + tags[i][tag].tagName + '</kbd>&nbsp;'
+                    }
+
+                    html += '</h6>' +
                         // TODO: date format
-                        '<small>创建者 <strong>rudeigerc</strong> · 所有者 <strong>rudeigerc</strong> · 修改时间 2017-06-03 23:34:23</small>' +
+                        '<small>创建者 <strong>' + creator[i].username + '</strong> · 所有者 <strong>'  + owner[i].username + '</strong> · 创建时间 ' + notebook[i].createTime + '</small>' +
                         '<br>' +
                         '<div style="margin: 10px auto;">' +
-                        '<img src="image/test.jpg" style="width: 50px; height: 50px;">&nbsp;' +
-                        '<img src="image/guest.png" style="width: 50px; height: 50px;">' +
+                        '<img src="image/user_6.png" style="width: 50px; height: 50px;">&nbsp;' +
+                        '<img src="image/user_9.png" style="width: 50px; height: 50px;">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-3 workgroup-btn">' +
@@ -68,8 +77,5 @@ $(document).ready(function() {
                 }
             }
         });
-
     });
-
-
 });

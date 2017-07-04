@@ -26,8 +26,8 @@
     </div>
     <div class="col-md-2">
         <button class="button btn-outline-secondary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#right-sidebar" style="border: none; float: right; width: 60px;">
-            <img class="img-50px" src="image/test.jpg">
-            <img class="img-50px" src="image/guest.png">
+            <img class="img-50px" src="image/rudeigerc.png">
+            <img class="img-50px" src="image/admin.png">
             <i class="fa fa-commenting-o fa-2x" aria-hidden="true"></i>
         </button>
     </div>
@@ -36,7 +36,7 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="left-sidebar">
         <div class="pre-scrollable">
-            <img class="img-75px" src="image/card_1.png" style="margin-top: 15px; ">
+            <img class="img-75px" src="image/notebook_1.png" style="margin-top: 15px; ">
             <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#left-sidebar">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
             </button>

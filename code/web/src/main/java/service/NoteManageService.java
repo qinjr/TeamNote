@@ -53,4 +53,5 @@ public interface NoteManageService {
     ArrayList<ArrayList<Tag>> getTagsByNotebooks(ArrayList<Notebook> notebooks);
     ArrayList<User> getOwnersByNotebooks(ArrayList<Notebook> notebooks);
     ArrayList<ArrayList<User>> getCollaboratorsByNotebooks(ArrayList<Notebook> notebooks);
+    ArrayList<User> getCreatorsByNotebooks(ArrayList<Notebook> notebooks);
 }
