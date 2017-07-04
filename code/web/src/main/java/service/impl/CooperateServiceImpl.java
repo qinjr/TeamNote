@@ -1,6 +1,7 @@
 package service.impl;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import dao.mongodbDao.GroupChatDao;
 import dao.mongodbDao.NoteDao;
 import dao.mongodbDao.NotebookDao;
@@ -160,9 +161,18 @@ public class CooperateServiceImpl implements CooperateService {
         return json;
     }
 
-    public int reset(int userId, int noteId) {
-        //TODO
+    public int reset(int userId, int noteId, int versionPointer) {
+        Note note = noteDao.getNoteById(noteId);
+        note.setVersionPointer(versionPointer);
+        noteDao.updateNote(note);
         return 1;
+    }
+
+    public JsonObject getVersion(int noteId, int versionPointer) {
+        Note note = noteDao.getNoteById(noteId);
+        String version = note.getHistory().get(versionPointer);
+        JsonObject json = (JsonObject)(new JsonParser()).parse(version);
+        return json;
     }
 
     public int pushUpdate(int userId, int noteId, String content, Date datetime, String message) {

@@ -62,9 +62,9 @@ $(document).ready(function() {
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-3 workgroup-btn">' +
-                        '<a class="btn btn-outline-primary center-block" role="button" href="workgroup.jsp">' +
+                        '<button class="btn btn-outline-primary center-block" role="button" id="enterworkgroup">' +
                         '<i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组' +
-                        '</a>' +
+                        '</button>' +
                         '<button class="btn btn-outline-warning center-block" type="button">' +
                         '<i class="fa fa-envelope-open fa-fw" aria-hidden="true"></i>&nbsp;邀请用户' +
                         '</button>' +

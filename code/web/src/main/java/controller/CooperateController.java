@@ -1,6 +1,7 @@
 package controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import model.mongodb.Note;
 import model.mongodb.Notebook;
 import model.mongodb.Tag;
 import model.mongodb.User;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,8 +37,6 @@ public class CooperateController {
         this.userBasicService = userBasicService;
         this.noteManageService = noteManageService;
     }
-
-
 
     @RequestMapping("/cooperate/giveownership")
     @ResponseBody
@@ -85,5 +85,32 @@ public class CooperateController {
         String response = "[" + notebooksJsonString + "," + tagsListJsonString + "," + creatorsJsonString + "," +
                 ownersJsonString + "," + collaboratorsListJsonString + "]";
         return response;
+    }
+
+    @RequestMapping("/cooperate/workgroup")
+    @ResponseBody
+    public String enterWorkGroup(@RequestParam(value = "notebookId")int notebookId, Model model) {
+        Notebook notebook = noteManageService.getNotebookById(notebookId);
+        ArrayList<String> noteTitles = new ArrayList<String>();
+        for (int noteId : notebook.getNotes()) {
+            noteTitles.add(noteManageService.getNoteById(noteId).getTitle());
+        }
+
+        model.addAttribute("notebookTitle", notebook.getTitle());
+        model.addAttribute("noteTitles", noteTitles);
+        return "workgroup";
+    }
+
+    @RequestMapping("/cooperate/allversions")
+    @ResponseBody
+    public String allVersions(@RequestParam(value = "noteId")int noteId) {
+        Note note = noteManageService.getNoteById(noteId);
+        ArrayList<String> history = note.getHistory();
+        return (new Gson()).toJson(history);
+    }
+
+    @RequestMapping("/cooperate/changeversion")
+    public void changeVersion(@RequestParam(value = "noteId")int noteId, @RequestParam(value = "versionPoint")int versionPoint) {
+        noteManageService.updateNoteVersion(noteId, versionPoint);
     }
 }
