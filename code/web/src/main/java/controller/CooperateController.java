@@ -78,6 +78,7 @@ public class CooperateController {
 
         String notebooksJsonString = gson.toJson(notebooks);
         String tagsListJsonString = gson.toJson(tagsList);
+        String creatorsJsonString = gson.toJson(creators);
         String ownersJsonString = gson.toJson(owners);
         String collaboratorsListJsonString = gson.toJson(collaboratorsList);
         String creatorsJsonString = gson.toJson(creators);

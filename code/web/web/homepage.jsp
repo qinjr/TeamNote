@@ -13,7 +13,7 @@
         <div class="card-block">
             <div class="row">
                 <div class="col-md-2 text-center mx-auto">
-                    <img src="image/test.jpg" style="height: 100px; width: 100px;">
+                    <img src="image/user_6.png" style="height: 100px; width: 100px;">
                 </div>
                 <div class="col-md-7">
                     <h4 class="card-title">rudeigerc</h4>
@@ -66,7 +66,7 @@
                         <div class="col-md-12" style="margin-top: 20px;">
                             <div class="row">
                                 <div class="col-md-2 text-center mx-auto">
-                                    <img src="image/card_2.png" style="height: 75px; width: 75px;">
+                                    <img src="image/notebook_2.png" style="height: 75px; width: 75px;">
                                 </div>
                                 <div class="col-md-10">
                                     <h4 class="card-title">Spring Security 笔记</h4>
@@ -101,36 +101,10 @@
                 </div>
                 <!-- TODO: serverside processing -->
                 <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab">
-                    <div class="row">
-                        <div class="col-md-12" style="margin-top: 20px;">
-                            <div class="row">
-                                <div class="col-md-2 text-center mx-auto">
-                                    <img src="image/card_1.png" style="height: 75px; width: 75px;">
-                                </div>
-                                <div class="col-md-7">
-                                    <h4 class="card-title">Coursera Machine Learning 总结</h4>
-                                    <h6 class="card-subtitle mb-2 text-muted">
-                                        <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;机器学习 · Logistic 回归
-                                    </h6>
-                                    <small>创建者 <strong>rudeigerc</strong> · 所有者 <strong>rudeigerc</strong> · 修改时间 2017-06-03 23:34:23</small>
-                                    <br>
-                                    <div style="margin: 10px auto;">
-                                        <img src="image/test.jpg" style="width: 50px; height: 50px;">&nbsp;
-                                        <img src="image/guest.png" style="width: 50px; height: 50px;">
-                                    </div>
-                                </div>
-                                <div class="col-md-3 workgroup-btn">
-                                    <a class="btn btn-outline-primary center-block" role="button" href="workgroup.jsp">
-                                        <i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组
-                                    </a>
-                                    <button class="btn btn-outline-warning center-block" type="button">
-                                        <i class="fa fa-envelope-open fa-fw" aria-hidden="true"></i>&nbsp;邀请用户
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="alert alert-success" role="alert" style="margin-top: 16px;">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        该用户没有加入的工作组
                     </div>
-                    <div class="dropdown-divider"></div>
                 </div>
                 <!-- TODO: collection -->
                 <div class="tab-pane fade" id="collection" role="tabpanel" aria-labelledby="collection-tab">collection</div>
