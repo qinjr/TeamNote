@@ -114,4 +114,12 @@ public class NoteManageServiceImpl implements NoteManageService {
         }
         return usersList;
     }
+
+    public ArrayList<User> getCreatorsByNotebooks(ArrayList<Notebook> notebooks) {
+        ArrayList<User> creators = new ArrayList<User>();
+        for (Notebook notebook : notebooks) {
+            creators.add(userDao.getUserById(notebook.getCreator()));
+        }
+        return creators;
+    }
 }

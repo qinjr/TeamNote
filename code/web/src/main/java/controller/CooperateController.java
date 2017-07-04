@@ -71,6 +71,7 @@ public class CooperateController {
         //get notebooks
         ArrayList<Notebook> notebooks = noteManageService.getAllNotebooksByUserId(userId);
         ArrayList<ArrayList<Tag>> tagsList = noteManageService.getTagsByNotebooks(notebooks);
+        ArrayList<User> creators = noteManageService.getCreatorsByNotebooks(notebooks);
         ArrayList<User> owners = noteManageService.getOwnersByNotebooks(notebooks);
         ArrayList<ArrayList<User>> collaboratorsList = noteManageService.getCollaboratorsByNotebooks(notebooks);
         Gson gson = new Gson();
@@ -79,9 +80,10 @@ public class CooperateController {
         String tagsListJsonString = gson.toJson(tagsList);
         String ownersJsonString = gson.toJson(owners);
         String collaboratorsListJsonString = gson.toJson(collaboratorsList);
+        String creatorsJsonString = gson.toJson(creators);
 
-        String response = "[" + notebooksJsonString + "," + tagsListJsonString + "," + ownersJsonString +
-                "," + collaboratorsListJsonString + "]";
+        String response = "[" + notebooksJsonString + "," + tagsListJsonString + "," + creatorsJsonString + "," +
+                ownersJsonString + "," + collaboratorsListJsonString + "]";
         return response;
     }
 }
