@@ -28,8 +28,7 @@ $(document).ready(function() {
             url: "cooperate/allnotebooks",
             type: "get",
             success: function(data) {
-                var json = JSON.parse(data);
-                var el = document.getElementById("workgroup")
+                alert(data);
             }
         });
 

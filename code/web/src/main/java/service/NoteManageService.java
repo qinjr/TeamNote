@@ -2,6 +2,8 @@ package service;
 
 import model.mongodb.Note;
 import model.mongodb.Notebook;
+import model.mongodb.Tag;
+import model.mongodb.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,10 +21,11 @@ public interface NoteManageService {
 
 
     /**
+     * @param userId 用户
      * getAllNotebooks
-     * @return 所有笔记本
+     * @return 用户所有的所有笔记本
      */
-    ArrayList<Notebook> getAllNotebooks();
+    ArrayList<Notebook> getAllNotebooksByUserId(int userId);
 
 
     /**
@@ -46,4 +49,8 @@ public interface NoteManageService {
      * @return 1为成功删除，0为出错
      */
     int deleteNotebook(int notebookId);
+
+    ArrayList<ArrayList<Tag>> getTagsByNotebooks(ArrayList<Notebook> notebooks);
+    ArrayList<User> getOwnersByNotebooks(ArrayList<Notebook> notebooks);
+    ArrayList<ArrayList<User>> getCollaboratorsByNotebooks(ArrayList<Notebook> notebooks);
 }

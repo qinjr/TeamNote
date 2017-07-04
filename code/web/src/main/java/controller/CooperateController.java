@@ -2,6 +2,8 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import model.mongodb.Notebook;
+import model.mongodb.Tag;
+import model.mongodb.User;
 import model.mysql.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,10 +69,19 @@ public class CooperateController {
         int userId = userInfo.getUserId();
 
         //get notebooks
-        ArrayList<Notebook> notebooks = noteManageService.getAllNotebooks();
-        System.out.println(notebooks.get(0).getTitle());
+        ArrayList<Notebook> notebooks = noteManageService.getAllNotebooksByUserId(userId);
+        ArrayList<ArrayList<Tag>> tagsList = noteManageService.getTagsByNotebooks(notebooks);
+        ArrayList<User> owners = noteManageService.getOwnersByNotebooks(notebooks);
+        ArrayList<ArrayList<User>> collaboratorsList = noteManageService.getCollaboratorsByNotebooks(notebooks);
         Gson gson = new Gson();
-        String response = gson.toJson(notebooks);
+
+        String notebooksJsonString = gson.toJson(notebooks);
+        String tagsListJsonString = gson.toJson(tagsList);
+        String ownersJsonString = gson.toJson(owners);
+        String collaboratorsListJsonString = gson.toJson(collaboratorsList);
+
+        String response = "[" + notebooksJsonString + "," + tagsListJsonString + "," + ownersJsonString +
+                "," + collaboratorsListJsonString + "]";
         return response;
     }
 }

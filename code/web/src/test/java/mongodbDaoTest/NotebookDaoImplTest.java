@@ -26,12 +26,14 @@ public class NotebookDaoImplTest {
         ArrayList<Integer> collaborators = new ArrayList<Integer>();
         ArrayList<Integer> contributors = new ArrayList<Integer>();
         ArrayList<Integer> notes = new ArrayList<Integer>();
+        ArrayList<Integer> tags = new ArrayList<Integer>();
         collaborators.add(1);
         contributors.add(1);
         notes.add(1);
+        tags.add(1);
         Notebook notebook = new Notebook("new notebook", "about machine learning",
                 1, 1, 23, 33, 789, collaborators,
-                contributors, notes, new Date(), "");
+                contributors, notes, new Date(), "", tags);
 
         notebookDao.addNotebook(notebook);
 
@@ -46,12 +48,14 @@ public class NotebookDaoImplTest {
         ArrayList<Integer> collaborators = new ArrayList<Integer>();
         ArrayList<Integer> contributors = new ArrayList<Integer>();
         ArrayList<Integer> notes = new ArrayList<Integer>();
+        ArrayList<Integer> tags = new ArrayList<Integer>();
         collaborators.add(1);
         contributors.add(1);
         notes.add(1);
+        tags.add(1);
         Notebook notebook = new Notebook("new notebook", "about machine learning",
                 1, 1, 23, 33, 789, collaborators,
-                contributors, notes, new Date(), "");
+                contributors, notes, new Date(), "", tags);
 
         notebookDao.addNotebook(notebook);
 
@@ -66,12 +70,14 @@ public class NotebookDaoImplTest {
         ArrayList<Integer> collaborators = new ArrayList<Integer>();
         ArrayList<Integer> contributors = new ArrayList<Integer>();
         ArrayList<Integer> notes = new ArrayList<Integer>();
+        ArrayList<Integer> tags = new ArrayList<Integer>();
         collaborators.add(1);
         contributors.add(1);
         notes.add(1);
+        tags.add(1);
         Notebook notebook = new Notebook("new notebook", "about machine learning",
                 1, 1, 23, 33, 789, collaborators,
-                contributors, notes, new Date(), "");
+                contributors, notes, new Date(), "", tags);
 
         notebookDao.addNotebook(notebook);
 
@@ -89,12 +95,14 @@ public class NotebookDaoImplTest {
         ArrayList<Integer> collaborators = new ArrayList<Integer>();
         ArrayList<Integer> contributors = new ArrayList<Integer>();
         ArrayList<Integer> notes = new ArrayList<Integer>();
+        ArrayList<Integer> tags = new ArrayList<Integer>();
         collaborators.add(1);
         contributors.add(1);
         notes.add(1);
+        tags.add(1);
         Notebook notebook = new Notebook("new notebook", "about machine learning",
                 1, 1, 23, 33, 789, collaborators,
-                contributors, notes, new Date(), "");
+                contributors, notes, new Date(), "", tags);
 
         notebookDao.addNotebook(notebook);
 

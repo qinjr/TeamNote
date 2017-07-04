@@ -119,6 +119,8 @@
     <bean id="noteManageService" class="service.impl.NoteManageServiceImpl">
         <property name="noteDao" ref="noteDao" />
         <property name="notebookDao" ref="notebookDao" />
+        <property name="userDao" ref="userDao" />
+        <property name="tagDao" ref="tagDao" />
     </bean>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
