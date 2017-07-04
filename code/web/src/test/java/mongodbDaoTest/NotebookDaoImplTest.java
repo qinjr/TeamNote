@@ -31,7 +31,7 @@ public class NotebookDaoImplTest {
         notes.add(1);
         Notebook notebook = new Notebook("new notebook", "about machine learning",
                 1, 1, 23, 33, 789, collaborators,
-                contributors, notes, new Date());
+                contributors, notes, new Date(), "");
 
         notebookDao.addNotebook(notebook);
 
@@ -51,7 +51,7 @@ public class NotebookDaoImplTest {
         notes.add(1);
         Notebook notebook = new Notebook("new notebook", "about machine learning",
                 1, 1, 23, 33, 789, collaborators,
-                contributors, notes, new Date());
+                contributors, notes, new Date(), "");
 
         notebookDao.addNotebook(notebook);
 
@@ -71,7 +71,7 @@ public class NotebookDaoImplTest {
         notes.add(1);
         Notebook notebook = new Notebook("new notebook", "about machine learning",
                 1, 1, 23, 33, 789, collaborators,
-                contributors, notes, new Date());
+                contributors, notes, new Date(), "");
 
         notebookDao.addNotebook(notebook);
 
@@ -94,7 +94,7 @@ public class NotebookDaoImplTest {
         notes.add(1);
         Notebook notebook = new Notebook("new notebook", "about machine learning",
                 1, 1, 23, 33, 789, collaborators,
-                contributors, notes, new Date());
+                contributors, notes, new Date(), "");
 
         notebookDao.addNotebook(notebook);
 

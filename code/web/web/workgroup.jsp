@@ -53,7 +53,7 @@
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn">
-            <button class="btn btn-outline-danger" style="padding: 8px">转让所有权</button>
+            <button id="giveOwnership" class="btn btn-outline-danger" style="padding: 8px">转让所有权</button>
             <button class="btn btn-outline-primary">邀请用户</button>
             <br><br>
             <button class="btn btn-outline-warning">审核</button>
@@ -69,7 +69,8 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.min.js"></script>
-<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
+<script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
 <script>
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',

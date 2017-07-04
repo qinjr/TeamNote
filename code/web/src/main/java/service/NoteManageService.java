@@ -11,22 +11,11 @@ import java.util.Date;
  */
 public interface NoteManageService {
     /**
-     * pushUpdate
-     * @param userId ownerId
-     * @param noteId 笔记本Id
-     * @param content 修改后内容
-     * @param datetime 修改时间
-     * @return 1为修改成功，0为出错
-     */
-    int pushUpdate(int userId, int noteId, String content, Date datetime);
-
-
-    /**
      * getNotebookById
      * @param notebookId 需要的笔记本Id
      * @return 笔记本详细信息，笔记本内包含的所有笔记
      */
-    ArrayList<Note> getNotebookById(int notebookId);
+    Notebook getNotebookById(int notebookId);
 
 
     /**

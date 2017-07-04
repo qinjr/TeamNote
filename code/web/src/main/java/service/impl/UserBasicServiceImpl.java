@@ -53,6 +53,10 @@ public class UserBasicServiceImpl implements UserBasicService {
         }
     }
 
+    public UserInfo getUserInfoByUsername(String username) {
+        return userInfoDao.getUserInfoByUsername(username);
+    }
+
 
     //public int login(String )
     //not sure

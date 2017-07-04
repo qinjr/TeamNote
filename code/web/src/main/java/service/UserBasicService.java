@@ -1,5 +1,7 @@
 package service;
 
+import model.mysql.UserInfo;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -43,4 +45,12 @@ public interface UserBasicService {
      * @return 1为成功，0为失败
      */
     int manageFeeds(int userId, int tagId, String manageType);
+
+
+    /**
+     * getUserInfoByUserName
+     * @param username 用户名
+     * @return UserInfo
+     */
+    UserInfo getUserInfoByUsername(String username);
 }
