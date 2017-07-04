@@ -41,7 +41,7 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
   ​   "reputation":
 
   ​   "reward": { "valid": 1, "qrcode":  }
-  
+
   ​   "upvoteBooks": [ book\_A, book\_B ][1]
 
   }
@@ -75,6 +75,8 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
   ​   "notes": [ note\_A, note\_B, note\_C ] (noteId),
 
   ​   "createTime": ,
+
+     "tags": [ tag_A, tag_B, tag_C ] (tagId)
 
   }
 
@@ -137,7 +139,7 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
 - Letter
 
   {
-  
+
   ​   "letterId": ,
 
   ​   "senderId": ,
@@ -153,7 +155,7 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
 - Tag
 
   {
-  
+
   ​   "tagId": ,
 
   ​   "tagName": ,
@@ -190,7 +192,7 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
 
   ​   "notes":  [ note\_A, note\_B ] (noteID)
 
-  
+
   }
 
 - Suggestion
@@ -218,16 +220,16 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
   ​  "userId": ,
 
   ​  "notices": [{"read":1, "content":xxx, "datetime"}]
-  
+
   }
 
 - Rule
 
   {
   ​  "ruleId": ,
-  
+
   ​  "rules": \{"rule":"haha", "releaseTime":"xxx"}
-  
+
   }
 
-[1]:	bookId
+  [1]:bookId
