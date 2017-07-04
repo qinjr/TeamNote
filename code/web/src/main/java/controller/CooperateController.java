@@ -18,6 +18,7 @@ import service.CooperateService;
 import service.NoteManageService;
 import service.UserBasicService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
@@ -89,15 +90,16 @@ public class CooperateController {
 
     @RequestMapping("/cooperate/workgroup")
     @ResponseBody
-    public String enterWorkGroup(@RequestParam(value = "notebookId")int notebookId, Model model) {
+    public String enterWorkGroup(@RequestParam(value = "notebookId")int notebookId,
+                                 HttpServletRequest request) {
         Notebook notebook = noteManageService.getNotebookById(notebookId);
         ArrayList<String> noteTitles = new ArrayList<String>();
         for (int noteId : notebook.getNotes()) {
             noteTitles.add(noteManageService.getNoteById(noteId).getTitle());
         }
 
-        model.addAttribute("notebookTitle", notebook.getTitle());
-        model.addAttribute("noteTitles", noteTitles);
+        request.setAttribute("notebookTitle", notebook.getTitle());
+        request.setAttribute("noteTitles", noteTitles);
         return "workgroup";
     }
 
