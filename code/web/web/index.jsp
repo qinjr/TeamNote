@@ -17,7 +17,7 @@
                     <p style="color: #D8D8D8"><small>来自标签 <strong>机器学习</strong></small></p>
                     <div class="row">
                         <div class="col-md-2 text-center mx-auto">
-                            <img src="image/card_1.png" style="height: 100px; width: 100px;">
+                            <img src="image/notebook_1.png" style="height: 100px; width: 100px;">
                         </div>
                         <div class="col-md-10">
                             <h4 class="card-title">Coursera Machine Learning 总结</h4>
@@ -58,7 +58,7 @@
                     <p style="color: #D8D8D8"><small>来自标签 <strong>Spring</strong></small></p>
                     <div class="row">
                         <div class="col-md-2 text-center mx-auto">
-                            <img src="image/card_2.png" style="height: 100px; width: 100px;">
+                            <img src="image/notebook_2.png" style="height: 100px; width: 100px;">
                         </div>
                         <div class="col-md-10">
                             <h4 class="card-title">Spring Security 笔记</h4>

@@ -9,14 +9,14 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/data/mongo
-       http://www.springframework.org/schema/data/mongo/spring-mongo.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       http://www.springframework.org/schema/data/mongo/spring-mongo.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:annotation-config/>
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/teamnote?serverTimezone=UTC "/>
-        <property name="username" value="root"/>
-        <property name="password" value="584109018"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/teamnote?useSSL=false"/>
+        <property name="username" value="qjr"/>
+        <property name="password" value=""/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -121,6 +121,12 @@
         <property name="notebookInfoDao" ref="notebookInfoDao" />
     </bean>
 
+    <bean id="noteManageService" class="service.impl.NoteManageServiceImpl">
+        <property name="noteDao" ref="noteDao" />
+        <property name="notebookDao" ref="notebookDao" />
+        <property name="userDao" ref="userDao" />
+        <property name="tagDao" ref="tagDao" />
+    </bean>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
@@ -136,7 +142,6 @@
 
     <!-- Controller -->
     <context:component-scan base-package="controller"/>
-
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value = "/"/>
         <property name="suffix" value=".jsp" />

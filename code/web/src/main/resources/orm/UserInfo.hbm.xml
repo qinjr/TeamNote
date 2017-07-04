@@ -3,7 +3,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="model.mysql.UserInfo" table="userinfo">
+    <class name="model.mysql.UserInfo" table="UserInfo">
         <id name="userId" type="int">
             <column name="userId" />
             <generator class="assigned" />

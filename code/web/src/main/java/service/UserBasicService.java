@@ -35,7 +35,6 @@ public interface UserBasicService {
     int updateEmail(int userId, String newEmail);
     int updatePs(int userId, String newPs);
     int updateAvator(int userId, File newAvator);
-    UserInfo getUserInfoByUsername(String username);
 
     /**
      * manageFeeds
@@ -45,4 +44,12 @@ public interface UserBasicService {
      * @return 1为成功，0为失败
      */
     int manageFeeds(int userId, int tagId, String manageType);
+
+
+    /**
+     * getUserInfoByUserName
+     * @param username 用户名
+     * @return UserInfo
+     */
+    UserInfo getUserInfoByUsername(String username);
 }

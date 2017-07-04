@@ -53,6 +53,10 @@ public class UserBasicServiceImpl implements UserBasicService {
         }
     }
 
+    public UserInfo getUserInfoByUsername(String username) {
+        return userInfoDao.getUserInfoByUsername(username);
+    }
+
 
     //public int login(String )
     //not sure
@@ -82,11 +86,6 @@ public class UserBasicServiceImpl implements UserBasicService {
     public int updateAvator(int userId, File newAvator) {
         return 1;
     }
-
-    public UserInfo getUserInfoByUsername(String username) {
-        return userInfoDao.getUserInfoByUsername(username);
-    }
-
 
     /**
      * manageFeeds

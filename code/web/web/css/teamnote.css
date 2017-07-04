@@ -63,6 +63,7 @@ body {
 
 .sidebar-btn .btn {
     width: 105px;
+    margin-bottom: 10px;
 }
 
 .workgroup-btn .btn {
@@ -71,7 +72,7 @@ body {
 }
 
 .navbar-offcanvas > .pre-scrollable {
-    max-height: 450px;
+    max-height: 500px;
 }
 
 .button img {
@@ -87,4 +88,20 @@ body {
 .img-75px {
     width: 75px;
     height: 75px;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.btn-back {
+    width: 45px;
+    height: 45px;
+    float: right;
+    border: none;
+}
+
+.btn-notebook {
+    float: right;
+    margin-top: 10px;
 }

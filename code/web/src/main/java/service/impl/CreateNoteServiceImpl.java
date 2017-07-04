@@ -52,7 +52,8 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         contributors.add(userId);
         Date createTime = new Date();
         Notebook notebook = new Notebook(notebookName, new String(), userId, userId, 0, 0, 0,
-                collaborators, contributors, new ArrayList<Integer>(), createTime);
+                collaborators, contributors, new ArrayList<Integer>(), createTime, "default_notecover.png",
+                new ArrayList<Integer>());
         int notebookId = notebookInfoDao.addNotebookInfo(notebookInfo);
         notebook.setNotebookId(notebookId);
         notebookDao.addNotebook(notebook);

@@ -100,9 +100,13 @@ public class CooperateServiceImpl implements CooperateService {
 
     public int giveOwnership(int oldOwnerId, int newOwnerId, int notebookId) {
         Notebook notebook = notebookDao.getNotebookById(notebookId);
-        notebook.setOwner(newOwnerId);
-        notebookDao.updateNotebook(notebook);
-        return 1;
+        if (notebook.getOwner() == oldOwnerId) {
+            notebook.setOwner(newOwnerId);
+            notebookDao.updateNotebook(notebook);
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public int mergeAdvice(int advicerId, int managerId, int noteId, Date datetime, int suggestionId) {
