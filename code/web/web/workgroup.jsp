@@ -26,10 +26,33 @@
     </div>
     <div class="col-md-2">
         <button class="button btn-outline-secondary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#right-sidebar" style="border: none; float: right; width: 60px;">
-            <img class="img-50px" src="image/rudeigerc.png">
-            <img class="img-50px" src="image/admin.png">
+            <img class="img-50px" src="image/user_6.png">
+            <img class="img-50px" src="image/user_9.png">
             <i class="fa fa-commenting-o fa-2x" aria-hidden="true"></i>
         </button>
+    </div>
+</div>
+
+<div class="modal fade" id="modal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                        <label>笔记标题</label><input class="form-control" name="noteTitle">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary" id="save">保存</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -63,8 +86,9 @@
             <button class="btn btn-outline-warning">审核</button><br>
             <button class="btn btn-outline-success">历史记录</button>
             <button class="btn btn-outline-primary">设置</button>
+            <br><br>
             <button class="btn btn-danger">取消</button>
-            <button class="btn btn-success">保存</button>
+            <button class="btn btn-success" id="callDialog">保存</button>
         </div>
     </div>
 </nav>
@@ -101,9 +125,10 @@
 </div>
 
 <%@ include file="footer.jsp"%>
-<script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.min.js"></script>
+<script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
 <script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
+<script type="text/javascript" src="<%=path%>/js/workgroup.js"></script>
 <script>
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',

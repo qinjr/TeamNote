@@ -8,10 +8,6 @@ public class NotebookInfo {
 
     public NotebookInfo() {}
 
-    public NotebookInfo(int notebookId) {
-        this.notebookId = notebookId;
-    }
-
     public int getNotebookId() {
         return notebookId;
     }

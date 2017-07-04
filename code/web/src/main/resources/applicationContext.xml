@@ -115,6 +115,11 @@
         <property name="authUtil" ref="authUtil" />
         <property name="userInfoDao" ref="userInfoDao" />
     </bean>
+    <bean id="createNoteService" class="service.impl.CreateNoteServiceImpl">
+        <property name="noteDao" ref="noteDao" />
+        <property name="notebookDao" ref="notebookDao" />
+        <property name="notebookInfoDao" ref="notebookInfoDao" />
+    </bean>
 
     <bean id="noteManageService" class="service.impl.NoteManageServiceImpl">
         <property name="noteDao" ref="noteDao" />

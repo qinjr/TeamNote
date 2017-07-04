@@ -36,7 +36,6 @@ public interface UserBasicService {
     int updatePs(int userId, String newPs);
     int updateAvator(int userId, File newAvator);
 
-
     /**
      * manageFeeds
      * @param userId 用户

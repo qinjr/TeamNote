@@ -87,7 +87,6 @@ public class UserBasicServiceImpl implements UserBasicService {
         return 1;
     }
 
-
     /**
      * manageFeeds
      * @param userId 用户
