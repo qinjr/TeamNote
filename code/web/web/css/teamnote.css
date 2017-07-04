@@ -100,3 +100,8 @@ body {
     float: right;
     border: none;
 }
+
+.btn-notebook {
+    float: right;
+    margin-top: 10px;
+}
