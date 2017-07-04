@@ -93,13 +93,13 @@ public class CooperateController {
     public String enterWorkGroup(@RequestParam(value = "notebookId")int notebookId,
                                  HttpServletRequest request) {
         Notebook notebook = noteManageService.getNotebookById(notebookId);
-        ArrayList<String> noteTitles = new ArrayList<String>();
+        ArrayList<Note> notes = new ArrayList<Note>();
         for (int noteId : notebook.getNotes()) {
-            noteTitles.add(noteManageService.getNoteById(noteId).getTitle());
+            notes.add(noteManageService.getNoteById(noteId));
         }
 
-        request.setAttribute("notebookTitle", notebook.getTitle());
-        request.setAttribute("noteTitles", noteTitles);
+        request.setAttribute("notebook", notebook);
+        request.setAttribute("notes", notes);
         return "workgroup";
     }
 
