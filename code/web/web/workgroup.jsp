@@ -58,24 +58,18 @@
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="left-sidebar">
-        <div class="pre-scrollable">
+        <div class="pre-scrollable" id="left-sidebar-nav">
             <img class="img-75px" src="image/notebook_1.png" style="margin-top: 15px; ">
             <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#left-sidebar">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
             </button>
             <br><br>
-            <h4 class="card-title">Coursera Machine Learning 总结</h4>
-            <h5>Abstract</h5>
-            <h5>Logistic Regression</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
+            <h4 class="card-title">
+                <c:out value="${notebookTitle}"/>
+            </h4>
+            <c:forEach items="${noteTitles}" var="noteTitle">
+                <h5><c:out value="${noteTitle}"/></h5>
+            </c:forEach>
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn">
@@ -84,9 +78,10 @@
             </button>
             <button class="btn btn-outline-primary">邀请用户</button>
             <button class="btn btn-outline-warning">审核</button><br>
-            <button class="btn btn-outline-success">历史记录</button>
+            <button class="btn btn-outline-success" data-toggle="modal" data-target="#historyModal">
+                历史记录
+            </button>
             <button class="btn btn-outline-primary">设置</button>
-            <br><br>
             <button class="btn btn-danger">取消</button>
             <button class="btn btn-success" id="callDialog">保存</button>
         </div>
@@ -124,11 +119,32 @@
     </div>
 </div>
 
+<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="historyModalLabel">
+                    <i class="fa fa-history" aria-hidden="true"></i>&nbsp;历史记录
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
 <script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
-<script type="text/javascript" src="<%=path%>/js/workgroup.js"></script>
 <script>
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',
