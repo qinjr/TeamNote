@@ -10,16 +10,6 @@ import java.util.Date;
  * Created by qjr on 2017/6/27.
  */
 public interface NoteManageService {
-    /**
-     * pushUpdate
-     * @param userId ownerId
-     * @param noteId 笔记本Id
-     * @param content 修改后内容
-     * @param datetime 修改时间
-     * @return 1为修改成功，0为出错
-     */
-    int pushUpdate(int userId, int noteId, String content, Date datetime);
-
 
     /**
      * getNotebookById

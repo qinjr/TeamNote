@@ -28,11 +28,12 @@ public interface CreateNoteService {
 
     /**
      * uploadTextNote
-     * @param userId 上传者Id
+     * @param userId 上传者userId
      * @param notebookId 笔记本Id
+     * @param noteTitle 笔记本Title
      * @param content 上传的文件内容（文本文件）
      * @param datetime 上传时间
      * @return 1为成功，0为失败
      */
-    int uploadTextNote(int userId, int notebookId, String content, Date datetime);
+    int uploadTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime);
 }

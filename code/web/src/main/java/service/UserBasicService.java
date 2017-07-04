@@ -1,5 +1,7 @@
 package service;
 
+import model.mysql.UserInfo;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -33,7 +35,7 @@ public interface UserBasicService {
     int updateEmail(int userId, String newEmail);
     int updatePs(int userId, String newPs);
     int updateAvator(int userId, File newAvator);
-
+    UserInfo getUserInfoByUsername(String username);
 
     /**
      * manageFeeds

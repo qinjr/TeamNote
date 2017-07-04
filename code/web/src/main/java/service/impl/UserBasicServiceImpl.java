@@ -83,6 +83,10 @@ public class UserBasicServiceImpl implements UserBasicService {
         return 1;
     }
 
+    public UserInfo getUserInfoByUsername(String username) {
+        return userInfoDao.getUserInfoByUsername(username);
+    }
+
 
     /**
      * manageFeeds

@@ -19,9 +19,11 @@
     <div class="col-md-8">
         <div class="container" style="">
             <label for="editor"></label>
-            <textarea name="editor" id="editor">
-                        This is my textarea to be replaced with CKEditor.
-            </textarea>
+                <form>
+                    <textarea name="editor" id="editor">
+                                This is my textarea to be replaced with CKEditor.
+                    </textarea>
+                </form>
         </div>
     </div>
     <div class="col-md-2">
@@ -30,6 +32,29 @@
             <img class="img-50px" src="image/guest.png">
             <i class="fa fa-commenting-o fa-2x" aria-hidden="true"></i>
         </button>
+    </div>
+</div>
+
+<div class="modal fade" id="modal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                        <label>笔记标题</label><input class="form-control" name="noteTitle">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary" id="save">保存</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -53,26 +78,27 @@
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn">
-            <button class="btn btn-outline-danger" style="padding: 8px">转让所有权</button>
+            <!--<button class="btn btn-outline-danger" style="padding: 8px">转让所有权</button>
             <button class="btn btn-outline-primary">邀请用户</button>
             <br><br>
             <button class="btn btn-outline-warning">审核</button>
             <br><br>
             <button class="btn btn-outline-success">历史记录</button>
-            <button class="btn btn-outline-primary">设置</button>
+            <button class="btn btn-outline-primary">设置</button>-->
             <br><br>
             <button class="btn btn-danger">取消</button>
-            <button class="btn btn-success">保存</button>
+            <button class="btn btn-success" id="callDialog">保存</button>
         </div>
     </div>
 </nav>
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.min.js"></script>
-<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
 <script>
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',
         skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
     } );
 </script>
+<script type="text/javascript" src="<%=path%>/js/workgroup.js"></script>
