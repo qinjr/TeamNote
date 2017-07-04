@@ -90,6 +90,8 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
 
   ​   "title": ,
 
+     "versionPointer": ,
+
   ​   "history": [{
 
   ​       "editTime": ,
