@@ -8,7 +8,7 @@ import java.util.List;
  * Created by qjr on 2017/6/27.
  */
 public interface TagDao {
-    void addTag(Tag tag);
+    int addTag(Tag tag);
     void deleteTag(Tag tag);
     void updateTag(Tag tag);
     Tag getTagById(int tagId);

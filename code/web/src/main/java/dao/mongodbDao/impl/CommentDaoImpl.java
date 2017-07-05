@@ -24,8 +24,9 @@ public class CommentDaoImpl implements CommentDao {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public void addComment(Comment comment) {
+    public int addComment(Comment comment) {
         List<Comment> comments = getAllComments();
+        int id = 0;
         if(comments.size() == 0) {
             comment.setCommentId(0);
         } else {
@@ -39,6 +40,7 @@ public class CommentDaoImpl implements CommentDao {
         }
         comment.setSentTime(new Date());
         mongoTemplate.insert(comment, "Comment");
+        return id;
     }
 
     public void deleteComment(Comment comment) {

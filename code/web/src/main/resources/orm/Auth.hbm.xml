@@ -3,7 +3,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="model.mysql.Auth" table="Auth">
+    <class name="model.mysql.Auth" table="auth">
         <id name="authId" type="int">
             <column name="authId" />
             <generator class="assigned" />

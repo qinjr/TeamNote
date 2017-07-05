@@ -23,8 +23,9 @@ public class LetterDaoImpl implements LetterDao{
         this.mongoTemplate = mongoTemplate;
     }
 
-    public void addLetter(Letter letter){
+    public int addLetter(Letter letter){
         List<Letter> letters = getAllLetters();
+        int id = 0;
         if(letters.size() == 0) {
             letter.setLetterId(0);
         } else {
@@ -38,6 +39,7 @@ public class LetterDaoImpl implements LetterDao{
         }
         letter.setSentTime(new Date());
         mongoTemplate.insert(letter, "Letter");
+        return id;
     }
     public void deleteLetter(Letter letter){
         Query query = new Query();

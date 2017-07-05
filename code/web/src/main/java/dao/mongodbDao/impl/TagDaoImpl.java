@@ -22,8 +22,9 @@ public class TagDaoImpl implements TagDao{
         this.mongoTemplate = mongoTemplate;
     }
 
-    public void addTag(Tag tag){
+    public int addTag(Tag tag){
         List<Tag> tags = getAllTags();
+        int id = 0;
         if(tags.size() == 0) {
             tag.setTagId(0);
         } else {
@@ -36,6 +37,7 @@ public class TagDaoImpl implements TagDao{
             tag.setTagId(maxTag.getTagId() + 1);
         }
         mongoTemplate.insert(tag, "Tag");
+        return id;
     }
 
     public void deleteTag(Tag tag){

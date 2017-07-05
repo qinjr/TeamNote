@@ -2,10 +2,12 @@ package service.impl;
 
 import dao.mongodbDao.NoteDao;
 import dao.mongodbDao.NotebookDao;
+import dao.mongodbDao.UserDao;
 import dao.mysqlDao.NotebookInfoDao;
 import dao.mysqlDao.UserInfoDao;
 import model.mongodb.Note;
 import model.mongodb.Notebook;
+import model.mongodb.User;
 import model.mysql.NotebookInfo;
 import model.mysql.UserInfo;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +27,7 @@ public class CreateNoteServiceImpl implements CreateNoteService{
     private NoteDao noteDao;
     private NotebookDao notebookDao;
     private NotebookInfoDao notebookInfoDao;
+    private UserDao userDao;
 
     public void setNoteDao(NoteDao noteDao) {
         this.noteDao = noteDao;
@@ -36,6 +39,10 @@ public class CreateNoteServiceImpl implements CreateNoteService{
 
     public void setNotebookInfoDao(NotebookInfoDao notebookInfoDao) {
         this.notebookInfoDao = notebookInfoDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     /**
@@ -57,6 +64,12 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         int notebookId = notebookInfoDao.addNotebookInfo(notebookInfo);
         notebook.setNotebookId(notebookId);
         notebookDao.addNotebook(notebook);
+
+        User user = userDao.getUserById(userId);
+        ArrayList<Integer> notebooks = user.getNotebooks();
+        notebooks.add(notebookId);
+        user.setNotebooks(notebooks);
+        userDao.updateUser(user);
         return 1;
     }
 
@@ -89,8 +102,13 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         history.add(firstEdition);
         Note note = new Note(notebookId, noteTitle, history, new ArrayList<String>(), new ArrayList<Integer>(),
                                 new ArrayList<Integer>(), 0, 1);
-        noteDao.addNote(note);
+        int noteId = noteDao.addNote(note);
 
+        Notebook notebook = notebookDao.getNotebookById(notebookId);
+        ArrayList<Integer> notes = notebook.getNotes();
+        notes.add(noteId);
+        notebook.setNotes(notes);
+        notebookDao.updateNotebook(notebook);
         return 1;
     }
 }
