@@ -128,7 +128,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-primary" id="giveOwnership">确认</button>
             </div>
         </div>
     </div>
@@ -163,6 +163,7 @@
 <script>
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',
+        contentsCss: '<%=path%>/ckeditor/css/contents.css',
         skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
     } );
 </script>

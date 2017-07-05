@@ -9,6 +9,9 @@ $(document).ready(function() {
     });
 
     $('#giveOwnership').click(function () {
+        var notebookId = document.getElementsByClassName("notebook")[0].attr("id");
+        var confirm = window.confirm("警告: 所有权转让后无法还原");
+        if (!confirm) return;
         $.ajax({
             url: "cooperate/giveownership",
             processData: true,
@@ -108,7 +111,7 @@ $(document).ready(function() {
 });
 
 function enterWorkgroup() {
-    var notebookId = $('#enterWorkgroup').parent().parent().parent().parent().attr('id');
+    var notebookId = $('#enterWorkgroup').parent().parent().parent().parent().attr("id");
     $.ajax({
         url: "cooperate/workgroup",
         dataType : "text",

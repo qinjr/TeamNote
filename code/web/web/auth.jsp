@@ -56,22 +56,28 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
-                        <form method="post" action="register">
-                            <div class="form-group">
+                        <form data-toggle="validator" role="form" method="post" action="register">
+                            <div class="form-group has-feedback">
                                 <label for="_username" class="col-form-label">用户名</label>
-                                <input type="text" class="form-control" id="_username" name="_username" placeholder="用户名">
+                                <input type="text" class="form-control" id="_username" name="_username" placeholder="用户名" required>
+                                <span class="fa form-control-feedback" aria-hidden="true"></span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group has-feedback">
                                 <label for="_password" class="col-form-label">密码</label>
-                                <input type="password" class="form-control" id="_password" name="_password" placeholder="密码">
+                                <input type="password" data-minlength="6" class="form-control" id="_password" name="_password" placeholder="密码" required>
+                                <span class="fa form-control-feedback" aria-hidden="true"></span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group has-feedback">
                                 <label for="phone" class="col-form-label">手机号码</label>
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="手机号码">
+                                <input type="text" pattern="^[0-9]{11}$" class="form-control" id="phone" name="phone" placeholder="手机号码" data-error="请输入正确的手机号码" required>
+                                <span class="fa form-control-feedback" aria-hidden="true"></span>
+                                <div class="help-block with-errors text-danger"></div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group has-feedback">
                                 <label for="email" class="col-form-label">邮箱</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="邮箱">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="邮箱" data-error="请输入正确的邮箱" required>
+                                <span class="fa form-control-feedback" aria-hidden="true"></span>
+                                <div class="help-block with-errors text-danger"></div>
                             </div>
                             <button type="submit" class="btn btn-success">注册</button>
                         </form>
@@ -90,6 +96,7 @@
         <script type="text/javascript" src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="https://unpkg.com/vue/dist/vue.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+        <script type="text/javascript" src="<%=path%>/js/validator.js"></script>
         <script type="text/javascript" src="<%=path%>/js/app.js"></script>
     </body>
 </html>
