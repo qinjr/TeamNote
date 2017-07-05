@@ -33,13 +33,10 @@ public class UserBasicServiceImpl implements UserBasicService {
      * @param ps 个性签名
      * @param avator 头像
      * @param feeds 关注的tags组成的list
-     * @return 1为成功注册，2为用户名重复,0为失败
+     * @return 1为成功注册，0为失败
      */
     public int register(String username, String password, String phone, String email, String ps, Byte[] avator, ArrayList<Integer> feeds) {
         try {
-            if(userInfoDao.getUserInfoByUsername(username) != null) {
-                return 2;
-            }
             String finalPassword = authUtil.encrypt(password);
             UserInfo userInfo = new UserInfo(username, finalPassword, phone, email, "ROLE_USER");
             User user = new User(username, ps, new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), feeds, avator, new ArrayList<Integer>(),
@@ -51,6 +48,10 @@ public class UserBasicServiceImpl implements UserBasicService {
         } catch(Exception e) {
             return 0;
         }
+    }
+
+    public boolean usernameValidate(String username) {
+        return (userInfoDao.getUserInfoByUsername(username) == null);
     }
 
     public UserInfo getUserInfoByUsername(String username) {

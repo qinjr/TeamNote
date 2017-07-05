@@ -94,6 +94,10 @@ body {
     cursor: pointer;
 }
 
+.btn.disabled, .btn:disabled {
+    cursor: not-allowed;
+}
+
 .btn-back {
     width: 45px;
     height: 45px;

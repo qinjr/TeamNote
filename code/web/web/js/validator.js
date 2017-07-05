@@ -63,8 +63,9 @@
     focus: true,
     custom: {},
     errors: {
-      match: 'Does not match',
-      minlength: 'Not long enough'
+        match: 'Does not match',
+        minlength: 'Not long enough',
+        null: '用户名不能为空'
     },
     feedback: {
       success: 'fa-check',
@@ -86,6 +87,9 @@
     'minlength': function ($el) {
       var minlength = $el.attr('data-minlength')
       return $el.val().length < minlength && Validator.DEFAULTS.errors.minlength
+    },
+    'null': function ($el) {
+        return "".equals($el.val()) && Validator.DEFAULTS.errors.null
     }
   }
 

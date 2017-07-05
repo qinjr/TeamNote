@@ -27,6 +27,7 @@ public interface UserBasicService {
     //int login(String username, String password);
     //int logout();
 
+    boolean usernameValidate(String username);
 
     int deleteAccount(int userId);
     int updateUsername(int userId, String newUsername);
