@@ -88,7 +88,6 @@ public class CooperateController {
     }
 
     @RequestMapping("/cooperate/workgroup")
-    @ResponseBody
     public String enterWorkGroup(@RequestParam(value = "notebookId")int notebookId,
                                  HttpServletRequest request) {
         Notebook notebook = noteManageService.getNotebookById(notebookId);
@@ -96,7 +95,6 @@ public class CooperateController {
         for (int noteId : notebook.getNotes()) {
             notes.add(noteManageService.getNoteById(noteId));
         }
-
         request.setAttribute("notebook", notebook);
         request.setAttribute("notes", notes);
         return "workgroup";

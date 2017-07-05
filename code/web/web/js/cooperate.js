@@ -62,9 +62,9 @@ $(document).ready(function() {
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-3 workgroup-btn">' +
-                        '<a class="btn btn-outline-primary center-block" role="button" id="enterWorkgroup" onclick="enterWorkgroup()" href="workgroup.jsp">' +
+                        '<button class="btn btn-outline-primary center-block" role="button" type="submit" id="enterWorkgroup" onclick="enterWorkgroup()">' +
                         '<i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组' +
-                        '</a>' +
+                        '</button>' +
                         '<button class="btn btn-outline-warning center-block" type="button">' +
                         '<i class="fa fa-envelope-open fa-fw" aria-hidden="true"></i>&nbsp;邀请用户' +
                         '</button>' +
@@ -115,15 +115,9 @@ function enterWorkgroup() {
         type: "post",
         data: { "notebookId" : notebookId },
         success: function(data) {
-            /*
-            var json = JSON.parse(data);
-            var notebookTitle = json.notebookTitle;
-            var noteTitles = json.noteTitles;
-            var html = '<h4 class="card-title">' + notebookTitle + '</h4>';
-            for (note in noteTitles) {
-                html += '<h5>' + noteTitles[note] +'</h5>';
-            }
-            */
+            document.open();
+            document.write(data);
+            document.close();
         }
     });
 }
