@@ -95,7 +95,6 @@ public class CooperateController {
         for (int noteId : notebook.getNotes()) {
             notes.add(noteManageService.getNoteById(noteId));
         }
-
         request.setAttribute("notebook", notebook);
         request.setAttribute("notes", notes);
         return "workgroup";
