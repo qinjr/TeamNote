@@ -1,6 +1,7 @@
 package controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import model.mongodb.Note;
 import model.mongodb.Notebook;
 import model.mongodb.Tag;
 import model.mongodb.User;
@@ -16,6 +17,7 @@ import service.CooperateService;
 import service.NoteManageService;
 import service.UserBasicService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
@@ -35,8 +37,6 @@ public class CooperateController {
         this.userBasicService = userBasicService;
         this.noteManageService = noteManageService;
     }
-
-
 
     @RequestMapping("/cooperate/giveownership")
     @ResponseBody
@@ -85,5 +85,31 @@ public class CooperateController {
         String response = "[" + notebooksJsonString + "," + tagsListJsonString + "," + creatorsJsonString + "," +
                 ownersJsonString + "," + collaboratorsListJsonString + "]";
         return response;
+    }
+
+    @RequestMapping("/cooperate/workgroup")
+    public String enterWorkGroup(@RequestParam(value = "notebookId")int notebookId,
+                                 HttpServletRequest request) {
+        Notebook notebook = noteManageService.getNotebookById(notebookId);
+        ArrayList<Note> notes = new ArrayList<Note>();
+        for (int noteId : notebook.getNotes()) {
+            notes.add(noteManageService.getNoteById(noteId));
+        }
+        request.setAttribute("notebook", notebook);
+        request.setAttribute("notes", notes);
+        return "workgroup";
+    }
+
+    @RequestMapping("/cooperate/allversions")
+    @ResponseBody
+    public String allVersions(@RequestParam(value = "noteId")int noteId) {
+        Note note = noteManageService.getNoteById(noteId);
+        ArrayList<String> history = note.getHistory();
+        return (new Gson()).toJson(history);
+    }
+
+    @RequestMapping("/cooperate/changeversion")
+    public void changeVersion(@RequestParam(value = "noteId")int noteId, @RequestParam(value = "versionPoint")int versionPoint) {
+        noteManageService.updateNoteVersion(noteId, versionPoint);
     }
 }

@@ -36,7 +36,7 @@ $(document).ready(function() {
                 var owner = json[3];
                 var collabrators = json[4];
                 for (var i in notebook) {
-                    var html = '<div class="row">'+
+                    var html = '<div class="row" id="' + notebook[i].notebookId + '">'+
                         '<div class="col-md-12" style="margin-top: 20px;">' +
                         '<div class="row">' +
                         '<div class="col-md-2 text-center mx-auto">' +
@@ -62,9 +62,9 @@ $(document).ready(function() {
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-3 workgroup-btn">' +
-                        '<a class="btn btn-outline-primary center-block" role="button" href="workgroup.jsp">' +
+                        '<button class="btn btn-outline-primary center-block" role="button" type="submit" id="enterWorkgroup" onclick="enterWorkgroup()">' +
                         '<i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组' +
-                        '</a>' +
+                        '</button>' +
                         '<button class="btn btn-outline-warning center-block" type="button">' +
                         '<i class="fa fa-envelope-open fa-fw" aria-hidden="true"></i>&nbsp;邀请用户' +
                         '</button>' +
@@ -78,4 +78,46 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#callDialog').click(function () {
+        $('#modalTitle').html("添加标题");
+        $('input[name="noteTitle"]').val("");
+        $('#modal').modal('show');
+    });
+
+    $('#save').click(function () {
+        var content = CKEDITOR.instances.editor.getData();
+        var noteTitle = $('input[name="noteTitle"]').val();
+        console.log(noteTitle);
+        alert(content);
+        $.ajax({
+            url : "saveFirstEdition",
+            processData : true,
+            dataType : "text",
+            data : {
+                notebookId : 1,
+                noteTitle : noteTitle,
+                content : content
+            },
+            success : function(data) {
+                alert("Success");
+            }
+        });
+        $('#modal').modal('hide');
+    });
 });
+
+function enterWorkgroup() {
+    var notebookId = $('#enterWorkgroup').parent().parent().parent().parent().attr('id');
+    $.ajax({
+        url: "cooperate/workgroup",
+        dataType : "text",
+        type: "post",
+        data: { "notebookId" : notebookId },
+        success: function(data) {
+            document.open();
+            document.write(data);
+            document.close();
+        }
+    });
+}

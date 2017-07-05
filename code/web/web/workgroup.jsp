@@ -7,6 +7,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="header.jsp"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="model.mongodb.Notebook" %>
+<%@ page import="model.mongodb.Note" %>
+<%
+    Notebook notebook = (Notebook) request.getAttribute("notebook");
+    ArrayList<Note> notes = (ArrayList<Note>) request.getAttribute("notes");
+%>
 
 <div class="row">
     <div class="col-md-2">
@@ -81,24 +88,26 @@
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="left-sidebar">
-        <div class="pre-scrollable">
+        <div class="pre-scrollable" id="left-sidebar-nav">
             <img class="img-75px" src="image/notebook_1.png" style="margin-top: 15px; ">
             <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#left-sidebar">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
             </button>
             <br><br>
-            <h4 class="card-title">Coursera Machine Learning 总结</h4>
-            <h5>Abstract</h5>
-            <h5>Logistic Regression</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
-            <h5>Naive Bayes</h5>
+            <%
+                if (notebook != null) {
+            %>
+            <h4 class="card-title notebook" id="<%=notebook.getNotebookId()%>">
+                <%=notebook.getTitle()%>
+            </h4>
+            <%
+                    for (Note note : notes) {
+            %>
+            <h5 id="<%=note.getNoteId()%>"><%=note.getTitle()%></h5>
+            <%
+                    }
+                }
+            %>
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn">
@@ -108,9 +117,10 @@
             </button>
             <button class="btn btn-outline-primary">邀请用户</button>
             <button class="btn btn-outline-warning">审核</button><br>
-            <button class="btn btn-outline-success">历史记录</button>
+            <button class="btn btn-outline-success" data-toggle="modal" data-target="#historyModal">
+                历史记录
+            </button>
             <button class="btn btn-outline-primary">设置</button>
-            <br><br>
             <button class="btn btn-danger">取消</button>
             <button class="btn btn-success" id="callDialog">保存</button>
         </div>
@@ -148,11 +158,32 @@
     </div>
 </div>
 
+<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="historyModalLabel">
+                    <i class="fa fa-history" aria-hidden="true"></i>&nbsp;历史记录
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
 <script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
-<script type="text/javascript" src="<%=path%>/js/workgroup.js"></script>
 <script>
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',
