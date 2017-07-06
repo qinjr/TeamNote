@@ -37,6 +37,7 @@
             <img class="img-50px" src="image/user_9.png">
             <i class="fa fa-commenting-o fa-2x" aria-hidden="true"></i>
         </button>
+        <textarea id="message" style="width: 350px">message</textarea>
     </div>
 </div>
 

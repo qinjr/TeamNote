@@ -79,19 +79,21 @@ $(document).ready(function() {
         });
     });
 
-    $('#callDialog').click(function () {
-        $('#modalTitle').html("添加标题");
-        $('input[name="noteTitle"]').val("");
-        $('#modal').modal('show');
+    $("#callDialog").click(function() {
+        if (1) {
+            $("input[name='noteTitle']").val("");
+            $('#addNoteModal').modal('show');
+        } else {
+            $("input[name='message']").val("");
+            $('#updateNoteModal').modal('show');
+        }
     });
 
-    $('#save').click(function () {
+    $("#save").click(function() {
         var content = CKEDITOR.instances.editor.getData();
-        var noteTitle = $('input[name="noteTitle"]').val();
-        console.log(noteTitle);
-        alert(content);
+        var noteTitle = $("input[name='noteTitle']").val();
         $.ajax({
-            url : "saveFirstEdition",
+            url : 'editNote/saveFirstEdition',
             processData : true,
             dataType : "text",
             data : {
@@ -103,8 +105,28 @@ $(document).ready(function() {
                 alert("Success");
             }
         });
-        $('#modal').modal('hide');
+        $('#addNoteModal').modal('hide');
     });
+
+    $("#update").click(function() {
+        var noteId = 1;
+        var content = CKEDITOR.instances.editor.getData();
+        var message = $("input[name='message']").val();
+        $.ajax({
+            url : 'editNote/updateNote',
+            processData : true,
+            dataType : "text",
+            data : {
+                noteId : 1,
+                content : content,
+                message : message
+            },
+            success : function(data) {
+                alert("Success");
+            }
+        });
+        $('#updateNotemodal').modal('hide');
+    })
 });
 
 function enterWorkgroup() {
