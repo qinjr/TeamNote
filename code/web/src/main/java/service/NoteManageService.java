@@ -56,4 +56,6 @@ public interface NoteManageService {
     ArrayList<User> getCreatorsByNotebooks(ArrayList<Notebook> notebooks);
 
     void updateNoteVersion(int noteId, int versionPoint);
+
+    String getNotebooksDetailsByUserId(int userId);
 }

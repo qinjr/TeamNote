@@ -94,6 +94,10 @@ body {
     cursor: pointer;
 }
 
+.btn.disabled, .btn:disabled {
+    cursor: not-allowed;
+}
+
 .btn-back {
     width: 45px;
     height: 45px;
@@ -104,4 +108,14 @@ body {
 .btn-notebook {
     float: right;
     margin-top: 10px;
+}
+
+footer .btn-outline-secondary:hover,
+footer .btn-outline-secondary.active {
+    color: #4A90E2;
+    background-color: inherit;
+}
+
+footer .btn .active {
+    color: #4A90E2;
 }

@@ -56,55 +56,41 @@
                 <!-- TODO: activity -->
                 <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">activity</div>
                 <!-- TODO: notebook -->
-                <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">
-                    <div>
-                        <button class="btn btn-outline-success btn-notebook center-block" type="button">
-                            <i class="fa fa-bookmark fa-fw" aria-hidden="true"></i>&nbsp;新建笔记本
-                        </button>
-                    </div>
-                    <div class="row">
+                <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">notebook</div>
+                <!-- TODO: workgroup -->
+                <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab">
+                    <div class="row" v-for="notebookdetail in notebooksdetails">
                         <div class="col-md-12" style="margin-top: 20px;">
                             <div class="row">
                                 <div class="col-md-2 text-center mx-auto">
-                                    <img src="image/notebook_2.png" style="height: 75px; width: 75px;">
+                                    <img v-bind:src="notebookdetail.notebook.cover" style="height: 75px; width: 75px;">
                                 </div>
-                                <div class="col-md-10">
-                                    <h4 class="card-title">Spring Security 笔记</h4>
-                                    <h6 class="card-subtitle mb-2 text-muted">
-                                        <i class="fa fa-tag" aria-hidden="true"></i>
-                                        Spring · Spring Security
-                                    </h6>
-                                    <p class="card-text" style="word-break: break-all;">
-                                        Spring Security is a framework that focuses on providing both authentication and authorization to Java applications. Like all Spring projects, the real power of Spring Security is found in how easily it can be extended to meet custom requirements.
-                                    </p>
-                                    <footer>
-                                        <small>创建者 <strong>rudeigerc</strong> · 所有者 <strong>rudeigerc</strong> · 修改时间 2017-06-04 11:32:37</small>
-                                        <br><br>
-                                        <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
-                                            <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;20
-                                        </button>
-                                        <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
-                                            <i class="fa fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论
-                                        </button>
-                                        <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
-                                            <i class="fa fa-flag fa-fw" aria-hidden="true"></i>&nbsp;收藏
-                                        </button>
-                                        <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
-                                            <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>&nbsp;举报
-                                        </button>
-                                    </footer>
+                                <div class="col-md-7">
+                                    <h4 class="card-title" style="margin-bottom: 6px;">{{notebookdetail.notebook.title}}</h4>
+                                    <i class="fa fa-tag" aria-hidden="true"></i>
+                                    <div style="display: inline;" v-for="tag in notebookdetail.tags">
+                                        <kbd class="card-subtitle">{{tag.tagName}}</kbd>&nbsp;
+                                    </div>
+
+                                    <br>
+                                    <small>创建者 <strong>{{notebookdetail.creator.username}}</strong> · 所有者 <strong>{{notebookdetail.owner.username}}</strong> · 创建时间 {{notebookdetail.notebook.createTime}}</small>
+                                    <br>
+                                    <div style="margin: 10px auto; display: inline;" v-for="collaborator in notebookdetail.collaborators">
+                                        <img v-bind:src="collaborator.avator" style="width: 50px; height: 50px;">&nbsp;
+                                    </div>
+                                </div>
+                                <div class="col-md-3 workgroup-btn">
+                                    <a class="btn btn-outline-primary center-block" role="button" v-bind:href="'/cooperate/workgroup?notebookId=' + notebookdetail.notebook.notebookId">
+                                        <i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组
+                                    </a>
+                                    <button class="btn btn-outline-warning center-block" type="button">
+                                        <i class="fa fa-envelope-open fa-fw" aria-hidden="true"></i>&nbsp;邀请用户
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="dropdown-divider"></div>
-                </div>
-                <!-- TODO: serverside processing -->
-                <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab">
-                    <div class="alert alert-success" role="alert" style="margin-top: 16px;">
-                        <i class="fa fa-info-circle" aria-hidden="true"></i>
-                        该用户没有加入的工作组
-                    </div>
                 </div>
                 <!-- TODO: collection -->
                 <div class="tab-pane fade" id="collection" role="tabpanel" aria-labelledby="collection-tab">collection</div>
@@ -119,4 +105,25 @@
 </div>
 
 <%@ include file="footer.jsp"%>
-<script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
+<script type="text/javascript" src="http://vuejs.org/js/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
+
+<script type="text/javascript">
+    var notebooks = new Vue({
+        el: '#workgroup',
+        data: {
+            notebooksdetails : null
+        },
+        created: function () {
+            var _this = this;
+            this.$http.get('/teamnote/cooperate/allnotebooks').then(function(response){
+                console.log("success");
+                console.log(response.body);
+                notebooks.notebooksdetails = response.body;
+            }, function(response){
+                console.log("error");
+                console.log(response.body);
+            });
+        }
+    });
+</script>

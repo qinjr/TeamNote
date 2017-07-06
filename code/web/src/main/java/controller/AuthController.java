@@ -1,11 +1,13 @@
 package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import service.UserBasicService;
-
 import java.util.ArrayList;
 
 /**
@@ -25,10 +27,19 @@ public class AuthController {
     @RequestMapping("/register")
     public String register(@RequestParam(value = "_username") String username, @RequestParam(value = "_password") String password,
                            @RequestParam(value = "phone") String phone, @RequestParam(value = "email") String email) {
-        if(userBasicService.register(username, password, phone, email, "", null, new ArrayList<Integer>())== 1) {
+        if (userBasicService.register(username, password, phone, email, "", null, new ArrayList<Integer>()) == 1) {
             return "auth";
         } else {
             return "auth";
         }
+    }
+
+    @RequestMapping("/validate")
+    @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
+    public ResponseEntity<?> validate(@RequestParam(value = "_username") String username) {
+        if (userBasicService.usernameValidate(username)) {
+            return ResponseEntity.status(200).body(null);
+        }
+        else return ResponseEntity.status(406).body(null);
     }
 }

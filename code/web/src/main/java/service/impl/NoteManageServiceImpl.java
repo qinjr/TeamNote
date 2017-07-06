@@ -1,5 +1,6 @@
 package service.impl;
 
+import com.google.gson.Gson;
 import dao.mongodbDao.NoteDao;
 import dao.mongodbDao.NotebookDao;
 import dao.mongodbDao.TagDao;
@@ -11,6 +12,7 @@ import model.mongodb.User;
 import service.NoteManageService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by qjr on 2017/7/4.
@@ -112,5 +114,29 @@ public class NoteManageServiceImpl implements NoteManageService {
         Note note = noteDao.getNoteById(noteId);
         note.setVersionPointer(versionPoint);
         noteDao.updateNote(note);
+    }
+
+    public String getNotebooksDetailsByUserId(int userId) {
+        ArrayList<Notebook> notebooks = getAllNotebooksByUserId(userId);
+        ArrayList<ArrayList<Tag>> tagsList = getTagsByNotebooks(notebooks);
+        ArrayList<User> creators = getCreatorsByNotebooks(notebooks);
+        ArrayList<User> owners = getOwnersByNotebooks(notebooks);
+        ArrayList<ArrayList<User>> collaboratorsList = getCollaboratorsByNotebooks(notebooks);
+
+        ArrayList<HashMap<String, Object>> result = new ArrayList<HashMap<String, Object>>();
+
+        for (int i = 0; i < notebooks.size(); ++ i) {
+            HashMap<String, Object> detailItem = new HashMap<String, Object>();
+            detailItem.put("notebook", notebooks.get(i));
+            detailItem.put("tags", tagsList.get(i));
+            detailItem.put("owner", owners.get(i));
+            detailItem.put("creator", creators.get(i));
+            detailItem.put("collaborators", collaboratorsList.get(i));
+
+            result.add(detailItem);
+        }
+
+        Gson gson = new Gson();
+        return gson.toJson(result);
     }
 }

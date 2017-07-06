@@ -20,13 +20,14 @@ public interface UserBasicService {
      * @param feeds 关注的tags组成的list
      * @return 1为成功注册，0为失败
      */
-    int register(String username, String password, String phone, String email, String ps, Byte[] avator, ArrayList<Integer> feeds);
+    int register(String username, String password, String phone, String email, String ps, String avator, ArrayList<Integer> feeds);
 
 
     //not sure
     //int login(String username, String password);
     //int logout();
 
+    boolean usernameValidate(String username);
 
     int deleteAccount(int userId);
     int updateUsername(int userId, String newUsername);
