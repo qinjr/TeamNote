@@ -109,3 +109,13 @@ body {
     float: right;
     margin-top: 10px;
 }
+
+footer .btn-outline-secondary:hover,
+footer .btn-outline-secondary.active {
+    color: #4A90E2;
+    background-color: inherit;
+}
+
+footer .btn .active {
+    color: #4A90E2;
+}
