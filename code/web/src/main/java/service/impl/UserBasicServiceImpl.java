@@ -35,7 +35,7 @@ public class UserBasicServiceImpl implements UserBasicService {
      * @param feeds 关注的tags组成的list
      * @return 1为成功注册，0为失败
      */
-    public int register(String username, String password, String phone, String email, String ps, Byte[] avator, ArrayList<Integer> feeds) {
+    public int register(String username, String password, String phone, String email, String ps, String avator, ArrayList<Integer> feeds) {
         try {
             String finalPassword = authUtil.encrypt(password);
             UserInfo userInfo = new UserInfo(username, finalPassword, phone, email, "ROLE_USER");

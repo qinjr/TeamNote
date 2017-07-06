@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,34 +70,20 @@ public class CooperateController {
         int userId = userInfo.getUserId();
 
         //get notebooks
-        ArrayList<Notebook> notebooks = noteManageService.getAllNotebooksByUserId(userId);
-        ArrayList<ArrayList<Tag>> tagsList = noteManageService.getTagsByNotebooks(notebooks);
-        ArrayList<User> creators = noteManageService.getCreatorsByNotebooks(notebooks);
-        ArrayList<User> owners = noteManageService.getOwnersByNotebooks(notebooks);
-        ArrayList<ArrayList<User>> collaboratorsList = noteManageService.getCollaboratorsByNotebooks(notebooks);
-        Gson gson = new Gson();
-
-        String notebooksJsonString = gson.toJson(notebooks);
-        String tagsListJsonString = gson.toJson(tagsList);
-        String creatorsJsonString = gson.toJson(creators);
-        String ownersJsonString = gson.toJson(owners);
-        String collaboratorsListJsonString = gson.toJson(collaboratorsList);
-
-        String response = "[" + notebooksJsonString + "," + tagsListJsonString + "," + creatorsJsonString + "," +
-                ownersJsonString + "," + collaboratorsListJsonString + "]";
+        String response = noteManageService.getNotebooksDetailsByUserId(userId);
         return response;
     }
 
     @RequestMapping("/cooperate/workgroup")
     public String enterWorkGroup(@RequestParam(value = "notebookId")int notebookId,
-                                 HttpServletRequest request) {
+                                 Model model) {
         Notebook notebook = noteManageService.getNotebookById(notebookId);
         ArrayList<Note> notes = new ArrayList<Note>();
         for (int noteId : notebook.getNotes()) {
             notes.add(noteManageService.getNoteById(noteId));
         }
-        request.setAttribute("notebook", notebook);
-        request.setAttribute("notes", notes);
+        model.addAttribute("notebook", notebook);
+        model.addAttribute("notes", notes);
         return "workgroup";
     }
 
