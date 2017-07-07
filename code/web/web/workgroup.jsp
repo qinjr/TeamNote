@@ -10,9 +10,11 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="model.mongodb.Notebook" %>
 <%@ page import="model.mongodb.Note" %>
+<%@ page import="model.mongodb.User" %>
 <%
     Notebook notebook = (Notebook) request.getAttribute("notebook");
     ArrayList<Note> notes = (ArrayList<Note>) request.getAttribute("notes");
+    ArrayList<User> collaborators = (ArrayList<User>) request.getAttribute("collaborators");
 %>
 
 <div class="row">
@@ -33,8 +35,13 @@
     </div>
     <div class="col-md-2">
         <button class="button btn-outline-secondary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#right-sidebar" style="border: none; float: right; width: 60px;">
-            <img class="img-50px" src="image/user_6.png">
-            <img class="img-50px" src="image/user_9.png">
+            <%
+                for (User user : collaborators) {
+            %>
+            <img class="img-50px" src="<%=path%>/<%=user.getAvator()%>">
+            <%
+                }
+            %>
             <i class="fa fa-commenting-o fa-2x" aria-hidden="true"></i>
         </button>
 
@@ -95,13 +102,13 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="left-sidebar">
         <div class="pre-scrollable" id="left-sidebar-nav">
-            <img class="img-75px" src="image/notebook_1.png" style="margin-top: 15px; ">
+            <img class="img-75px" src="<%=path%>/<%=notebook.getCover()%>" style="margin-top: 15px; ">
             <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#left-sidebar">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
             </button>
             <br><br>
             <%
-                if (notebook != null) {
+                if (notebook != null && notes != null) {
             %>
             <h4 class="card-title notebook" id="<%=notebook.getNotebookId()%>">
                 <%=notebook.getTitle()%>
@@ -109,7 +116,7 @@
             <%
                     for (Note note : notes) {
             %>
-            <h5 id="<%=note.getNoteId()%>"><%=note.getTitle()%></h5>
+            <a class="note" id="<%=note.getNoteId()%>" href="#"><%=note.getTitle()%></a><br>
             <%
                     }
                 }

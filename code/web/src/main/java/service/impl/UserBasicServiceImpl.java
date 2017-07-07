@@ -98,4 +98,8 @@ public class UserBasicServiceImpl implements UserBasicService {
     public int manageFeeds(int userId, int tagId, String manageType) {
         return 1;
     }
+
+    public User getUserById(int userId) {
+        return userDao.getUserById(userId);
+    }
 }

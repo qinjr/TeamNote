@@ -34,18 +34,27 @@ $(document).ready(function() {
 
     $("#save").click(function() {
         var content = CKEDITOR.instances.editor.getData();
-        var noteTitle = $("input[name='noteTitle']").val();
+
+
+        var noteTitle = $('input[name="noteTitle"]').val();
+        var notebookId = $('.notebook').attr('id');
         $.ajax({
-            url : 'editNote/saveFirstEdition',
+            url : "/teamnote/saveFirstEdition",
             processData : true,
             dataType : "text",
+            type : "post",
             data : {
-                notebookId : 1,
+                notebookId : notebookId,
                 noteTitle : noteTitle,
                 content : content
             },
             success : function(data) {
-                alert("Success");
+                var json = JSON.parse(data);
+                if (json.result === "success")
+                    location.reload();
+                else {
+                    alert("error");
+                }
             }
         });
         $('#addNoteModal').modal('hide');
@@ -70,19 +79,22 @@ $(document).ready(function() {
         });
         $('#updateNotemodal').modal('hide');
     })
-});
 
-function enterWorkgroup() {
-    var notebookId = $('#enterWorkgroup').parent().parent().parent().parent().attr("id");
-    $.ajax({
-        url: "cooperate/workgroup",
-        dataType : "text",
-        type: "post",
-        data: { "notebookId" : notebookId },
-        success: function(data) {
-            document.open();
-            document.write(data);
-            document.close();
-        }
-    });
-}
+    $(".note").click(function(e) {
+        var noteId = parseInt(e.target.id);
+        $.ajax({
+            url : "/teamnote/getNote",
+            processData : true,
+            dataType : "text",
+            type : "post",
+            data : {
+                noteId : noteId
+            },
+            success : function(data) {
+                console.log(data);
+                var json = JSON.parse(data);
+                CKEDITOR.instances.editor.setData(json.content);
+            }
+        });
+    })
+});

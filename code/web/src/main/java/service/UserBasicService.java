@@ -1,5 +1,6 @@
 package service;
 
+import model.mongodb.User;
 import model.mysql.UserInfo;
 
 import java.io.File;
@@ -53,4 +54,11 @@ public interface UserBasicService {
      * @return UserInfo
      */
     UserInfo getUserInfoByUsername(String username);
+
+    /**
+     * getUserById
+     * @param userId 用户Id
+     * @return User
+     */
+    User getUserById(int userId);
 }

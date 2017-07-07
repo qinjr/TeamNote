@@ -35,6 +35,7 @@ public class NoteDaoImpl implements NoteDao{
                 }
             }
             note.setNoteId(maxNote.getNoteId() + 1);
+            id = maxNote.getNoteId() + 1;
         }
         mongoTemplate.insert(note, "Note");
         return id;

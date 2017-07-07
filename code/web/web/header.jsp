@@ -21,45 +21,51 @@
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/bootstrap.offcanvas.css"/>
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/font-awesome.min.css"/>
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/teamnote.css"/>
+        <script type="text/javascript" src="https://unpkg.com/vue/dist/vue.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
     </head>
     <body>
         <nav class="navbar navbar-toggleable-md mb-4 bg-faded">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="index.jsp">TeamNote</a>
+            <a class="navbar-brand" href="<%=path%>/index.jsp">TeamNote</a>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.jsp"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;首页</a>
+                        <a class="nav-link" href="<%=path%>/index.jsp"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;首页</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-paint-brush fa-fw" aria-hidden="true"></i>&nbsp;探索</a>
+                        <a class="nav-link disabled" href="#"><i class="fa fa-paint-brush fa-fw" aria-hidden="true"></i>&nbsp;探索</a>
                     </li>
                 </ul>
                 <div class="col-lg-4">
                     <div class="input-group" style="height: 46px;">
                         <input type="text" class="form-control" placeholder="搜索" aria-label="search">
                         <span class="input-group-btn">
-                            <button class="btn btn-outline-secondary" type="button">
+                            <button class="btn btn-outline-secondary disabled" type="button">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                             </button>
                         </span>
                     </div>
                 </div>
-                <button class="btn btn-outline-secondary" type="button" style="border: none">
+                <button class="btn btn-outline-secondary disabled" type="button" style="border: none">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-outline-secondary" type="button" style="border: none">
+                <button class="btn btn-outline-secondary disabled" type="button" style="border: none">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                 </button>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            <img src="image/user_6.png" style="height: 30px; width: 30px;">
+                            <img :src="avator" style="height: 30px; width: 30px;">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="homepage.jsp">
+                            <p class="dropdown-item username" style="margin-bottom: 0;">
+                                <i class="fa fa-user fa-fw" aria-hidden="true"></i>&nbsp;{{ username }}
+                            </p>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="<%=path%>/homepage.jsp">
                                 <i class="fa fa-map fa-fw" aria-hidden="true"></i>&nbsp;我的主页
                             </a>
                             <a class="dropdown-item" href="#">
@@ -69,7 +75,7 @@
                                 <i class="fa fa-cog fa-spin fa-fw" aria-hidden="true"></i>&nbsp;设置
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="logout" style="color: #D0021B">
+                            <a class="dropdown-item" href="<%=path%>/logout" style="color: #D0021B">
                                 <i class="fa fa-exclamation-circle fa-fw" aria-hidden="true"></i>&nbsp;登出
                             </a>
                         </div>
@@ -78,3 +84,13 @@
             </div>
         </nav>
 
+
+    <script type="text/javascript">
+        var user = new Vue({
+            el: '.dropdown',
+            data: {
+                avator: "image/user_6.png",
+                username: "rudeigerc"
+            }
+        })
+    </script>

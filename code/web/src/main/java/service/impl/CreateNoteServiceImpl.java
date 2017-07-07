@@ -1,5 +1,6 @@
 package service.impl;
 
+import com.google.gson.JsonObject;
 import dao.mongodbDao.NoteDao;
 import dao.mongodbDao.NotebookDao;
 import dao.mongodbDao.UserDao;
@@ -95,11 +96,13 @@ public class CreateNoteServiceImpl implements CreateNoteService{
      * @return 1为成功，0为失败
      */
     public int uploadTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime) {
-
-        String firstEdition = "{\"editTime\":" + datetime.toString() + ",\"message\":\"First edition of this note\",\"content\":"
-                                + content + ",\"editor\":" + userId + "}";
+        JsonObject firstEdition = new JsonObject();
+        firstEdition.addProperty("editTime", datetime.toString());
+        firstEdition.addProperty("message", "First edition");
+        firstEdition.addProperty("content", content);
+        firstEdition.addProperty("editor", userId);
         ArrayList<String> history = new ArrayList<String>();
-        history.add(firstEdition);
+        history.add(firstEdition.toString());
         Note note = new Note(notebookId, noteTitle, history, new ArrayList<String>(), new ArrayList<Integer>(),
                                 new ArrayList<Integer>(), 0, 1, 0);
         int noteId = noteDao.addNote(note);

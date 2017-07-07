@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import service.CooperateService;
 import service.NoteManageService;
 import service.UserBasicService;
@@ -21,6 +22,8 @@ import service.UserBasicService;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by qjr on 2017/7/3.
@@ -76,14 +79,19 @@ public class CooperateController {
 
     @RequestMapping("/cooperate/workgroup")
     public String enterWorkGroup(@RequestParam(value = "notebookId")int notebookId,
-                                 Model model) {
+                                 HttpServletRequest request) {
         Notebook notebook = noteManageService.getNotebookById(notebookId);
         ArrayList<Note> notes = new ArrayList<Note>();
         for (int noteId : notebook.getNotes()) {
             notes.add(noteManageService.getNoteById(noteId));
         }
-        model.addAttribute("notebook", notebook);
-        model.addAttribute("notes", notes);
+        ArrayList<User> collaborators = new ArrayList<User>();
+        for (int userId : notebook.getCollaborators()) {
+            collaborators.add(userBasicService.getUserById(userId));
+        }
+        request.setAttribute("notebook", notebook);
+        request.setAttribute("notes", notes);
+        request.setAttribute("collaborators", collaborators);
         return "workgroup";
     }
 
