@@ -119,3 +119,12 @@ footer .btn-outline-secondary.active {
 footer .btn .active {
     color: #4A90E2;
 }
+
+.dropdown-menu .username:active {
+    color: inherit;
+    background-color: inherit;
+}
+
+.dropdown-menu .username:hover {
+    background-color: inherit;
+}

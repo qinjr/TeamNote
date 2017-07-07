@@ -9,19 +9,19 @@
 <%@ include file="header.jsp"%>
 
 <div class="container">
-    <div class="card">
+    <div class="card" id="info">
         <div class="card-block">
             <div class="row">
                 <div class="col-md-2 text-center mx-auto">
                     <img src="image/user_6.png" style="height: 100px; width: 100px;">
                 </div>
                 <div class="col-md-7">
-                    <h4 class="card-title">rudeigerc</h4>
+                    <h4 class="card-title">{{ username }}</h4>
                     <p class="card-subtitle mb-2 text-muted">
-                        <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;Shanghai Jiao Tong University Software Engineering
+                        <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;{{ personalStatus }}
                     </p>
                     <p class="card-subtitle mb-2 text-muted">
-                        <i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;rudeigerc@gmail.com
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;{{ email }}
                     </p>
                     <p>关注人 20 · 关注者 30</p>
                 </div>
@@ -63,24 +63,24 @@
                         <div class="col-md-12" style="margin-top: 20px;">
                             <div class="row">
                                 <div class="col-md-2 text-center mx-auto">
-                                    <img v-bind:src="notebookdetail.notebook.cover" style="height: 75px; width: 75px;">
+                                    <img :src="notebookdetail.notebook.cover" style="height: 75px; width: 75px;">
                                 </div>
                                 <div class="col-md-7">
-                                    <h4 class="card-title" style="margin-bottom: 6px;">{{notebookdetail.notebook.title}}</h4>
+                                    <h4 class="card-title" style="margin-bottom: 6px;">{{ notebookdetail.notebook.title }}</h4>
                                     <i class="fa fa-tag" aria-hidden="true"></i>
                                     <div style="display: inline;" v-for="tag in notebookdetail.tags">
-                                        <kbd class="card-subtitle">{{tag.tagName}}</kbd>&nbsp;
+                                        <kbd class="card-subtitle">{{ tag.tagName }}</kbd>&nbsp;
                                     </div>
 
                                     <br>
-                                    <small>创建者 <strong>{{notebookdetail.creator.username}}</strong> · 所有者 <strong>{{notebookdetail.owner.username}}</strong> · 创建时间 {{notebookdetail.notebook.createTime}}</small>
+                                    <small>创建者 <strong>{{ notebookdetail.creator.username }}</strong> · 所有者 <strong>{{ notebookdetail.owner.username }}</strong> · 创建时间 {{ notebookdetail.notebook.createTime }}</small>
                                     <br>
                                     <div style="margin: 10px auto; display: inline;" v-for="collaborator in notebookdetail.collaborators">
-                                        <img v-bind:src="collaborator.avator" style="width: 50px; height: 50px;">&nbsp;
+                                        <img :src="collaborator.avator" style="width: 50px; height: 50px;">&nbsp;
                                     </div>
                                 </div>
                                 <div class="col-md-3 workgroup-btn">
-                                    <a class="btn btn-outline-primary center-block" role="button" v-bind:href="'/cooperate/workgroup?notebookId=' + notebookdetail.notebook.notebookId">
+                                    <a class="btn btn-outline-primary center-block" role="button" :href="'/cooperate/workgroup?notebookId=' + notebookdetail.notebook.notebookId">
                                         <i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组
                                     </a>
                                     <button class="btn btn-outline-warning center-block" type="button">
@@ -105,25 +105,35 @@
 </div>
 
 <%@ include file="footer.jsp"%>
-<script type="text/javascript" src="http://vuejs.org/js/vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
-
 <script type="text/javascript">
+    var info = new Vue({
+        el: '#info',
+        data: {
+            username: "rudeigerc",
+            personalStatus: "Shanghai Jiao Tong University Software Engineering",
+            email: "rudeigerc@gmail.com"
+        }
+    });
+
     var notebooks = new Vue({
         el: '#workgroup',
         data: {
-            notebooksdetails : null
+            notebooksdetails: null
         },
         created: function () {
-            var _this = this;
-            this.$http.get('/teamnote/cooperate/allnotebooks').then(function(response){
+            this.$http.get('/teamnote/cooperate/allnotebooks', {
+                progress: function(e) {
+                    this.progress = (e.loaded / e.total) * 100;
+                    console.log(this.progress);
+                }
+            }).then(function(response){
                 console.log("success");
-                console.log(response.body);
                 notebooks.notebooksdetails = response.body;
-            }, function(response){
+            }, function(){
                 console.log("error");
-                console.log(response.body);
             });
         }
     });
+
+
 </script>
