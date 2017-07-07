@@ -31,6 +31,9 @@
             <textarea name="editor" id="editor">
 
             </textarea>
+            <footer>
+                <p>&copy; 2017 TeamNote Team</p>
+            </footer>
         </div>
     </div>
     <div class="col-md-2">
@@ -79,19 +82,25 @@
             </button>
             <br><br>
             <%
-                if (notebook != null && notes != null) {
+                if (notes != null) {
             %>
-            <h4 class="card-title notebook" id="<%=notebook.getNotebookId()%>">
+            <h5 class="card-title notebook" id="<%=notebook.getNotebookId()%>">
                 <%=notebook.getTitle()%>
-            </h4>
+            </h5>
+            <ul style="padding-left: 0;">
             <%
                     for (Note note : notes) {
+                        int id = note.getNoteId();
             %>
-            <a class="note" id="<%=note.getNoteId()%>" href="#"><%=note.getTitle()%></a><br>
+                <li class="bar-note">
+                    <a class="note" :class="{ 'active': <%=id%> === selected }" @click="select(<%=id%>)" id="<%=id%>"
+                       style="margin-left: 10px;" href="javascript:void(0)"><%=note.getTitle()%></a>
+                </li>
             <%
                     }
                 }
             %>
+            </ul>
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn">
@@ -115,7 +124,6 @@
         <div class="pre-scrollable">
 
         </div>
-
     </div>
 </nav>
 
@@ -167,10 +175,26 @@
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
 <script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
-<script>
+<script type="text/javascript">
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',
         contentsCss: '<%=path%>/ckeditor/css/contents.css',
         skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
     } );
+
+    var note = new Vue({
+        el: '#left-sidebar',
+        data: {
+            selected: null
+        },
+        methods: {
+            select: function(id) {
+                this.selected = id;
+            }
+        }
+    });
+
+    window.onbeforeunload = function() {
+        return "";
+    };
 </script>

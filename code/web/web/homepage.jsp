@@ -59,6 +59,16 @@
                 <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">notebook</div>
                 <!-- TODO: workgroup -->
                 <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab">
+                    <div v-if="loading">
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <div v-if="notebooksdetails === null">
+                        <div class="alert alert-success" role="alert" style="margin-top: 16px;">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            该用户没有加入的工作组
+                        </div>
+                    </div>
                     <div class="row" v-for="notebookdetail in notebooksdetails">
                         <div class="col-md-12" style="margin-top: 20px;">
                             <div class="row">
@@ -118,16 +128,13 @@
     var notebooks = new Vue({
         el: '#workgroup',
         data: {
-            notebooksdetails: null
+            notebooksdetails: null,
+            loading: true
         },
         created: function () {
-            this.$http.get('/teamnote/cooperate/allnotebooks', {
-                progress: function(e) {
-                    this.progress = (e.loaded / e.total) * 100;
-                    console.log(this.progress);
-                }
-            }).then(function(response){
+            this.$http.get('/teamnote/cooperate/allnotebooks').then(function(response){
                 console.log("success");
+                this.loading = false;
                 notebooks.notebooksdetails = response.body;
             }, function(){
                 console.log("error");

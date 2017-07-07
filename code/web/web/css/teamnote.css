@@ -128,3 +128,20 @@ footer .btn .active {
 .dropdown-menu .username:hover {
     background-color: inherit;
 }
+
+.left-sidebar .active {
+    border-left: #4A90E2;
+}
+
+.bar-note a {
+    color: #999999;
+}
+
+.bar-note:hover {
+    background-color: #EFEFEF;
+
+}
+
+.bar-note > .active {
+    color: #4A90E2;
+}
