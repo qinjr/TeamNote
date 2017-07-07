@@ -104,7 +104,6 @@
                 转让所有权
             </button>
             <button class="btn btn-outline-primary" id="inviteCollaborator">邀请用户</button>
-            <button class="btn btn-outline-warning">审核</button>
             <button class="btn btn-outline-primary" id="newNote">新建笔记</button>
             <button class="btn btn-outline-primary">设置</button>
             <button class="btn btn-danger">取消</button>
