@@ -80,7 +80,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3 workgroup-btn">
-                                    <a class="btn btn-outline-primary center-block" role="button" v-bind:href="'/cooperate/workgroup?notebookId=' + notebookdetail.notebook.notebookId">
+                                    <a class="btn btn-outline-primary center-block" role="button" v-bind:href="'/teamnote/cooperate/workgroup?notebookId=' + notebookdetail.notebook.notebookId">
                                         <i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组
                                     </a>
                                     <button class="btn btn-outline-warning center-block" type="button">
@@ -115,7 +115,6 @@
             notebooksdetails : null
         },
         created: function () {
-            var _this = this;
             this.$http.get('/teamnote/cooperate/allnotebooks').then(function(response){
                 console.log("success");
                 console.log(response.body);

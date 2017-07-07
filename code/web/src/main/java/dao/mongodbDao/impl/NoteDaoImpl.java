@@ -22,8 +22,9 @@ public class NoteDaoImpl implements NoteDao{
         this.mongoTemplate = mongoTemplate;
     }
 
-    public void addNote(Note note){
+    public int addNote(Note note){
         List<Note> notes = getAllNotes();
+        int id = 0;
         if(notes.size() == 0) {
             note.setNoteId(0);
         } else {
@@ -34,8 +35,10 @@ public class NoteDaoImpl implements NoteDao{
                 }
             }
             note.setNoteId(maxNote.getNoteId() + 1);
+            id = maxNote.getNoteId() + 1;
         }
         mongoTemplate.insert(note, "Note");
+        return id;
     }
 
     public void deleteNote(Note note){
