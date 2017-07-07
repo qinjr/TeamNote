@@ -4,7 +4,7 @@
 
 
 
-var sock = new SockJS('cooperate/chat');
+var sock = new SockJS('chat');
 
 sock.onopen = function() {
     console.log('open');

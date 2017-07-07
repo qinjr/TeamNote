@@ -8,15 +8,15 @@
         http://www.springframework.org/schema/websocket
         http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
-    <websocket:handlers>
-        <websocket:mapping path="/cooperate/chat" handler="socketHandler"/>
-        <websocket:handshake-interceptors>
-            <ref bean="webSocketInterceptor"/>
-        </websocket:handshake-interceptors>
-    </websocket:handlers>
+    <websocket:message-broker application-destination-prefix="/app">
+        <websocket:stomp-endpoint path="/portfolio">
+            <websocket:sockjs/>
+        </websocket:stomp-endpoint>
+        <websocket:simple-broker prefix="/topic, /queue"/>
+    </websocket:message-broker>
 
     <bean id="socketHandler" class="service.impl.SocketServiceImpl"/>
-    <bean id="webSocketInterceptor" class="util.impl.WebsocketInterceptorImpl">
+    <bean id="websocketInterceptor" class="util.impl.WebsocketInterceptorImpl">
         <property name="userBasicService" ref="userBasicService" />
     </bean>
 

@@ -1,5 +1,7 @@
 package service.impl;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
@@ -15,6 +17,9 @@ import java.util.Set;
 /**
  * Created by lxh on 2017/7/6.
  */
+
+@Service
+@RequestMapping("/cooperate/chat")
 public class SocketServiceImpl extends TextWebSocketHandler implements SocketService {
     //在线用户列表
     private static final Map<Integer, WebSocketSession> users;
