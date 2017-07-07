@@ -37,7 +37,12 @@
             <img class="img-50px" src="image/user_9.png">
             <i class="fa fa-commenting-o fa-2x" aria-hidden="true"></i>
         </button>
-        <textarea id="message" style="width: 350px">message</textarea>
+
+        <textarea id="chat_content"></textarea>
+        <input type="text" placeholder="请输入要发送的信息" id="msg">
+        <input type="button" id="chat_input" value="发送">
+        <input type="button" id="chat_clear" value="清空">
+
     </div>
 </div>
 
@@ -182,9 +187,11 @@
 </div>
 
 <%@ include file="footer.jsp"%>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
 <script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
+<script type="text/javascript" src="<%=path%>/js/groupChat.js"></script>
 <script>
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',

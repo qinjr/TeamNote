@@ -20,7 +20,8 @@ public class SocketController {
     }
 
     @RequestMapping("/message")
-    public @ResponseBody String sendMessage() {
+    @ResponseBody
+    public String sendMessage() {
         boolean hasSend = socketService.sendMessageToUser(4, new TextMessage("a message"));
         System.out.println(hasSend);
         return "message";
