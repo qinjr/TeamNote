@@ -88,8 +88,17 @@
         var user = new Vue({
             el: '.dropdown',
             data: {
-                avator: "image/user_6.png",
-                username: "rudeigerc"
+                avator: null,
+                username: null
+            },
+            created : function () {
+                this.$http.get('/teamnote/userdetail').then(function(response) {
+                    user.avator = JSON.parse(response.body.user).avator;
+                    user.username = JSON.parse(response.body.userInfo).username;
+                }, function(response) {
+                    console.log("navbar error");
+                });
+
             }
-        })
+        });
     </script>

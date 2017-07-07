@@ -3,28 +3,35 @@
  */
 var noteId = -1;
 $(document).ready(function() {
-    $('#giveOwnershipModal').on('show.bs.modal', function () {
+    $('.giveOwnership').click(function() {
+        var notebookId = $('.notebook').attr('id');
+        var newOwnerName = $('input[name="newOwner"]').val();
+        var confirm = window.confirm("警告: 所有权转让后无法还原");
+        if (!confirm) return;
         $.ajax({
-
+            url: "/teamnote/cooperate/giveownership",
+            processData: true,
+            dataType: "text",
+            data: {
+                newOwnerName : newOwnerName,
+                notebookId : notebookId
+            },
+            success: function(data) {
+                var json = JSON.parse(data);
+                if (json.result === "success") {
+                    alert(json.newOwner + " 已被钦定为新的拥有者");
+                }
+                else {
+                    alert("你不是笔记本所有者，无法转让所有权");
+                }
+                $('#giveOwnershipModal').modal('hide');
+            }
         });
     });
 
     $('#giveOwnership').click(function () {
-        var notebookId = document.getElementsByClassName("notebook")[0].attr("id");
-        var confirm = window.confirm("警告: 所有权转让后无法还原");
-        if (!confirm) return;
-        $.ajax({
-            url: "cooperate/giveownership",
-            processData: true,
-            dataType: "text",
-            data: {
-                newOwnerId : 56,
-                notebookId : 1
-            },
-            success: function(data) {
-                alert(data);
-            }
-        });
+        $('input[name="newOwner"]').val("");
+        $('#giveOwnershipModal').modal('show');
     });
 
     $('#callDialog').click(function () {
@@ -36,7 +43,7 @@ $(document).ready(function() {
         else {
             $('#updateNoteModalTitle').html("更新笔记");
             $('input[name="message"]').val("");
-            $('#updateNoteModel').modal('show');
+            $('#updateNoteModal').modal('show');
         }
     });
 
@@ -89,8 +96,6 @@ $(document).ready(function() {
             });
             $('#modal').modal('hide');
         }
-
-
     });
 
     $(".note").click(function(e) {
@@ -113,5 +118,42 @@ $(document).ready(function() {
     $("#newNote").click(function() {
         noteId = -1;
         CKEDITOR.instances.editor.setData("");
+    });
+
+    $("#inviteCollaborator").click(function () {
+        $('#inviteCollaboratorModalTitle').html('邀请用户');
+        $('input[name="inviteUsername"]').val("");
+        $('input[name="inviteDescription"]').val("");
+        $('#inviteCollaboratorModal').modal('show');
+    });
+
+    $(".invite").click(function() {
+        var inviteUsername = $('input[name="inviteUsername"]').val();
+        var inviteDescription = $('input[name="inviteDescription"]').val();
+        var notebookId = $('.notebook').attr('id');
+        console.log(notebookId);
+        $.ajax({
+            url : "/teamnote/cooperate/invite",
+            processData : true,
+            dataType : "text",
+            type : "post",
+            data : {
+                inviteUsername : inviteUsername,
+                inviteDescription : inviteDescription,
+                notebookId : notebookId
+            },
+            success : function (data) {
+                console.log(data);
+                var json = JSON.parse(data);
+                if (json.result === "success") {
+                    $('#inviteCollaboratorModal').modal('hide');
+                    alert("请求已发送，等待对方接受邀请");
+                }
+                else {
+                    $('#inviteCollaboratorModal').modal('hide');
+                    alert("请求发送失败");
+                }
+            }
+        });
     });
 });

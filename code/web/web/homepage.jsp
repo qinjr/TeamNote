@@ -13,7 +13,7 @@
         <div class="card-block">
             <div class="row">
                 <div class="col-md-2 text-center mx-auto">
-                    <img src="image/user_6.png" style="height: 100px; width: 100px;">
+                    <img :src="avator" style="height: 100px; width: 100px;">
                 </div>
                 <div class="col-md-7">
                     <h4 class="card-title">{{ username }}</h4>
@@ -23,7 +23,7 @@
                     <p class="card-subtitle mb-2 text-muted">
                         <i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;{{ email }}
                     </p>
-                    <p>关注人 20 · 关注者 30</p>
+                    <p>关注人 {{ followingsnum }} · 关注者 {{ followersnum }}</p>
                 </div>
                 <div class="col-md-3">
                     <button class="btn btn-outline-primary center-block" type="button">
@@ -119,9 +119,24 @@
     var info = new Vue({
         el: '#info',
         data: {
-            username: "rudeigerc",
-            personalStatus: "Shanghai Jiao Tong University Software Engineering",
-            email: "rudeigerc@gmail.com"
+            username: null,
+            personalStatus: null,
+            email: null,
+            avator : null,
+            followersnum : null,
+            followingsnum : null
+        },
+        created: function() {
+            this.$http.get('/teamnote/userdetail').then(function(response){
+                info.username = JSON.parse(response.body.userInfo).username;
+                info.personalStatus = JSON.parse(response.body.user).personalStatus;
+                info.email = JSON.parse(response.body.userInfo).email;
+                info.avator = JSON.parse(response.body.user).avator;
+                info.followersnum = JSON.parse(response.body.user).followers.length;
+                info.followingsnum = JSON.parse(response.body.user).followings.length;
+            }, function() {
+                console.log("user info error")
+            });
         }
     });
 
@@ -136,8 +151,8 @@
                 console.log("success");
                 this.loading = false;
                 notebooks.notebooksdetails = response.body;
-            }, function(){
-                console.log("error");
+            }, function() {
+                console.log("workgroup error");
             });
         }
     });

@@ -50,52 +50,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="newNoteModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="newNoteModalTitle"></h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form role="form">
-                        <label>笔记标题</label><input class="form-control" name="noteTitle">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-                <button type="button" class="btn btn-primary savenote">保存</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="updateNoteModel" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="updateNoteModalTitle"></h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form role="form">
-                    <label>更新说明</label><input class="form-control" name="message">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-                <button type="button" class="btn btn-primary savenote">保存</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="left-sidebar">
         <div class="pre-scrollable" id="left-sidebar-nav">
@@ -127,10 +81,10 @@
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn">
-            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#giveOwnershipModal" style="padding: 8px">
+            <button class="btn btn-outline-danger" id="giveOwnership" style="padding: 8px">
                 转让所有权
             </button>
-            <button class="btn btn-outline-primary">邀请用户</button>
+            <button class="btn btn-outline-primary" id="inviteCollaborator">邀请用户</button>
             <button class="btn btn-outline-warning">审核</button>
             <button class="btn btn-outline-primary" id="newNote">新建笔记</button>
             <button class="btn btn-outline-success" data-toggle="modal" data-target="#historyModal">
@@ -163,11 +117,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form role="form">
+                    <label>新拥有者</label><input class="form-control" name="newOwner">
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="giveOwnership">确认</button>
+                <button type="button" class="btn btn-primary giveOwnership">确认</button>
             </div>
         </div>
     </div>
@@ -190,6 +146,76 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newNoteModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="newNoteModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <label>笔记标题</label><input class="form-control" name="noteTitle">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary savenote">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateNoteModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="updateNoteModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <label>更新说明</label><input class="form-control" name="message">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary savenote">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="inviteCollaboratorModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="inviteCollaboratorModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <label>邀请用户</label><input class="form-control" name="inviteUsername">
+                    <label>验证消息</label><input class="form-control" name="inviteDescription">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary invite">邀请</button>
             </div>
         </div>
     </div>
