@@ -72,7 +72,7 @@ body {
 }
 
 .navbar-offcanvas > .pre-scrollable {
-    max-height: 500px;
+    max-height: 70%;
 }
 
 .button img {
@@ -144,4 +144,19 @@ footer .btn .active {
 
 .bar-note > .active {
     color: #4A90E2;
+    text-decoration: none;
+}
+
+.none {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.none:hover {
+    background-color: rgba(0, 0, 0, 0);
+    color: #4A90E2;
+}
+
+.nav-tabs .nav-link.active {
+    border-top: 3px solid #4A90E2;
 }
