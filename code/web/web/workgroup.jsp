@@ -16,6 +16,11 @@
     ArrayList<Note> notes = (ArrayList<Note>) request.getAttribute("notes");
     ArrayList<User> collaborators = (ArrayList<User>) request.getAttribute("collaborators");
 %>
+<style type="text/css">
+    body {
+        overflow: hidden;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-2">
@@ -52,7 +57,7 @@
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="left-sidebar">
-        <div class="pre-scrollable" id="left-sidebar-nav">
+        <div class="pre-scrollable" id="left-sidebar-nav" style="padding-right: 10px;">
             <img class="img-75px" src="<%=path%>/<%=notebook.getCover()%>" style="margin-top: 15px; ">
             <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#left-sidebar">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
@@ -69,9 +74,23 @@
                     for (Note note : notes) {
                         int id = note.getNoteId();
             %>
-                <li class="bar-note">
+                <li class="bar-note" style="padding-left: 10px; margin-top: 5px; margin-bottom: 5px;">
                     <a class="note" :class="{ 'active': <%=id%> === selected }" @click="select(<%=id%>)" id="<%=id%>"
-                       style="margin-left: 10px;" href="javascript:void(0)"><%=note.getTitle()%></a>
+                       style="word-break: break-all;" href="javascript:void(0)"><%=note.getTitle()%></a>
+                    <div class="btn-group btn-group-sm pull-right" role="group" aria-label="functional-button">
+                        <button type="button" class="btn btn-secondary none">
+                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary none">
+                            <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary none">
+                            <i class="fa fa-history fa-fw" aria-hidden="true" data-toggle="modal" data-target="#historyModal"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary none">
+                            <i class="fa fa-quote-left fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </li>
             <%
                     }
@@ -87,9 +106,6 @@
             <button class="btn btn-outline-primary" id="inviteCollaborator">邀请用户</button>
             <button class="btn btn-outline-warning">审核</button>
             <button class="btn btn-outline-primary" id="newNote">新建笔记</button>
-            <button class="btn btn-outline-success" data-toggle="modal" data-target="#historyModal">
-                历史记录
-            </button>
             <button class="btn btn-outline-primary">设置</button>
             <button class="btn btn-danger">取消</button>
             <button class="btn btn-success" id="callDialog">保存</button>

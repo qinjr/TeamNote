@@ -98,7 +98,7 @@ $(document).ready(function() {
         }
     });
 
-    $(".note").click(function(e) {
+    $('.note').click(function(e) {
         noteId = parseInt(e.target.id);
         $.ajax({
             url : "/teamnote/getNote",
@@ -115,8 +115,13 @@ $(document).ready(function() {
         });
     });
 
-    $("#newNote").click(function() {
+    $('#newNote').click(function() {
         noteId = -1;
+        $('a.note').each(function() {
+            if ($(this).hasClass("active")) {
+                $(this).removeClass("active");
+            }
+        });
         CKEDITOR.instances.editor.setData("");
     });
 
@@ -156,4 +161,5 @@ $(document).ready(function() {
             }
         });
     });
+
 });

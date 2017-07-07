@@ -9,6 +9,7 @@
         <access-denied-handler error-page="/index"/>
         <intercept-url pattern="/auth.jsp" access="permitAll"/>
         <intercept-url pattern="/*.jsp" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/cooperate/**" access="hasRole('ROLE_USER')"/>
         <form-login
                 username-parameter="username"
                 password-parameter="password"
