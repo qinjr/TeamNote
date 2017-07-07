@@ -82,7 +82,7 @@ public class CreateNoteServiceImpl implements CreateNoteService{
      * @param datetime 上传时间
      * @return 1为成功，0为失败
      */
-    public int uploadTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime) {
+    public int newTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime) {
         JsonObject firstEdition = new JsonObject();
         firstEdition.addProperty("editTime", datetime.toString());
         firstEdition.addProperty("message", "First edition");

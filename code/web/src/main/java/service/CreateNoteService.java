@@ -35,5 +35,5 @@ public interface CreateNoteService {
      * @param datetime 上传时间
      * @return 1为成功，0为失败
      */
-    int uploadTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime);
+    int newTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime);
 }

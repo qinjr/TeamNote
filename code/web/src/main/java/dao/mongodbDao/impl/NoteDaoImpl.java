@@ -59,6 +59,7 @@ public class NoteDaoImpl implements NoteDao{
         update.set("downvoters", note.getDownvoters());
         update.set("reportCount", note.getReportCount());
         update.set("valid", note.getValid());
+        update.set("versionPointer", note.getVersionPointer());
         mongoTemplate.updateFirst(query, update, Note.class,"Note");
     }
 

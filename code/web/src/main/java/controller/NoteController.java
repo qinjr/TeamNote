@@ -50,17 +50,34 @@ public class NoteController {
 
     @RequestMapping("/saveFirstEdition")
     @ResponseBody
-    public String uploadTextNote(@RequestParam(value = "notebookId") int noteBookId, @RequestParam(value = "noteTitle") String noteTitle, @RequestParam(value = "content") String content) {
+    public String saveFirstEdition(@RequestParam(value = "notebookId") int noteBookId, @RequestParam(value = "noteTitle") String noteTitle,
+                                   @RequestParam(value = "content") String content) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
         int userId = userInfo.getUserId();
         Date datetime = new Date();
-        createNoteService.uploadTextNote(userId, noteBookId, noteTitle, content, datetime);
+        createNoteService.newTextNote(userId, noteBookId, noteTitle, content, datetime);
         JsonObject json = new JsonObject();
         json.addProperty("result", "success");
         return json.toString();
     }
+
+    @RequestMapping("/updateNote")
+    @ResponseBody
+    public String updateNote(@RequestParam(value = "noteId") int noteId, @RequestParam(value = "content") String content,
+                             @RequestParam(value = "message") String message) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        int userId = userInfo.getUserId();
+        Date datetime = new Date();
+        noteManageService.updateNote(noteId, userId, datetime, content, message);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
+    }
+
 
     @RequestMapping(value = "/getNote", produces = {"application/json;charset=UTF-8"})
     @ResponseBody

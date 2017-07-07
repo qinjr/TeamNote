@@ -55,7 +55,13 @@ public interface NoteManageService {
     ArrayList<ArrayList<User>> getCollaboratorsByNotebooks(ArrayList<Notebook> notebooks);
     ArrayList<User> getCreatorsByNotebooks(ArrayList<Notebook> notebooks);
 
-    void updateNoteVersion(int noteId, int versionPoint);
-
+    /**
+     * getNotebooksDetailsByUserId
+     * @param userId 用户
+     * @return json字符串
+     */
     String getNotebooksDetailsByUserId(int userId);
+
+    void updateNote(int noteId, int userId, Date datetime, String content, String message);
+    void updateNoteVersion(int noteId, int versionPoint);
 }

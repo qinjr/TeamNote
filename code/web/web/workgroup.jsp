@@ -47,12 +47,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal" tabindex="-1" role="dialog"
+<div class="modal fade" id="newNoteModal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="modalTitle"></h4>
+                <h4 class="modal-title" id="newNoteModalTitle"></h4>
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                 </button>
@@ -64,7 +64,30 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-                <button type="button" class="btn btn-primary" id="save">保存</button>
+                <button type="button" class="btn btn-primary savenote">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateNoteModel" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="updateNoteModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <label>更新说明</label><input class="form-control" name="message">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary savenote">保存</button>
             </div>
         </div>
     </div>
@@ -99,7 +122,8 @@
                 转让所有权
             </button>
             <button class="btn btn-outline-primary">邀请用户</button>
-            <button class="btn btn-outline-warning">审核</button><br>
+            <button class="btn btn-outline-warning">审核</button>
+            <button class="btn btn-outline-primary" id="newNote">新建笔记</button>
             <button class="btn btn-outline-success" data-toggle="modal" data-target="#historyModal">
                 历史记录
             </button>

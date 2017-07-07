@@ -1,6 +1,7 @@
 /**
  * Created by rudeigerc on 2017/7/4.
  */
+var noteId = -1;
 $(document).ready(function() {
     $('#giveOwnershipModal').on('show.bs.modal', function () {
         $.ajax({
@@ -27,39 +28,73 @@ $(document).ready(function() {
     });
 
     $('#callDialog').click(function () {
-        $('#modalTitle').html("添加标题");
-        $('input[name="noteTitle"]').val("");
-        $('#modal').modal('show');
+        if (noteId === -1) {
+            $('#newNoteModalTitle').html("添加标题");
+            $('input[name="noteTitle"]').val("");
+            $('#newNoteModal').modal('show');
+        }
+        else {
+            $('#updateNoteModalTitle').html("更新笔记");
+            $('input[name="message"]').val("");
+            $('#updateNoteModel').modal('show');
+        }
     });
 
-    $('#save').click(function () {
+    $('.savenote').click(function () {
         var content = CKEDITOR.instances.editor.getData();
-        var noteTitle = $('input[name="noteTitle"]').val();
         var notebookId = $('.notebook').attr('id');
-        $.ajax({
-            url : "/teamnote/saveFirstEdition",
-            processData : true,
-            dataType : "text",
-            type : "post",
-            data : {
-                notebookId : notebookId,
-                noteTitle : noteTitle,
-                content : content
-            },
-            success : function(data) {
-                var json = JSON.parse(data);
-                if (json.result === "success")
-                    location.reload();
-                else {
-                    alert("error");
+        if (noteId === -1) {
+            var noteTitle = $('input[name="noteTitle"]').val();
+            $.ajax({
+                url : "/teamnote/saveFirstEdition",
+                processData : true,
+                dataType : "text",
+                type : "post",
+                data : {
+                    notebookId : notebookId,
+                    noteTitle : noteTitle,
+                    content : content
+                },
+                success : function(data) {
+                    var json = JSON.parse(data);
+                    if (json.result === "success")
+                        location.reload();
+                    else {
+                        alert("error in adding note");
+                    }
                 }
-            }
-        });
-        $('#modal').modal('hide');
+            });
+            $('#modal').modal('hide');
+        }
+        else {
+            var message = $('input[name="message"]').val();
+            $.ajax({
+                url : "/teamnote/updateNote",
+                processData : true,
+                dataType : "text",
+                type : "post",
+                data : {
+                    noteId : noteId,
+                    content : content,
+                    message : message
+                },
+                success : function(data) {
+                    var json = JSON.parse(data);
+                    if (json.result === "success")
+                        location.reload();
+                    else {
+                        alert("error in updating note");
+                    }
+                }
+            });
+            $('#modal').modal('hide');
+        }
+
+
     });
 
     $(".note").click(function(e) {
-        var noteId = parseInt(e.target.id);
+        noteId = parseInt(e.target.id);
         $.ajax({
             url : "/teamnote/getNote",
             processData : true,
@@ -69,10 +104,14 @@ $(document).ready(function() {
                 noteId : noteId
             },
             success : function(data) {
-                console.log(data);
                 var json = JSON.parse(data);
                 CKEDITOR.instances.editor.setData(json.content);
             }
         });
-    })
+    });
+
+    $("#newNote").click(function() {
+        noteId = -1;
+        CKEDITOR.instances.editor.setData("");
+    });
 });

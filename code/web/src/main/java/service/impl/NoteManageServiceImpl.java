@@ -1,6 +1,7 @@
 package service.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import dao.mongodbDao.NoteDao;
 import dao.mongodbDao.NotebookDao;
 import dao.mongodbDao.TagDao;
@@ -12,6 +13,7 @@ import model.mongodb.User;
 import service.NoteManageService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -138,5 +140,21 @@ public class NoteManageServiceImpl implements NoteManageService {
 
         Gson gson = new Gson();
         return gson.toJson(result);
+    }
+
+    public void updateNote(int noteId, int userId, Date datetime, String content, String message) {
+        Note note = noteDao.getNoteById(noteId);
+        ArrayList<String> history = note.getHistory();
+
+        JsonObject json = new JsonObject();
+        json.addProperty("editTime", datetime.toString());
+        json.addProperty("message", message);
+        json.addProperty("content", content);
+        json.addProperty("editor", userId);
+
+        history.add(json.toString());
+        note.setHistory(history);
+        note.setVersionPointer(note.getVersionPointer() + 1);
+        noteDao.updateNote(note);
     }
 }

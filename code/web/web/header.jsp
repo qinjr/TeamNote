@@ -84,7 +84,6 @@
             </div>
         </nav>
 
-
     <script type="text/javascript">
         var user = new Vue({
             el: '.dropdown',
