@@ -347,7 +347,7 @@
         }
     });
 
-    window.onbeforeunload = function() {
-        return "";
-    };
+    //window.onbeforeunload = function() {
+        //return "";
+    //};
 </script>
