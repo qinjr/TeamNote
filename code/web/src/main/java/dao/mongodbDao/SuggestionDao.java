@@ -13,4 +13,5 @@ public interface SuggestionDao {
     void updateSuggestion(Suggestion suggestion);
     Suggestion getSuggestionById(int suggestionId);
     List<Suggestion> getAllSuggestions();
+    List<Suggestion> getPendingSuggestionsByNoteId(int userId);
 }

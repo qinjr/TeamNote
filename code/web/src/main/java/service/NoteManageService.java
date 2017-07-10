@@ -64,4 +64,10 @@ public interface NoteManageService {
 
     void updateNote(int noteId, int userId, Date datetime, String content, String message);
     void updateNoteVersion(int noteId, int versionPoint);
+    void updateNoteTitle(int noteId, String newNoteTitle);
+    void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription);
+
+    String getHistory(int noteId);
+
+    String getNotebookDetail(int notebookId);
 }

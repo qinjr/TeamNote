@@ -47,7 +47,6 @@ public class NoteController {
         return json.toString();
     }
 
-
     @RequestMapping("/saveFirstEdition")
     @ResponseBody
     public String saveFirstEdition(@RequestParam(value = "notebookId") int noteBookId, @RequestParam(value = "noteTitle") String noteTitle,
@@ -78,11 +77,62 @@ public class NoteController {
         return json.toString();
     }
 
-
-    @RequestMapping(value = "/getNote", produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/getNote")
     @ResponseBody
     public String getNote(@RequestParam(value = "noteId") int noteId) {
         Note note = noteManageService.getNoteById(noteId);
         return note.getHistory().get(note.getVersionPointer());
+    }
+
+    @RequestMapping(value = "/updateNoteTitle")
+    @ResponseBody
+    public String updateNoteTitle(@RequestParam(value = "noteId") int noteId, @RequestParam(value = "newNoteTitle") String newNoteTitle) {
+        noteManageService.updateNoteTitle(noteId, newNoteTitle);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
+    }
+
+    @RequestMapping(value = "/deleteNote")
+    @ResponseBody
+    public String deleteNote(@RequestParam(value = "noteId") int noteId) {
+        noteManageService.deleteNote(noteId);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
+    }
+
+    @RequestMapping(value = "/getHistory")
+    @ResponseBody
+    public String getHistory(@RequestParam(value = "noteId") int noteId) {
+        String history = noteManageService.getHistory(noteId);
+        JsonObject json = new JsonObject();
+        json.addProperty("history", history);
+        return json.toString();
+    }
+
+    @RequestMapping(value = "/updateNoteVersion")
+    @ResponseBody
+    public String updateNoteVersion(@RequestParam(value = "noteId") int noteId, @RequestParam(value = "newVersion") int newVersion) {
+        noteManageService.updateNoteVersion(noteId, newVersion);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
+    }
+
+    @RequestMapping(value = "/getNotebookDetail")
+    @ResponseBody
+    public String getNotebookDetail(@RequestParam(value = "notebookId") int notebookId) {
+        return noteManageService.getNotebookDetail(notebookId);
+    }
+
+    @RequestMapping(value = "/updateNotebookDetail")
+    @ResponseBody
+    public String updateNotebookDetail(@RequestParam(value = "notebookId") int notebookId, @RequestParam(value = "newTitle") String newTitle,
+                                       @RequestParam(value = "newDescription") String newDescription) {
+        noteManageService.updateNotebookDetail(notebookId, newTitle, newDescription);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
     }
 }

@@ -26,6 +26,7 @@ public class CreateNoteServiceImpl implements CreateNoteService{
     private NoteDao noteDao;
     private NotebookDao notebookDao;
     private NotebookInfoDao notebookInfoDao;
+    private UserInfoDao userInfoDao;
 
     public void setNoteDao(NoteDao noteDao) {
         this.noteDao = noteDao;
@@ -37,6 +38,10 @@ public class CreateNoteServiceImpl implements CreateNoteService{
 
     public void setNotebookInfoDao(NotebookInfoDao notebookInfoDao) {
         this.notebookInfoDao = notebookInfoDao;
+    }
+
+    public void setUserInfoDao(UserInfoDao userInfoDao) {
+        this.userInfoDao = userInfoDao;
     }
 
     /**
@@ -83,11 +88,12 @@ public class CreateNoteServiceImpl implements CreateNoteService{
      * @return 1为成功，0为失败
      */
     public int newTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime) {
+        String username = userInfoDao.getUserInfoById(userId).getUsername();
         JsonObject firstEdition = new JsonObject();
         firstEdition.addProperty("editTime", datetime.toString());
         firstEdition.addProperty("message", "First edition");
         firstEdition.addProperty("content", content);
-        firstEdition.addProperty("editor", userId);
+        firstEdition.addProperty("editor", username);
         ArrayList<String> history = new ArrayList<String>();
         history.add(firstEdition.toString());
         Note note = new Note(notebookId, noteTitle, history, new ArrayList<String>(), new ArrayList<Integer>(),

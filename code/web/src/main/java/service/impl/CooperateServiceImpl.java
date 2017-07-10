@@ -1,5 +1,6 @@
 package service.impl;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dao.mongodbDao.GroupChatDao;
@@ -148,7 +149,7 @@ public class CooperateServiceImpl implements CooperateService {
         return 1;
     }
 
-    public JsonObject viewAdvice(int suggestionId) {
+    public JsonObject getSuggestion(int suggestionId) {
         Suggestion suggestion = suggestionDao.getSuggestionById(suggestionId);
         JsonObject json = new JsonObject();
         json.addProperty("suggestionId", suggestion.getSuggestionId());
@@ -194,5 +195,13 @@ public class CooperateServiceImpl implements CooperateService {
     public int sendGroupChat(int userId, int notebookId, Date datetime, String content) {
         //TODO
         return 0;
+    }
+
+    public String getSuggestions(int noteId) {
+        ArrayList<Suggestion> suggestions = (ArrayList<Suggestion>)suggestionDao.getPendingSuggestionsByNoteId(noteId);
+        String suggestionsString = new Gson().toJson(suggestions);
+        JsonObject json = new JsonObject();
+        json.addProperty("suggestions", suggestionsString);
+        return json.toString();
     }
 }

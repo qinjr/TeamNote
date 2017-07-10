@@ -97,11 +97,11 @@ public interface CooperateService {
 
 
     /**
-     * viewAdvice
+     * getSuggestion
      * @param suggestionId suggestion
      * @return suggestion的具体内容
      */
-    JsonObject viewAdvice(int suggestionId);
+    JsonObject getSuggestion(int suggestionId);
 
 
     /**
@@ -131,4 +131,7 @@ public interface CooperateService {
      * @return 1为成功发送转让请求，0为失败
      */
     int giveOwnership(int oldOwnerId, int newOwnerId, int notebookId);
+
+    String getSuggestions(int noteId);
+
 }

@@ -127,6 +127,11 @@ public class CooperateController {
         JsonObject json = new JsonObject();
         json.addProperty("result", "success");
         return json.toString();
+    }
 
+    @RequestMapping("/cooperate/getSuggestions")
+    @ResponseBody
+    public String getSuggestions(@RequestParam(value = "noteId") int noteId) {
+        return cooperateService.getSuggestions(noteId);
     }
 }

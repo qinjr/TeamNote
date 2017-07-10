@@ -72,4 +72,10 @@ public class SuggestionDaoImpl implements SuggestionDao{
     public List<Suggestion> getAllSuggestions(){
         return mongoTemplate.findAll(Suggestion.class, "Suggestion");
     }
+
+    public List<Suggestion> getPendingSuggestionsByNoteId(int noteId) {
+        Query query = new Query();
+        query.addCriteria(new Criteria("noteId").is(noteId).and("status").is("not accepted"));
+        return mongoTemplate.find(query, Suggestion.class, "Suggestion");
+    }
 }
