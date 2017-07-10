@@ -39,9 +39,10 @@ public interface NoteManageService {
     /**
      * deleteNote
      * @param noteId 要删除的note的Id
+     * @param notebookId 所在notebook
      * @return 1为成功删除，0为出错
      */
-    int deleteNote(int noteId);
+    int deleteNote(int noteId, int notebookId);
 
     /**
      * deleteNotebook

@@ -67,9 +67,20 @@ public class NoteManageServiceImpl implements NoteManageService {
     }
 
 
-    public int deleteNote(int noteId) {
+    public int deleteNote(int noteId, int notebookId) {
+        //TODO
         Note note = noteDao.getNoteById(noteId);
         noteDao.deleteNote(note);
+        Notebook notebook = notebookDao.getNotebookById(notebookId);
+        ArrayList<Integer> notes = notebook.getNotes();
+        for (int i : notes) {
+            if (i == noteId) {
+                notes.remove(i);
+                notebook.setNotes(notes);
+                notebookDao.updateNotebook(notebook);
+                break;
+            }
+        }
         return 1;
     }
 

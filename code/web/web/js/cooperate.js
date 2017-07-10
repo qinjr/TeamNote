@@ -181,7 +181,7 @@ $(document).ready(function() {
                 newNoteTitle: newNoteTitle
             },
             success: function () {
-                $('#editModal').hide();
+                location.reload();
             }
         })
     });
@@ -190,15 +190,18 @@ $(document).ready(function() {
         var confirm = window.confirm("该笔记将被删除且无法还原");
         if (!confirm) return;
         var noteId = parseInt(this.parentNode.previousElementSibling.id);
+        var notebookId = $('.notebook').attr('id');
         $.ajax({
             url: "/teamnote/deleteNote",
             dataType: "text",
             type: "post",
             data: {
-                noteId: noteId
+                noteId: noteId,
+                notebookId: notebookId
             },
             success: function () {
                 alert("该笔记已被删除");
+                location.reload();
             }
         })
     });

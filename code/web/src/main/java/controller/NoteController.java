@@ -95,8 +95,8 @@ public class NoteController {
 
     @RequestMapping(value = "/deleteNote")
     @ResponseBody
-    public String deleteNote(@RequestParam(value = "noteId") int noteId) {
-        noteManageService.deleteNote(noteId);
+    public String deleteNote(@RequestParam(value = "noteId") int noteId, @RequestParam(value = "notebookId") int notebookId) {
+        noteManageService.deleteNote(noteId, notebookId);
         JsonObject json = new JsonObject();
         json.addProperty("result", "success");
         return json.toString();

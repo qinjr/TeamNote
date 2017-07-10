@@ -1,5 +1,4 @@
 package controller;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import model.mongodb.Note;
 import model.mongodb.Notebook;
@@ -96,19 +95,6 @@ public class CooperateController {
         request.setAttribute("notes", notes);
         request.setAttribute("collaborators", collaborators);
         return "workgroup";
-    }
-
-    @RequestMapping("/cooperate/allversions")
-    @ResponseBody
-    public String allVersions(@RequestParam(value = "noteId")int noteId) {
-        Note note = noteManageService.getNoteById(noteId);
-        ArrayList<String> history = note.getHistory();
-        return (new Gson()).toJson(history);
-    }
-
-    @RequestMapping("/cooperate/changeversion")
-    public void changeVersion(@RequestParam(value = "noteId")int noteId, @RequestParam(value = "versionPoint")int versionPoint) {
-        noteManageService.updateNoteVersion(noteId, versionPoint);
     }
 
     @RequestMapping("/cooperate/invite")
