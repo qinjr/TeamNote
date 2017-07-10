@@ -76,7 +76,7 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
 
   ​   "createTime": ,
 
-     "tags": [ tag_A, tag_B, tag_C ] (tagId)
+	 "tags": [ tag_A, tag_B, tag_C ] (tagId)
 
   }
 
@@ -90,7 +90,7 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
 
   ​   "title": ,
 
-     "versionPointer": ,
+	 "versionPointer": ,
 
   ​   "history": [{
 
@@ -202,6 +202,8 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
    {
    ​  "suggestionId": ,
 
+   ​  "username": ,
+
    ​  "userId": ,
 
    ​  "noteId": ,
@@ -234,4 +236,4 @@ Auth(aid, uid, notebookid, auth)(role:owner, collaborator)
 
   }
 
-  [1]:bookId
+[1]:	bookId

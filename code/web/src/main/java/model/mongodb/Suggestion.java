@@ -14,11 +14,12 @@ public class Suggestion {
     private String issue;
     private Date raiseTime;
     private String status;
+    private String username;
 
     public Suggestion() {}
 
     public Suggestion(int userId, int noteId, int notebookId, String content, String issue,
-                      Date raiseTime, String status) {
+                      Date raiseTime, String status, String username) {
         this.userId = userId;
         this.noteId = noteId;
         this.notebookId = notebookId;
@@ -26,6 +27,7 @@ public class Suggestion {
         this.issue = issue;
         this.raiseTime = raiseTime;
         this.status = status;
+        this.username = username;
     }
 
     public int getSuggestionId() {
@@ -90,5 +92,13 @@ public class Suggestion {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

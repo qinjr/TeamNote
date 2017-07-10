@@ -147,7 +147,7 @@
             loading: true
         },
         created: function () {
-            this.$http.get('/teamnote/cooperate/allnotebooks').then(function(response){
+            this.$http.get('/teamnote/cooperate/allworkgroups').then(function(response){
                 console.log("success");
                 this.loading = false;
                 notebooks.notebooksdetails = response.body;

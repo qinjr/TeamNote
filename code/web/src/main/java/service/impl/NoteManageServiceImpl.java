@@ -66,14 +66,12 @@ public class NoteManageServiceImpl implements NoteManageService {
         return noteDao.getNoteById(noteId);
     }
 
-
-    public int deleteNote(int noteId, int notebookId) {
-        //TODO
+    public int deleteNote(int noteId) {
         Note note = noteDao.getNoteById(noteId);
         noteDao.deleteNote(note);
-        Notebook notebook = notebookDao.getNotebookById(notebookId);
+        Notebook notebook = notebookDao.getNotebookById(note.getNotebookId());
         ArrayList<Integer> notes = notebook.getNotes();
-        for (int i : notes) {
+        for (Integer i : notes) {
             if (i == noteId) {
                 notes.remove(i);
                 notebook.setNotes(notes);
@@ -86,6 +84,14 @@ public class NoteManageServiceImpl implements NoteManageService {
 
     public int deleteNotebook(int notebookId) {
         Notebook notebook = notebookDao.getNotebookById(notebookId);
+
+        //delete all notes of the notebook
+        for (int noteId : notebook.getNotes()) {
+            Note note = noteDao.getNoteById(noteId);
+            noteDao.deleteNote(note);
+        }
+
+        //delete notebook
         notebookDao.deleteNotebook(notebook);
         return 1;
     }
@@ -165,6 +171,11 @@ public class NoteManageServiceImpl implements NoteManageService {
 
         Note note = noteDao.getNoteById(noteId);
         ArrayList<String> history = note.getHistory();
+        if (note.getVersionPointer() + 1 < history.size()) {
+            for (int i = note.getVersionPointer() + 1; i < history.size(); ++ i) {
+                history.remove(i);
+            }
+        }
 
         JsonObject json = new JsonObject();
         json.addProperty("editTime", datetime.toString());
@@ -209,5 +220,11 @@ public class NoteManageServiceImpl implements NoteManageService {
         json.addProperty("description", notebook.getDescription());
         json.addProperty("tags", tagNamesString);
         return json.toString();
+    }
+
+    public void changeVersion(int noteId, int versionPointer) {
+        Note note = noteDao.getNoteById(noteId);
+        note.setVersionPointer(versionPointer);
+        noteDao.updateNote(note);
     }
 }

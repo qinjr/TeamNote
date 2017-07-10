@@ -65,9 +65,9 @@ public class CooperateController {
         return json.toString();
     }
 
-    @RequestMapping("/cooperate/allnotebooks")
+    @RequestMapping("/cooperate/allworkgroups")
     @ResponseBody
-    public String allNotebooks() throws UnsupportedEncodingException {
+    public String allworkgroups() {
         //get username from spring security
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
@@ -118,12 +118,6 @@ public class CooperateController {
         return json.toString();
     }
 
-    @RequestMapping("/cooperate/getSuggestions")
-    @ResponseBody
-    public String getSuggestions(@RequestParam(value = "noteId") int noteId) {
-        return cooperateService.getSuggestions(noteId);
-    }
-
     @RequestMapping("/cooperate/inviteValidate")
     @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
     public ResponseEntity<?> validate(@RequestParam(value = "inviteUsername") String username) {
@@ -131,5 +125,25 @@ public class CooperateController {
             return ResponseEntity.status(200).body(null);
         }
         else return ResponseEntity.status(406).body(null);
+    }
+
+    @RequestMapping("/cooperate/getSuggestions")
+    @ResponseBody
+    public String getSuggestions(@RequestParam(value = "noteId") int noteId) {
+        return cooperateService.getSuggestions(noteId);
+    }
+
+    @RequestMapping("/cooperate/mergeSuggestion")
+    @ResponseBody
+    public String mergeSuggestion(@RequestParam(value = "suggestionId") int suggestionId, @RequestParam(value = "noteId") int noteId) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        int userId = userInfo.getUserId();
+        cooperateService.mergeSuggestion(userId, noteId, suggestionId);
+
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
     }
 }

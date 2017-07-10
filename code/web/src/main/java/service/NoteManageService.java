@@ -39,10 +39,9 @@ public interface NoteManageService {
     /**
      * deleteNote
      * @param noteId 要删除的note的Id
-     * @param notebookId 所在notebook
      * @return 1为成功删除，0为出错
      */
-    int deleteNote(int noteId, int notebookId);
+    int deleteNote(int noteId);
 
     /**
      * deleteNotebook
@@ -55,20 +54,21 @@ public interface NoteManageService {
     ArrayList<User> getOwnersByNotebooks(ArrayList<Notebook> notebooks);
     ArrayList<ArrayList<User>> getCollaboratorsByNotebooks(ArrayList<Notebook> notebooks);
     ArrayList<User> getCreatorsByNotebooks(ArrayList<Notebook> notebooks);
-
     /**
      * getNotebooksDetailsByUserId
      * @param userId 用户
-     * @return json字符串
+     * @return 这个用户所有工作组的笔记本信息，上面的四个函数都被这个函数调用
      */
     String getNotebooksDetailsByUserId(int userId);
 
     void updateNote(int noteId, int userId, Date datetime, String content, String message);
     void updateNoteVersion(int noteId, int versionPoint);
     void updateNoteTitle(int noteId, String newNoteTitle);
-    void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription);
-
     String getHistory(int noteId);
+    void changeVersion(int noteId, int versionPointer);
 
     String getNotebookDetail(int notebookId);
+    void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription);
+
+
 }
