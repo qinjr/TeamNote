@@ -90,6 +90,11 @@ body {
     height: 75px;
 }
 
+.img-100px {
+    width: 100px;
+    height: 100px;
+}
+
 .btn:hover {
     cursor: pointer;
 }
@@ -159,4 +164,16 @@ footer .btn .active {
 
 .nav-tabs .nav-link.active {
     border-top: 3px solid #4A90E2;
+}
+
+a.nav-item.nav-link {
+    color: #000000;
+}
+
+a.nav-item.nav-link:hover {
+    color: #4A90E2;
+}
+
+.card-danger-kai {
+    color: #D0021B;
 }
