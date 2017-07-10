@@ -232,6 +232,7 @@ $(document).ready(function() {
     });
 
     $('#config-confirm').click(function () {
+        var notebookId = $('.notebook').attr('id');
         var newTitle = $('#noteTitle').val();
         var newDescription = $('#noteDescription').val();
         $.ajax({
@@ -239,6 +240,7 @@ $(document).ready(function() {
             dataType: "text",
             type: "post",
             data: {
+                notebookId: notebookId,
                 newTitle: newTitle,
                 newDescription: newDescription
             },
