@@ -136,7 +136,6 @@ $(document).ready(function() {
         var inviteUsername = $('input[name="inviteUsername"]').val();
         var inviteDescription = $('input[name="inviteDescription"]').val();
         var notebookId = $('.notebook').attr('id');
-        console.log(notebookId);
         $.ajax({
             url : "/teamnote/cooperate/invite",
             processData : true,
@@ -161,5 +160,78 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('.btn-edit').click(function() {
+        var noteId = parseInt(this.parentNode.previousElementSibling.id);
+        var noteTitle = this.parentNode.previousElementSibling.text;
+        $('#noteId-edit').val(noteId);
+        $('#noteTitle-edit').val(noteTitle);
+
+    });
+
+    $('.btn-edit-confirm').click(function() {
+        var noteId = $('#noteId-edit').val();
+        var newNoteTitle = $('#noteTitle-edit').val();
+        $.ajax({
+            url: "/teamnote/updateNoteTitle",
+            dataType: "text",
+            type: "post",
+            data: {
+                noteId: noteId,
+                newNoteTitle: newNoteTitle
+            },
+            success: function () {
+                $('#editModal').hide();
+            }
+        })
+    });
+
+    $('.btn-delete').click(function() {
+        var confirm = window.confirm("该笔记将被删除且无法还原");
+        if (!confirm) return;
+        var noteId = parseInt(this.parentNode.previousElementSibling.id);
+        $.ajax({
+            url: "/teamnote/deleteNote",
+            dataType: "text",
+            type: "post",
+            data: {
+                noteId: noteId
+            },
+            success: function () {
+                alert("该笔记已被删除");
+            }
+        })
+    });
+
+    $('#config').click(function() {
+        var notebookId = $('.notebook').attr('id');
+        $.ajax({
+            url: "/teamnote/getNotebookDetail",
+            data: { notebookId: notebookId },
+            type: "get",
+            success: function() {
+                var json = JSON.parse(data);
+                alert(json);
+            }
+        })
+    });
+
+    $('#config-confirm').click(function () {
+        var newTitle = $('#noteTitle').val();
+        var newDescription = $('#noteDescription').val();
+        $.ajax({
+            url: "/teamnote/updateNotebookDetail",
+            dataType: "text",
+            type: "post",
+            data: {
+                newTitle: newTitle,
+                newDescription: newDescription
+            },
+            success: function () {
+                alert("修改成功");
+            }
+        })
+
+    })
 
 });
