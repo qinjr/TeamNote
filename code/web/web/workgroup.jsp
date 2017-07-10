@@ -78,7 +78,7 @@
                     <a class="note" :class="{ 'active': <%=id%> === selected }" @click="select(<%=id%>)" id="<%=id%>"
                        style="word-break: break-all;" href="javascript:void(0)"><%=note.getTitle()%></a>
                     <div class="btn-group btn-group-sm pull-right" role="group" aria-label="functional-button" id="test">
-                        <button type="button" class="btn btn-secondary none btn-edit" data-toggle="modal" data-target="#editModal">
+                        <button type="button" class="btn btn-secondary none btn-edit" data-toggle="modal" data-target="#editModal" >
                             <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                         </button>
                         <button type="button" class="btn btn-secondary none btn-delete">
@@ -100,9 +100,9 @@
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn">
-            <button class="btn btn-outline-danger" id="giveOwnership" style="padding: 8px">转让所有权</button>
+            <button class="btn btn-outline-warning" id="giveOwnership" style="padding: 8px">转让所有权</button>
             <button class="btn btn-outline-primary" id="inviteCollaborator">邀请用户</button>
-            <button class="btn btn-outline-primary" id="newNote">新建笔记</button>
+            <button class="btn btn-secondary" id="newNote">新建笔记</button>
             <button class="btn btn-outline-primary" id="config" data-toggle="modal" data-target="#configModal">设置</button>
             <button class="btn btn-danger">取消</button>
             <button class="btn btn-success" id="callDialog">保存</button>
@@ -133,7 +133,7 @@
             <div class="modal-body">
                 <form role="form">
                     <div class="form-group">
-                        <label for="newOwner">新拥有者</label>
+                        <label for="newOwner" class="form-control-label">新拥有者</label>
                         <input class="form-control" name="newOwner" id="newOwner">
                     </div>
                 </form>

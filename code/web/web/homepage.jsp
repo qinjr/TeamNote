@@ -23,13 +23,9 @@
                     <p class="card-subtitle mb-2 text-muted">
                         <i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;{{ email }}
                     </p>
-                    <p>关注人 {{ followingsnum }} · 关注者 {{ followersnum }}</p>
+                    <p><a href="#">关注人 {{ followingsnum }}</a> · <a href="#">关注者 {{ followersnum }}</a></p>
                 </div>
-                <div class="col-md-3">
-                    <button class="btn btn-outline-primary center-block" type="button">
-                        <i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i>&nbsp;编辑个人资料
-                    </button>
-                </div>
+                <div class="col-md-3"></div>
             </div>
         </div>
     </div>
@@ -48,19 +44,32 @@
                 <li class="nav-item">
                     <a class="nav-link" id="collection-tab" data-toggle="tab" href="#collection" role="tab" aria-controls="collection">收藏</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="follow-tab" data-toggle="tab" href="#follow" role="tab" aria-controls="follow">关注</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">关注</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" data-toggle="tab" id="following-tab" role="tab" href="#following" aria-controls="following">
+                            <i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;关注人
+                        </a>
+                        <a class="dropdown-item" data-toggle="tab" id="follower-tab" role="tab" href="#follower" aria-controls="follower">
+                            <i class="fa fa-paper-plane-o fa-fw" aria-hidden="true"></i>&nbsp;关注者
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" data-toggle="tab" id="following-tag-tab" role="tab" href="#following-tag" aria-controls="following-tag">
+                            <i class="fa fa-tag fa-fw" aria-hidden="true"></i>&nbsp;标签
+                        </a>
+                    </div>
                 </li>
             </ul>
+
             <div class="tab-content" id="homepageTabContent">
                 <!-- TODO: activity -->
                 <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">activity</div>
                 <!-- TODO: notebook -->
                 <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">notebook</div>
-                <!-- TODO: workgroup -->
+                <!-- TODO: workgroup loading / null-->
                 <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab">
-                    <div v-if="loading">
-                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                    <div v-if="loading" style="text-align: center; padding-top: 20px;">
+                        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">Loading...</span>
                     </div>
                     <div v-if="notebooksdetails === null">
@@ -105,7 +114,9 @@
                 <!-- TODO: collection -->
                 <div class="tab-pane fade" id="collection" role="tabpanel" aria-labelledby="collection-tab">collection</div>
                 <!-- TODO: follow -->
-                <div class="tab-pane fade" id="follow" role="tabpanel" aria-labelledby="follow-tab">follow</div>
+                <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">following</div>
+                <div class="tab-pane fade" id="follower" role="tabpanel" aria-labelledby="follower-tab">follower</div>
+                <div class="tab-pane fade" id="following-tag" role="tabpanel" aria-labelledby="following-tag-tab">following tag</div>
             </div>
         </div>
     </div>

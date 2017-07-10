@@ -21,13 +21,14 @@
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/bootstrap.offcanvas.css"/>
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/font-awesome.min.css"/>
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/teamnote.css"/>
+
         <script type="text/javascript" src="https://unpkg.com/vue/dist/vue.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
     </head>
     <body>
         <nav class="navbar navbar-toggleable-md mb-4 bg-faded">
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
             </button>
             <a class="navbar-brand" href="<%=path%>/index.jsp">TeamNote</a>
             <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -58,7 +59,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            <img :src="'<%=path%>/' + avator" style="height: 30px; width: 30px;">
+                            <img src="<%=path%>/icon/favicon-white.png" :src="'<%=path%>/' + avator" style="height: 30px; width: 30px;">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <p class="dropdown-item username" style="margin-bottom: 0;">
@@ -71,7 +72,7 @@
                             <a class="dropdown-item" href="#">
                                 <i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp;我的笔记
                             </a>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="<%=path%>/settings.jsp">
                                 <i class="fa fa-cog fa-spin fa-fw" aria-hidden="true"></i>&nbsp;设置
                             </a>
                             <div class="dropdown-divider"></div>
@@ -98,7 +99,6 @@
                 }, function(response) {
                     console.log("navbar error");
                 });
-
             }
         });
     </script>

@@ -3,6 +3,8 @@
  */
 var noteId = -1;
 $(document).ready(function() {
+
+    /* give ownership */
     $('.giveOwnership').click(function() {
         var notebookId = $('.notebook').attr('id');
         var newOwnerName = $('input[name="newOwner"]').val();
@@ -34,6 +36,7 @@ $(document).ready(function() {
         $('#giveOwnershipModal').modal('show');
     });
 
+    /* call dialog */
     $('#callDialog').click(function () {
         if (noteId === -1) {
             $('#newNoteModalTitle').html("添加标题");
@@ -47,6 +50,7 @@ $(document).ready(function() {
         }
     });
 
+    /* savenote */
     $('.savenote').click(function () {
         var content = CKEDITOR.instances.editor.getData();
         var notebookId = $('.notebook').attr('id');
@@ -125,6 +129,7 @@ $(document).ready(function() {
         CKEDITOR.instances.editor.setData("");
     });
 
+    /* invite */
     $("#inviteCollaborator").click(function () {
         $('#inviteCollaboratorModalTitle').html('邀请用户');
         $('input[name="inviteUsername"]').val("");
@@ -161,6 +166,7 @@ $(document).ready(function() {
         });
     });
 
+    /* edit */
     $('.btn-edit').click(function() {
         var noteId = parseInt(this.parentNode.previousElementSibling.id);
         var noteTitle = this.parentNode.previousElementSibling.text;
@@ -186,6 +192,7 @@ $(document).ready(function() {
         })
     });
 
+    /* delete */
     $('.btn-delete').click(function() {
         var confirm = window.confirm("该笔记将被删除且无法还原");
         if (!confirm) return;
@@ -206,15 +213,20 @@ $(document).ready(function() {
         })
     });
 
+    /* config */
     $('#config').click(function() {
         var notebookId = $('.notebook').attr('id');
         $.ajax({
             url: "/teamnote/getNotebookDetail",
             data: { notebookId: notebookId },
             type: "get",
-            success: function() {
+            success: function(data) {
                 var json = JSON.parse(data);
-                alert(json);
+                var description = json.description;
+                var tags = json.tags;
+                var title = json.title;
+                $('#noteTitle').val(title);
+                $('#noteDescription').val(description);
             }
         })
     });
@@ -232,6 +244,7 @@ $(document).ready(function() {
             },
             success: function () {
                 alert("修改成功");
+                location.reload();
             }
         })
 
