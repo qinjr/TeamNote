@@ -6,12 +6,15 @@ import model.mongodb.Notebook;
 import model.mongodb.User;
 import model.mysql.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import service.CooperateService;
 import service.NoteManageService;
 import service.UserBasicService;
@@ -133,5 +136,14 @@ public class CooperateController {
     @ResponseBody
     public String getSuggestions(@RequestParam(value = "noteId") int noteId) {
         return cooperateService.getSuggestions(noteId);
+    }
+
+    @RequestMapping("/cooperate/inviteValidate")
+    @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
+    public ResponseEntity<?> validate(@RequestParam(value = "inviteUsername") String username) {
+        if (!userBasicService.usernameValidate(username)) {
+            return ResponseEntity.status(200).body(null);
+        }
+        else return ResponseEntity.status(406).body(null);
     }
 }
