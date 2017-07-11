@@ -85,5 +85,6 @@ public class UserController {
         String username = userDetails.getUsername();
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
         int userId = userInfo.getUserId();
+        return "hh";
     }
 }
