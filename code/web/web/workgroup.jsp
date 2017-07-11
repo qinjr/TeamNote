@@ -358,12 +358,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form role="form">
-                    <div class="form-group">
-                        <label for="tt" class="form-control-label">笔记本标题</label>
-                        <input type="text" class="form-control" id="tt">
-                    </div>
-                </form>
+                TESTING
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
