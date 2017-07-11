@@ -67,8 +67,10 @@ public interface NoteManageService {
     String getHistory(int noteId);
     void changeVersion(int noteId, int versionPointer);
 
+
     String getNotebookDetail(int notebookId);
     void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription);
+    String getCollaborators(int notebookId);
 
 
 }

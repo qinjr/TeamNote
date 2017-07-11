@@ -39,6 +39,13 @@ public class CooperateController {
         this.noteManageService = noteManageService;
     }
 
+    @RequestMapping("/cooperate/getCollaborators")
+    @ResponseBody
+    public String getCollaborators(@RequestParam(value = "notebookId") int notebookId) {
+        return noteManageService.getCollaborators(notebookId);
+    }
+
+
     @RequestMapping("/cooperate/giveownership")
     @ResponseBody
     public String giveOwnership(@RequestParam(value = "newOwnerName")String newOwnerName,
