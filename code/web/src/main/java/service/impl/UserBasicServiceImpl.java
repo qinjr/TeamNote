@@ -4,6 +4,7 @@ import dao.mongodbDao.UserDao;
 import dao.mysqlDao.UserInfoDao;
 import model.mongodb.User;
 import model.mysql.UserInfo;
+import org.springframework.web.multipart.MultipartFile;
 import service.UserBasicService;
 import util.AuthUtil;
 
@@ -118,8 +119,8 @@ public class UserBasicServiceImpl implements UserBasicService {
         userDao.updateUser(user);
     }
 
-    public void uploadAvator() {
-        //TODO
+    public void uploadAvator(int userId, MultipartFile file) {
+
     }
 
     public int updatePassword(int userId, String originalRawPassword, String newRawPassword) {

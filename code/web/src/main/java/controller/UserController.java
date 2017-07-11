@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import service.UserBasicService;
 
 /**
@@ -75,5 +76,14 @@ public class UserController {
             json.addProperty("result", "origin password wrong");
         }
         return json.toString();
+    }
+
+    @RequestMapping("/uploadAvator")
+    @ResponseBody
+    public String uploadAvator(@RequestParam("file") MultipartFile file) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        int userId = userInfo.getUserId();
     }
 }

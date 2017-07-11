@@ -2,6 +2,7 @@ package service;
 
 import model.mongodb.User;
 import model.mysql.UserInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +32,6 @@ public interface UserBasicService {
     int updatePhone(int userId, String newPhone);
     int updateEmail(int userId, String newEmail);
     int updatePs(int userId, String newPs);
-    int updateAvator(int userId, File newAvator);
 
     /**
      * manageFeeds
@@ -61,7 +61,7 @@ public interface UserBasicService {
 
     void updateUserProfile(int userId, String email, String phone, String ps);
 
-    void uploadAvator();
+    void uploadAvator(int userId, MultipartFile file);
 
     int updatePassword(int userId, String originalRawPassword, String newRawPassword);
 }
