@@ -36,7 +36,7 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                        <form method="post" action="login.do">
+                        <form method="post" action="login">
                             <div class="form-group">
                                 <label for="username" class="col-form-label">用户名</label>
                                 <input type="text" class="form-control" id="username" name="username" placeholder="用户名">

@@ -1,6 +1,7 @@
 package service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -23,8 +24,7 @@ public interface CreateNoteService {
      * @param datetime 上传时间
      * @return 1为成功，0为失败
      */
-    int uploadFileNote(int userId, int notebookId, File content, Date datetime);
-
+    int uploadFileNote(int userId, int notebookId, File content, Date datetime) throws IOException;
 
     /**
      * uploadTextNote

@@ -53,11 +53,6 @@
             <i class="fa fa-commenting-o fa-2x" aria-hidden="true"></i>
         </button>
 
-        <textarea id="chat_content"></textarea>
-        <input type="text" placeholder="请输入要发送的信息" id="msg">
-        <input type="button" id="chat_input" value="发送">
-        <input type="button" id="chat_clear" value="清空">
-
     </div>
 </div>
 
@@ -112,6 +107,8 @@
             <button class="btn btn-outline-primary" id="config" data-toggle="modal" data-target="#configModal">设置</button>
             <button class="btn btn-danger">取消</button>
             <button class="btn btn-success" id="callDialog">保存</button>
+            <button class="btn btn-success" style="display:none" id="chooseType">导出</button>
+            <button class="btn btn-success" id="uploadNote">导入</button>
         </div>
     </div>
 </nav>
@@ -328,6 +325,61 @@
     </div>
 </div>
 <!-- /inviteCollaboratorModal -->
+
+<!-- exportModal -->
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exportModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label>文件格式</label>
+                        <select class="form-control" id="exportType">
+                                <option value="html">html</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary export">下载</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /exportModal -->
+
+<!-- uploadModal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="uploadModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <form action="/teamnote/uploadNote" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <h2>文件上传</h2>
+                    文件:<input type="file" name="uploadFile"/><br/><br/>
+                    <input style="display:none" type="text" name="notebookId" value="<%=notebook.getNotebookId()%>">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    <input type="submit" class="btn btn-primary" value="上传"/>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /uploadModal -->
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>

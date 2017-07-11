@@ -102,7 +102,24 @@ $(document).ready(function() {
         }
     });
 
+    $('#chooseType').click(function(){
+        $('#exportModalTitle').html("选择导出格式");
+        $('#exportType').val("html");
+        $('#exportModal').modal('show');
+    });
+
+    $('.export').click(function () {
+        var exportType = $('#exportType').val()
+        window.location.href="/teamnote/exportNote?type=" + exportType + "&noteId=" + noteId;
+        $('#exportModal').modal('hide');
+    });
+
+    $('#uploadNote').click(function () {
+        $('#uploadModal').modal('show');
+    })
+
     $('.note').click(function(e) {
+        $('#chooseType').removeAttr("style") //add
         noteId = parseInt(e.target.id);
         $.ajax({
             url : "/teamnote/getNote",
@@ -120,6 +137,7 @@ $(document).ready(function() {
     });
 
     $('#newNote').click(function() {
+        $('#chooseType').attr("style","display:none")   // add
         noteId = -1;
         $('a.note').each(function() {
             if ($(this).hasClass("active")) {

@@ -134,6 +134,11 @@
         <property name="userInfoDao" ref="userInfoDao" />
     </bean>
 
+    <bean id="downloadService" class="service.impl.DownloadServiceImpl">
+        <property name="noteDao" ref="noteDao" />
+    </bean>
+
+
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="get*" read-only="true" />
@@ -151,6 +156,7 @@
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
             <list>
+                <bean id="byteArrayHttpMessageConverter" class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
                 <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
                     <property name="writeAcceptCharset" value="false" /><!-- 用于避免响应头过大 -->
                     <property name="supportedMediaTypes">
@@ -162,6 +168,11 @@
             </list>
         </property>
     </bean>
+
+    <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
     <context:component-scan base-package="controller"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

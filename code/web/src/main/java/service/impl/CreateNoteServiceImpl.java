@@ -16,7 +16,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import service.CreateNoteService;
 import sun.net.httpserver.HttpsServerImpl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -90,7 +93,17 @@ public class CreateNoteServiceImpl implements CreateNoteService{
      * @param datetime 上传时间
      * @return 1为成功，0为失败
      */
-    public int uploadFileNote(int userId, int notebookId, File content, Date datetime) {
+    public int uploadFileNote(int userId, int notebookId, File content, Date datetime) throws IOException{
+        FileReader reader = new FileReader(content);
+        BufferedReader bReader = new BufferedReader(reader);
+        String contentStr = "";
+        String temp = "";
+        while((temp = bReader.readLine())!= null) {
+            contentStr += temp;
+        }
+        bReader.close();
+        reader.close();
+        newTextNote(userId, notebookId, "导入的笔记", contentStr, datetime);
         return 1;
     }
 

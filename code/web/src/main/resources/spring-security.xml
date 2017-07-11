@@ -15,7 +15,7 @@
                 password-parameter="password"
                 authentication-failure-url="/auth.jsp?login=error"
                 default-target-url="/index.jsp"
-                login-processing-url="/login.do"
+                login-processing-url="/login"
                 login-page="/auth.jsp"/>
         <logout invalidate-session="true"
                 logout-success-url="/index.jsp"

@@ -3,17 +3,27 @@ package controller;
 import com.google.gson.JsonObject;
 import model.mongodb.Note;
 import model.mysql.UserInfo;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import service.CreateNoteService;
+import service.DownloadService;
 import service.NoteManageService;
 import service.UserBasicService;
 
+import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.Date;
 
 /**
@@ -25,13 +35,15 @@ public class NoteController {
     private CreateNoteService createNoteService;
     private UserBasicService userBasicService;
     private NoteManageService noteManageService;
+    private DownloadService downloadService;
 
     @Autowired
     public NoteController(CreateNoteService createNoteService, UserBasicService userBasicService,
-                          NoteManageService noteManageService) {
+                          NoteManageService noteManageService,DownloadService downloadService) {
         this.createNoteService = createNoteService;
         this.userBasicService = userBasicService;
         this.noteManageService = noteManageService;
+        this.downloadService = downloadService;
     }
 
     //Notebook operations:
@@ -147,5 +159,37 @@ public class NoteController {
         JsonObject json = new JsonObject();
         json.addProperty("result", "success");
         return json.toString();
+    }
+
+    @RequestMapping(value = "/exportNote")
+    public ResponseEntity<byte[]> downloadNote(@RequestParam(value = "type") String type, @RequestParam(value = "noteId") int noteId)throws IOException{
+
+        //在服务器端生成html文件
+        File file = downloadService.downloadNote(noteId, type);
+        //将文件返回给用户
+        HttpHeaders headers = downloadService.genHttpHeaders(noteId, type);
+        ResponseEntity<byte[]> result = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+        file.delete();
+        return result;
+    }
+
+    @RequestMapping(value = "/uploadNote")
+    public String uploadNote(@RequestParam(value = "uploadFile") MultipartFile uploadFile, @RequestParam(value = "notebookId")int notebookId, HttpSession session)
+    throws IOException {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        int userId = userInfo.getUserId();
+
+        if(uploadFile.getSize() > 0) {
+            String filename = uploadFile.getOriginalFilename();
+            if(filename.endsWith("html")) {
+                File file = new File(filename);
+                uploadFile.transferTo(file);
+                createNoteService.uploadFileNote(userId, notebookId, file, new Date());
+                file.delete();
+            }
+        }
+        return "workgroup";
     }
 }
