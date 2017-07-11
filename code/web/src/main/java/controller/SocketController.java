@@ -1,6 +1,8 @@
 package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,11 +21,11 @@ public class SocketController {
         this.socketService = socketService;
     }
 
-    @RequestMapping("/message")
-    @ResponseBody
-    public String sendMessage() {
-        boolean hasSend = socketService.sendMessageToUser(4, new TextMessage("a message"));
-        System.out.println(hasSend);
-        return "message";
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public String sendMessage(String message) throws Exception {
+        Thread.sleep(1000);
+        return message;
     }
+
 }
