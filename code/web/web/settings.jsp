@@ -95,7 +95,7 @@
                     </h5>
                     <div class="dropdown-divider"></div>
                     <small id="delete_warning" class="form-text text-muted" style="margin-bottom: 4px;">警告：账号删除后将会失去所有记录，请谨慎执行此命令。</small>
-                    <button type="button" class="btn btn-outline-danger" aria-describedby="delete_warning">删除账号</button>
+                    <button type="button" class="btn btn-outline-danger" aria-describedby="delete_warning" disabled="disabled">删除账号</button>
                 </div>
                 <!-- TODO: notification -->
                 <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
