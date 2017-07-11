@@ -48,7 +48,7 @@
                             <div class="form-group">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox"> 记住用户名与密码
+                                        <input class="form-check-input" id="_spring_security_remember_me" name="_spring_security_remember_me" type="checkbox"> 记住用户名与密码
                                     </label>
                                 </div>
                             </div>

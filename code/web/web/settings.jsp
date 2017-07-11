@@ -63,7 +63,7 @@
                         <i class="fa fa-unlock-alt" aria-hidden="true"></i>&nbsp;修改密码
                     </h5>
                     <div class="dropdown-divider"></div>
-                    <form data-toggle="validator" role="form" style="width: 300px;">
+                    <form data-toggle="validator" role="form" style="width: 300px;" id="password_modification">
                         <div class="form-group">
                             <h6>
                                 <label for="old_password" class="form-control-label">原密码</label>
@@ -160,6 +160,10 @@
         var old_password = $('#old_password').val();
         var new_password = $('#new_password').val();
         var new_password_confirm = $('#new_password_confirm').val();
+        if (old_password === "") {
+            alert("请输入原密码。");
+            return;
+        }
         if (old_password === new_password) {
             alert("新密码与原密码相同，请重新输入。");
             return;
@@ -182,7 +186,7 @@
             type: "post",
             success: function(data) {
                 if (JSON.parse(data).result === "success") {
-                    alert("修改成功");
+                    alert("修改成功，请重新登录。");
                     window.location.href = "/teamnote/logout";
                 } else if (JSON.parse(data).result === "origin password wrong"){
                     alert("原密码输入错误，请再试一次。");

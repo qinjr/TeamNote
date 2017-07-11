@@ -69,7 +69,7 @@
                             <a class="dropdown-item" href="<%=path%>/homepage.jsp">
                                 <i class="fa fa-map fa-fw" aria-hidden="true"></i>&nbsp;我的主页
                             </a>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="<%=path%>/homepage.jsp#notebook">
                                 <i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp;我的笔记
                             </a>
                             <a class="dropdown-item" href="<%=path%>/settings.jsp">
