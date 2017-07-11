@@ -86,7 +86,8 @@ public class UserController {
     @RequestMapping("/uploadAvatar")
     public String uploadavatar(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
         ServletContext servletContext = request.getServletContext();
-        String destPath = servletContext.getRealPath("/image/avatar/") + file.getOriginalFilename();
+        String avatarName = Long.toString(System.currentTimeMillis()) + file.getOriginalFilename();
+        String destPath = servletContext.getRealPath("/image/avatar/") + avatarName;
         file.transferTo(new File(destPath));
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -94,7 +95,7 @@ public class UserController {
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
         int userId = userInfo.getUserId();
 
-        userBasicService.updateavatar(userId, "image/avatar/" + file.getOriginalFilename(), servletContext.getRealPath("/"));
-        return "settings";
+        userBasicService.updateavatar(userId, "image/avatar/" + avatarName, servletContext.getRealPath("/"));
+        return "redirect:/settings.jsp";
     }
 }
