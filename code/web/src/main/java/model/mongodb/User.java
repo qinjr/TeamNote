@@ -16,7 +16,7 @@ public class User {
     private ArrayList<Integer> followers;
     private ArrayList<Integer> followings;
     private ArrayList<Integer> tags;
-    private String avator;
+    private String avatar;
     private ArrayList<Integer> collections;
     private int valid;
     private int deleteCount;
@@ -27,7 +27,7 @@ public class User {
 
     public User(String username, String personalStatus, ArrayList<Integer> notebooks,
                 ArrayList<Integer> followers, ArrayList<Integer> followings, ArrayList<Integer> tags,
-                String avator, ArrayList<Integer> collections, int valid, int deleteCount, int reputation,
+                String avatar, ArrayList<Integer> collections, int valid, int deleteCount, int reputation,
                 String reward) {
         this.username = username;
         this.personalStatus = personalStatus;
@@ -35,7 +35,7 @@ public class User {
         this.followers = followers;
         this.followings = followings;
         this.tags = tags;
-        this.avator = avator;
+        this.avatar = avatar;
         this.collections = collections;
         this.valid = valid;
         this.deleteCount = deleteCount;
@@ -99,12 +99,12 @@ public class User {
         this.tags = tags;
     }
 
-    public String getAvator() {
-        return avator;
+    public String getavatar() {
+        return avatar;
     }
 
-    public void setAvator(String avator) {
-        this.avator = avator;
+    public void setavatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public int getDeleteCount() {

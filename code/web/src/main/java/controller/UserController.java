@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import service.UserBasicService;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Created by qjr on 2017/7/7.
  */
@@ -78,13 +83,18 @@ public class UserController {
         return json.toString();
     }
 
-    @RequestMapping("/uploadAvator")
-    @ResponseBody
-    public String uploadAvator(@RequestParam("file") MultipartFile file) {
+    @RequestMapping("/uploadAvatar")
+    public String uploadavatar(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+        ServletContext servletContext = request.getServletContext();
+        String destPath = servletContext.getRealPath("/image/avatar/") + file.getOriginalFilename();
+        file.transferTo(new File(destPath));
+
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
         int userId = userInfo.getUserId();
-        return "hh";
+
+        userBasicService.updateavatar(userId, "image/avatar/" + file.getOriginalFilename(), servletContext.getRealPath("/"));
+        return "settings";
     }
 }

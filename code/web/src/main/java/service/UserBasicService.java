@@ -2,9 +2,6 @@ package service;
 
 import model.mongodb.User;
 import model.mysql.UserInfo;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -18,11 +15,11 @@ public interface UserBasicService {
      * @param phone 电话
      * @param email 邮箱
      * @param ps 个性签名
-     * @param avator 头像
+     * @param avatar 头像
      * @param feeds 关注的tags组成的list
      * @return 1为成功注册，0为失败
      */
-    int register(String username, String password, String phone, String email, String ps, String avator, ArrayList<Integer> feeds);
+    int register(String username, String password, String phone, String email, String ps, String avatar, ArrayList<Integer> feeds);
 
     boolean usernameValidate(String username);
 
@@ -61,7 +58,7 @@ public interface UserBasicService {
 
     void updateUserProfile(int userId, String email, String phone, String ps);
 
-    void uploadAvator(int userId, MultipartFile file);
+    void updateavatar(int userId, String avatar, String path);
 
     int updatePassword(int userId, String originalRawPassword, String newRawPassword);
 }

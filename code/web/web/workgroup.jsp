@@ -46,7 +46,7 @@
             <%
                 for (User user : collaborators) {
             %>
-            <img class="img-50px" src="<%=path%>/<%=user.getAvator()%>">
+            <img class="img-50px" src="<%=path%>/<%=user.getAvatar()%>">
             <%
                 }
             %>

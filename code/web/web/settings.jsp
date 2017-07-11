@@ -44,14 +44,12 @@
                             </form>
                         </div>
                         <div class="col-md-4" style="margin-top: 12px;">
-                            <form role="form">
+                            <form role="form" action="uploadAvatar" enctype="multipart/form-data" method="post">
                                 <h6>个人头像</h6>
-                                <img src="" id="avator" class="img-100px">
-                                <div class="form-group">
-                                    <label for="inputFile"></label>
-                                    <input type="file" class="form-control-file" id="inputFile" aria-describedby="fileHelp">
-                                    <small id="fileHelp" class="form-text text-muted">test</small>
-                                </div>
+                                <img src="" id="avatar" class="img-100px">
+                                <label for="inputFile"></label>
+                                <input type="file" class="form-control-file" id="inputFile" aria-describedby="fileHelp" name="file"><br>
+                                <input type="submit"/>
                             </form>
                         </div>
                     </div>
@@ -125,13 +123,13 @@
             var email = userInfo.email;
             var phone = userInfo.phone;
             var description = user.personalStatus;
-            var avator = user.avator;
+            var avatar = user.avatar;
             $('#userId').val(userId);
             $('#username').val(username);
             $('#email').val(email);
             $('#phone').val(phone);
             $('#description').val(description);
-            $('#avator').attr('src', avator);
+            $('#avatar').attr('src', avatar);
         }
     });
 </script>

@@ -32,15 +32,15 @@ public class UserBasicServiceImpl implements UserBasicService {
      * @param phone 电话
      * @param email 邮箱
      * @param ps 个性签名
-     * @param avator 头像
+     * @param avatar 头像
      * @param feeds 关注的tags组成的list
      * @return 1为成功注册，0为失败
      */
-    public int register(String username, String password, String phone, String email, String ps, String avator, ArrayList<Integer> feeds) {
+    public int register(String username, String password, String phone, String email, String ps, String avatar, ArrayList<Integer> feeds) {
         try {
             String finalPassword = authUtil.encrypt(password);
             UserInfo userInfo = new UserInfo(username, finalPassword, phone, email, "ROLE_USER");
-            User user = new User(username, ps, new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), feeds, avator, new ArrayList<Integer>(),
+            User user = new User(username, ps, new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), feeds, avatar, new ArrayList<Integer>(),
                     1, 0, 0, "{ \"valid\": 1, \"qrcode\": \"null\"}");
             int userId = userInfoDao.addUserInfo(userInfo);
             user.setUserId(userId);
@@ -85,7 +85,7 @@ public class UserBasicServiceImpl implements UserBasicService {
     public int updatePs(int userId, String newPs) {
         return 1;
     }
-    public int updateAvator(int userId, File newAvator) {
+    public int updateavatar(int userId, File newavatar) {
         return 1;
     }
 
@@ -119,8 +119,19 @@ public class UserBasicServiceImpl implements UserBasicService {
         userDao.updateUser(user);
     }
 
-    public void uploadAvator(int userId, MultipartFile file) {
-
+    public void updateavatar(int userId, String avatar, String path) {
+        User user = userDao.getUserById(userId);
+        if (!user.getavatar().equals("image/avatar/default_avatar.png")) {
+            File oldavatar = new File(path + "/" + user.getavatar());
+            if (oldavatar.delete()) {
+                user.setavatar(avatar);
+                userDao.updateUser(user);
+            }
+        }
+        else {
+            user.setavatar(avatar);
+            userDao.updateUser(user);
+        }
     }
 
     public int updatePassword(int userId, String originalRawPassword, String newRawPassword) {

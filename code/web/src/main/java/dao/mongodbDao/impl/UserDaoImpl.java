@@ -45,7 +45,7 @@ public class UserDaoImpl implements UserDao{
         update.set("followers", user.getFollowers());
         update.set("followings", user.getFollowings());
         update.set("tags", user.getTags());
-        update.set("avator", user.getAvator());
+        update.set("avatar", user.getavatar());
         update.set("collections", user.getCollections());
         update.set("valid", user.getValid());
         update.set("deleteCount", user.getDeleteTime());

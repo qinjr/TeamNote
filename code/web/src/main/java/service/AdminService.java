@@ -218,7 +218,7 @@ public interface AdminService {
      * @param followerId table field
      * @param followeeId table field
      * @param tagId table field
-     * @param avator table field
+     * @param avatar table field
      * @param collectionId table field
      * @param valid table field
      * @param deleteTime table field
@@ -228,7 +228,7 @@ public interface AdminService {
      * @return 1/0
      */
     int CUDUser(int userId, String op, String username, String personalStatus, int notebookId,
-                int followerId, int followeeId, int tagId, File avator, int collectionId, int valid, Date deleteTime,
+                int followerId, int followeeId, int tagId, File avatar, int collectionId, int valid, Date deleteTime,
                 int honor, int reward, File qrcode);
     /**
      * RUser
