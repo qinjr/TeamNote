@@ -115,6 +115,7 @@ $(document).ready(function() {
     });
 
     $('#uploadNote').click(function () {
+        $('#uploadModalTitle').html("选择文件");
         $('#uploadModal').modal('show');
     })
 

@@ -190,6 +190,6 @@ public class NoteController {
                 file.delete();
             }
         }
-        return "workgroup";
+        return "";
     }
 }

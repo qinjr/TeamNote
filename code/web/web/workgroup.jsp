@@ -367,8 +367,8 @@
             </div>
             <form action="/teamnote/uploadNote" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <h2>文件上传</h2>
-                    文件:<input type="file" name="uploadFile"/><br/><br/>
+                    <label class="form-control-label">本地文件:</label>
+                        <input type="file" name="uploadFile"/><br/><br/>
                     <input style="display:none" type="text" name="notebookId" value="<%=notebook.getNotebookId()%>">
                 </div>
                 <div class="modal-footer">
