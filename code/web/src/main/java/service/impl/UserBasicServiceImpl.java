@@ -121,15 +121,15 @@ public class UserBasicServiceImpl implements UserBasicService {
 
     public void updateavatar(int userId, String avatar, String path) {
         User user = userDao.getUserById(userId);
-        if (!user.getavatar().equals("image/avatar/default_avatar.png")) {
-            File oldavatar = new File(path + "/" + user.getavatar());
+        if (!user.getAvatar().equals("image/avatar/default_avatar.png")) {
+            File oldavatar = new File(path + "/" + user.getAvatar());
             if (oldavatar.delete()) {
-                user.setavatar(avatar);
+                user.setAvatar(avatar);
                 userDao.updateUser(user);
             }
         }
         else {
-            user.setavatar(avatar);
+            user.setAvatar(avatar);
             userDao.updateUser(user);
         }
     }
