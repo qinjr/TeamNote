@@ -27,7 +27,7 @@ public class AuthController {
     @RequestMapping("/register")
     public String register(@RequestParam(value = "_username") String username, @RequestParam(value = "_password") String password,
                            @RequestParam(value = "phone") String phone, @RequestParam(value = "email") String email) {
-        if (userBasicService.register(username, password, phone, email, "", null, new ArrayList<Integer>()) == 1) {
+        if (userBasicService.register(username, password, phone, email, "", "image/avator/default_avator.png", new ArrayList<Integer>()) == 1) {
             return "auth";
         } else {
             return "auth";
