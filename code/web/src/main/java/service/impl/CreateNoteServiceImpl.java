@@ -28,11 +28,9 @@ public class CreateNoteServiceImpl implements CreateNoteService{
     private NoteDao noteDao;
     private NotebookDao notebookDao;
     private NotebookInfoDao notebookInfoDao;
-<<<<<<< HEAD
     private UserDao userDao;
-=======
     private UserInfoDao userInfoDao;
->>>>>>> origin/master
+
 
     public void setNoteDao(NoteDao noteDao) {
         this.noteDao = noteDao;
@@ -46,13 +44,14 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         this.notebookInfoDao = notebookInfoDao;
     }
 
-<<<<<<< HEAD
+
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
-=======
+    }
+
     public void setUserInfoDao(UserInfoDao userInfoDao) {
         this.userInfoDao = userInfoDao;
->>>>>>> origin/master
+
     }
 
     /**
