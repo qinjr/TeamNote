@@ -46,7 +46,7 @@
                         <div class="col-md-4" style="margin-top: 12px;">
                             <form role="form">
                                 <h6>个人头像</h6>
-                                <img src="image/user_6.png" class="img-100px">
+                                <img src="" id="avator" class="img-100px">
                                 <div class="form-group">
                                     <label for="inputFile"></label>
                                     <input type="file" class="form-control-file" id="inputFile" aria-describedby="fileHelp">
@@ -83,8 +83,7 @@
                                 <label for="new_password_confirm" class="form-control-label">新密码确认</label>
                                 <span class="fa form-control-feedback" aria-hidden="true"></span>
                             </h6>
-                            <input type="password" data-minlength="6" class="form-control" id="new_password_confirm"
-                                   data-error="" data-match="#new_password" data-match-error="两次输入的密码不一致，请重新输入。" required>
+                            <input type="password" class="form-control" id="new_password_confirm" data-error="" data-match="#new_password" data-match-error="两次输入的密码不一致，请重新输入。" required>
                             <div class="help-block with-errors text-danger"></div>
                         </div>
                         <button type="submit" class="btn btn-warning">修改密码</button>
@@ -113,3 +112,26 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/validator.js"></script>
+<script>
+    $.ajax({
+        url: "/teamnote/userdetail",
+        dataType: "json",
+        type: "get",
+        success: function(data) {
+            var userInfo = JSON.parse(data.userInfo);
+            var user = JSON.parse(data.user);
+            var userId = userInfo.userId;
+            var username = userInfo.username;
+            var email = userInfo.email;
+            var phone = userInfo.phone;
+            var description = user.personalStatus;
+            var avator = user.avator;
+            $('#userId').val(userId);
+            $('#username').val(username);
+            $('#email').val(email);
+            $('#phone').val(phone);
+            $('#description').val(description);
+            $('#avator').attr('src', avator);
+        }
+    });
+</script>

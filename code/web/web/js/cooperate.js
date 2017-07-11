@@ -248,6 +248,25 @@ $(document).ready(function() {
             }
         })
 
-    })
+    });
 
+    $('.btn-history').click(function() {
+        var noteId = parseInt(this.parentNode.previousElementSibling.id);
+        var history = new Vue({
+            el: '#historyModal',
+            data: {
+                history: []
+            },
+            created: function () {
+                this.$http.get('/teamnote/getHistory?noteId=' + noteId).then(
+                    function(response){
+                        var json = JSON.parse(response.body.history);
+                        for (var _json in json) {
+                            history.history.push(JSON.parse(json[_json]));
+                        }
+                    }
+                )
+            }
+        })
+    });
 });
