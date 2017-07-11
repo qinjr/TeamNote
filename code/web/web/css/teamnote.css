@@ -179,10 +179,18 @@ a.nav-item.nav-link:hover {
 }
 
 @font-face {
-    font-family: "Nanum Brush Script";
-    src:url("/fonts/NanumBrushScript-Regular.ttf");
+    font-family: 'Nanum Brush Script';
+    src:url('/fonts/NanumBrushScript-Regular.ttf');
+    src:url('/fonts/NanumBrushScript-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.container-404 {
-    font-family: "Nanum Brush Script";
+.nbs {
+    display: inline-block;
+    font: normal normal normal 14px/1 'Nanum Brush Script';
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

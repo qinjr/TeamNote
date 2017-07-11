@@ -21,7 +21,7 @@
     </head>
     <body>
         <div id="particles-js">
-            <div class="container container-center container-404">
+            <div class="container container-center nbs">
                 <img src="icon/favicon-200px.png">
                 <h1 style="text-align: center;">404 NOT FOUND</h1>
             </div>

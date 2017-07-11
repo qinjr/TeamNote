@@ -30,17 +30,17 @@
                                 </div>
                                 <div class="form-group">
                                     <h6><label for="email" class="form-control-label">邮箱</label></h6>
-                                    <input type="email" class="form-control" id="email">
+                                    <input type="email" class="form-control" id="email" name="email">
                                 </div>
                                 <div class="form-group">
                                     <h6><label for="phone" class="form-control-label">手机号码</label></h6>
-                                    <input type="text" class="form-control" id="phone">
+                                    <input type="text" class="form-control" id="phone" name="phone">
                                 </div>
                                 <div class="form-group">
                                     <h6><label for="description" class="form-control-label">简介</label></h6>
-                                    <textarea class="form-control" rows="3" id="description"></textarea>
+                                    <textarea class="form-control" rows="3" id="description" name="ps"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-warning">修改</button>
+                                <button type="button" class="btn btn-warning" id="profile_submit">修改</button>
                             </form>
                         </div>
                         <div class="col-md-4" style="margin-top: 12px;">
@@ -68,14 +68,14 @@
                             <h6>
                                 <label for="old_password" class="form-control-label">原密码</label>
                             </h6>
-                            <input type="password" class="form-control" id="old_password" required>
+                            <input type="password" class="form-control" id="old_password" name="originalRawPassword" required>
                         </div>
                         <div class="form-group has-feedback">
                             <h6>
                                 <label for="new_password" class="form-control-label">新密码</label>
                                 <span class="fa form-control-feedback" aria-hidden="true"></span>
                             </h6>
-                            <input type="password" data-minlength="6" class="form-control" id="new_password" data-error="密码至少应有六位数。" required>
+                            <input type="password" data-minlength="6" class="form-control" id="new_password" name="newRawPassword" data-error="密码至少应有六位数。" required>
                             <div class="help-block with-errors text-danger"></div>
                         </div>
                         <div class="form-group has-feedback">
@@ -86,7 +86,7 @@
                             <input type="password" class="form-control" id="new_password_confirm" data-error="" data-match="#new_password" data-match-error="两次输入的密码不一致，请重新输入。" required>
                             <div class="help-block with-errors text-danger"></div>
                         </div>
-                        <button type="submit" class="btn btn-warning">修改密码</button>
+                        <button type="button" class="btn btn-warning" id="modify_password_submit">修改密码</button>
                     </form>
                     <div class="dropdown-divider"></div>
                     <!-- delete account -->
@@ -134,4 +134,62 @@
             $('#avator').attr('src', avator);
         }
     });
+
+    $('#profile_submit').click(function() {
+        $.ajax({
+            url: "/teamnote/updateUserProfile",
+            dataType: "text",
+            data: {
+                email: $('#email').val(),
+                phone: $('#phone').val(),
+                ps: $('#description').val()
+            },
+            type: "post",
+            success: function(data) {
+                if (JSON.parse(data).result === "success") {
+                    alert("修改成功");
+                } else {
+                    alert("修改失败");
+                }
+                location.reload();
+            }
+        });
+    });
+
+    $('#modify_password_submit').click(function() {
+        var old_password = $('#old_password').val();
+        var new_password = $('#new_password').val();
+        var new_password_confirm = $('#new_password_confirm').val();
+        if (old_password === new_password) {
+            alert("新密码与原密码相同，请重新输入。");
+            return;
+        }
+        if (new_password !== new_password_confirm) {
+            alert("两次输入的密码不一致，请重新输入。");
+            return;
+        }
+        if (new_password.length < 6) {
+            alert("密码至少应有六位数，请重新输入。");
+            return;
+        }
+        $.ajax({
+            url: "/teamnote/updateUserPassword",
+            dataType: "text",
+            data: {
+                originalRawPassword: old_password,
+                newRawPassword: new_password
+            },
+            type: "post",
+            success: function(data) {
+                if (JSON.parse(data).result === "success") {
+                    alert("修改成功");
+                    window.location.href = "/teamnote/logout";
+                } else if (JSON.parse(data).result === "origin password wrong"){
+                    alert("原密码输入错误，请再试一次。");
+                }
+            }
+        });
+    })
+
+
 </script>
