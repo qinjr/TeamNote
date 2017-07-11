@@ -42,6 +42,6 @@ CKEDITOR.editorConfig = function( config ) {
     // 去除结尾的<p> </p>
     config.enterMode = CKEDITOR.ENTER_BR;
     config.shiftEnterMode = CKEDITOR.ENTER_P;
-    config.height = 500;
+    config.height = '70%';
     config.tabSpaces = 4;
 };

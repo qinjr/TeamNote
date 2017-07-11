@@ -63,9 +63,9 @@
     focus: true,
     custom: {},
     errors: {
-        match: 'Does not match',
-        minlength: 'Not long enough',
-        null: '用户名不能为空'
+        match: '不匹配。',
+        minlength: '长度不满足最小长度。',
+        null: '用户名不能为空。'
     },
     feedback: {
       success: 'fa-check',

@@ -54,8 +54,21 @@ public interface NoteManageService {
     ArrayList<User> getOwnersByNotebooks(ArrayList<Notebook> notebooks);
     ArrayList<ArrayList<User>> getCollaboratorsByNotebooks(ArrayList<Notebook> notebooks);
     ArrayList<User> getCreatorsByNotebooks(ArrayList<Notebook> notebooks);
-
-    void updateNoteVersion(int noteId, int versionPoint);
-
+    /**
+     * getNotebooksDetailsByUserId
+     * @param userId 用户
+     * @return 这个用户所有工作组的笔记本信息，上面的四个函数都被这个函数调用
+     */
     String getNotebooksDetailsByUserId(int userId);
+
+    void updateNote(int noteId, int userId, Date datetime, String content, String message);
+    void updateNoteVersion(int noteId, int versionPoint);
+    void updateNoteTitle(int noteId, String newNoteTitle);
+    String getHistory(int noteId);
+    void changeVersion(int noteId, int versionPointer);
+
+    String getNotebookDetail(int notebookId);
+    void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription);
+
+
 }

@@ -60,19 +60,19 @@
                             <div class="form-group has-feedback">
                                 <label for="_username" class="col-form-label">用户名</label>
                                 <span class="fa form-control-feedback" aria-hidden="true"></span>
-                                <input type="text" class="form-control" id="_username" name="_username" placeholder="用户名" data-remote="validate" data-error="用户名为空或该用户名已被使用" required>
+                                <input type="text" class="form-control" id="_username" name="_username" placeholder="用户名" data-remote="validate" data-error="用户名为空或该用户名已被使用。" required>
                                 <div class="help-block with-errors text-danger"></div>
                             </div>
                             <div class="form-group has-feedback">
                                 <label for="_password" class="col-form-label">密码</label>
                                 <span class="fa form-control-feedback" aria-hidden="true"></span>
-                                <input type="password" data-minlength="6" class="form-control" id="_password" name="_password" placeholder="密码" data-error="密码至少应有六位数" required>
+                                <input type="password" data-minlength="6" class="form-control" id="_password" name="_password" placeholder="密码" data-error="密码至少应有六位数。" required>
                                 <div class="help-block with-errors text-danger"></div>
                             </div>
                             <div class="form-group has-feedback">
                                 <label for="phone" class="col-form-label">手机号码</label>
                                 <span class="fa form-control-feedback" aria-hidden="true"></span>
-                                <input type="text" pattern="^[0-9]{11}$" class="form-control" id="phone" name="phone" placeholder="手机号码" data-error="请输入正确的手机号码" required>
+                                <input type="text" pattern="^[0-9]{11}$" class="form-control" id="phone" name="phone" placeholder="手机号码" data-error="请输入正确的手机号码。" required>
                                 <div class="help-block with-errors text-danger"></div>
                             </div>
                             <div class="form-group has-feedback">

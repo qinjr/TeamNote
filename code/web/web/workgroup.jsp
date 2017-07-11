@@ -16,6 +16,11 @@
     ArrayList<Note> notes = (ArrayList<Note>) request.getAttribute("notes");
     ArrayList<User> collaborators = (ArrayList<User>) request.getAttribute("collaborators");
 %>
+<style type="text/css">
+    body {
+        overflow: hidden;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-2">
@@ -31,6 +36,9 @@
             <textarea name="editor" id="editor">
 
             </textarea>
+            <footer>
+                <p>&copy; 2017 TeamNote Team</p>
+            </footer>
         </div>
     </div>
     <div class="col-md-2">
@@ -53,87 +61,55 @@
     </div>
 </div>
 
-<div class="modal fade" id="updateNoteModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="updateNoteModalTitle">修改笔记</h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form role="form">
-                        <label>备注信息</label><input class="form-control" name="message">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-                <button type="button" class="btn btn-primary" id="save">保存</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="addNoteModalTitle">新建笔记</h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form role="form">
-                    <label>笔记标题</label><input class="form-control" name="noteTitle">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-                <button type="button" class="btn btn-primary" id="update">保存</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="left-sidebar">
-        <div class="pre-scrollable" id="left-sidebar-nav">
+        <div class="pre-scrollable" id="left-sidebar-nav" style="padding-right: 10px;">
             <img class="img-75px" src="<%=path%>/<%=notebook.getCover()%>" style="margin-top: 15px; ">
             <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#left-sidebar">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
             </button>
             <br><br>
             <%
-                if (notebook != null && notes != null) {
+                if (notes != null) {
             %>
-            <h4 class="card-title notebook" id="<%=notebook.getNotebookId()%>">
+            <h5 class="card-title notebook" id="<%=notebook.getNotebookId()%>">
                 <%=notebook.getTitle()%>
-            </h4>
+            </h5>
+            <ul style="padding-left: 0;">
             <%
                     for (Note note : notes) {
+                        int id = note.getNoteId();
             %>
-            <a class="note" id="<%=note.getNoteId()%>" href="#"><%=note.getTitle()%></a><br>
+                <li class="bar-note" style="padding-left: 10px; margin-top: 5px; margin-bottom: 5px;">
+                    <a class="note" :class="{ 'active': <%=id%> === selected }" @click="select(<%=id%>)" id="<%=id%>"
+                       style="word-break: break-all;" href="javascript:void(0)"><%=note.getTitle()%></a>
+                    <div class="btn-group btn-group-sm pull-right" role="group" aria-label="functional-button" id="test">
+                        <button type="button" class="btn btn-secondary none btn-edit" data-toggle="modal" data-target="#editModal" >
+                            <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary none btn-delete">
+                            <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary none btn-history">
+                            <i class="fa fa-history fa-fw" aria-hidden="true" data-toggle="modal" data-target="#historyModal"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary none btn-check">
+                            <i class="fa fa-quote-left fa-fw" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </li>
             <%
                     }
                 }
             %>
+            </ul>
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn">
-            <button class="btn btn-outline-danger" style="padding: 8px">转让所有权</button>
-            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#giveOwnershipModal" style="padding: 8px">
-                转让所有权
-            </button>
-            <button class="btn btn-outline-primary">邀请用户</button>
-            <button class="btn btn-outline-warning">审核</button><br>
-            <button class="btn btn-outline-success" data-toggle="modal" data-target="#historyModal">
-                历史记录
-            </button>
-            <button class="btn btn-outline-primary">设置</button>
+            <button class="btn btn-outline-warning" id="giveOwnership" style="padding: 8px">转让所有权</button>
+            <button class="btn btn-outline-primary" id="inviteCollaborator">邀请用户</button>
+            <button class="btn btn-secondary" id="newNote">新建笔记</button>
+            <button class="btn btn-outline-primary" id="config" data-toggle="modal" data-target="#configModal">设置</button>
             <button class="btn btn-danger">取消</button>
             <button class="btn btn-success" id="callDialog">保存</button>
         </div>
@@ -145,10 +121,10 @@
         <div class="pre-scrollable">
 
         </div>
-
     </div>
 </nav>
 
+<!-- giveOwnershipModal -->
 <div class="modal fade" id="giveOwnershipModal" tabindex="-1" role="dialog" aria-labelledby="giveOwnershipModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -161,16 +137,23 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <form role="form">
+                    <div class="form-group">
+                        <label for="newOwner" class="form-control-label">新拥有者</label>
+                        <input class="form-control" name="newOwner" id="newOwner">
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="giveOwnership">确认</button>
+                <button type="button" class="btn btn-primary giveOwnership">确认</button>
             </div>
         </div>
     </div>
 </div>
+<!-- /giveOwnershipModal -->
 
+<!-- historyModal -->
 <div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -192,17 +175,186 @@
         </div>
     </div>
 </div>
+<!-- /historyModal -->
+
+<!-- editModal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;编辑笔记标题
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="noteTitle-edit" class="form-control-label">笔记标题</label>
+                        <input type="text" class="form-control" id="noteTitle-edit">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="noteId-edit">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary btn-edit-confirm">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /editModal -->
+
+<!-- configModal -->
+<div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="configModalLabel">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;笔记本设置
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="noteTitle" class="form-control-label">笔记本标题</label>
+                        <input type="text" class="form-control" id="noteTitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="noteDescription" class="form-control-label">笔记简介</label>
+                        <input type="text" class="form-control" id="noteDescription">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="config-confirm">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /configModal -->
+
+<!-- newNoteModal -->
+<div class="modal fade" id="newNoteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="newNoteModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="noteTitle-new" class="form-control-label">笔记标题</label>
+                        <input class="form-control" name="noteTitle" id="noteTitle-new">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary savenote">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /newNoteModal -->
+
+<!-- updateNoteModal -->
+<div class="modal fade" id="updateNoteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="updateNoteModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="message" class="form-control-label">>更新说明</label>
+                        <input class="form-control" name="message" id="message">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary savenote">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /updateNoteModal -->
+
+<!-- inviteCollaboratorModal -->
+<div class="modal fade" id="inviteCollaboratorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="inviteCollaboratorModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form data-toggle="validator" role="form">
+                    <div class="form-group has-feedback">
+                        <label for="inviteUsername" class="form-control-label">邀请用户</label>
+                        <span class="fa form-control-feedback" aria-hidden="true"></span>
+                        <input class="form-control" name="inviteUsername" id="inviteUsername" data-remote="<%=path%>/cooperate/inviteValidate" data-error="被邀请的用户不存在">
+                        <div class="help-block with-errors text-danger"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inviteDescription" class="form-control-label">验证消息</label>
+                        <input class="form-control" name="inviteDescription" id="inviteDescription">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary invite">邀请</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /inviteCollaboratorModal -->
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
 <script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
+<script type="text/javascript" src="<%=path%>/js/validator.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
-<script type="text/javascript" src="<%=path%>/js/groupChat.js"></script>
-<script>
+<script type="text/javascript">
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',
         contentsCss: '<%=path%>/ckeditor/css/contents.css',
         skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
     } );
+
+    var note = new Vue({
+        el: '#left-sidebar',
+        data: {
+            selected: null
+        },
+        methods: {
+            select: function(id) {
+                this.selected = id;
+            }
+        }
+    });
+
+    //window.onbeforeunload = function() {
+        //return "";
+    //};
 </script>

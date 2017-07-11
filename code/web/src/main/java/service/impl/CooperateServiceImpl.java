@@ -1,5 +1,6 @@
 package service.impl;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dao.mongodbDao.GroupChatDao;
@@ -60,12 +61,12 @@ public class CooperateServiceImpl implements CooperateService {
         return 1;
     }
 
-    public JsonObject viewInvitation(int inviterId, int notebookId, String description) {
+    public String viewInvitation(int inviterId, int notebookId, String description) {
         JsonObject json = new JsonObject();
         json.addProperty("inviterId", inviterId);
         json.addProperty("notebookId", notebookId);
         json.addProperty("description", description);
-        return json;
+        return json.toString();
     }
 
     public int takeInvitation(int userId, int decision, int notebookId) {
@@ -110,34 +111,38 @@ public class CooperateServiceImpl implements CooperateService {
         }
     }
 
-    public int mergeAdvice(int advicerId, int managerId, int noteId, Date datetime, int suggestionId) {
+    public int mergeSuggestion(int managerId, int noteId, int suggestionId) {
         Note note = noteDao.getNoteById(noteId);
 
         //add to note new history version
         Suggestion suggestion = suggestionDao.getSuggestionById(suggestionId);
         JsonObject newVersion = new JsonObject();
-        newVersion.addProperty("editTime", datetime.toString());
+        newVersion.addProperty("editTime", new Date().toString());
         newVersion.addProperty("message", "merge a contributor's suggestion:" + suggestion.getIssue());
         newVersion.addProperty("editor", managerId);
         newVersion.addProperty("content", suggestion.getContent());
         ArrayList<String> history = note.getHistory();
         history.add(newVersion.toString());
         note.setHistory(history);
+        note.setVersionPointer(note.getVersionPointer() + 1);
         noteDao.updateNote(note);
+
+        //set suggestion status to accepted
+        suggestion.setStatus("accepted");
 
         //add contributor info to the notebook to which the note belong
         Notebook notebook = notebookDao.getNotebookById(note.getNotebookId());
         ArrayList<Integer> contributors = notebook.getContributors();
-        contributors.add(advicerId);
+        contributors.add(suggestion.getUserId());
         notebook.setContributors(contributors);
         notebookDao.updateNotebook(notebook);
 
         return 1;
     }
 
-    public int raiseAdvice(int userId, int noteId, String content, String issue, Date datetime) {
+    public int raiseAdvice(int userId, int noteId, String content, String issue, Date datetime, String username) {
         int notebookId = noteDao.getNoteById(noteId).getNotebookId();
-        Suggestion suggestion = new Suggestion(userId, noteId, notebookId, content, issue, datetime, "not accepted");
+        Suggestion suggestion = new Suggestion(userId, noteId, notebookId, content, issue, datetime, "not accepted", username);
         int suggestionId = suggestionDao.addSuggestion(suggestion);
 
         ArrayList<Integer> collaborators = notebookDao.getNotebookById(notebookId).getCollaborators();
@@ -148,7 +153,7 @@ public class CooperateServiceImpl implements CooperateService {
         return 1;
     }
 
-    public JsonObject viewAdvice(int suggestionId) {
+    public String getSuggestion(int suggestionId) {
         Suggestion suggestion = suggestionDao.getSuggestionById(suggestionId);
         JsonObject json = new JsonObject();
         json.addProperty("suggestionId", suggestion.getSuggestionId());
@@ -158,38 +163,9 @@ public class CooperateServiceImpl implements CooperateService {
         json.addProperty("notebookId", suggestion.getNotebookId());
         json.addProperty("issue", suggestion.getIssue());
         json.addProperty("raiseTime", suggestion.getRaiseTime().toString());
-        return json;
+        return json.toString();
     }
 
-    public int reset(int userId, int noteId, int versionPointer) {
-        Note note = noteDao.getNoteById(noteId);
-        note.setVersionPointer(versionPointer);
-        noteDao.updateNote(note);
-        return 1;
-    }
-
-    public JsonObject getVersion(int noteId, int versionPointer) {
-        Note note = noteDao.getNoteById(noteId);
-        String version = note.getHistory().get(versionPointer);
-        JsonObject json = (JsonObject)(new JsonParser()).parse(version);
-        return json;
-    }
-
-    public int pushUpdate(int userId, int noteId, String content, Date datetime, String message) {
-        Note note = noteDao.getNoteById(noteId);
-        JsonObject newVersion = new JsonObject();
-        newVersion.addProperty("editTime", datetime.toString());
-        newVersion.addProperty("editor", userId);
-        newVersion.addProperty("content", content);
-        newVersion.addProperty("message", message);
-        ArrayList<String> history = note.getHistory();
-        history.add(newVersion.toString());
-        note.setHistory(history);
-
-        noteDao.updateNote(note);
-
-        return 1;
-    }
 
     public int sendGroupChat(int userId, int notebookId, Date datetime, String content) {
 
@@ -198,5 +174,13 @@ public class CooperateServiceImpl implements CooperateService {
         //broadcast
         //TODO
         return 0;
+    }
+
+    public String getSuggestions(int noteId) {
+        ArrayList<Suggestion> suggestions = (ArrayList<Suggestion>)suggestionDao.getPendingSuggestionsByNoteId(noteId);
+        String suggestionsString = new Gson().toJson(suggestions);
+        JsonObject json = new JsonObject();
+        json.addProperty("suggestions", suggestionsString);
+        return json.toString();
     }
 }

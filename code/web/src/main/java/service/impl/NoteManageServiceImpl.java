@@ -1,17 +1,21 @@
 package service.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import dao.mongodbDao.NoteDao;
 import dao.mongodbDao.NotebookDao;
 import dao.mongodbDao.TagDao;
 import dao.mongodbDao.UserDao;
+import dao.mysqlDao.UserInfoDao;
 import model.mongodb.Note;
 import model.mongodb.Notebook;
 import model.mongodb.Tag;
 import model.mongodb.User;
+import model.mysql.UserInfo;
 import service.NoteManageService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -22,6 +26,11 @@ public class NoteManageServiceImpl implements NoteManageService {
     private NotebookDao notebookDao;
     private UserDao userDao;
     private TagDao tagDao;
+    private UserInfoDao userInfoDao;
+
+    public void setUserInfoDao(UserInfoDao userInfoDao) {
+        this.userInfoDao = userInfoDao;
+    }
 
     public void setTagDao(TagDao tagDao) {
         this.tagDao = tagDao;
@@ -57,15 +66,32 @@ public class NoteManageServiceImpl implements NoteManageService {
         return noteDao.getNoteById(noteId);
     }
 
-
     public int deleteNote(int noteId) {
         Note note = noteDao.getNoteById(noteId);
         noteDao.deleteNote(note);
+        Notebook notebook = notebookDao.getNotebookById(note.getNotebookId());
+        ArrayList<Integer> notes = notebook.getNotes();
+        for (Integer i : notes) {
+            if (i == noteId) {
+                notes.remove(i);
+                notebook.setNotes(notes);
+                notebookDao.updateNotebook(notebook);
+                break;
+            }
+        }
         return 1;
     }
 
     public int deleteNotebook(int notebookId) {
         Notebook notebook = notebookDao.getNotebookById(notebookId);
+
+        //delete all notes of the notebook
+        for (int noteId : notebook.getNotes()) {
+            Note note = noteDao.getNoteById(noteId);
+            noteDao.deleteNote(note);
+        }
+
+        //delete notebook
         notebookDao.deleteNotebook(notebook);
         return 1;
     }
@@ -138,5 +164,67 @@ public class NoteManageServiceImpl implements NoteManageService {
 
         Gson gson = new Gson();
         return gson.toJson(result);
+    }
+
+    public void updateNote(int noteId, int userId, Date datetime, String content, String message) {
+        String username = userInfoDao.getUserInfoById(userId).getUsername();
+
+        Note note = noteDao.getNoteById(noteId);
+        ArrayList<String> history = note.getHistory();
+        if (note.getVersionPointer() + 1 < history.size()) {
+            for (int i = note.getVersionPointer() + 1; i < history.size(); ++ i) {
+                history.remove(i);
+            }
+        }
+
+        JsonObject json = new JsonObject();
+        json.addProperty("editTime", datetime.toString());
+        json.addProperty("message", message);
+        json.addProperty("content", content);
+        json.addProperty("editor", username);
+
+        history.add(json.toString());
+        note.setHistory(history);
+        note.setVersionPointer(note.getVersionPointer() + 1);
+        noteDao.updateNote(note);
+    }
+
+    public void updateNoteTitle(int noteId, String newNoteTitle) {
+        Note note = noteDao.getNoteById(noteId);
+        note.setTitle(newNoteTitle);
+        noteDao.updateNote(note);
+    }
+
+    public void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription) {
+        Notebook notebook = notebookDao.getNotebookById(notebookId);
+        notebook.setTitle(newNotebookTitle);
+        notebook.setDescription(newDescription);
+        notebookDao.updateNotebook(notebook);
+    }
+
+    public String getHistory(int noteId) {
+        Note note = noteDao.getNoteById(noteId);
+        String versions = new Gson().toJson(note.getHistory());
+        return versions;
+    }
+
+    public String getNotebookDetail(int notebookId) {
+        Notebook notebook = notebookDao.getNotebookById(notebookId);
+        ArrayList<String> tagNames = new ArrayList<String>();
+        for (int tagId : notebook.getTags()) {
+            tagNames.add(tagDao.getTagById(tagId).getTagName());
+        }
+        String tagNamesString = new Gson().toJson(tagNames);
+        JsonObject json = new JsonObject();
+        json.addProperty("title", notebook.getTitle());
+        json.addProperty("description", notebook.getDescription());
+        json.addProperty("tags", tagNamesString);
+        return json.toString();
+    }
+
+    public void changeVersion(int noteId, int versionPointer) {
+        Note note = noteDao.getNoteById(noteId);
+        note.setVersionPointer(versionPointer);
+        noteDao.updateNote(note);
     }
 }

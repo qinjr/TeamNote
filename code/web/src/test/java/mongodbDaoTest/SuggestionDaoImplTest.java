@@ -23,7 +23,7 @@ public class SuggestionDaoImplTest {
     @Test
     public void testAddSuggestion() {
         Suggestion suggestion = new Suggestion(1, 1, 1, "new content",
-                "not good", new Date(), "accepted");
+                "not good", new Date(), "accepted", "qinjr");
         suggestionDao.addSuggestion(suggestion);
 
         Assert.assertNotNull(suggestionDao.getAllSuggestions().get(0));
@@ -35,7 +35,7 @@ public class SuggestionDaoImplTest {
     @Test
     public void testDeleteSuggestion() {
         Suggestion suggestion = new Suggestion(1, 1, 1, "new content",
-                "not good", new Date(), "accepted");
+                "not good", new Date(), "accepted", "qinjr");
         suggestionDao.addSuggestion(suggestion);
 
         suggestion = suggestionDao.getAllSuggestions().get(0);
@@ -47,7 +47,7 @@ public class SuggestionDaoImplTest {
     @Test
     public void testUpdateSuggestion() {
         Suggestion suggestion = new Suggestion(1, 1, 1, "new content",
-                "not good", new Date(), "accepted");
+                "not good", new Date(), "accepted", "qinjr");
         suggestionDao.addSuggestion(suggestion);
 
         suggestion = suggestionDao.getAllSuggestions().get(0);
@@ -62,7 +62,7 @@ public class SuggestionDaoImplTest {
     @Test
     public void testGetSuggestionById() {
         Suggestion suggestion = new Suggestion(1, 1, 1, "new content",
-                "not good", new Date(), "accepted");
+                "not good", new Date(), "accepted", "qinjr");
         suggestionDao.addSuggestion(suggestion);
 
         suggestion = suggestionDao.getAllSuggestions().get(0);

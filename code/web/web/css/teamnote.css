@@ -72,7 +72,7 @@ body {
 }
 
 .navbar-offcanvas > .pre-scrollable {
-    max-height: 500px;
+    max-height: 70%;
 }
 
 .button img {
@@ -88,6 +88,11 @@ body {
 .img-75px {
     width: 75px;
     height: 75px;
+}
+
+.img-100px {
+    width: 100px;
+    height: 100px;
 }
 
 .btn:hover {
@@ -127,4 +132,48 @@ footer .btn .active {
 
 .dropdown-menu .username:hover {
     background-color: inherit;
+}
+
+.left-sidebar .active {
+    border-left: #4A90E2;
+}
+
+.bar-note a {
+    color: #999999;
+}
+
+.bar-note:hover {
+    background-color: #EFEFEF;
+
+}
+
+.bar-note > .active {
+    color: #4A90E2;
+    text-decoration: none;
+}
+
+.none {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.none:hover {
+    background-color: rgba(0, 0, 0, 0);
+    color: #4A90E2;
+}
+
+.nav-tabs .nav-link.active {
+    border-top: 3px solid #4A90E2;
+}
+
+a.nav-item.nav-link {
+    color: #000000;
+}
+
+a.nav-item.nav-link:hover {
+    color: #4A90E2;
+}
+
+.card-danger-kai {
+    color: #D0021B;
 }
