@@ -180,8 +180,8 @@ a.nav-item.nav-link:hover {
 
 @font-face {
     font-family: 'Nanum Brush Script';
-    src:url('/fonts/NanumBrushScript-Regular.ttf');
-    src:url('/fonts/NanumBrushScript-Regular.ttf') format('truetype');
+    src:url('../fonts/NanumBrushScript-Regular.ttf');
+    src:url('../fonts/NanumBrushScript-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
