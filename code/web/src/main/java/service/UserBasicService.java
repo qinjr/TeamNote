@@ -23,11 +23,6 @@ public interface UserBasicService {
      */
     int register(String username, String password, String phone, String email, String ps, String avator, ArrayList<Integer> feeds);
 
-
-    //not sure
-    //int login(String username, String password);
-    //int logout();
-
     boolean usernameValidate(String username);
 
     int deleteAccount(int userId);
@@ -61,4 +56,12 @@ public interface UserBasicService {
      * @return User
      */
     User getUserById(int userId);
+
+    void deleteUser(int userId);
+
+    void updateUserProfile(int userId, String email, String phone, String ps);
+
+    void uploadAvator();
+
+    int updatePassword(int userId, String originalRawPassword, String newRawPassword);
 }

@@ -102,4 +102,35 @@ public class UserBasicServiceImpl implements UserBasicService {
     public User getUserById(int userId) {
         return userDao.getUserById(userId);
     }
+
+    public void deleteUser(int userId) {
+        //TODO
+    }
+
+    public void updateUserProfile(int userId, String email, String phone, String ps) {
+        UserInfo userInfo = userInfoDao.getUserInfoById(userId);
+        userInfo.setEmail(email);
+        userInfo.setPhone(phone);
+        userInfoDao.updateUserInfo(userInfo);
+
+        User user = userDao.getUserById(userId);
+        user.setPersonalStatus(ps);
+        userDao.updateUser(user);
+    }
+
+    public void uploadAvator() {
+        //TODO
+    }
+
+    public int updatePassword(int userId, String originalRawPassword, String newRawPassword) {
+        UserInfo userInfo = userInfoDao.getUserInfoById(userId);
+        if (authUtil.match(originalRawPassword, userInfo.getPassword())) {
+            String newPassword = authUtil.encrypt(newRawPassword);
+            userInfo.setPassword(newPassword);
+            userInfoDao.updateUserInfo(userInfo);
+            return 1;
+        }
+        else
+            return 0;
+    }
 }
