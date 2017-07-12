@@ -98,6 +98,10 @@
         <script type="text/javascript" src="https://unpkg.com/vue/dist/vue.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
         <script type="text/javascript" src="<%=path%>/js/validator.js"></script>
-        <script type="text/javascript" src="<%=path%>/js/app.js"></script>
+        <script type="text/javascript">
+            particlesJS.load('particles-js', 'json/particles.json', function() {
+                console.log('callback - particles.js config loaded');
+            });
+        </script>
     </body>
 </html>

@@ -23,13 +23,17 @@
     <body>
         <div id="particles-js">
             <div class="container container-center nbs">
-                <img src="<%=path%>/icon/favicon-200px.png">
+                <img src="<%=path%>/icon/favicon-200px-error.png">
                 <h1 style="text-align: center;">403 FORBIDDEN</h1>
             </div>
         </div>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
         <script type="text/javascript" src="<%=path%>/js/validator.js"></script>
-        <script type="text/javascript" src="<%=path%>/js/app.js"></script>
+        <script type="text/javascript">
+            particlesJS.load('particles-js', 'json/particles-error.json', function() {
+                console.log('callback - particles.js config loaded');
+            });
+        </script>
     </body>
 </html>

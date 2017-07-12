@@ -66,7 +66,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
-        <url-pattern>/particles.json</url-pattern>
+        <url-pattern>/json/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>WebServlet</servlet-name>

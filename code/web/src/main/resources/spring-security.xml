@@ -15,6 +15,14 @@
         <intercept-url pattern="/WEB-INF/jsp/error/404.jsp" access="permitAll"/>
         <intercept-url pattern="/WEB-INF/jsp/error/403.jsp" access="permitAll"/>
 
+        <intercept-url pattern="/ckeditor/**" access="permitAll"/>
+        <intercept-url pattern="/css/**" access="permitAll"/>
+        <intercept-url pattern="/fonts/**" access="permitAll"/>
+        <intercept-url pattern="/icon/**" access="permitAll"/>
+        <intercept-url pattern="/image/**" access="permitAll"/>
+        <intercept-url pattern="/js/**" access="permitAll"/>
+        <intercept-url pattern="/json/**" access="permitAll"/>
+
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/index" access="hasRole('ROLE_USER')"/>
@@ -22,14 +30,6 @@
         <intercept-url pattern="/settings" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/workgroup" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/test" access="hasRole('ROLE_USER')"/>
-
-        <intercept-url pattern="/ckeditor/**" access="permitAll"/>
-        <intercept-url pattern="/css/**" access="permitAll"/>
-        <intercept-url pattern="/fonts/**" access="permitAll"/>
-        <intercept-url pattern="/icon/**" access="permitAll"/>
-        <intercept-url pattern="/image/**" access="permitAll"/>
-        <intercept-url pattern="/js/**" access="permitAll"/>
-        <intercept-url pattern="/particles.json" access="permitAll"/>
 
         <form-login
                 username-parameter="username"

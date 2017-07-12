@@ -1,7 +1,0 @@
-/**
- * Created by rudeigerc on 2017/6/30.
- */
-/* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
-particlesJS.load('particles-js', 'particles.json', function() {
-    console.log('callback - particles.js config loaded');
-});
