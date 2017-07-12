@@ -31,7 +31,8 @@ public class DownloadServiceImpl implements DownloadService {
         String currentVersion = note.getHistory().get(note.getVersionPointer());
         JsonObject obj = new JsonParser().parse(currentVersion).getAsJsonObject();
         String content = obj.get("content").getAsString();
-        String path = "D:\\test\\temp.";
+        //TODO
+        String path = "/Users/qjr/Desktop";
         path += "html";
         File file = new File(path);
         file.createNewFile();
