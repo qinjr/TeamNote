@@ -321,6 +321,7 @@
                     <label>文件格式</label>
                     <select class="form-control" id="exportType">
                         <option value="html">html</option>
+                        <option value="pdf">pdf</option>
                     </select>
             </div>
             <div class="modal-footer">

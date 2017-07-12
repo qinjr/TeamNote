@@ -122,3 +122,7 @@ fabric.properties
 /src/main/java/util/impl/WebsocketInterceptorImpl.java
 /src/main/resources/spring-websocket.xml
 /web/test.jsp
+/src/main/resources/applicationContext.xml
+/src/main/resources/orm/Auth.hbm.xml
+/src/main/resources/orm/NotebookInfo.hbm.xml
+/src/main/resources/orm/UserInfo.hbm.xml

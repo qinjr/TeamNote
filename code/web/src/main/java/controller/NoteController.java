@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.JsonObject;
+import com.itextpdf.text.DocumentException;
 import model.mongodb.Note;
 import model.mysql.UserInfo;
 
@@ -162,7 +163,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/exportNote")
-    public ResponseEntity<byte[]> downloadNote(@RequestParam(value = "type") String type, @RequestParam(value = "noteId") int noteId) throws IOException {
+    public ResponseEntity<byte[]> downloadNote(@RequestParam(value = "type") String type, @RequestParam(value = "noteId") int noteId) throws IOException, DocumentException{
 
         //在服务器端生成html文件
         File file = downloadService.downloadNote(noteId, type);
