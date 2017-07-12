@@ -95,6 +95,11 @@ body {
     height: 100px;
 }
 
+.img-150px {
+    width: 150px;
+    height: 150px;
+}
+
 .btn:hover {
     cursor: pointer;
 }
@@ -194,3 +199,32 @@ a.nav-item.nav-link:hover {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.file-chooser {
+    position:absolute;
+    width: 150px;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    opacity: 0.0001;
+    height: 38px;
+}
+
+.file-chooser:hover {
+    cursor: inherit;
+}
+
+.file-chooser-label {
+    width: 150px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.file-chooser-label:hover {
+    cursor: inherit;
+}
+
+.btn-file-upload {
+    margin-top: 10px;
+}
+

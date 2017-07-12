@@ -46,10 +46,13 @@
                         <div class="col-md-4" style="margin-top: 12px;">
                             <form role="form" action="uploadAvatar" enctype="multipart/form-data" method="post">
                                 <h6>个人头像</h6>
-                                <img src="" id="avatar" class="img-100px">
-                                <label for="inputFile"></label>
-                                <input type="file" class="form-control-file" id="inputFile" aria-describedby="fileHelp" name="file"><br>
-                                <input type="submit"/>
+                                <img src="" id="avatar" class="img-150px">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-secondary file-chooser-label" id="file_upload_label">选择上传的图片
+                                        <input type="file" class="form-control-file file-chooser" id="file" name="file">
+                                    </button>
+                                    <button type="submit" class="btn btn-secondary btn-file-upload" disabled="disabled" id="file_upload">提交</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -191,7 +194,19 @@
                 }
             }
         });
-    })
+    });
 
+    document.getElementById("file").onchange = function() {
+        $('#file_upload').removeAttr('disabled');
+        var path = $('#file').val();
+        var $input = document.getElementById("file");
+        var $label = $('#file_upload_label');
+        var file_name = path.split("\\")[2];
+        if (file_name.length > 12) {
+            file_name = file_name.substr(0, 12) + "...";
+        }
+        $label[0].innerText = file_name;
+        $label.append($input);
+    }
 
 </script>
