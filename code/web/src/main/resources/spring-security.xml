@@ -23,7 +23,7 @@
         <intercept-url pattern="/js/**" access="permitAll"/>
         <intercept-url pattern="/json/**" access="permitAll"/>
 
-        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/index" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/homepage" access="hasRole('ROLE_USER')"/>
