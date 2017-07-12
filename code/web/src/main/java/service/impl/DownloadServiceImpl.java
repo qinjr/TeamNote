@@ -33,19 +33,19 @@ public class DownloadServiceImpl implements DownloadService {
         this.exportUtil = exportUtil;
     }
 
-    public File downloadNote(int noteId, String type)throws IOException, DocumentException {
+    public File downloadNote(int noteId, String type, String leftPath)throws IOException, DocumentException {
         Note note = noteDao.getNoteById(noteId);
         String currentVersion = note.getHistory().get(note.getVersionPointer());
         JsonObject obj = new JsonParser().parse(currentVersion).getAsJsonObject();
         String content = obj.get("content").getAsString();
-        String htmlPath = "D:\\test\\temp.html";
+        String htmlPath = leftPath + "htmlTemp.html";
         File file = new File(htmlPath);
         file.createNewFile();
         FileWriter writer = new FileWriter(file);
         writer.write("<body>" + content + "</body>");
         writer.close();
         if(type.equals("pdf")) {
-            String pdfPath = "D:\\test\\pdfTemp.pdf";
+            String pdfPath = leftPath + "pdfTemp.pdf";
             File pdfFile = new File(pdfPath);
             exportUtil.htmlToPdf(htmlPath, pdfFile);
             file.delete();

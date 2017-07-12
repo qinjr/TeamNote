@@ -163,10 +163,10 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/exportNote")
-    public ResponseEntity<byte[]> downloadNote(@RequestParam(value = "type") String type, @RequestParam(value = "noteId") int noteId) throws IOException, DocumentException{
-
+    public ResponseEntity<byte[]> downloadNote(@RequestParam(value = "type") String type, @RequestParam(value = "noteId") int noteId, HttpSession session) throws IOException, DocumentException{
+        String leftPath = session.getServletContext().getRealPath("/temp/");
         //在服务器端生成html文件
-        File file = downloadService.downloadNote(noteId, type);
+        File file = downloadService.downloadNote(noteId, type, leftPath);
         //将文件返回给用户
         HttpHeaders headers = downloadService.genHttpHeaders(noteId, type);
         ResponseEntity<byte[]> result = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);

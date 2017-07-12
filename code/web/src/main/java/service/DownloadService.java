@@ -19,7 +19,7 @@ public interface DownloadService {
      * @param type 导出的格式（PDF，markdown，png/jpeg）
      * @return 以文件形式返回笔记内容
      */
-    File downloadNote(int noteId, String type) throws IOException, DocumentException;
+    File downloadNote(int noteId, String type, String leftPath) throws IOException, DocumentException;
 
     /**
      * genHttpHeaders
