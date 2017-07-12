@@ -30,28 +30,26 @@
                                 </div>
                                 <div class="form-group">
                                     <h6><label for="email" class="form-control-label">邮箱</label></h6>
-                                    <input type="email" class="form-control" id="email">
+                                    <input type="email" class="form-control" id="email" name="email">
                                 </div>
                                 <div class="form-group">
                                     <h6><label for="phone" class="form-control-label">手机号码</label></h6>
-                                    <input type="text" class="form-control" id="phone">
+                                    <input type="text" class="form-control" id="phone" name="phone">
                                 </div>
                                 <div class="form-group">
                                     <h6><label for="description" class="form-control-label">简介</label></h6>
-                                    <textarea class="form-control" rows="3" id="description"></textarea>
+                                    <textarea class="form-control" rows="3" id="description" name="ps"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-warning">修改</button>
+                                <button type="button" class="btn btn-warning" id="profile_submit">修改</button>
                             </form>
                         </div>
                         <div class="col-md-4" style="margin-top: 12px;">
-                            <form role="form">
+                            <form role="form" action="uploadAvatar" enctype="multipart/form-data" method="post">
                                 <h6>个人头像</h6>
-                                <img src="image/user_6.png" class="img-100px">
-                                <div class="form-group">
-                                    <label for="inputFile"></label>
-                                    <input type="file" class="form-control-file" id="inputFile" aria-describedby="fileHelp">
-                                    <small id="fileHelp" class="form-text text-muted">test</small>
-                                </div>
+                                <img src="" id="avatar" class="img-100px">
+                                <label for="inputFile"></label>
+                                <input type="file" class="form-control-file" id="inputFile" aria-describedby="fileHelp" name="file"><br>
+                                <input type="submit"/>
                             </form>
                         </div>
                     </div>
@@ -63,19 +61,19 @@
                         <i class="fa fa-unlock-alt" aria-hidden="true"></i>&nbsp;修改密码
                     </h5>
                     <div class="dropdown-divider"></div>
-                    <form data-toggle="validator" role="form" style="width: 300px;">
+                    <form data-toggle="validator" role="form" style="width: 300px;" id="password_modification">
                         <div class="form-group">
                             <h6>
                                 <label for="old_password" class="form-control-label">原密码</label>
                             </h6>
-                            <input type="password" class="form-control" id="old_password" required>
+                            <input type="password" class="form-control" id="old_password" name="originalRawPassword" required>
                         </div>
                         <div class="form-group has-feedback">
                             <h6>
                                 <label for="new_password" class="form-control-label">新密码</label>
                                 <span class="fa form-control-feedback" aria-hidden="true"></span>
                             </h6>
-                            <input type="password" data-minlength="6" class="form-control" id="new_password" data-error="密码至少应有六位数。" required>
+                            <input type="password" data-minlength="6" class="form-control" id="new_password" name="newRawPassword" data-error="密码至少应有六位数。" required>
                             <div class="help-block with-errors text-danger"></div>
                         </div>
                         <div class="form-group has-feedback">
@@ -83,11 +81,10 @@
                                 <label for="new_password_confirm" class="form-control-label">新密码确认</label>
                                 <span class="fa form-control-feedback" aria-hidden="true"></span>
                             </h6>
-                            <input type="password" data-minlength="6" class="form-control" id="new_password_confirm"
-                                   data-error="" data-match="#new_password" data-match-error="两次输入的密码不一致，请重新输入。" required>
+                            <input type="password" class="form-control" id="new_password_confirm" data-error="" data-match="#new_password" data-match-error="两次输入的密码不一致，请重新输入。" required>
                             <div class="help-block with-errors text-danger"></div>
                         </div>
-                        <button type="submit" class="btn btn-warning">修改密码</button>
+                        <button type="button" class="btn btn-warning" id="modify_password_submit">修改密码</button>
                     </form>
                     <div class="dropdown-divider"></div>
                     <!-- delete account -->
@@ -96,7 +93,7 @@
                     </h5>
                     <div class="dropdown-divider"></div>
                     <small id="delete_warning" class="form-text text-muted" style="margin-bottom: 4px;">警告：账号删除后将会失去所有记录，请谨慎执行此命令。</small>
-                    <button type="button" class="btn btn-outline-danger" aria-describedby="delete_warning">删除账号</button>
+                    <button type="button" class="btn btn-outline-danger" aria-describedby="delete_warning" disabled="disabled">删除账号</button>
                 </div>
                 <!-- TODO: notification -->
                 <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
@@ -113,3 +110,88 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/validator.js"></script>
+<script>
+    $.ajax({
+        url: "/teamnote/userdetail",
+        dataType: "json",
+        type: "get",
+        success: function(data) {
+            var userInfo = JSON.parse(data.userInfo);
+            var user = JSON.parse(data.user);
+            var userId = userInfo.userId;
+            var username = userInfo.username;
+            var email = userInfo.email;
+            var phone = userInfo.phone;
+            var description = user.personalStatus;
+            var avatar = user.avatar;
+            $('#userId').val(userId);
+            $('#username').val(username);
+            $('#email').val(email);
+            $('#phone').val(phone);
+            $('#description').val(description);
+            $('#avatar').attr('src', avatar);
+        }
+    });
+
+    $('#profile_submit').click(function() {
+        $.ajax({
+            url: "/teamnote/updateUserProfile",
+            dataType: "text",
+            data: {
+                email: $('#email').val(),
+                phone: $('#phone').val(),
+                ps: $('#description').val()
+            },
+            type: "post",
+            success: function(data) {
+                if (JSON.parse(data).result === "success") {
+                    alert("修改成功");
+                } else {
+                    alert("修改失败");
+                }
+                location.reload();
+            }
+        });
+    });
+
+    $('#modify_password_submit').click(function() {
+        var old_password = $('#old_password').val();
+        var new_password = $('#new_password').val();
+        var new_password_confirm = $('#new_password_confirm').val();
+        if (old_password === "") {
+            alert("请输入原密码。");
+            return;
+        }
+        if (old_password === new_password) {
+            alert("新密码与原密码相同，请重新输入。");
+            return;
+        }
+        if (new_password !== new_password_confirm) {
+            alert("两次输入的密码不一致，请重新输入。");
+            return;
+        }
+        if (new_password.length < 6) {
+            alert("密码至少应有六位数，请重新输入。");
+            return;
+        }
+        $.ajax({
+            url: "/teamnote/updateUserPassword",
+            dataType: "text",
+            data: {
+                originalRawPassword: old_password,
+                newRawPassword: new_password
+            },
+            type: "post",
+            success: function(data) {
+                if (JSON.parse(data).result === "success") {
+                    alert("修改成功，请重新登录。");
+                    window.location.href = "/teamnote/logout";
+                } else if (JSON.parse(data).result === "origin password wrong"){
+                    alert("原密码输入错误，请再试一次。");
+                }
+            }
+        });
+    })
+
+
+</script>

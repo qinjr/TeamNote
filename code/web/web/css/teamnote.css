@@ -177,3 +177,20 @@ a.nav-item.nav-link:hover {
 .card-danger-kai {
     color: #D0021B;
 }
+
+@font-face {
+    font-family: 'Nanum Brush Script';
+    src:url('../fonts/NanumBrushScript-Regular.ttf');
+    src:url('../fonts/NanumBrushScript-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.nbs {
+    display: inline-block;
+    font: normal normal normal 14px/1 'Nanum Brush Script';
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

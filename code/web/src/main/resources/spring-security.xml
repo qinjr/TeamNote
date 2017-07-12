@@ -6,8 +6,11 @@
 
 
     <http auto-config="true">
-        <access-denied-handler error-page="/index"/>
+        <access-denied-handler error-page="/403.jsp"/>
         <intercept-url pattern="/auth.jsp" access="permitAll"/>
+        <intercept-url pattern="/404.jsp" access="permitAll"/>
+        <intercept-url pattern="/403.jsp" access="permitAll"/>
+        <intercept-url pattern="/admin.jsp" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/*.jsp" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/cooperate/**" access="hasRole('ROLE_USER')"/>
         <form-login
@@ -16,16 +19,20 @@
                 authentication-failure-url="/auth.jsp?login=error"
                 default-target-url="/index.jsp"
                 login-processing-url="/login"
-                login-page="/auth.jsp"/>
+                login-page="/auth.jsp"
+                authentication-success-handler-ref="customAuthenticationSuccessHandler"/>
         <logout invalidate-session="true"
                 logout-success-url="/index.jsp"
                 logout-url="/logout"/>
         <csrf disabled="true"/>
+        <remember-me key="teamnote"/>
     </http>
 
     <beans:bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
         <beans:constructor-arg name="secret" value="my-secret-key"/>
     </beans:bean>
+
+    <beans:bean id="customAuthenticationSuccessHandler" class="auth.CustomSimpleUrlAuthenticationSuccessHandler" />
 
     <authentication-manager>
         <authentication-provider>

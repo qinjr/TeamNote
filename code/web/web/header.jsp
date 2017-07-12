@@ -59,7 +59,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            <img src="<%=path%>/icon/favicon-white.png" :src="'<%=path%>/' + avator" style="height: 30px; width: 30px;">
+                            <img src="<%=path%>/icon/favicon-white.png" :src="'<%=path%>/' + avatar" style="height: 30px; width: 30px;">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <p class="dropdown-item username" style="margin-bottom: 0;">
@@ -69,7 +69,7 @@
                             <a class="dropdown-item" href="<%=path%>/homepage.jsp">
                                 <i class="fa fa-map fa-fw" aria-hidden="true"></i>&nbsp;我的主页
                             </a>
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="<%=path%>/homepage.jsp#notebook">
                                 <i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp;我的笔记
                             </a>
                             <a class="dropdown-item" href="<%=path%>/settings.jsp">
@@ -89,12 +89,12 @@
         var user = new Vue({
             el: '.dropdown',
             data: {
-                avator: null,
+                avatar: null,
                 username: null
             },
             created : function () {
                 this.$http.get('/teamnote/userdetail').then(function(response) {
-                    user.avator = JSON.parse(response.body.user).avator;
+                    user.avatar = JSON.parse(response.body.user).avatar;
                     user.username = JSON.parse(response.body.userInfo).username;
                 }, function(response) {
                     console.log("navbar error");

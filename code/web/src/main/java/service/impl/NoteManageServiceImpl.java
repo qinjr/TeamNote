@@ -227,4 +227,13 @@ public class NoteManageServiceImpl implements NoteManageService {
         note.setVersionPointer(versionPointer);
         noteDao.updateNote(note);
     }
+
+    public String getCollaborators(int notebookId) {
+        Notebook notebook = notebookDao.getNotebookById(notebookId);
+        ArrayList<String> result = new ArrayList<String>();
+        for (Integer i : notebook.getCollaborators()) {
+            result.add(userInfoDao.getUserInfoById(i).getUsername());
+        }
+        return new Gson().toJson(result);
+    }
 }

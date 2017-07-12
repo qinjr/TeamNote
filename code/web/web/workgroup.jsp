@@ -46,7 +46,7 @@
             <%
                 for (User user : collaborators) {
             %>
-            <img class="img-50px" src="<%=path%>/<%=user.getAvator()%>">
+            <img class="img-50px" src="<%=path%>/<%=user.getAvatar()%>">
             <%
                 }
             %>
@@ -56,6 +56,7 @@
     </div>
 </div>
 
+<!-- left sidebar -->
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="left-sidebar">
         <div class="pre-scrollable" id="left-sidebar-nav" style="padding-right: 10px;">
@@ -78,7 +79,7 @@
                 <li class="bar-note" style="padding-left: 10px; margin-top: 5px; margin-bottom: 5px;">
                     <a class="note" :class="{ 'active': <%=id%> === selected }" @click="select(<%=id%>)" id="<%=id%>"
                        style="word-break: break-all;" href="javascript:void(0)"><%=note.getTitle()%></a>
-                    <div class="btn-group btn-group-sm pull-right" role="group" aria-label="functional-button" id="test">
+                    <div class="btn-group btn-group-sm pull-right" role="group" aria-label="functional-button">
                         <button type="button" class="btn btn-secondary none btn-edit" data-toggle="modal" data-target="#editModal" >
                             <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                         </button>
@@ -88,8 +89,8 @@
                         <button type="button" class="btn btn-secondary none btn-history">
                             <i class="fa fa-history fa-fw" aria-hidden="true" data-toggle="modal" data-target="#historyModal"></i>
                         </button>
-                        <button type="button" class="btn btn-secondary none btn-check">
-                            <i class="fa fa-quote-left fa-fw" aria-hidden="true"></i>
+                        <button type="button" class="btn btn-secondary none btn-suggestion">
+                            <i class="fa fa-street-view fa-fw" aria-hidden="true" data-toggle="modal" data-target="#suggestionModal"></i>
                         </button>
                     </div>
                 </li>
@@ -113,6 +114,7 @@
     </div>
 </nav>
 
+<!-- right sidebar -->
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade navbar-offcanvas-right" id="right-sidebar">
         <div class="pre-scrollable">
@@ -121,6 +123,7 @@
     </div>
 </nav>
 
+<!-- notebook related modals -->
 <!-- giveOwnershipModal -->
 <div class="modal fade" id="giveOwnershipModal" tabindex="-1" role="dialog" aria-labelledby="giveOwnershipModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -149,62 +152,6 @@
     </div>
 </div>
 <!-- /giveOwnershipModal -->
-
-<!-- historyModal -->
-<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="historyModalLabel">
-                    <i class="fa fa-history" aria-hidden="true"></i>&nbsp;历史记录
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">确认</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /historyModal -->
-
-<!-- editModal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;编辑笔记标题
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form role="form">
-                    <div class="form-group">
-                        <label for="noteTitle-edit" class="form-control-label">笔记标题</label>
-                        <input type="text" class="form-control" id="noteTitle-edit">
-                    </div>
-                    <div class="form-group">
-                        <input type="hidden" class="form-control" id="noteId-edit">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary btn-edit-confirm">确认</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /editModal -->
 
 <!-- configModal -->
 <div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel" aria-hidden="true">
@@ -240,7 +187,7 @@
 <!-- /configModal -->
 
 <!-- newNoteModal -->
-<div class="modal fade" id="newNoteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="newNoteModal" tabindex="-1" role="dialog" aria-labelledby="newNoteModalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -267,7 +214,7 @@
 <!-- /newNoteModal -->
 
 <!-- updateNoteModal -->
-<div class="modal fade" id="updateNoteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateNoteModal" tabindex="-1" role="dialog" aria-labelledby="updateNoteModalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -279,7 +226,7 @@
             <div class="modal-body">
                 <form role="form">
                     <div class="form-group">
-                        <label for="message" class="form-control-label">>更新说明</label>
+                        <label for="message" class="form-control-label">更新说明</label>
                         <input class="form-control" name="message" id="message">
                     </div>
                 </form>
@@ -294,7 +241,7 @@
 <!-- /updateNoteModal -->
 
 <!-- inviteCollaboratorModal -->
-<div class="modal fade" id="inviteCollaboratorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="inviteCollaboratorModal" tabindex="-1" role="dialog" aria-labelledby="inviteCollaboratorModalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -326,6 +273,40 @@
 </div>
 <!-- /inviteCollaboratorModal -->
 
+<!-- note related modals -->
+<!-- editModal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;编辑笔记标题
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="noteTitle-edit" class="form-control-label">笔记标题</label>
+                        <input type="text" class="form-control" id="noteTitle-edit">
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="noteId-edit">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary btn-edit-confirm">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /editModal -->
+
+
 <!-- exportModal -->
 <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -337,14 +318,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form role="form">
-                    <div class="form-group">
-                        <label>文件格式</label>
-                        <select class="form-control" id="exportType">
-                                <option value="html">html</option>
-                        </select>
-                    </div>
-                </form>
+                    <label>文件格式</label>
+                    <select class="form-control" id="exportType">
+                        <option value="html">html</option>
+                    </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
@@ -365,21 +342,89 @@
                     <span aria-hidden="true">&times;</span><span class="sr-only"></span>
                 </button>
             </div>
-            <form action="/teamnote/uploadNote" method="post" enctype="multipart/form-data">
+            <form id="uploadForm">
                 <div class="modal-body">
                     <label class="form-control-label">本地文件:</label>
-                        <input type="file" name="uploadFile"/><br/><br/>
+                        <input type="file" name="uploadFile"/>
                     <input style="display:none" type="text" name="notebookId" value="<%=notebook.getNotebookId()%>">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-                    <input type="submit" class="btn btn-primary" value="上传"/>
-            </div>
+                    <button type="button" class="btn btn-primary" id="upload">上传</button>
+                </div>
             </form>
         </div>
     </div>
 </div>
 <!-- /uploadModal -->
+
+
+<!-- historyModal -->
+<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="historyModalLabel">
+                    <i class="fa fa-history" aria-hidden="true"></i>&nbsp;历史记录
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="list-group">
+                    <div v-for="(_history, index) in history">
+                        <a class="list-group-item list-group-item-action flex-column align-items-start"
+                           :href="'#collapse_' + index" data-toggle="collapse" aria-expanded="false" :aria-controls="'collapse_' + index" :key="index">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;{{ _history.editor }}
+                                </h5>
+                                <small>{{ _history.editTime }}</small>
+                            </div>
+                            <p class="mb-1">{{ _history.message }}</p>
+                        </a>
+                        <div class="collapse" :id="'collapse_' + index">
+                            <div class="card card-block">
+                                {{ _history.content }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /historyModal -->
+
+<!-- suggestionModal -->
+<div class="modal fade" id="suggestionModal" tabindex="-1" role="dialog" aria-labelledby="suggestionModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="suggestionModalLabel">
+                    <i class="fa fa-street-view" aria-hidden="true"></i>&nbsp;建议审查
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                TESTING
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- suggestionModal -->
+
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
@@ -392,7 +437,7 @@
         customConfig: '<%=path%>/ckeditor/js/config.js',
         contentsCss: '<%=path%>/ckeditor/css/contents.css',
         skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
-    } );
+    });
 
     var note = new Vue({
         el: '#left-sidebar',
@@ -405,6 +450,11 @@
             }
         }
     });
+
+    $('#historyModal').on('hidden.bs.modal', function() {
+        $(this).removeData('bs.modal');
+    });
+
 
     //window.onbeforeunload = function() {
         //return "";

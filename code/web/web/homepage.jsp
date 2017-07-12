@@ -13,7 +13,7 @@
         <div class="card-block">
             <div class="row">
                 <div class="col-md-2 text-center mx-auto">
-                    <img :src="avator" style="height: 100px; width: 100px;">
+                    <img :src="avatar" style="height: 100px; width: 100px;">
                 </div>
                 <div class="col-md-7">
                     <h4 class="card-title">{{ username }}</h4>
@@ -95,7 +95,7 @@
                                     <small>创建者 <strong>{{ notebookdetail.creator.username }}</strong> · 所有者 <strong>{{ notebookdetail.owner.username }}</strong> · 创建时间 {{ notebookdetail.notebook.createTime }}</small>
                                     <br>
                                     <div style="margin: 10px auto; display: inline;" v-for="collaborator in notebookdetail.collaborators">
-                                        <img :src="collaborator.avator" style="width: 50px; height: 50px;">&nbsp;
+                                        <img :src="collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
                                     </div>
                                 </div>
                                 <div class="col-md-3 workgroup-btn">
@@ -133,7 +133,7 @@
             username: null,
             personalStatus: null,
             email: null,
-            avator : null,
+            avatar : null,
             followersnum : null,
             followingsnum : null
         },
@@ -142,7 +142,7 @@
                 info.username = JSON.parse(response.body.userInfo).username;
                 info.personalStatus = JSON.parse(response.body.user).personalStatus;
                 info.email = JSON.parse(response.body.userInfo).email;
-                info.avator = JSON.parse(response.body.user).avator;
+                info.avatar = JSON.parse(response.body.user).avatar;
                 info.followersnum = JSON.parse(response.body.user).followers.length;
                 info.followingsnum = JSON.parse(response.body.user).followings.length;
             }, function() {
@@ -167,4 +167,44 @@
             });
         }
     });
+
+    var tag = location.href.split('#')[1];
+    if (tag !== undefined) {
+        $('li.nav-item > a.nav-link').each(function() {
+            $(this).removeClass('active');
+            $(this).attr('aria-expanded', false);
+        });
+        $('div.tab-content > div.tab-pane').each(function() {
+            $(this).removeClass('active');
+            $(this).removeClass('show');
+            $(this).attr('aria-expanded', false);
+        });
+        var $tab = null;
+        var $el = null;
+        switch(tag) {
+            case "notebook": {
+                $tab = $('#notebook-tab');
+                $el = $('#notebook');
+                break;
+            }
+            case "workgroup": {
+                $tab = $('#workgroup-tab');
+                $el = $('#workgroup');
+                break;
+            }
+            case "collection": {
+                $tab = $('#collection-tab');
+                $el = $('#collection');
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        $tab.addClass('active');
+        $tab.attr('aria-expanded', true);
+        $el.addClass('active');
+        $el.addClass('show');
+        $el.attr('aria-expanded', true);
+    }
 </script>

@@ -22,6 +22,7 @@ import service.DownloadService;
 import service.NoteManageService;
 import service.UserBasicService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.Date;
@@ -39,7 +40,7 @@ public class NoteController {
 
     @Autowired
     public NoteController(CreateNoteService createNoteService, UserBasicService userBasicService,
-                          NoteManageService noteManageService,DownloadService downloadService) {
+                          NoteManageService noteManageService, DownloadService downloadService) {
         this.createNoteService = createNoteService;
         this.userBasicService = userBasicService;
         this.noteManageService = noteManageService;
@@ -75,7 +76,6 @@ public class NoteController {
         json.addProperty("result", "success");
         return json.toString();
     }
-
 
 
     //Note operations:
@@ -162,7 +162,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/exportNote")
-    public ResponseEntity<byte[]> downloadNote(@RequestParam(value = "type") String type, @RequestParam(value = "noteId") int noteId)throws IOException{
+    public ResponseEntity<byte[]> downloadNote(@RequestParam(value = "type") String type, @RequestParam(value = "noteId") int noteId) throws IOException {
 
         //在服务器端生成html文件
         File file = downloadService.downloadNote(noteId, type);
@@ -174,22 +174,25 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/uploadNote")
-    public String uploadNote(@RequestParam(value = "uploadFile") MultipartFile uploadFile, @RequestParam(value = "notebookId")int notebookId, HttpSession session)
-    throws IOException {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+    @ResponseBody
+    public String uploadNote(@RequestParam(value = "uploadFile") MultipartFile uploadFile, @RequestParam(value = "notebookId") int notebookId, HttpSession session) throws IOException  {
+         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         String username = userDetails.getUsername();
+         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+         int userId = userInfo.getUserId();
 
-        if(uploadFile.getSize() > 0) {
-            String filename = uploadFile.getOriginalFilename();
-            if(filename.endsWith("html")) {
-                File file = new File(filename);
-                uploadFile.transferTo(file);
-                createNoteService.uploadFileNote(userId, notebookId, file, new Date());
-                file.delete();
-            }
-        }
-        return "";
+         if (uploadFile.getSize() > 0) {
+             String leftPath = session.getServletContext().getRealPath("/temp/");
+             String filename = uploadFile.getOriginalFilename();
+             if (filename.endsWith("html")) {
+                 File file = new File(leftPath, filename);
+                 uploadFile.transferTo(file);
+                 createNoteService.uploadFileNote(userId, notebookId, file, new Date());
+                 file.delete();
+             }
+         }
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
     }
 }

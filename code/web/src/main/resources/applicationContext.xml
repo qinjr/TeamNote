@@ -133,6 +133,11 @@
         <property name="tagDao" ref="tagDao" />
         <property name="userInfoDao" ref="userInfoDao" />
     </bean>
+    <bean id="recommendService" class="service.impl.RecommendServiceImpl">
+        <property name="userDao" ref="userDao" />
+        <property name="tagDao" ref="tagDao" />
+        <property name="notebookDao" ref="notebookDao" />
+    </bean>
 
     <bean id="downloadService" class="service.impl.DownloadServiceImpl">
         <property name="noteDao" ref="noteDao" />
@@ -169,15 +174,19 @@
         </property>
     </bean>
 
-    <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="defaultEncoding" value="UTF-8"/>
-    </bean>
-
     <context:component-scan base-package="controller"/>
+
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value = "/"/>
         <property name="suffix" value=".jsp" />
     </bean>
+
+    <!-- File upload -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <context:component-scan base-package="controller"/>
 
 </beans>

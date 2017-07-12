@@ -3,6 +3,8 @@ package service.impl;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
 import dao.mongodbDao.NoteDao;
 import model.mongodb.Note;
 import org.springframework.http.HttpHeaders;
@@ -30,16 +32,18 @@ public class DownloadServiceImpl implements DownloadService {
         JsonObject obj = new JsonParser().parse(currentVersion).getAsJsonObject();
         String content = obj.get("content").getAsString();
         String path = "D:\\test\\temp.";
-        if(type.equals("html")) {
-            path += "html";
-            File file = new File(path);
-            file.createNewFile();
-            FileWriter writer = new FileWriter(file);
-            writer.write(content);
-            writer.close();
-            return file;
+        path += "html";
+        File file = new File(path);
+        file.createNewFile();
+        FileWriter writer = new FileWriter(file);
+        writer.write(content);
+        writer.close();
+        if(type.equals("pdf")) {
+
         }
-        return null;
+
+        return file;
+
     }
 
     public HttpHeaders genHttpHeaders(int noteId, String type) throws IOException{
