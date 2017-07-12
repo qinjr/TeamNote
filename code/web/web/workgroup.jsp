@@ -322,6 +322,7 @@
                     <select class="form-control" id="exportType">
                         <option value="html">html</option>
                         <option value="pdf">pdf</option>
+                        <option value="md">md</option>
                     </select>
             </div>
             <div class="modal-footer">

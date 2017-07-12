@@ -35,6 +35,8 @@ CKEDITOR.editorConfig = function( config ) {
     config.font_names='宋体/宋体;黑体/黑体;仿宋/仿宋_GB2312;楷体/楷体_GB2312;隶书/隶书;幼圆/幼圆;华文彩云/华文彩云;微软雅黑/微软雅黑;'+ config.font_names;
     // 不用的附件
     config.removePlugins = 'elementspath';
+    //可选字体大小
+    config.fontSize_sizes='8/8px;9/9px;10/10px;11/11px;12/12px;14/14px;16/16px;18/18px;20/20px;22/22px;24/24px;26/26px;28/28px;36/36px;48/48px'
     // 标题大小可选格式
     config.format_tags = 'p;h1;h2;h3;h4;h5;h6';
     // 数学公式

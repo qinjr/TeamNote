@@ -52,6 +52,7 @@ $(document).ready(function() {
     /* savenote */
     $('.savenote').click(function () {
         var content = CKEDITOR.instances.editor.getData();
+        CKEDITOR.instances.editor.resetDirty();                //add
         var notebookId = $('.notebook').attr('id');
         if (noteId === -1) {
             var noteTitle = $('input[name="noteTitle"]').val();
@@ -102,9 +103,15 @@ $(document).ready(function() {
     });
 
     $('#chooseType').click(function(){
-        $('#exportModalTitle').html("选择导出格式");
-        $('#exportType').val("html");
-        $('#exportModal').modal('show');
+        //TODO
+        CKEDITOR.instances.editor.resetDirty();
+        if (CKEDITOR.instances.editor.checkDirty()) {
+            alert("导出笔记前请先保存笔记");
+        } else {
+            $('#exportModalTitle').html("选择导出格式");
+            $('#exportType').val("html");
+            $('#exportModal').modal('show');
+        }
     });
 
     $('.export').click(function () {
@@ -151,6 +158,7 @@ $(document).ready(function() {
             success : function(data) {
                 var json = JSON.parse(data);
                 CKEDITOR.instances.editor.setData(json.content);
+                CKEDITOR.instances.editor.resetDirty();
             }
         });
     });
