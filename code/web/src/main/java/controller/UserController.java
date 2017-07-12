@@ -31,6 +31,11 @@ public class UserController {
         this.userBasicService = userBasicService;
     }
 
+    @RequestMapping("/settings")
+    public String settings() {
+        return "settings";
+    }
+
     @RequestMapping("/userdetail")
     @ResponseBody
     public String getUserDetail() {
@@ -95,7 +100,7 @@ public class UserController {
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
         int userId = userInfo.getUserId();
 
-        userBasicService.updateavatar(userId, "image/avatar/" + avatarName, servletContext.getRealPath("/"));
-        return "redirect:/settings.jsp";
+        userBasicService.updateavatar(userId, "/image/avatar/" + avatarName, servletContext.getRealPath("/"));
+        return "redirect:/settings";
     }
 }

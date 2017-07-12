@@ -19,13 +19,13 @@ import service.NoteManageService;
 import service.UserBasicService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
  * Created by qjr on 2017/7/3.
  */
 @Controller
+@RequestMapping("/cooperate")
 public class CooperateController {
     private final CooperateService cooperateService;
     private final UserBasicService userBasicService;
@@ -39,14 +39,14 @@ public class CooperateController {
         this.noteManageService = noteManageService;
     }
 
-    @RequestMapping("/cooperate/getCollaborators")
+    @RequestMapping("/getCollaborators")
     @ResponseBody
     public String getCollaborators(@RequestParam(value = "notebookId") int notebookId) {
         return noteManageService.getCollaborators(notebookId);
     }
 
 
-    @RequestMapping("/cooperate/giveownership")
+    @RequestMapping("/giveownership")
     @ResponseBody
     public String giveOwnership(@RequestParam(value = "newOwnerName")String newOwnerName,
                                 @RequestParam(value = "notebookId")int notebookId) {
@@ -72,7 +72,7 @@ public class CooperateController {
         return json.toString();
     }
 
-    @RequestMapping("/cooperate/allworkgroups")
+    @RequestMapping("/allworkgroups")
     @ResponseBody
     public String allworkgroups() {
         //get username from spring security
@@ -86,7 +86,7 @@ public class CooperateController {
         return response;
     }
 
-    @RequestMapping("/cooperate/workgroup")
+    @RequestMapping("/workgroup")
     public String enterWorkGroup(@RequestParam(value = "notebookId")int notebookId,
                                  HttpServletRequest request) {
         Notebook notebook = noteManageService.getNotebookById(notebookId);
@@ -104,7 +104,7 @@ public class CooperateController {
         return "workgroup";
     }
 
-    @RequestMapping("/cooperate/invite")
+    @RequestMapping("/invite")
     @ResponseBody
     public String inviteCollaborator(@RequestParam(value = "inviteUsername") String inviteUsername,
                                      @RequestParam(value = "notebookId") int notebookId,
@@ -125,7 +125,7 @@ public class CooperateController {
         return json.toString();
     }
 
-    @RequestMapping("/cooperate/inviteValidate")
+    @RequestMapping("/inviteValidate")
     @ResponseStatus(HttpStatus.MOVED_PERMANENTLY)
     public ResponseEntity<?> validate(@RequestParam(value = "inviteUsername") String username) {
         if (!userBasicService.usernameValidate(username)) {
@@ -134,13 +134,13 @@ public class CooperateController {
         else return ResponseEntity.status(406).body(null);
     }
 
-    @RequestMapping("/cooperate/getSuggestions")
+    @RequestMapping("/getSuggestions")
     @ResponseBody
     public String getSuggestions(@RequestParam(value = "noteId") int noteId) {
         return cooperateService.getSuggestions(noteId);
     }
 
-    @RequestMapping("/cooperate/mergeSuggestion")
+    @RequestMapping("/mergeSuggestion")
     @ResponseBody
     public String mergeSuggestion(@RequestParam(value = "suggestionId") int suggestionId, @RequestParam(value = "noteId") int noteId) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

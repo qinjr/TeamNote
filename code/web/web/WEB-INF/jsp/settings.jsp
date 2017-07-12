@@ -132,7 +132,7 @@
             $('#email').val(email);
             $('#phone').val(phone);
             $('#description').val(description);
-            $('#avatar').attr('src', avatar);
+            $('#avatar').attr('src', '<%=path%>/'+ avatar);
         }
     });
 

@@ -30,11 +30,11 @@
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
             </button>
-            <a class="navbar-brand" href="<%=path%>/index.jsp">TeamNote</a>
+            <a class="navbar-brand" href="<%=path%>/index">TeamNote</a>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="<%=path%>/index.jsp"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;首页</a>
+                        <a class="nav-link" href="<%=path%>/index"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;首页</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link disabled" href="#"><i class="fa fa-paint-brush fa-fw" aria-hidden="true"></i>&nbsp;探索</a>
@@ -66,13 +66,13 @@
                                 <i class="fa fa-user fa-fw" aria-hidden="true"></i>&nbsp;{{ username }}
                             </p>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<%=path%>/homepage.jsp">
+                            <a class="dropdown-item" href="<%=path%>/homepage">
                                 <i class="fa fa-map fa-fw" aria-hidden="true"></i>&nbsp;我的主页
                             </a>
-                            <a class="dropdown-item" href="<%=path%>/homepage.jsp#notebook">
+                            <a class="dropdown-item" href="<%=path%>/homepage#notebook">
                                 <i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp;我的笔记
                             </a>
-                            <a class="dropdown-item" href="<%=path%>/settings.jsp">
+                            <a class="dropdown-item" href="<%=path%>/settings">
                                 <i class="fa fa-cog fa-spin fa-fw" aria-hidden="true"></i>&nbsp;设置
                             </a>
                             <div class="dropdown-divider"></div>

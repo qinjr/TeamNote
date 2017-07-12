@@ -1,28 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns:beans="http://www.springframework.org/schema/beans"
-             xmlns="http://www.springframework.org/schema/security">
+<beans:beans
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        xmlns="http://www.springframework.org/schema/security">
 
 
     <http auto-config="true">
-        <access-denied-handler error-page="/403.jsp"/>
-        <intercept-url pattern="/auth.jsp" access="permitAll"/>
-        <intercept-url pattern="/404.jsp" access="permitAll"/>
-        <intercept-url pattern="/403.jsp" access="permitAll"/>
-        <intercept-url pattern="/admin.jsp" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/*.jsp" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/cooperate/**" access="hasRole('ROLE_USER')"/>
+        <access-denied-handler error-page="/WEB-INF/jsp/error/403.jsp"/>
+        <intercept-url pattern="/auth" access="permitAll"/>
+        <intercept-url pattern="/WEB-INF/jsp/error/404.jsp" access="permitAll"/>
+        <intercept-url pattern="/WEB-INF/jsp/error/403.jsp" access="permitAll"/>
+
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/index" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/homepage" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/settings" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/workgroup" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/test" access="hasRole('ROLE_USER')"/>
+
+        <intercept-url pattern="/ckeditor/**" access="permitAll"/>
+        <intercept-url pattern="/css/**" access="permitAll"/>
+        <intercept-url pattern="/fonts/**" access="permitAll"/>
+        <intercept-url pattern="/icon/**" access="permitAll"/>
+        <intercept-url pattern="/image/**" access="permitAll"/>
+        <intercept-url pattern="/js/**" access="permitAll"/>
+        <intercept-url pattern="/particles.json" access="permitAll"/>
+
         <form-login
                 username-parameter="username"
                 password-parameter="password"
-                authentication-failure-url="/auth.jsp?login=error"
-                default-target-url="/index.jsp"
+                authentication-failure-url="/auth?login=error"
+                default-target-url="/index"
                 login-processing-url="/login"
-                login-page="/auth.jsp"
+                login-page="/auth"
                 authentication-success-handler-ref="customAuthenticationSuccessHandler"/>
         <logout invalidate-session="true"
-                logout-success-url="/index.jsp"
+                logout-success-url="/auth"
                 logout-url="/logout"/>
         <csrf disabled="true"/>
         <remember-me key="teamnote"/>
