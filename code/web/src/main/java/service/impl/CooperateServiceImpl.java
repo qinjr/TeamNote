@@ -113,13 +113,14 @@ public class CooperateServiceImpl implements CooperateService {
 
     public int mergeSuggestion(int managerId, int noteId, int suggestionId) {
         Note note = noteDao.getNoteById(noteId);
+        UserInfo managerInfo = userInfoDao.getUserInfoById(managerId);
 
         //add to note new history version
         Suggestion suggestion = suggestionDao.getSuggestionById(suggestionId);
         JsonObject newVersion = new JsonObject();
         newVersion.addProperty("editTime", new Date().toString());
         newVersion.addProperty("message", "merge a contributor's suggestion:" + suggestion.getIssue());
-        newVersion.addProperty("editor", managerId);
+        newVersion.addProperty("editor", managerInfo.getUsername());
         newVersion.addProperty("content", suggestion.getContent());
         ArrayList<String> history = note.getHistory();
         history.add(newVersion.toString());
