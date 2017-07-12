@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/data/mongo
+       http://www.springframework.org/schema/data/mongo/spring-mongo.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:annotation-config/>
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/teamnote?serverTimezone=UTC"/>
+        <property name="username" value="root"/>
+        <property name="password" value="584109018"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>/orm/Auth.hbm.xml</value>
+                <value>/orm/NotebookInfo.hbm.xml</value>
+                <value>/orm/UserInfo.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+                hibernate.hbm2ddl.auto=update
+                hibernate.show_sql=false
+                hibernate.format_sql=true
+            </value>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <mongo:mongo id="mongo" host="localhost" port="27017"/>
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongo" ref="mongo" />
+        <constructor-arg name="databaseName" value="teamnote" />
+    </bean>
+
+    <bean id="notebookInfoDao" class="dao.mysqlDao.impl.NotebookInfoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="userInfoDao" class="dao.mysqlDao.impl.UserInfoDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean id="authDao" class="dao.mysqlDao.impl.AuthDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="commentDao" class="dao.mongodbDao.impl.CommentDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+    <bean id="groupChatDao" class="dao.mongodbDao.impl.GroupChatDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+    <bean id="letterDao" class="dao.mongodbDao.impl.LetterDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+    <bean id="notebookDao" class="dao.mongodbDao.impl.NotebookDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+    <bean id="noteDao" class="dao.mongodbDao.impl.NoteDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+    <bean id="noticeDao" class="dao.mongodbDao.impl.NoticeDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+    <bean id="suggestionDao" class="dao.mongodbDao.impl.SuggestionDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+    <bean id="tagDao" class="dao.mongodbDao.impl.TagDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+    <bean id="userDao" class="dao.mongodbDao.impl.UserDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+    <bean id="verifyDao" class="dao.mongodbDao.impl.VerifyDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+    <bean id="ruleDao" class="dao.mongodbDao.impl.RuleDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
+
+    <!-- Utilities -->
+    <bean id="noticeUtil" class="util.impl.NoticeUtilImpl">
+        <property name="noticeDao" ref="noticeDao" />
+    </bean>
+    <bean id="authUtil" class="util.impl.AuthUtilImpl" />
+    <bean id="exportUtil" class="util.impl.ExportUtilImpl" />
+
+
+
+    <!-- Services -->
+    <bean id="cooperateService" class="service.impl.CooperateServiceImpl">
+        <property name="noticeUtil" ref="noticeUtil" />
+        <property name="notebookDao" ref="notebookDao" />
+        <property name="noteDao" ref="noteDao" />
+        <property name="groupChatDao" ref="groupChatDao" />
+        <property name="suggestionDao" ref="suggestionDao" />
+        <property name="userInfoDao" ref="userInfoDao" />
+    </bean>
+    <bean id="userBasicService" class="service.impl.UserBasicServiceImpl">
+        <property name="userDao" ref="userDao" />
+        <property name="authUtil" ref="authUtil" />
+        <property name="userInfoDao" ref="userInfoDao" />
+    </bean>
+    <bean id="createNoteService" class="service.impl.CreateNoteServiceImpl">
+        <property name="noteDao" ref="noteDao" />
+        <property name="notebookDao" ref="notebookDao" />
+        <property name="notebookInfoDao" ref="notebookInfoDao" />
+        <property name="userInfoDao" ref="userInfoDao" />
+    </bean>
+
+    <bean id="noteManageService" class="service.impl.NoteManageServiceImpl">
+        <property name="noteDao" ref="noteDao" />
+        <property name="notebookDao" ref="notebookDao" />
+        <property name="userDao" ref="userDao" />
+        <property name="tagDao" ref="tagDao" />
+        <property name="userInfoDao" ref="userInfoDao" />
+    </bean>
+    <bean id="recommendService" class="service.impl.RecommendServiceImpl">
+        <property name="userDao" ref="userDao" />
+        <property name="tagDao" ref="tagDao" />
+        <property name="notebookDao" ref="notebookDao" />
+    </bean>
+
+    <bean id="downloadService" class="service.impl.DownloadServiceImpl">
+        <property name="noteDao" ref="noteDao" />
+        <property name="exportUtil" ref="exportUtil" />
+    </bean>
+
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true" />
+            <tx:method name="*" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <!-- userService Bean -->
+        <aop:pointcut id="beanPointcut1" expression="bean(userBasicService)" />
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="beanPointcut1" />
+    </aop:config>
+
+    <!-- Controller -->
+    <!-- Chinese Character -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean id="byteArrayHttpMessageConverter" class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+                <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="writeAcceptCharset" value="false" /><!-- 用于避免响应头过大 -->
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <context:component-scan base-package="controller"/>
+
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value = "/"/>
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!-- File upload -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <context:component-scan base-package="controller"/>
+
+</beans>

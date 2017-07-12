@@ -3,7 +3,6 @@
  */
 var noteId = -1;
 $(document).ready(function() {
-
     /* give ownership */
     $('.giveOwnership').click(function() {
         var notebookId = $('.notebook').attr('id');
@@ -285,26 +284,28 @@ $(document).ready(function() {
                 location.reload();
             }
         })
+    });
 
+    var history = new Vue({
+        el: '#historyModal',
+        data: {
+            history: []
+        }
     });
 
     $('.btn-history').click(function() {
         var noteId = parseInt(this.parentNode.previousElementSibling.id);
-        var history = new Vue({
-            el: '#historyModal',
-            data: {
-                history: []
-            },
-            created: function () {
-                this.$http.get('/teamnote/getHistory?noteId=' + noteId).then(
-                    function(response){
-                        var json = JSON.parse(response.body.history);
-                        for (var _json in json) {
-                            history.history.push(JSON.parse(json[_json]));
-                        }
-                    }
-                )
+        $.ajax({
+            url: '/teamnote/getHistory?noteId=' + noteId,
+            dataType: "text",
+            type: "get",
+            success: function (response) {
+                history.history = [];
+                var json = JSON.parse(JSON.parse(response).history);
+                for (var _json in json) {
+                    history.history.push(JSON.parse(json[_json]));
+                }
             }
-        })
+        });
     });
 });
