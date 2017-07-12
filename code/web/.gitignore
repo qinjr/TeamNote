@@ -115,3 +115,10 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+/src/main/java/controller/SocketController.java
+/src/main/java/service/impl/SocketServiceImpl.java
+/src/main/java/service/SocketService.java
+/src/main/java/util/WebsocketInterceptor.java
+/src/main/java/util/impl/WebsocketInterceptorImpl.java
+/src/main/resources/spring-websocket.xml
+/web/test.jsp

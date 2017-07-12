@@ -52,6 +52,7 @@
             %>
             <i class="fa fa-commenting-o fa-2x" aria-hidden="true"></i>
         </button>
+
     </div>
 </div>
 
@@ -107,6 +108,8 @@
             <button class="btn btn-outline-primary" id="config" data-toggle="modal" data-target="#configModal">设置</button>
             <button class="btn btn-danger">取消</button>
             <button class="btn btn-success" id="callDialog">保存</button>
+            <button class="btn btn-success" style="display:none" id="chooseType">导出</button>
+            <button class="btn btn-success" id="uploadNote">导入</button>
         </div>
     </div>
 </nav>
@@ -303,6 +306,59 @@
 </div>
 <!-- /editModal -->
 
+
+<!-- exportModal -->
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exportModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <label>文件格式</label>
+                    <select class="form-control" id="exportType">
+                        <option value="html">html</option>
+                    </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary export">下载</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /exportModal -->
+
+<!-- uploadModal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="uploadModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <form id="uploadForm">
+                <div class="modal-body">
+                    <label class="form-control-label">本地文件:</label>
+                        <input type="file" name="uploadFile"/>
+                    <input style="display:none" type="text" name="notebookId" value="<%=notebook.getNotebookId()%>">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-primary" id="upload">上传</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /uploadModal -->
+
+
 <!-- historyModal -->
 <div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -369,7 +425,9 @@
 </div>
 <!-- suggestionModal -->
 
+
 <%@ include file="footer.jsp"%>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
 <script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
 <script type="text/javascript" src="<%=path%>/js/validator.js"></script>

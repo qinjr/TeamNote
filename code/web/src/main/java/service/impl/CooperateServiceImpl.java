@@ -169,6 +169,10 @@ public class CooperateServiceImpl implements CooperateService {
 
 
     public int sendGroupChat(int userId, int notebookId, Date datetime, String content) {
+
+        //receive
+        //store
+        //broadcast
         //TODO
         return 0;
     }

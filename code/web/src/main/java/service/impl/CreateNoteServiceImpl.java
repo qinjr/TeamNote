@@ -3,10 +3,12 @@ package service.impl;
 import com.google.gson.JsonObject;
 import dao.mongodbDao.NoteDao;
 import dao.mongodbDao.NotebookDao;
+import dao.mongodbDao.UserDao;
 import dao.mysqlDao.NotebookInfoDao;
 import dao.mysqlDao.UserInfoDao;
 import model.mongodb.Note;
 import model.mongodb.Notebook;
+import model.mongodb.User;
 import model.mysql.NotebookInfo;
 import model.mysql.UserInfo;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,7 +16,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import service.CreateNoteService;
 import sun.net.httpserver.HttpsServerImpl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -26,7 +31,9 @@ public class CreateNoteServiceImpl implements CreateNoteService{
     private NoteDao noteDao;
     private NotebookDao notebookDao;
     private NotebookInfoDao notebookInfoDao;
+    private UserDao userDao;
     private UserInfoDao userInfoDao;
+
 
     public void setNoteDao(NoteDao noteDao) {
         this.noteDao = noteDao;
@@ -40,8 +47,14 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         this.notebookInfoDao = notebookInfoDao;
     }
 
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
     public void setUserInfoDao(UserInfoDao userInfoDao) {
         this.userInfoDao = userInfoDao;
+
     }
 
     /**
@@ -63,6 +76,12 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         int notebookId = notebookInfoDao.addNotebookInfo(notebookInfo);
         notebook.setNotebookId(notebookId);
         notebookDao.addNotebook(notebook);
+
+        User user = userDao.getUserById(userId);
+        ArrayList<Integer> notebooks = user.getNotebooks();
+        notebooks.add(notebookId);
+        user.setNotebooks(notebooks);
+        userDao.updateUser(user);
         return 1;
     }
 
@@ -74,7 +93,17 @@ public class CreateNoteServiceImpl implements CreateNoteService{
      * @param datetime 上传时间
      * @return 1为成功，0为失败
      */
-    public int uploadFileNote(int userId, int notebookId, File content, Date datetime) {
+    public int uploadFileNote(int userId, int notebookId, File content, Date datetime) throws IOException{
+        FileReader reader = new FileReader(content);
+        BufferedReader bReader = new BufferedReader(reader);
+        String contentStr = "";
+        String temp = "";
+        while((temp = bReader.readLine())!= null) {
+            contentStr += temp;
+        }
+        bReader.close();
+        reader.close();
+        newTextNote(userId, notebookId, "导入的笔记", contentStr, datetime);
         return 1;
     }
 

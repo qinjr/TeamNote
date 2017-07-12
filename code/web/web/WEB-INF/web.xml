@@ -11,7 +11,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:applicationContext.xml, classpath:spring-security.xml</param-value>
+        <param-value>classpath:applicationContext.xml, classpath:spring-security.xml, classpath:spring-websocket.xml</param-value>
     </context-param>
 
     <listener>
@@ -21,6 +21,7 @@
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <async-supported>true</async-supported>
     </filter>
 
     <filter-mapping>
@@ -36,6 +37,7 @@
             <param-value>classpath:applicationContext.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
 
     <servlet-mapping>

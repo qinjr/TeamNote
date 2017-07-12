@@ -14,9 +14,9 @@
     <context:annotation-config/>
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/teamnote?useSSL=false"/>
-        <property name="username" value="qjr"/>
-        <property name="password" value=""/>
+        <property name="url" value="jdbc:mysql://localhost:3306/teamnote?serverTimezone=UTC"/>
+        <property name="username" value="root"/>
+        <property name="password" value="584109018"/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -37,6 +37,8 @@
             </value>
         </property>
     </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"/>
 
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate5.HibernateTransactionManager">
@@ -101,6 +103,8 @@
     <bean id="authUtil" class="util.impl.AuthUtilImpl">
     </bean>
 
+
+
     <!-- Services -->
     <bean id="cooperateService" class="service.impl.CooperateServiceImpl">
         <property name="noticeUtil" ref="noticeUtil" />
@@ -135,6 +139,11 @@
         <property name="notebookDao" ref="notebookDao" />
     </bean>
 
+    <bean id="downloadService" class="service.impl.DownloadServiceImpl">
+        <property name="noteDao" ref="noteDao" />
+    </bean>
+
+
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="get*" read-only="true" />
@@ -152,6 +161,7 @@
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
             <list>
+                <bean id="byteArrayHttpMessageConverter" class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
                 <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
                     <property name="writeAcceptCharset" value="false" /><!-- 用于避免响应头过大 -->
                     <property name="supportedMediaTypes">
@@ -163,6 +173,9 @@
             </list>
         </property>
     </bean>
+
+    <context:component-scan base-package="controller"/>
+
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value = "/"/>

@@ -1,7 +1,10 @@
 package service;
 
 
+import org.springframework.http.HttpHeaders;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -14,8 +17,14 @@ public interface DownloadService {
      * @param type 导出的格式（PDF，markdown，png/jpeg）
      * @return 以文件形式返回笔记内容
      */
-    File downloadNote(int noteId, String type);
+    File downloadNote(int noteId, String type) throws IOException;
 
+    /**
+     * genHttpHeaders
+     * @param noteId 要下载的笔记Id
+     * @return 生成的Http响应头
+     */
+    HttpHeaders genHttpHeaders(int noteId, String type) throws IOException;
 
     /**
      * downloadNotebook
