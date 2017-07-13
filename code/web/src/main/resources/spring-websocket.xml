@@ -8,12 +8,12 @@
         http://www.springframework.org/schema/websocket
         http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
-    <!--<websocket:message-broker application-destination-prefix="/app">
+    <websocket:message-broker application-destination-prefix="/app">
         <websocket:stomp-endpoint path="/portfolio">
             <websocket:sockjs/>
         </websocket:stomp-endpoint>
         <websocket:simple-broker prefix="/topic"/>
-    </websocket:message-broker>-->
+    </websocket:message-broker>
 
     <!--<websocket:handlers>
         <websocket:mapping path="/echo" handler="socketHandler" />
