@@ -16,10 +16,10 @@ import service.SocketService;
 public class SocketController {
     SocketService socketService;
 
-    @Autowired
-    public SocketController(SocketService socketService) {
-        this.socketService = socketService;
-    }
+    //@Autowired
+    //public SocketController(SocketService socketService) {
+        //this.socketService = socketService;
+    //}
 
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")

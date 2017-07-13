@@ -110,6 +110,8 @@
     </bean>
     <bean id="authUtil" class="util.impl.AuthUtilImpl">
     </bean>
+    <bean id="qualityUtil" class="util.impl.QualityUtilImpl">
+    </bean>
 
     <!-- Services -->
     <bean id="cooperateService" class="service.impl.CooperateServiceImpl">
@@ -130,6 +132,8 @@
         <property name="notebookDao" ref="notebookDao" />
         <property name="notebookInfoDao" ref="notebookInfoDao" />
         <property name="userInfoDao" ref="userInfoDao" />
+        <property name="qualityUtil" ref="qualityUtil" />
+        <property name="userDao" ref="userDao" />
     </bean>
 
     <bean id="noteManageService" class="service.impl.NoteManageServiceImpl">

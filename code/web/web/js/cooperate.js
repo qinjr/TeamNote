@@ -67,10 +67,12 @@ $(document).ready(function() {
                 },
                 success : function(data) {
                     var json = JSON.parse(data);
-                    if (json.result === "success")
+                    if (json.result === "success") {
                         location.reload();
-                    else {
-                        alert("error in adding note");
+                    } else if(json.result === "sensitive") {
+                        alert("政治敏感");
+                    } else {
+                        alert("error in updating note");
                     }
                 }
             });
@@ -90,9 +92,11 @@ $(document).ready(function() {
                 },
                 success : function(data) {
                     var json = JSON.parse(data);
-                    if (json.result === "success")
+                    if (json.result === "success") {
                         location.reload();
-                    else {
+                    } else if(json.result === "sensitive") {
+                        alert("政治敏感");
+                    } else {
                         alert("error in updating note");
                     }
                 }
@@ -156,7 +160,7 @@ $(document).ready(function() {
     });
 
     $('#newNote').click(function() {
-        $('#chooseType').attr("style","display:none")   // add
+        $('#chooseType').attr("style","display:none");  // add
         noteId = -1;
         $('a.note').each(function() {
             if ($(this).hasClass("active")) {

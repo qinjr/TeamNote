@@ -147,7 +147,7 @@ public class UserBasicServiceImpl implements UserBasicService {
 
     public void updateQrcode(int userId, String qrcode, String path) {
         User user = userDao.getUserById(userId);
-        if (!user.getQrcode().equals("")) {
+        if (user.getQrcode().length() != 0) {
             File oldQrcode = new File(path + "/" + user.getQrcode());
             if (oldQrcode.delete()) {
                 user.setQrcode(qrcode);
@@ -165,6 +165,7 @@ public class UserBasicServiceImpl implements UserBasicService {
             File oldQrcode = new File(path + "/" + user.getQrcode());
             if (oldQrcode.delete()) {
                 user.setQrcode("");
+                userDao.updateUser(user);
             }
         }
     }

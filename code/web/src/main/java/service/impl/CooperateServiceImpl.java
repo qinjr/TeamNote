@@ -123,6 +123,13 @@ public class CooperateServiceImpl implements CooperateService {
         newVersion.addProperty("editor", managerInfo.getUsername());
         newVersion.addProperty("content", suggestion.getContent());
         ArrayList<String> history = note.getHistory();
+
+        //delete conflict versions
+        if (note.getVersionPointer() + 1 < history.size()) {
+            for (int i = note.getVersionPointer() + 1; i < history.size(); ++ i) {
+                history.remove(i);
+            }
+        }
         history.add(newVersion.toString());
         note.setHistory(history);
         note.setVersionPointer(note.getVersionPointer() + 1);
@@ -130,6 +137,7 @@ public class CooperateServiceImpl implements CooperateService {
 
         //set suggestion status to accepted
         suggestion.setStatus("accepted");
+        suggestionDao.updateSuggestion(suggestion);
 
         //add contributor info to the notebook to which the note belong
         Notebook notebook = notebookDao.getNotebookById(note.getNotebookId());

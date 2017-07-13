@@ -82,15 +82,18 @@ public class NoteController {
     @RequestMapping("/saveFirstEdition")
     @ResponseBody
     public String saveFirstEdition(@RequestParam(value = "notebookId") int noteBookId, @RequestParam(value = "noteTitle") String noteTitle,
-                                   @RequestParam(value = "content") String content) {
+                                   @RequestParam(value = "content") String content) throws IOException {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
         int userId = userInfo.getUserId();
         Date datetime = new Date();
-        createNoteService.newTextNote(userId, noteBookId, noteTitle, content, datetime);
         JsonObject json = new JsonObject();
-        json.addProperty("result", "success");
+        if (createNoteService.newTextNote(userId, noteBookId, noteTitle, content, datetime) == 0) {
+            json.addProperty("result", "sensitive");
+        } else {
+            json.addProperty("result", "success");
+        }
         return json.toString();
     }
 
