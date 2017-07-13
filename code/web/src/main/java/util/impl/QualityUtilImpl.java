@@ -19,7 +19,7 @@ import java.util.List;
 public class QualityUtilImpl implements QualityUtil {
     public int checkTextContent(int userId, String content) throws IOException {
         HashSet<String> sensitiveWords = new HashSet<String>();
-        String source = "/Users/qjr/Documents/CS/GitProjects/TeamNote/code/web/out/artifacts/web_war_exploded/sensitive/政治类.txt";
+        String source = "/Users/rudeigerc/Developer/TeamNote/code/web/out/artifacts/web_war_exploded/sensitive/政治类.txt";
 
         InputStream fis = new FileInputStream(source);
         InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
