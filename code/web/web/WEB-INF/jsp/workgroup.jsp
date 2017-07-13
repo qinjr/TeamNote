@@ -431,7 +431,7 @@
                                 {{ _suggestion.content }}
                                 <div class="dropdown-divider"></div>
                                 <div style="text-align: right;">
-                                    <button type="button" class="btn btn-outline-secondary btn-ignore" @click="">忽略建议</button>
+                                    <button type="button" class="btn btn-outline-secondary btn-ignore" @click="ignoreSuggestion">忽略建议</button>
                                     <button type="button" class="btn btn-outline-warning btn-merge" @click="mergeSuggestion">合并建议</button>
                                 </div>
                             </div>

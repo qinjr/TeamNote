@@ -362,6 +362,23 @@ $(document).ready(function() {
                         location.reload();
                     }
                 });
+            },
+            ignoreSuggestion: function(e) {
+                var suggestionId = parseInt(e.srcElement.parentElement.parentElement.parentElement.id.replace("suggestion_collapse_", ""));
+                var confirm = window.confirm("您将忽略该建议，请确定是否执行。");
+                if (!confirm) return;
+                $.ajax({
+                    url: '/teamnote/cooperate/ignoreSuggestion',
+                    dataType: "text",
+                    type: "post",
+                    data: {
+                        suggestionId: suggestionId
+                    },
+                    success: function() {
+                        alert("该建议已被忽略。");
+                        location.reload();
+                    }
+                });
             }
         }
     });
