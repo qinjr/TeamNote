@@ -290,15 +290,40 @@ $(document).ready(function() {
         el: '#historyModal',
         data: {
             history: []
+        },
+        methods: {
+            switchVersion: function(e) {
+                var versionPointer = parseInt(e.srcElement.parentElement.parentElement.parentElement.id.replace("collapse_", ""));
+                var confirm = window.confirm("您将切换至版本" + versionPointer + "，是否确定切换？");
+                if (!confirm) return;
+                var noteId = $('#noteId').val();
+                $.ajax({
+                    url: '/teamnote/changeVersion',
+                    dataType: "text",
+                    type: "post",
+                    data: {
+                        versionPointer: versionPointer,
+                        noteId: noteId
+                    },
+                    success: function(data) {
+                        alert("版本切换成功。");
+                        location.reload();
+                    }
+                });
+            }
         }
     });
 
     $('.btn-history').click(function() {
         var noteId = parseInt(this.parentNode.previousElementSibling.id);
+        $('#noteId').val(noteId);
         $.ajax({
-            url: '/teamnote/getHistory?noteId=' + noteId,
+            url: '/teamnote/getHistory',
             dataType: "text",
             type: "get",
+            data: {
+                noteId: noteId
+            },
             success: function (response) {
                 history.history = [];
                 var json = JSON.parse(JSON.parse(response).history);
@@ -308,4 +333,5 @@ $(document).ready(function() {
             }
         });
     });
+
 });
