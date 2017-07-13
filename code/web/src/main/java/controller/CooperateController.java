@@ -153,4 +153,13 @@ public class CooperateController {
         json.addProperty("result", "success");
         return json.toString();
     }
+
+    @RequestMapping("/ignoreSuggestion")
+    @ResponseBody
+    public String ignoreSuggestion(@RequestParam(value = "suggestionId") int suggestionId) {
+        cooperateService.ignoreSuggestion(suggestionId);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
+    }
 }

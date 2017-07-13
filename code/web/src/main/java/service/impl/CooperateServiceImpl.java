@@ -192,4 +192,10 @@ public class CooperateServiceImpl implements CooperateService {
         json.addProperty("suggestions", suggestionsString);
         return json.toString();
     }
+
+    public void ignoreSuggestion(int suggestionId) {
+        Suggestion suggestion = suggestionDao.getSuggestionById(suggestionId);
+        suggestion.setStatus("ignored");
+        suggestionDao.updateSuggestion(suggestion);
+    }
 }
