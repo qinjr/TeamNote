@@ -181,6 +181,7 @@ public class NoteController {
          String username = userDetails.getUsername();
          UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
          int userId = userInfo.getUserId();
+         JsonObject json = new JsonObject();
 
          if (uploadFile.getSize() > 0) {
              String leftPath = session.getServletContext().getRealPath("/temp/");
@@ -190,10 +191,14 @@ public class NoteController {
                  uploadFile.transferTo(file);
                  createNoteService.uploadFileNote(userId, notebookId, file, new Date());
                  file.delete();
+                 json.addProperty("result", "success");
+             } else {
+                 json.addProperty("result", "wrongType");
              }
+         } else {
+             json.addProperty("result", "noFile");
          }
-        JsonObject json = new JsonObject();
-        json.addProperty("result", "success");
+
         return json.toString();
     }
 }

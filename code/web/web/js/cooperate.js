@@ -137,8 +137,10 @@ $(document).ready(function() {
                 var json = JSON.parse(data);
                 if (json.result === "success")
                     location.reload();
-                else {
-                    alert("error in uploading note");
+                else if (json.result === "wrongType"){
+                    alert("不支持该格式");
+                } else {
+                    alert("上传文件失败")
                 }
             }
         })

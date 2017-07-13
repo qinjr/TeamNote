@@ -26,7 +26,7 @@ CKEDITOR.editorConfig = function( config ) {
         { name: 'about', groups: [ 'about' ] }
     ];
     config.skin = 'bootstrapck';
-    config.removeButtons = 'Source,Form,Checkbox,Radio,TextField,Textarea,Select,Button,' +
+    config.removeButtons = 'Save,NewPage,Preview,Print,Source,Form,Checkbox,Radio,TextField,Textarea,Select,Button,' +
         'HiddenField,CreateDiv,Anchor,Flash,Iframe,ShowBlocks,About,Language,Copy,Cut,Paste,' +
         'PasteText,PasteFromWord,BidiLtr,BidiRtl,Indent,Outdent,PageBreak,Subscript,Superscript';
     // 代码块
