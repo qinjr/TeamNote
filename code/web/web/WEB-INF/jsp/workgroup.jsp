@@ -108,8 +108,8 @@
             <button class="btn btn-outline-primary" id="config" data-toggle="modal" data-target="#configModal">设置</button>
             <button class="btn btn-danger">取消</button>
             <button class="btn btn-success" id="callDialog">保存</button>
-            <button class="btn btn-success" style="display:none" id="chooseType">导出</button>
-            <button class="btn btn-success" id="uploadNote">导入</button>
+            <button class="btn btn-outline-success" style="display:none" id="chooseType">导出</button>
+            <button class="btn btn-outline-success" id="uploadNote">导入</button>
         </div>
     </div>
 </nav>
