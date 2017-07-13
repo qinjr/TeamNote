@@ -10,5 +10,5 @@ public interface QualityUtil {
      * @param content 上传内容
      * @return 机器过滤结果（通过、不通过原因）
      */
-    public String checkTextContent(int userId, String content);
+    public int checkTextContent(int userId, String content);
 }

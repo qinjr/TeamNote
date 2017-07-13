@@ -61,4 +61,8 @@ public interface UserBasicService {
     void updateavatar(int userId, String avatar, String path);
 
     int updatePassword(int userId, String originalRawPassword, String newRawPassword);
+
+    void updateQrcode(int userId, String qrcode, String path);
+
+    int deleteQrcode(int userId, String path);
 }
