@@ -120,7 +120,7 @@ $(document).ready(function() {
     $('#uploadNote').click(function () {
         $('#uploadModalTitle').html("选择文件");
         $('#uploadModal').modal('show');
-    })
+    });
 
     $('#upload').click(function() {
         var uploadForm = new FormData($('#uploadForm')[0]);
@@ -139,7 +139,7 @@ $(document).ready(function() {
                 }
             }
         })
-    })
+    });
 
     $('.note').click(function(e) {
         $('#chooseType').removeAttr("style") //add
@@ -337,5 +337,4 @@ $(document).ready(function() {
             }
         });
     });
-
 });

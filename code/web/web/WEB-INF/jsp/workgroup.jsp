@@ -426,7 +426,6 @@
 </div>
 <!-- suggestionModal -->
 
-
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>

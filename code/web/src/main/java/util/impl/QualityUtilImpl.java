@@ -7,6 +7,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 import util.QualityUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.HashSet;
@@ -17,10 +18,14 @@ import java.util.List;
  */
 
 public class QualityUtilImpl implements QualityUtil {
+    private String source;
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
     public int checkTextContent(int userId, String content) throws IOException {
         HashSet<String> sensitiveWords = new HashSet<String>();
-        String source = "/Users/qjr/Documents/CS/GitProjects/TeamNote/code/web/out/artifacts/web_war_exploded/sensitive/政治类.txt";
-
         InputStream fis = new FileInputStream(source);
         InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
         BufferedReader br = new BufferedReader(isr);
