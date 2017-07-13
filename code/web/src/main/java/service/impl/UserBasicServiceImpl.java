@@ -159,14 +159,13 @@ public class UserBasicServiceImpl implements UserBasicService {
         }
     }
 
-    public int deleteQrcode(int userId, String path) {
+    public void deleteQrcode(int userId, String path) {
         User user = userDao.getUserById(userId);
         if (!user.getQrcode().equals("")) {
             File oldQrcode = new File(path + "/" + user.getQrcode());
             if (oldQrcode.delete()) {
-                return 1;
+                user.setQrcode("");
             }
         }
-        return 0;
     }
 }

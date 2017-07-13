@@ -64,5 +64,5 @@ public interface UserBasicService {
 
     void updateQrcode(int userId, String qrcode, String path);
 
-    int deleteQrcode(int userId, String path);
+    void deleteQrcode(int userId, String path);
 }
