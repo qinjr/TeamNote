@@ -120,7 +120,7 @@ public class UserController {
         return "redirect:/settings";
     }
 
-    @RequestMapping("deleteQrcode")
+    @RequestMapping("/deleteQrcode")
     public String deleteQrcode(HttpServletRequest request) {
         ServletContext servletContext = request.getServletContext();
 

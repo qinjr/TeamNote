@@ -57,13 +57,22 @@
                                 </div>
                             </form>
                             <div class="dropdown-divider"></div>
-                            <div>
-                                <h6><label for="reward" class="form-control-label">打赏</label</h6>
+                            <div class="reward-switch">
+                                <h6><label for="reward" class="form-control-label">打赏</label></h6>
                                 <input type="checkbox" id="reward">
                             </div>
-                            <form>
-                                <img src="image/qrcode/141499913462_.pic.jpg" style="width: 60%; height: 30%;">
-                            </form>
+                            <div class="dropdown-divider"></div>
+                            <div>
+                                <form id="qrcode_form" style="display: none;" action="uploadQrcode" enctype="multipart/form-data" method="post">
+                                    <img src="" id="qrcode" style="max-width: 233px; height: 349px;">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-secondary file-chooser-label" id="qrcode_upload_label" style="width: 167px;">选择上传的二维码
+                                            <input type="file" class="form-control-file file-chooser" id="_qrcode" name="qrcode">
+                                        </button>
+                                        <button type="submit" class="btn btn-secondary btn-file-upload" disabled="disabled" id="qrcode_upload">提交</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -112,7 +121,6 @@
                 <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
                     notification
                 </div>
-
             </div>
         </div>
     </div>
@@ -123,7 +131,7 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/validator.js"></script>
-<script type="text/javascript" src="<%=path%>/js/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="<%=path%>/js/bootstrap-switch.js"></script>
 <script>
     $.ajax({
         url: "/teamnote/userdetail",
@@ -138,12 +146,19 @@
             var phone = userInfo.phone;
             var description = user.personalStatus;
             var avatar = user.avatar;
+            var qrcode = user.qrcode;
             $('#userId').val(userId);
             $('#username').val(username);
             $('#email').val(email);
             $('#phone').val(phone);
             $('#description').val(description);
-            $('#avatar').attr('src', '<%=path%>/'+ avatar);
+            $('#avatar').attr('src', '<%=path%>'+ avatar);
+            $('#reward').bootstrapSwitch('state', (qrcode.length !== 0));
+            if (qrcode.length === 0) {
+                $('#qrcode').hide();
+            } else {
+                $('#qrcode').attr('src', '<%=path%>'+ qrcode);
+            }
         }
     });
 
@@ -220,5 +235,41 @@
         $label.append($input);
     };
 
-    $('#reward').bootstrapSwitch('size', 'mini');
+    document.getElementById("_qrcode").onchange = function() {
+        $('#qrcode_upload').removeAttr('disabled');
+        var path = $('#_qrcode').val();
+        var $input = document.getElementById("_qrcode");
+        var $label = $('#qrcode_upload_label');
+        var file_name = path.split("\\")[2];
+        if (file_name.length > 12) {
+            file_name = file_name.substr(0, 12) + "...";
+        }
+        $label[0].innerText = file_name;
+        $label.append($input);
+    };
+
+    $('#reward').bootstrapSwitch({
+        onText: "开启",
+        offText: "关闭",
+        size: "mini",
+        onSwitchChange: function(e, state) {
+            $(this).val(state);
+            if (state) {
+                $('#qrcode_form').show()
+            }
+            else {
+                var confirm = window.confirm("关闭此功能后您上传的二维码将被删除，若要再次开启此功能需重新上传，是否执行此操作？");
+                if (!confirm) {
+                    $('#reward').bootstrapSwitch('state', true);
+                    return;
+                }
+                $('#qrcode_form').hide();
+                $('#qrcode').hide();
+                $.ajax({
+                    url: "/teamnote/deleteQrcode"
+                })
+            }
+        }
+    });
+
 </script>
