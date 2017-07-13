@@ -170,7 +170,7 @@ $(document).ready(function() {
             var data = JSON.parse(msg.data);
             console.log("WebSocket:收到一条消息",data);
             $("#chatContent").append("<div>" +
-                                            "<label>"+data.fromName+"&nbsp;"+data.date+"</label>" +
+                                            "<label style='color:#0080ff'>"+data.fromName+" "+data.date+"</label>" +
                                             "<div>"+data.text+"</div>" +
                                       "</div>");
         }
@@ -211,7 +211,7 @@ $(document).ready(function() {
                     var json = JSON.parse(data);
                     if (json.result === "success") {
                         $("#chatContent").append("<div >" +
-                                                        "<label>" + json.sender + "&nbsp;" + new Date().Format("yyyy/MM/dd hh:mm:ss") + "</label>" +
+                                                        "<label style='color:#00cc7d'>" + json.sender + " " + new Date().Format("yyyy/MM/dd hh:mm:ss") + "</label>" +
                                                         "<div >" + text + "</div>" +
                                                   "</div>");
                         $("#msg").val("");
