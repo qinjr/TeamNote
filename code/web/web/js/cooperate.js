@@ -2,6 +2,7 @@
  * Created by rudeigerc on 2017/7/4.
  */
 var noteId = -1;
+var websocket;
 $(document).ready(function() {
     /* give ownership */
     $('.giveOwnership').click(function() {
@@ -115,7 +116,7 @@ $(document).ready(function() {
     });
 
     $('.export').click(function () {
-        var exportType = $('#exportType').val()
+        var exportType = $('#exportType').val();
         window.location.href="/teamnote/exportNote?type=" + exportType + "&noteId=" + noteId;
         $('#exportModal').modal('hide');
     });
@@ -123,7 +124,7 @@ $(document).ready(function() {
     $('#uploadNote').click(function () {
         $('#uploadModalTitle').html("选择文件");
         $('#uploadModal').modal('show');
-    })
+    });
 
     $('#upload').click(function() {
         var uploadForm = new FormData($('#uploadForm')[0]);
@@ -144,10 +145,98 @@ $(document).ready(function() {
                 }
             }
         })
-    })
+    });
+
+    $('#showChat').click(function() {
+        var notebookId = $('.notebook').attr("id");
+        if ('WebSocket' in window) {
+            websocket = new WebSocket("ws://localhost:8080/teamnote/chat");
+        } else if ('MozWebSocket' in window) {
+            websocket = new MozWebSocket("ws://localhost:8080/teamnote/chat");
+        } else {
+            websocket = new SockJS("http://localhost:8080/teamnote/chat/sockjs");
+        }
+
+        websocket.onopen = function (event) {
+            console.log("WebSocket:已连接");
+            console.log(event);
+        };
+        websocket.onclose = function (event) {
+            console.log("WebSocket:已关闭");
+            console.log(event);
+        };
+
+        websocket.onmessage = function (msg) {
+            var data = JSON.parse(msg.data);
+            console.log("WebSocket:收到一条消息",data);
+            $("#chatContent").append("<div>" +
+                                            "<label>"+data.fromName+"&nbsp;"+data.date+"</label>" +
+                                            "<div>"+data.text+"</div>" +
+                                      "</div>");
+        }
+    });
+
+    Date.prototype.Format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "q+": Math.floor((this.getMonth() + 3) / 3),
+            "S": this.getMilliseconds()
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    };
+
+    $('#sendMsg').click(function(){
+        var notebookId = $('.notebook').attr("id");
+        var text = $("#msg").val();
+        if(text == "") {
+            return;
+        } else {
+            $.ajax({
+                url : "/teamnote/sendMsg",
+                processData : true,
+                dataType : "text",
+                type : "post",
+                data : {
+                    notebookId : notebookId,
+                    text : text
+                },
+                success : function(data) {
+                    var json = JSON.parse(data);
+                    if (json.result === "success") {
+                        $("#chatContent").append("<div >" +
+                                                        "<label>" + json.sender + "&nbsp;" + new Date().Format("yyyy/MM/dd hh:mm:ss") + "</label>" +
+                                                        "<div >" + text + "</div>" +
+                                                  "</div>");
+                        $("#msg").val("");
+                    } else {
+                        alert("error in sending");
+                    }
+                }
+            });
+
+        }
+    });
+
+    $(document).keyup(function(event){
+        if( event.keyCode ==13 ){
+            $("#sendMsg").trigger("click");
+        }
+    });
+
+    $('#clearMsg').click(function(){
+        $("#chatContent").empty();
+    });
+
 
     $('.note').click(function(e) {
-        $('#chooseType').removeAttr("style") //add
+        $('#chooseType').removeAttr("style");//add
         noteId = parseInt(e.target.id);
         $.ajax({
             url : "/teamnote/getNote",
@@ -166,7 +255,7 @@ $(document).ready(function() {
     });
 
     $('#newNote').click(function() {
-        $('#chooseType').attr("style","display:none")   // add
+        $('#chooseType').attr("style","display:none");   // add
         noteId = -1;
         $('a.note').each(function() {
             if ($(this).hasClass("active")) {

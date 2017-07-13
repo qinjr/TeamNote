@@ -42,7 +42,7 @@
         </div>
     </div>
     <div class="col-md-2">
-        <button class="button btn-outline-secondary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#right-sidebar" style="border: none; float: right; width: 60px;">
+        <button class="button btn-outline-secondary navbar-toggle offcanvas-toggle" id="showChat" data-toggle="offcanvas" data-target="#right-sidebar" style="border: none; float: right; width: 60px;">
             <%
                 for (User user : collaborators) {
             %>
@@ -118,7 +118,18 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade navbar-offcanvas-right" id="right-sidebar">
         <div class="pre-scrollable">
-
+            <div class="panel panel-primary" style="width: 100%; height: 400px; overflow-y: scroll;">
+                <div class="panel-heading">
+                    <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#right-sidebar">
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                    <h3 class="panel-title">聊天</h3>
+                </div>
+                <div class="panel-body" id="chatContent"></div>
+            </div>
+            <input type="text" class="form-control" id="msg">
+            <input type="button" class="btn btn-outline-primary" value="发送" id="sendMsg">
+            <input type="button" class="btn btn-secondary" value="清空" id="clearMsg">
         </div>
     </div>
 </nav>

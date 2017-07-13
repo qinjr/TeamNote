@@ -179,7 +179,7 @@ public class NoteManageServiceImpl implements NoteManageService {
 
         JsonObject json = new JsonObject();
         json.addProperty("editTime", datetime.toString());
-        json.addProperty("message", message);
+        json.addProperty("Message", message);
         json.addProperty("content", content);
         json.addProperty("editor", username);
 

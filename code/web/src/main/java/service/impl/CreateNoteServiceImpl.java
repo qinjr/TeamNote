@@ -120,7 +120,7 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         String username = userInfoDao.getUserInfoById(userId).getUsername();
         JsonObject firstEdition = new JsonObject();
         firstEdition.addProperty("editTime", datetime.toString());
-        firstEdition.addProperty("message", "First edition");
+        firstEdition.addProperty("Message", "First edition");
         firstEdition.addProperty("content", content);
         firstEdition.addProperty("editor", username);
         ArrayList<String> history = new ArrayList<String>();
