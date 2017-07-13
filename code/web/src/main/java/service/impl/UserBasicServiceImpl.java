@@ -127,8 +127,7 @@ public class UserBasicServiceImpl implements UserBasicService {
                 user.setAvatar(avatar);
                 userDao.updateUser(user);
             }
-        }
-        else {
+        } else {
             user.setAvatar(avatar);
             userDao.updateUser(user);
         }
@@ -144,5 +143,29 @@ public class UserBasicServiceImpl implements UserBasicService {
         }
         else
             return 0;
+    }
+
+    public void updateQrcode(int userId, String qrcode, String path) {
+        User user = userDao.getUserById(userId);
+        if (!user.getQrcode().equals("")) {
+            File oldQrcode = new File(path + "/" + user.getQrcode());
+            if (oldQrcode.delete()) {
+                user.setQrcode(qrcode);
+                userDao.updateUser(user);
+            }
+        } else {
+            user.setQrcode(qrcode);
+            userDao.updateUser(user);
+        }
+    }
+
+    public void deleteQrcode(int userId, String path) {
+        User user = userDao.getUserById(userId);
+        if (!user.getQrcode().equals("")) {
+            File oldQrcode = new File(path + "/" + user.getQrcode());
+            if (oldQrcode.delete()) {
+                user.setQrcode("");
+            }
+        }
     }
 }

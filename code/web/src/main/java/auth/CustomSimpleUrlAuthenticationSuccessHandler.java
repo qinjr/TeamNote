@@ -76,10 +76,13 @@ public class CustomSimpleUrlAuthenticationSuccessHandler implements Authenticati
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
             if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
-                targetUrl = "/admin.jsp";
+                targetUrl = "/admin";
             }
             else if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
-                targetUrl = "/index.jsp";
+                targetUrl = "/index";
+            }
+            else {
+                targetUrl = "/index";
             }
         }
         return targetUrl;

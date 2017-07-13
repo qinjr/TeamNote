@@ -21,14 +21,14 @@ public class User {
     private int valid;
     private int deleteCount;
     private int reputation;
-    private String reward;
+    private String qrcode;
 
     public User() {}
 
     public User(String username, String personalStatus, ArrayList<Integer> notebooks,
                 ArrayList<Integer> followers, ArrayList<Integer> followings, ArrayList<Integer> tags,
                 String avatar, ArrayList<Integer> collections, int valid, int deleteCount, int reputation,
-                String reward) {
+                String qrcode) {
         this.username = username;
         this.personalStatus = personalStatus;
         this.notebooks = notebooks;
@@ -40,7 +40,7 @@ public class User {
         this.valid = valid;
         this.deleteCount = deleteCount;
         this.reputation = reputation;
-        this.reward = reward;
+        this.qrcode = qrcode;
     }
 
     public int getUserId() {
@@ -147,11 +147,11 @@ public class User {
         this.reputation = reputation;
     }
 
-    public String getReward() {
-        return reward;
+    public String getQrcode() {
+        return qrcode;
     }
 
-    public void setReward(String reward) {
-        this.reward = reward;
+    public void setQrcode(String qrcode) {
+        this.qrcode = qrcode;
     }
 }

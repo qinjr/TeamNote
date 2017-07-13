@@ -9,8 +9,7 @@ import model.mongodb.Tag;
 import model.mongodb.User;
 import service.RecommendService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by qjr on 2017/7/11.
@@ -58,6 +57,20 @@ public class RecommendServiceImpl implements RecommendService {
                 notebooks.add(notebookDao.getNotebookById(notebookId));
             }
         }
+
+        //cold start
+        if (notebooks.size() == 0) {
+            ArrayList<Tag> allTags = (ArrayList<Tag>)tagDao.getAllTags();
+            Set<Integer> notebookIdSet = new HashSet<Integer>();
+            for (Tag tag : allTags) {
+                int notebookId = tag.getBooksOfTag().get(0);
+                notebookIdSet.add(notebookId);
+            }
+            for (Object aNotebookIdSet : notebookIdSet) {
+                notebooks.add(notebookDao.getNotebookById((Integer) aNotebookIdSet));
+            }
+        }
+
         return new Gson().toJson(notebooks);
     }
 }

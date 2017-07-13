@@ -13,7 +13,7 @@
         <div class="card-block">
             <div class="row">
                 <div class="col-md-2 text-center mx-auto">
-                    <img :src="avatar" style="height: 100px; width: 100px;">
+                    <img :src="'<%=path%>/' + avatar" style="height: 100px; width: 100px;">
                 </div>
                 <div class="col-md-7">
                     <h4 class="card-title">{{ username }}</h4>
@@ -63,7 +63,7 @@
 
             <div class="tab-content" id="homepageTabContent">
                 <!-- TODO: activity -->
-                <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab">activity</div>
+                <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab" aria-expanded="true">activity</div>
                 <!-- TODO: notebook -->
                 <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">notebook</div>
                 <!-- TODO: workgroup loading / null-->
@@ -95,7 +95,7 @@
                                     <small>创建者 <strong>{{ notebookdetail.creator.username }}</strong> · 所有者 <strong>{{ notebookdetail.owner.username }}</strong> · 创建时间 {{ notebookdetail.notebook.createTime }}</small>
                                     <br>
                                     <div style="margin: 10px auto; display: inline;" v-for="collaborator in notebookdetail.collaborators">
-                                        <img :src="collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
+                                        <img :src="'<%=path%>/' + collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
                                     </div>
                                 </div>
                                 <div class="col-md-3 workgroup-btn">
@@ -168,6 +168,7 @@
         }
     });
 
+
     var tag = location.href.split('#')[1];
     if (tag !== undefined) {
         $('li.nav-item > a.nav-link').each(function() {
@@ -207,4 +208,5 @@
         $el.addClass('show');
         $el.attr('aria-expanded', true);
     }
+
 </script>

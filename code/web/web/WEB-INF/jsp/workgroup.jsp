@@ -375,6 +375,7 @@
             </div>
             <div class="modal-body">
                 <div class="list-group">
+                    <input type="hidden" id="noteId" value="">
                     <div v-for="(_history, index) in history">
                         <a class="list-group-item list-group-item-action flex-column align-items-start"
                            :href="'#collapse_' + index" data-toggle="collapse" aria-expanded="false" :aria-controls="'collapse_' + index" :key="index">
@@ -389,14 +390,14 @@
                         <div class="collapse" :id="'collapse_' + index">
                             <div class="card card-block">
                                 {{ _history.content }}
+                                <div class="dropdown-divider"></div>
+                                <div style="text-align: right;">
+                                    <button type="button" class="btn btn-outline-warning btn-switch" @click="switchVersion">切换版本</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">确认</button>
             </div>
         </div>
     </div>

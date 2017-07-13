@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao{
         update.set("valid", user.getValid());
         update.set("deleteCount", user.getDeleteTime());
         update.set("reputation", user.getReputation());
-        update.set("reward", user.getReward());
+        update.set("qrcode", user.getQrcode());
         mongoTemplate.updateFirst(query, update, User.class,"User");
     }
 

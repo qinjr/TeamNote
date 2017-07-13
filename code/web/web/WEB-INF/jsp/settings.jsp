@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="header.jsp"%>
+<link type="text/css" rel="stylesheet" href="<%=path%>/css/bootstrap-switch.min.css">
+
 <div class="container">
     <div class="card" id="settings" style="width: 800px;">
         <div class="card-block">
@@ -53,6 +55,14 @@
                                     </button>
                                     <button type="submit" class="btn btn-secondary btn-file-upload" disabled="disabled" id="file_upload">提交</button>
                                 </div>
+                            </form>
+                            <div class="dropdown-divider"></div>
+                            <div>
+                                <h6><label for="reward" class="form-control-label">打赏</label</h6>
+                                <input type="checkbox" id="reward">
+                            </div>
+                            <form>
+                                <img src="image/qrcode/141499913462_.pic.jpg" style="width: 60%; height: 30%;">
                             </form>
                         </div>
                     </div>
@@ -113,6 +123,7 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/validator.js"></script>
+<script type="text/javascript" src="<%=path%>/js/bootstrap-switch.min.js"></script>
 <script>
     $.ajax({
         url: "/teamnote/userdetail",
@@ -132,7 +143,7 @@
             $('#email').val(email);
             $('#phone').val(phone);
             $('#description').val(description);
-            $('#avatar').attr('src', avatar);
+            $('#avatar').attr('src', '<%=path%>/'+ avatar);
         }
     });
 
@@ -207,6 +218,7 @@
         }
         $label[0].innerText = file_name;
         $label.append($input);
-    }
+    };
 
+    $('#reward').bootstrapSwitch('size', 'mini');
 </script>

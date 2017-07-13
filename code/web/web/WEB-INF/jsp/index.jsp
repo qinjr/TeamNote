@@ -17,7 +17,7 @@
                     <p style="color: #D8D8D8"><small>来自标签 <strong>Spring</strong></small></p>
                     <div class="row">
                         <div class="col-md-2 text-center mx-auto">
-                            <img src="image/cover/notebook_2.png" style="height: 100px; width: 100px;">
+                            <img src="<%=path%>/image/cover/notebook_2.png" style="height: 100px; width: 100px;">
                         </div>
                         <div class="col-md-10">
                             <h4 class="card-title" style="margin-bottom: 6px;">Spring Security 笔记</h4>
