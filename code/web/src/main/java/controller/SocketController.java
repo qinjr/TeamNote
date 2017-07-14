@@ -39,9 +39,10 @@ public class SocketController {
         String username = userDetails.getUsername();
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
         int userId = userInfo.getUserId();
+        String avatar = userBasicService.getUserById(userId).getAvatar();
 
-        Message msg = new Message(userId, username, notebookId, text, new Date());
-        websocketHandler.sendMessageToGroup(userId, notebookId, new TextMessage(new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss").create().toJson(msg)));
+        Message msg = new Message(userId, username, avatar, notebookId, text, new Date());
+        websocketHandler.sendMessageToGroup(userId, notebookId, new TextMessage(new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(msg)));
 
         JsonObject json = new JsonObject();
         json.addProperty("result", "success");

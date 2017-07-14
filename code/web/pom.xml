@@ -288,14 +288,13 @@
             <artifactId>jsoup</artifactId>
             <version>1.10.2</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.itextpdf.tool/xmlworker -->
         <dependency>
             <groupId>com.itextpdf.tool</groupId>
             <artifactId>xmlworker</artifactId>
             <version>5.5.11</version>
         </dependency>
-
-
 
     </dependencies>
 

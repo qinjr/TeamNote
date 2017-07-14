@@ -50,7 +50,7 @@
             <%
                 }
             %>
-            <i class="fa fa-commenting-o fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-commenting-o fa-2x" id="chat_icon" aria-hidden="true"></i>
         </button>
 
     </div>
@@ -117,19 +117,21 @@
 <!-- right sidebar -->
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade navbar-offcanvas-right" id="right-sidebar">
-        <div class="pre-scrollable">
-            <div class="panel panel-primary" style="width: 100%; height: 400px; overflow-y: scroll;">
-                <div class="panel-heading">
-                    <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#right-sidebar">
-                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                    </button>
-                    <h3 class="panel-title">聊天</h3>
-                </div>
+        <div class="pre-scrollable" id="chatbox" style="max-height: 70%;">
+            <div class="panel panel-primary" style="width: 100%; height: 70%;">
                 <div class="panel-body" id="chatContent"></div>
             </div>
-            <input type="text" class="form-control" id="msg">
-            <input type="button" class="btn btn-outline-primary" value="发送" id="sendMsg">
-            <input type="button" class="btn btn-secondary" value="清空" id="clearMsg">
+        </div>
+        <div class="dropdown-divider" style="margin-bottom: 0;"></div>
+        <div>
+            <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle"
+                    data-toggle="offcanvas" data-target="#right-sidebar" style="width: auto; height: auto;">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </button>
+            <label for="msg"></label>
+            <textarea rows="4" class="form-control" id="msg"></textarea>
+            <input type="hidden" class="btn btn-outline-primary" value="发送" id="sendMsg">
+            <!-- <input type="button" class="btn btn-secondary" value="清空" id="clearMsg"> -->
         </div>
     </div>
 </nav>
@@ -295,7 +297,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <label>文件格式</label>
+                <label for="exportType">文件格式</label>
                 <select class="form-control" id="exportType">
                     <option value="html">html</option>
                     <option value="pdf">pdf</option>
