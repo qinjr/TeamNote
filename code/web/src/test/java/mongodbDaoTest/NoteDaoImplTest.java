@@ -23,11 +23,11 @@ public class NoteDaoImplTest {
     @Test
     public void testAddNote() {
         ArrayList<String> history = new ArrayList<String>();
-        ArrayList<String> comments = new ArrayList<String>();
+        ArrayList<Integer> comments = new ArrayList<Integer>();
         ArrayList<Integer> upvoters = new ArrayList<Integer>();
         ArrayList<Integer> downvoters = new ArrayList<Integer>();
         history.add("haha");
-        comments.add("haha");
+        comments.add(1);
         upvoters.add(2);
         downvoters.add(3);
 
@@ -43,11 +43,11 @@ public class NoteDaoImplTest {
     @Test
     public void testDeleteNote() {
         ArrayList<String> history = new ArrayList<String>();
-        ArrayList<String> comments = new ArrayList<String>();
+        ArrayList<Integer> comments = new ArrayList<Integer>();
         ArrayList<Integer> upvoters = new ArrayList<Integer>();
         ArrayList<Integer> downvoters = new ArrayList<Integer>();
         history.add("haha");
-        comments.add("haha");
+        comments.add(1);
         upvoters.add(2);
         downvoters.add(3);
 
@@ -62,11 +62,11 @@ public class NoteDaoImplTest {
     @Test
     public void testUpdateNote() {
         ArrayList<String> history = new ArrayList<String>();
-        ArrayList<String> comments = new ArrayList<String>();
+        ArrayList<Integer> comments = new ArrayList<Integer>();
         ArrayList<Integer> upvoters = new ArrayList<Integer>();
         ArrayList<Integer> downvoters = new ArrayList<Integer>();
         history.add("haha");
-        comments.add("haha");
+        comments.add(1);
         upvoters.add(2);
         downvoters.add(3);
 
@@ -84,11 +84,11 @@ public class NoteDaoImplTest {
     @Test
     public void testGetNoteById() {
         ArrayList<String> history = new ArrayList<String>();
-        ArrayList<String> comments = new ArrayList<String>();
+        ArrayList<Integer> comments = new ArrayList<Integer>();
         ArrayList<Integer> upvoters = new ArrayList<Integer>();
         ArrayList<Integer> downvoters = new ArrayList<Integer>();
         history.add("haha");
-        comments.add("haha");
+        comments.add(1);
         upvoters.add(2);
         downvoters.add(3);
 

@@ -37,6 +37,7 @@ public class CommentDaoImpl implements CommentDao {
                 }
             }
             comment.setCommentId(maxComment.getCommentId() + 1);
+            id = maxComment.getCommentId() + 1;
         }
         comment.setSentTime(new Date());
         mongoTemplate.insert(comment, "Comment");

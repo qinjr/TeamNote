@@ -27,33 +27,35 @@ public interface EvaluateService {
      * report
      * @param userId 举报人Id
      * @param noteId 被举报笔记Id
+     * @param reason 举报原因
      * @return 1为举报已被记录，0为发生错误
      */
-    int reportNote(int userId, int noteId);
+    int reportNote(int userId, int noteId, String reason);
 
 
     /**
      *
      * @param userId 举报人Id
      * @param commentId 被举报评论Id
+     * @param reason 举报原因
      * @return 1为举报已记录，0为发生错误
      */
-    int reportComment(int userId, int commentId);
+    int reportComment(int userId, int commentId, String reason);
 
 
     /**
      * reward
-     * @param userId 打赏者Id
      * @param noteId 要打赏的笔记Id
-     * @return 打赏对象的支付宝二维码
+     * @return 打赏对象的支付宝二维码图片路径
      */
-    String reward(int userId, int noteId);
+    String reward(int noteId);
 
     /**
      * comment
      * @param userId 评论者Id
-     * @param comment 评论内容
+     * @param content 评论内容
+     * @param noteId 评论的笔记Id
      * @return 1为成功评论，0为出错
      */
-    int comment(int userId, String comment);
+    int comment(int userId, String content, int noteId);
 }

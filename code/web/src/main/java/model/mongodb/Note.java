@@ -10,7 +10,7 @@ public class Note {
     private int notebookId;
     private String title;
     private ArrayList<String> history;
-    private ArrayList<String> comments;
+    private ArrayList<Integer> comments;
     private ArrayList<Integer> upvoters;
     private ArrayList<Integer> downvoters;
     private int reportCount;
@@ -20,7 +20,7 @@ public class Note {
     public Note() {}
 
     public Note(int notebookId, String title, ArrayList<String> history,
-                ArrayList<String> comments, ArrayList<Integer> upvoters,
+                ArrayList<Integer> comments, ArrayList<Integer> upvoters,
                 ArrayList<Integer> downvoters, int reportCount, int valid,
                 int versionPointer) {
         this.notebookId = notebookId;
@@ -66,11 +66,11 @@ public class Note {
         this.history = history;
     }
 
-    public ArrayList<String> getComments() {
+    public ArrayList<Integer> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<String> comments) {
+    public void setComments(ArrayList<Integer> comments) {
         this.comments = comments;
     }
 

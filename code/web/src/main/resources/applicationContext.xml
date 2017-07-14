@@ -158,6 +158,9 @@
     <bean id="evaluateService" class="service.impl.EvaluateServiceImpl">
         <property name="notebookDao" ref="notebookDao" />
         <property name="noteDao" ref="noteDao" />
+        <property name="verifyDao" ref="verifyDao" />
+        <property name="userDao" ref="userDao" />
+        <property name="commentDao" ref="commentDao" />
     </bean>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">

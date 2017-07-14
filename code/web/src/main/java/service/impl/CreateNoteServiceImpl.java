@@ -135,7 +135,7 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         firstEdition.addProperty("editor", username);
         ArrayList<String> history = new ArrayList<String>();
         history.add(firstEdition.toString());
-        Note note = new Note(notebookId, noteTitle, history, new ArrayList<String>(), new ArrayList<Integer>(),
+        Note note = new Note(notebookId, noteTitle, history, new ArrayList<Integer>(), new ArrayList<Integer>(),
                                 new ArrayList<Integer>(), 0, 1, 0);
         int noteId = noteDao.addNote(note);
         Notebook notebook = notebookDao.getNotebookById(notebookId);

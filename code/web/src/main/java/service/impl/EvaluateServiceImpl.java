@@ -1,11 +1,11 @@
 package service.impl;
 
-import dao.mongodbDao.NoteDao;
-import dao.mongodbDao.NotebookDao;
-import model.mongodb.Note;
+import dao.mongodbDao.*;
+import model.mongodb.*;
 import service.EvaluateService;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by qjr on 2017/7/14.
@@ -13,6 +13,34 @@ import java.util.ArrayList;
 public class EvaluateServiceImpl implements EvaluateService {
     private NoteDao noteDao;
     private NotebookDao notebookDao;
+    private VerifyDao verifyDao;
+    private UserDao userDao;
+    private CommentDao commentDao;
+
+    public CommentDao getCommentDao() {
+        return commentDao;
+    }
+
+    public void setCommentDao(CommentDao commentDao) {
+        this.commentDao = commentDao;
+    }
+
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public VerifyDao getVerifyDao() {
+        return verifyDao;
+    }
+
+    public void setVerifyDao(VerifyDao verifyDao) {
+
+        this.verifyDao = verifyDao;
+    }
 
     public NoteDao getNoteDao() {
         return noteDao;
@@ -48,20 +76,40 @@ public class EvaluateServiceImpl implements EvaluateService {
         return 1;
     }
 
-
-    public int reportNote(int userId, int noteId) {
-        return 0;
+    public int reportNote(int userId, int noteId, String reason) {
+        Verify verify = new Verify(new Date(), 1, noteId, reason, 0, userId);
+        verifyDao.addVerify(verify);
+        Note note = noteDao.getNoteById(noteId);
+        note.setReportCount(note.getReportCount() + 1);
+        noteDao.updateNote(note);
+        return 1;
     }
 
-    public int reportComment(int userId, int commentId) {
-        return 0;
+    public int reportComment(int userId, int commentId, String reason) {
+        Verify verify = new Verify(new Date(), 0, commentId, reason, 0, userId);
+        verifyDao.addVerify(verify);
+        Comment comment = commentDao.getCommentById(commentId);
+        comment.setReportCount(comment.getReportCount() + 1);
+        commentDao.updateComment(comment);
+        return 1;
     }
 
-    public String reward(int userId, int noteId) {
-        return "";
+    public String reward(int noteId) {
+        Note note = noteDao.getNoteById(noteId);
+        Notebook notebook = notebookDao.getNotebookById(note.getNotebookId());
+        User user = userDao.getUserById(notebook.getOwner());
+        return user.getQrcode();
     }
 
-    public int comment(int userId, String comment) {
-        return 0;
+    public int comment(int userId, String content, int noteId) {
+        Comment comment = new Comment(userId, new Date(), content, 0, 1);
+        int commentId = commentDao.addComment(comment);
+
+        Note note = noteDao.getNoteById(noteId);
+        ArrayList<Integer> comments = note.getComments();
+        comments.add(commentId);
+        note.setComments(comments);
+        noteDao.updateNote(note);
+        return 1;
     }
 }

@@ -7,16 +7,30 @@ import java.util.Date;
  * Created by qjr on 2017/6/27.
  */
 public class Verify {
+    private int verifyId;
     private Date date;
-    private ArrayList<Integer> comments;
-    private ArrayList<Integer> notes;
-
+    private int type;//comment:0, note:1
+    private int targetId;
+    private String reason;
+    private int checked;//checked:1, unchecked:0
+    private int reporterId;
     public Verify() {}
 
-    public Verify(Date date, ArrayList<Integer> comments, ArrayList<Integer> notes) {
+    public Verify(Date date, int type, int targetId, String reason, int checked, int reporterId) {
         this.date = date;
-        this.comments = comments;
-        this.notes = notes;
+        this.type = type;
+        this.targetId = targetId;
+        this.reason = reason;
+        this.checked = checked;
+        this.reporterId = reporterId;
+    }
+
+    public int getVerifyId() {
+        return verifyId;
+    }
+
+    public void setVerifyId(int verifyId) {
+        this.verifyId = verifyId;
     }
 
     public Date getDate() {
@@ -27,19 +41,35 @@ public class Verify {
         this.date = date;
     }
 
-    public ArrayList<Integer> getComments() {
-        return comments;
+    public int getType() {
+        return type;
     }
 
-    public void setComments(ArrayList<Integer> comments) {
-        this.comments = comments;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public ArrayList<Integer> getNotes() {
-        return notes;
+    public int getTargetId() {
+        return targetId;
     }
 
-    public void setNotes(ArrayList<Integer> notes) {
-        this.notes = notes;
+    public void setTargetId(int targetId) {
+        this.targetId = targetId;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public int getChecked() {
+        return checked;
+    }
+
+    public void setChecked(int checked) {
+        this.checked = checked;
     }
 }
