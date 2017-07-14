@@ -155,6 +155,10 @@
         <property name="noteDao" ref="noteDao" />
         <property name="exportUtil" ref="exportUtil" />
     </bean>
+    <bean id="evaluateService" class="service.impl.EvaluateServiceImpl">
+        <property name="notebookDao" ref="notebookDao" />
+        <property name="noteDao" ref="noteDao" />
+    </bean>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>

@@ -47,7 +47,7 @@ public interface EvaluateService {
      * @param noteId 要打赏的笔记Id
      * @return 打赏对象的支付宝二维码
      */
-    File reward(int userId, int noteId);
+    String reward(int userId, int noteId);
 
     /**
      * comment
