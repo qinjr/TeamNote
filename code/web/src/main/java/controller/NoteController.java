@@ -101,7 +101,7 @@ public class NoteController {
     @RequestMapping("/updateNote")
     @ResponseBody
     public String updateNote(@RequestParam(value = "noteId") int noteId, @RequestParam(value = "content") String content,
-                             @RequestParam(value = "Message") String message) {
+                             @RequestParam(value = "message") String message) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
