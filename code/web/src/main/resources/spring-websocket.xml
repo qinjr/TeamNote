@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:websocket="http://www.springframework.org/schema/websocket"
@@ -8,23 +7,33 @@
         http://www.springframework.org/schema/websocket
         http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
-    <websocket:message-broker application-destination-prefix="/app">
+    <!--<websocMessagesage-broker application-destination-prefix="/app">
         <websocket:stomp-endpoint path="/portfolio">
             <websocket:sockjs/>
         </websocket:stomp-endpoint>
         <websocket:simple-broker prefix="/topic"/>
-    </websocket:message-broker>
+    </websocMessagesage-broker>-->
 
-    <!--<websocket:handlers>
-        <websocket:mapping path="/echo" handler="socketHandler" />
+    <websocket:handlers>
+        <websocket:mapping path="/chat" handler="socketHandler" />
         <websocket:handshake-interceptors>
             <ref bean="websocketInterceptor"/>
         </websocket:handshake-interceptors>
-    </websocket:handlers>-->
+    </websocket:handlers>
 
-    <bean id="socketHandler" class="service.impl.SocketServiceImpl"/>
-    <bean id="websocketInterceptor" class="util.impl.WebsocketInterceptorImpl">
-        <property name="userBasicService" ref="userBasicService" />
+    <websocket:handlers>
+        <websocket:mapping path="/chat/sockjs" handler="socketHandler" />
+        <websocket:handshake-interceptors>
+            <ref bean="websocketInterceptor"/>
+        </websocket:handshake-interceptors>
+        <websocket:sockjs/>
+    </websocket:handlers>
+
+    <bean id="socketHandler" class="handler.WebsocketHandler">
+        <property name="notebookDao" ref="notebookDao"/>
+        <property name="userInfoDao" ref="userInfoDao"/>
     </bean>
-
+    <bean id="websocketInterceptor" class="util.impl.WebsocketInterceptorImpl">
+        <property name="userInfoDao" ref="userInfoDao" />
+    </bean>
 </beans>

@@ -67,7 +67,7 @@ public class CooperateController {
             json.addProperty("newOwner", newOwnerName);
         } else {
             json.addProperty("result", "fail");
-            json.addProperty("message", "you are not the owner of the notebook");
+            json.addProperty("Message", "you are not the owner of the notebook");
         }
         return json.toString();
     }

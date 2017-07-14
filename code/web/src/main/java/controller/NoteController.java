@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.JsonObject;
+import com.itextpdf.text.DocumentException;
 import model.mongodb.Note;
 import model.mysql.UserInfo;
 
@@ -100,7 +101,7 @@ public class NoteController {
     @RequestMapping("/updateNote")
     @ResponseBody
     public String updateNote(@RequestParam(value = "noteId") int noteId, @RequestParam(value = "content") String content,
-                             @RequestParam(value = "message") String message) {
+                             @RequestParam(value = "Message") String message) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
@@ -165,10 +166,10 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/exportNote")
-    public ResponseEntity<byte[]> downloadNote(@RequestParam(value = "type") String type, @RequestParam(value = "noteId") int noteId) throws IOException {
-
+    public ResponseEntity<byte[]> downloadNote(@RequestParam(value = "type") String type, @RequestParam(value = "noteId") int noteId, HttpSession session) throws IOException, DocumentException{
+        String leftPath = session.getServletContext().getRealPath("/temp/");
         //在服务器端生成html文件
-        File file = downloadService.downloadNote(noteId, type);
+        File file = downloadService.downloadNote(noteId, type, leftPath);
         //将文件返回给用户
         HttpHeaders headers = downloadService.genHttpHeaders(noteId, type);
         ResponseEntity<byte[]> result = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
@@ -183,6 +184,7 @@ public class NoteController {
          String username = userDetails.getUsername();
          UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
          int userId = userInfo.getUserId();
+         JsonObject json = new JsonObject();
 
          if (uploadFile.getSize() > 0) {
              String leftPath = session.getServletContext().getRealPath("/temp/");
@@ -192,10 +194,14 @@ public class NoteController {
                  uploadFile.transferTo(file);
                  createNoteService.uploadFileNote(userId, notebookId, file, new Date());
                  file.delete();
+                 json.addProperty("result", "success");
+             } else {
+                 json.addProperty("result", "wrongType");
              }
+         } else {
+             json.addProperty("result", "noFile");
          }
-        JsonObject json = new JsonObject();
-        json.addProperty("result", "success");
+
         return json.toString();
     }
 }

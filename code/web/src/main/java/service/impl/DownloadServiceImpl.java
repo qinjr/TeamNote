@@ -4,12 +4,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.mongodbDao.NoteDao;
 import model.mongodb.Note;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import service.DownloadService;
+import util.ExportUtil;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -21,28 +23,35 @@ import java.util.ArrayList;
  */
 public class DownloadServiceImpl implements DownloadService {
     private NoteDao noteDao;
+    private ExportUtil exportUtil;
 
     public void setNoteDao(NoteDao noteDao) {
         this.noteDao = noteDao;
     }
 
-    public File downloadNote(int noteId, String type)throws IOException{
+    public void setExportUtil(ExportUtil exportUtil) {
+        this.exportUtil = exportUtil;
+    }
+
+    public File downloadNote(int noteId, String type, String leftPath)throws IOException, DocumentException {
         Note note = noteDao.getNoteById(noteId);
         String currentVersion = note.getHistory().get(note.getVersionPointer());
         JsonObject obj = new JsonParser().parse(currentVersion).getAsJsonObject();
         String content = obj.get("content").getAsString();
-        //TODO
-        String path = "/Users/qjr/Desktop";
-        path += "html";
-        File file = new File(path);
+        String htmlPath = leftPath + "htmlTemp.html";
+        File file = new File(htmlPath);
         file.createNewFile();
         FileWriter writer = new FileWriter(file);
-        writer.write(content);
+        writer.write("<body>" + content + "</body>");
         writer.close();
         if(type.equals("pdf")) {
-
+            String pdfPath = leftPath + "pdfTemp.pdf";
+            File pdfFile = new File(pdfPath);
+            exportUtil.htmlToPdf(htmlPath, pdfFile);
+            file.delete();
+            file = pdfFile;
         }
-
+        //default html
         return file;
 
     }

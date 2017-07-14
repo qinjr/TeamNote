@@ -113,6 +113,7 @@
     <bean id="qualityUtil" class="util.impl.QualityUtilImpl">
          <property name="source" value="/Users/qjr/Documents/CS/GitProjects/TeamNote/code/web/out/artifacts/web_war_exploded/sensitive/政治类.txt"/>
     </bean>
+    <bean id="exportUtil" class="util.impl.ExportUtilImpl" />
 
     <!-- Services -->
     <bean id="cooperateService" class="service.impl.CooperateServiceImpl">
@@ -152,8 +153,8 @@
 
     <bean id="downloadService" class="service.impl.DownloadServiceImpl">
         <property name="noteDao" ref="noteDao" />
+        <property name="exportUtil" ref="exportUtil" />
     </bean>
-
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>

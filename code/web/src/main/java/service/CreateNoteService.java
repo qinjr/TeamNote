@@ -37,3 +37,4 @@ public interface CreateNoteService {
      */
     int newTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime) throws IOException;
 }
+
