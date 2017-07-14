@@ -22,9 +22,9 @@
     <context:annotation-config/>
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/teamnote?serverTimezone=UTC"/>
-        <property name="username" value="root"/>
-        <property name="password" value="584109018"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/teamnote?useSSL=false"/>
+        <property name="username" value="qjr"/>
+        <property name="password" value=""/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
@@ -108,7 +108,11 @@
     <bean id="noticeUtil" class="util.impl.NoticeUtilImpl">
         <property name="noticeDao" ref="noticeDao" />
     </bean>
-    <bean id="authUtil" class="util.impl.AuthUtilImpl" />
+    <bean id="authUtil" class="util.impl.AuthUtilImpl">
+    </bean>
+    <bean id="qualityUtil" class="util.impl.QualityUtilImpl">
+         <property name="source" value="/Users/qjr/Documents/CS/GitProjects/TeamNote/code/web/out/artifacts/web_war_exploded/sensitive/政治类.txt"/>
+    </bean>
     <bean id="exportUtil" class="util.impl.ExportUtilImpl" />
 
     <!-- Services -->
@@ -130,6 +134,8 @@
         <property name="notebookDao" ref="notebookDao" />
         <property name="notebookInfoDao" ref="notebookInfoDao" />
         <property name="userInfoDao" ref="userInfoDao" />
+        <property name="qualityUtil" ref="qualityUtil" />
+        <property name="userDao" ref="userDao" />
     </bean>
 
     <bean id="noteManageService" class="service.impl.NoteManageServiceImpl">

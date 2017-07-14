@@ -69,10 +69,12 @@ $(document).ready(function() {
                 },
                 success : function(data) {
                     var json = JSON.parse(data);
-                    if (json.result === "success")
+                    if (json.result === "success") {
                         location.reload();
-                    else {
-                        alert("error in adding note");
+                    } else if(json.result === "sensitive") {
+                        alert("政治敏感");
+                    } else {
+                        alert("error in updating note");
                     }
                 }
             });
@@ -92,9 +94,11 @@ $(document).ready(function() {
                 },
                 success : function(data) {
                     var json = JSON.parse(data);
-                    if (json.result === "success")
+                    if (json.result === "success") {
                         location.reload();
-                    else {
+                    } else if(json.result === "sensitive") {
+                        alert("政治敏感");
+                    } else {
                         alert("error in updating note");
                     }
                 }
@@ -233,7 +237,6 @@ $(document).ready(function() {
     $('#clearMsg').click(function(){
         $("#chatContent").empty();
     });
-
 
     $('.note').click(function(e) {
         $('#chooseType').removeAttr("style");//add
@@ -392,7 +395,7 @@ $(document).ready(function() {
         },
         methods: {
             switchVersion: function(e) {
-                var versionPointer = parseInt(e.srcElement.parentElement.parentElement.parentElement.id.replace("collapse_", ""));
+                var versionPointer = parseInt(e.srcElement.parentElement.parentElement.parentElement.id.replace("history_collapse_", ""));
                 var confirm = window.confirm("您将切换至版本" + versionPointer + "，是否确定切换？");
                 if (!confirm) return;
                 var noteId = $('#noteId').val();
@@ -404,7 +407,7 @@ $(document).ready(function() {
                         versionPointer: versionPointer,
                         noteId: noteId
                     },
-                    success: function(data) {
+                    success: function() {
                         alert("版本切换成功。");
                         location.reload();
                     }
@@ -433,4 +436,69 @@ $(document).ready(function() {
         });
     });
 
+    var suggestion = new Vue({
+        el: '#suggestionModal',
+        data: {
+            suggestion: []
+        },
+        methods: {
+            mergeSuggestion: function(e) {
+                var suggestionId = parseInt(e.srcElement.parentElement.parentElement.parentElement.id.replace("suggestion_collapse_", ""));
+                var confirm = window.confirm("您将合并该建议，请确定是否执行。");
+                if (!confirm) return;
+                var noteId = $('#_noteId').val();
+                $.ajax({
+                    url: '/teamnote/cooperate/mergeSuggestion',
+                    dataType: "text",
+                    type: "post",
+                    data: {
+                        suggestionId: suggestionId,
+                        noteId: noteId
+                    },
+                    success: function() {
+                        alert("合并成功。");
+                        location.reload();
+                    }
+                });
+            },
+            ignoreSuggestion: function(e) {
+                var suggestionId = parseInt(e.srcElement.parentElement.parentElement.parentElement.id.replace("suggestion_collapse_", ""));
+                var confirm = window.confirm("您将忽略该建议，请确定是否执行。");
+                if (!confirm) return;
+                $.ajax({
+                    url: '/teamnote/cooperate/ignoreSuggestion',
+                    dataType: "text",
+                    type: "post",
+                    data: {
+                        suggestionId: suggestionId
+                    },
+                    success: function() {
+                        alert("该建议已被忽略。");
+                        location.reload();
+                    }
+                });
+            }
+        }
+    });
+
+    $('.btn-suggestion').click(function() {
+        var noteId = parseInt(this.parentNode.previousElementSibling.id);
+        $('#_noteId').val(noteId);
+        $.ajax({
+            url: '/teamnote/cooperate/getSuggestions',
+            dataType: "text",
+            type: "get",
+            data: {
+                noteId: noteId
+            },
+            success: function (response) {
+                suggestion.suggestion = [];
+                if (JSON.parse(JSON.parse(response).suggestions).length === 0) return;
+                var json = JSON.parse(JSON.parse(response).suggestions);
+                for (var _json in json) {
+                    suggestion.suggestion.push(json[_json]);
+                }
+            }
+        });
+    });
 });

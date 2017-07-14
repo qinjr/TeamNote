@@ -121,8 +121,8 @@ public class UserBasicServiceImpl implements UserBasicService {
 
     public void updateavatar(int userId, String avatar, String path) {
         User user = userDao.getUserById(userId);
-        if (!user.getAvatar().equals("image/avatar/default_avatar.png")) {
-            File oldavatar = new File(path + "/" + user.getAvatar());
+        if (!user.getAvatar().equals("/image/avatar/default_avatar.png")) {
+            File oldavatar = new File(path + user.getAvatar());
             if (oldavatar.delete()) {
                 user.setAvatar(avatar);
                 userDao.updateUser(user);
@@ -147,8 +147,8 @@ public class UserBasicServiceImpl implements UserBasicService {
 
     public void updateQrcode(int userId, String qrcode, String path) {
         User user = userDao.getUserById(userId);
-        if (!user.getQrcode().equals("")) {
-            File oldQrcode = new File(path + "/" + user.getQrcode());
+        if (user.getQrcode().length() != 0) {
+            File oldQrcode = new File(path + user.getQrcode());
             if (oldQrcode.delete()) {
                 user.setQrcode(qrcode);
                 userDao.updateUser(user);
@@ -162,9 +162,10 @@ public class UserBasicServiceImpl implements UserBasicService {
     public void deleteQrcode(int userId, String path) {
         User user = userDao.getUserById(userId);
         if (!user.getQrcode().equals("")) {
-            File oldQrcode = new File(path + "/" + user.getQrcode());
+            File oldQrcode = new File(path + user.getQrcode());
             if (oldQrcode.delete()) {
                 user.setQrcode("");
+                userDao.updateUser(user);
             }
         }
     }

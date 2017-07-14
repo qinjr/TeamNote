@@ -108,8 +108,8 @@
             <button class="btn btn-outline-primary" id="config" data-toggle="modal" data-target="#configModal">设置</button>
             <button class="btn btn-danger">取消</button>
             <button class="btn btn-success" id="callDialog">保存</button>
-            <button class="btn btn-success" style="display:none" id="chooseType">导出</button>
-            <button class="btn btn-success" id="uploadNote">导入</button>
+            <button class="btn btn-outline-success" style="display:none" id="chooseType">导出</button>
+            <button class="btn btn-outline-success" id="uploadNote">导入</button>
         </div>
     </div>
 </nav>
@@ -284,6 +284,59 @@
 </div>
 <!-- /inviteCollaboratorModal -->
 
+<!-- exportModal -->
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exportModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label>文件格式</label>
+                <select class="form-control" id="exportType">
+                    <option value="html">html</option>
+                    <option value="pdf">pdf</option>
+                    <option value="md">md</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary export">下载</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /exportModal -->
+
+<!-- uploadModal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="uploadModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <form id="uploadForm">
+                <div class="modal-body">
+                    <label class="form-control-label">本地文件:</label>
+                    <input type="file" name="uploadFile"/>
+                    <input style="display:none" type="text" name="notebookId" value="<%=notebook.getNotebookId()%>">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-primary" id="upload">上传</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /uploadModal -->
+
 <!-- note related modals -->
 <!-- editModal -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -317,61 +370,6 @@
 </div>
 <!-- /editModal -->
 
-
-<!-- exportModal -->
-<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exportModalTitle"></h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
-                </button>
-            </div>
-            <div class="modal-body">
-                    <label>文件格式</label>
-                    <select class="form-control" id="exportType">
-                        <option value="html">html</option>
-                        <option value="pdf">pdf</option>
-                        <option value="md">md</option>
-                    </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-                <button type="button" class="btn btn-primary export">下载</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /exportModal -->
-
-<!-- uploadModal -->
-<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="uploadModalTitle"></h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
-                </button>
-            </div>
-            <form id="uploadForm">
-                <div class="modal-body">
-                    <label class="form-control-label">本地文件:</label>
-                        <input type="file" name="uploadFile"/>
-                    <input style="display:none" type="text" name="notebookId" value="<%=notebook.getNotebookId()%>">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
-                    <button type="button" class="btn btn-primary" id="upload">上传</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- /uploadModal -->
-
-
 <!-- historyModal -->
 <div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -389,7 +387,7 @@
                     <input type="hidden" id="noteId" value="">
                     <div v-for="(_history, index) in history">
                         <a class="list-group-item list-group-item-action flex-column align-items-start"
-                           :href="'#collapse_' + index" data-toggle="collapse" aria-expanded="false" :aria-controls="'collapse_' + index" :key="index">
+                           :href="'#history_collapse_' + index" data-toggle="collapse" aria-expanded="false" :aria-controls="'history_collapse_' + index" :key="index">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">
                                     <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;{{ _history.editor }}
@@ -398,7 +396,7 @@
                             </div>
                             <p class="mb-1">{{ _history.message }}</p>
                         </a>
-                        <div class="collapse" :id="'collapse_' + index">
+                        <div class="collapse" :id="'history_collapse_' + index">
                             <div class="card card-block">
                                 {{ _history.content }}
                                 <div class="dropdown-divider"></div>
@@ -428,17 +426,36 @@
                 </button>
             </div>
             <div class="modal-body">
-                TESTING
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">确认</button>
+                <div class="list-group">
+                    <input type="hidden" id="_noteId" value="">
+                    <div v-for="(_suggestion, index) in suggestion">
+                        <a class="list-group-item list-group-item-action flex-column align-items-start"
+                           :href="'#suggestion_collapse_' +  _suggestion.suggestionId" data-toggle="collapse" aria-expanded="false" :aria-controls="'suggestion_collapse_' +  _suggestion.suggestionId" :key="index">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;{{ _suggestion.username }}
+                                </h5>
+                                <small>{{ _suggestion.raiseTime }}</small>
+                            </div>
+                            <p class="mb-1">{{ _suggestion.issue }}</p>
+                        </a>
+                        <div class="collapse" :id="'suggestion_collapse_' + _suggestion.suggestionId">
+                            <div class="card card-block">
+                                {{ _suggestion.content }}
+                                <div class="dropdown-divider"></div>
+                                <div style="text-align: right;">
+                                    <button type="button" class="btn btn-outline-secondary btn-ignore" @click="ignoreSuggestion">忽略建议</button>
+                                    <button type="button" class="btn btn-outline-warning btn-merge" @click="mergeSuggestion">合并建议</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <!-- suggestionModal -->
-
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>

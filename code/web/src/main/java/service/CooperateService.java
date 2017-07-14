@@ -62,6 +62,13 @@ public interface CooperateService {
      */
     int mergeSuggestion(int managerId, int noteId, int suggestionId);
 
+    /**
+     * ignoreSuggestion
+     * @param suggestionId id
+     * @return 1为成功
+     */
+    void ignoreSuggestion(int suggestionId);
+
 
     /**
      * getSuggestion

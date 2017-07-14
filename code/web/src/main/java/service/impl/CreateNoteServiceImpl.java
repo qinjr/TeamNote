@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import service.CreateNoteService;
 import sun.net.httpserver.HttpsServerImpl;
+import util.QualityUtil;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,6 +35,8 @@ public class CreateNoteServiceImpl implements CreateNoteService{
     private UserDao userDao;
     private UserInfoDao userInfoDao;
 
+    private QualityUtil qualityUtil;
+
 
     public void setNoteDao(NoteDao noteDao) {
         this.noteDao = noteDao;
@@ -47,6 +50,9 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         this.notebookInfoDao = notebookInfoDao;
     }
 
+    public void setQualityUtil(QualityUtil qualityUtil) {
+        this.qualityUtil = qualityUtil;
+    }
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -116,7 +122,11 @@ public class CreateNoteServiceImpl implements CreateNoteService{
      * @param datetime 上传时间
      * @return 1为成功，0为失败
      */
-    public int newTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime) {
+    public int newTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime) throws IOException {
+        //check where have sensitive word
+        if (qualityUtil.checkTextContent(userId, content) == 0)
+            return 0;
+
         String username = userInfoDao.getUserInfoById(userId).getUsername();
         JsonObject firstEdition = new JsonObject();
         firstEdition.addProperty("editTime", datetime.toString());
