@@ -48,14 +48,18 @@ public class NoteController {
         this.downloadService = downloadService;
     }
 
+    private int getUserId() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        return userInfo.getUserId();
+    }
+
     //Notebook operations:
     @RequestMapping("/createNotebook")
     @ResponseBody
     public String createNotebook(@RequestParam(value = "notebookName") String notebookName) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
         createNoteService.createNotebook(userId, notebookName);
         JsonObject json = new JsonObject();
         json.addProperty("result", "success");
@@ -84,10 +88,7 @@ public class NoteController {
     @ResponseBody
     public String saveFirstEdition(@RequestParam(value = "notebookId") int noteBookId, @RequestParam(value = "noteTitle") String noteTitle,
                                    @RequestParam(value = "content") String content) throws IOException {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
         Date datetime = new Date();
         JsonObject json = new JsonObject();
         if (createNoteService.newTextNote(userId, noteBookId, noteTitle, content, datetime) == 0) {
@@ -102,10 +103,7 @@ public class NoteController {
     @ResponseBody
     public String updateNote(@RequestParam(value = "noteId") int noteId, @RequestParam(value = "content") String content,
                              @RequestParam(value = "message") String message) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
         Date datetime = new Date();
         noteManageService.updateNote(noteId, userId, datetime, content, message);
         JsonObject json = new JsonObject();
@@ -180,10 +178,7 @@ public class NoteController {
     @RequestMapping(value = "/uploadNote")
     @ResponseBody
     public String uploadNote(@RequestParam(value = "uploadFile") MultipartFile uploadFile, @RequestParam(value = "notebookId") int notebookId, HttpSession session) throws IOException  {
-         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-         String username = userDetails.getUsername();
-         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-         int userId = userInfo.getUserId();
+         int userId = getUserId();
          JsonObject json = new JsonObject();
 
          if (uploadFile.getSize() > 0) {
@@ -201,7 +196,6 @@ public class NoteController {
          } else {
              json.addProperty("result", "noFile");
          }
-
         return json.toString();
     }
 }

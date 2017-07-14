@@ -64,4 +64,16 @@ public class LetterDaoImpl implements LetterDao{
     public List<Letter> getAllLetters(){
         return mongoTemplate.findAll(Letter.class, "Letter");
     }
+
+    public List<Letter> getLettersBySenderId(int senderId) {
+        Query query = new Query();
+        query.addCriteria(new Criteria("senderId").is(senderId));
+        return mongoTemplate.find(query, Letter.class, "Letter");
+    }
+
+    public List<Letter> getLettersByReceiverId(int receiverId) {
+        Query query = new Query();
+        query.addCriteria(new Criteria("receiverId").is(receiverId));
+        return mongoTemplate.find(query, Letter.class, "Letter");
+    }
 }

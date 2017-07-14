@@ -22,7 +22,7 @@ public class LetterDaoImplTest {
 
     @Test
     public void testAddLetter() {
-        Letter letter = new Letter(1, 2, "I love you", new Date());
+        Letter letter = new Letter(1, 2, "I love you", new Date(), 0);
         letterDao.addLetter(letter);
         Assert.assertNotNull(letterDao.getAllLetters().get(0));
         Assert.assertEquals(letterDao.getAllLetters().get(0).getContent(), "I love you");
@@ -32,7 +32,7 @@ public class LetterDaoImplTest {
 
     @Test
     public void testDeleteLetter() {
-        Letter letter = new Letter(1, 2, "I love you", new Date());
+        Letter letter = new Letter(1, 2, "I love you", new Date(), 0);
         letterDao.addLetter(letter);
         letter = letterDao.getAllLetters().get(0);
         letterDao.deleteLetter(letter);
@@ -43,7 +43,7 @@ public class LetterDaoImplTest {
 
     @Test
     public void testUpdateLetter() {
-        Letter letter = new Letter(1, 2, "I love you", new Date());
+        Letter letter = new Letter(1, 2, "I love you", new Date(), 0);
         letterDao.addLetter(letter);
         letter = letterDao.getAllLetters().get(0);
         letter.setContent("I hate you");
@@ -56,7 +56,7 @@ public class LetterDaoImplTest {
 
     @Test
     public void testGetLetterById() {
-        Letter letter = new Letter(1, 2, "I love you", new Date());
+        Letter letter = new Letter(1, 2, "I love you", new Date(), 0);
         letterDao.addLetter(letter);
         letter = letterDao.getAllLetters().get(0);
         int letterId = letter.getLetterId();

@@ -11,14 +11,16 @@ public class Letter {
     private int receiverId;
     private String content;
     private Date sentTime;
+    private int read;//0:unread,1:read
 
     public Letter() {}
 
-    public Letter(int senderId, int receiverId, String content, Date sentTime) {
+    public Letter(int senderId, int receiverId, String content, Date sentTime, int read) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.content = content;
         this.sentTime = sentTime;
+        this.read = read;
     }
 
     public int getLetterId() {
@@ -59,5 +61,13 @@ public class Letter {
 
     public void setSentTime(Date sentTime) {
         this.sentTime = sentTime;
+    }
+
+    public int getRead() {
+        return read;
+    }
+
+    public void setRead(int read) {
+        this.read = read;
     }
 }

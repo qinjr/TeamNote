@@ -1,5 +1,6 @@
 package controller;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import model.mysql.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,17 @@ public class EvaluateController {
         this.userBasicService = userBasicService;
     }
 
-    @RequestMapping("/evaluate/upvoteNote")
-    @ResponseBody
-    public String upvoteNote(@RequestParam("noteId") int noteId) {
+    private int getUserId() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        return userInfo.getUserId();
+    }
+
+    @RequestMapping("/evaluate/upvoteNote")
+    @ResponseBody
+    public String upvoteNote(@RequestParam("noteId") int noteId) {
+        int userId = getUserId();
 
         JsonObject json = new JsonObject();
         if (evaluateService.upvote(userId, noteId) == 1) {
@@ -46,10 +51,7 @@ public class EvaluateController {
     @RequestMapping("/evaluate/downvoteNote")
     @ResponseBody
     public String downvoteNote(@RequestParam("noteId") int noteId) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
 
         JsonObject json = new JsonObject();
         if (evaluateService.downvote(userId, noteId) == 1) {
@@ -63,10 +65,7 @@ public class EvaluateController {
     @RequestMapping("/evaluate/reportNote")
     @ResponseBody
     public String reportNote(@RequestParam("noteId") int noteId, @RequestParam("reason") String reason) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
 
         JsonObject json = new JsonObject();
         if (evaluateService.reportNote(userId, noteId, reason) == 1) {
@@ -80,10 +79,7 @@ public class EvaluateController {
     @RequestMapping("/evaluate/reportComment")
     @ResponseBody
     public String reportComment(@RequestParam("commentId") int commentId, @RequestParam("reason") String reason) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
 
         JsonObject json = new JsonObject();
         if (evaluateService.reportComment(userId, commentId, reason) == 1) {
@@ -94,4 +90,34 @@ public class EvaluateController {
         return json.toString();
     }
 
+    @RequestMapping("/evaluate/newComment")
+    @ResponseBody
+    public String newComment(@RequestParam("content") String content, @RequestParam("noteId") int noteId) {
+        int userId = getUserId();
+
+        JsonObject json = new JsonObject();
+        if (evaluateService.newComment(userId, content, noteId) == 1) {
+            json.addProperty("result", "success");
+        } else {
+            json.addProperty("result", "failed");
+        }
+        return json.toString();
+    }
+
+    @RequestMapping("/evaluate/getComments")
+    @ResponseBody
+    public String getComments(@RequestParam("noteId") int noteId) {
+        String comments = new Gson().toJson(evaluateService.getCommentsByNote(noteId));
+        JsonObject json = new JsonObject();
+        json.addProperty("comments", comments);
+        return json.toString();
+    }
+
+    @RequestMapping("/evaluate/reward")
+    @ResponseBody
+    public String reward(@RequestParam("noteId") int noteId) {
+        JsonObject json = new JsonObject();
+        json.addProperty("qrcode", evaluateService.reward(noteId));
+        return json.toString();
+    }
 }

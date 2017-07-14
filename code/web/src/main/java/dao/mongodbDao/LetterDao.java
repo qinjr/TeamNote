@@ -12,5 +12,7 @@ public interface LetterDao {
     void deleteLetter(Letter letter);
     void updateLetter(Letter letter);
     Letter getLetterById(int letterId);
+    List<Letter> getLettersBySenderId(int senderId);
+    List<Letter> getLettersByReceiverId(int receiverId);
     List<Letter> getAllLetters();
 }
