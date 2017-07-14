@@ -1,5 +1,8 @@
 package controller;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import model.mongodb.GroupChat;
 import model.mongodb.Note;
 import model.mongodb.Notebook;
 import model.mongodb.User;
@@ -20,6 +23,7 @@ import service.UserBasicService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by qjr on 2017/7/3.
@@ -161,5 +165,28 @@ public class CooperateController {
         JsonObject json = new JsonObject();
         json.addProperty("result", "success");
         return json.toString();
+    }
+
+    @RequestMapping("/sendMsg")
+    @ResponseBody
+    String sendMsg(@RequestParam("notebookId") int notebookId, @RequestParam("text") String text) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        int userId = userInfo.getUserId();
+
+        cooperateService.sendGroupChat(userId, notebookId, new Date(), text);
+
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        json.addProperty("sender", username);
+        return json.toString();
+    }
+
+    @RequestMapping("/getGroupChat")
+    @ResponseBody
+    String getGroupChat(@RequestParam("notebookId") int notebookId) {
+        ArrayList<String> contents = cooperateService.getGroupChat(notebookId);
+        return new Gson().toJson(contents);
     }
 }

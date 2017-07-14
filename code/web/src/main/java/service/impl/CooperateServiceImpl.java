@@ -1,18 +1,19 @@
 package service.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import dao.mongodbDao.GroupChatDao;
-import dao.mongodbDao.NoteDao;
-import dao.mongodbDao.NotebookDao;
-import dao.mongodbDao.SuggestionDao;
+import dao.mongodbDao.*;
 import dao.mysqlDao.UserInfoDao;
+import handler.WebsocketHandler;
 import model.mongodb.GroupChat;
 import model.mongodb.Note;
 import model.mongodb.Notebook;
 import model.mongodb.Suggestion;
 import model.mysql.UserInfo;
+import model.temp.Message;
+import org.springframework.web.socket.TextMessage;
 import service.CooperateService;
 import util.NoticeUtil;
 
@@ -29,6 +30,8 @@ public class CooperateServiceImpl implements CooperateService {
     private GroupChatDao groupChatDao;
     private SuggestionDao suggestionDao;
     private UserInfoDao userInfoDao;
+    private UserDao userDao;
+    private WebsocketHandler websocketHandler;
 
     public void setUserInfoDao(UserInfoDao userInfoDao) {
         this.userInfoDao = userInfoDao;
@@ -52,6 +55,14 @@ public class CooperateServiceImpl implements CooperateService {
 
     public void setGroupChatDao(GroupChatDao groupChatDao) {
         this.groupChatDao = groupChatDao;
+    }
+
+    public void setWebsocketHandler(WebsocketHandler websocketHandler) {
+        this.websocketHandler = websocketHandler;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     public int inviteCooperator(int inviterId, int targetId, int notebookId, String description) {
@@ -96,8 +107,13 @@ public class CooperateServiceImpl implements CooperateService {
         return 0;
     }
 
-    public ArrayList<GroupChat> getGroupChat(int notebookId) {
-        return (ArrayList<GroupChat>) groupChatDao.getAllGroupChats();
+    public ArrayList<String> getGroupChat(int notebookId) {
+        ArrayList<String> result = new ArrayList<String>();
+        GroupChat groupChat = groupChatDao.getGroupChatById(notebookId);
+        if(groupChat != null) {
+            result = groupChat.getContents();
+        }
+        return result;
     }
 
     public int giveOwnership(int oldOwnerId, int newOwnerId, int notebookId) {
@@ -179,9 +195,25 @@ public class CooperateServiceImpl implements CooperateService {
     public int sendGroupChat(int userId, int notebookId, Date datetime, String content) {
 
         //receive
+        String username = userInfoDao.getUserInfoById(userId).getUsername();
+        String avatar = userDao.getUserById(userId).getAvatar();
+        GroupChat groupChat = groupChatDao.getGroupChatById(notebookId);
+        Message msg = new Message(userId, username, avatar, notebookId, content, new Date());
         //store
+        if(groupChat == null){
+            groupChatDao.addGroupChat(new GroupChat(notebookId, new ArrayList<String>()));
+            groupChat = groupChatDao.getGroupChatById(notebookId);
+        }
+        ArrayList<String> contents = groupChat.getContents();
+        JsonObject json = new JsonObject();
+        json.addProperty("uid", userId);
+        json.addProperty("datetime", datetime.toString());
+        json.addProperty("content", content);
+        contents.add(json.toString());
+        groupChat.setContents(contents);
+        groupChatDao.updateGroupChat(groupChat);
         //broadcast
-        //TODO
+        websocketHandler.sendMessageToGroup(userId, notebookId, new TextMessage(new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss").create().toJson(msg)));
         return 0;
     }
 

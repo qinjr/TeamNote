@@ -5,7 +5,6 @@ var noteId = -1;
 var websocket;
 
 $(document).ready(function() {
-
     var notebookId = $('.notebook').attr("id");
     var avatar = $('#user_avatar').attr('src');
 
@@ -54,6 +53,24 @@ $(document).ready(function() {
 
     $('#showChat').click(function() {
         $('#chat_icon').removeAttr('style');
+        var notebookId = $('.notebook').attr("id");
+        var chat, chatContent;
+        $.ajax({
+            url : "/teamnote/cooperate/getGroupChat",
+            processData : true,
+            dataType : "text",
+            data : {
+                notebookId : notebookId
+            },
+            success : function(data) {
+                var chatList = JSON.parse(data);
+                console.log(chatList);
+                for (var i = 0; i < chatList.length; i++) {
+                    chatContent = JSON.parse(chatList[i]);
+
+                }
+            }
+        })
     });
 
     function addContent(colorCode, avatar, name, date, text) {

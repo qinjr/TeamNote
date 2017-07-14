@@ -72,4 +72,12 @@ public class Verify {
     public void setChecked(int checked) {
         this.checked = checked;
     }
+
+    public int getReporterId() {
+        return reporterId;
+    }
+
+    public void setReporterId(int reporterId) {
+        this.reporterId = reporterId;
+    }
 }

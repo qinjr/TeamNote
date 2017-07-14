@@ -94,7 +94,7 @@ public interface CooperateService {
      * @param notebookId 合作者所在的笔记本
      * @return 这个工作组所有的群聊内容
      */
-    ArrayList<GroupChat> getGroupChat(int notebookId);
+    ArrayList<String> getGroupChat(int notebookId);
 
 
     /**
