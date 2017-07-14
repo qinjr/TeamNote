@@ -97,7 +97,7 @@ $(document).ready(function() {
             return;
         } else {
             $.ajax({
-                url: "/teamnote/sendMsg",
+                url: "/teamnote/cooperate/sendMsg",
                 processData: true,
                 dataType: "text",
                 type: "post",
