@@ -3,7 +3,36 @@
  */
 var noteId = -1;
 var websocket;
+
 $(document).ready(function() {
+    var notebookId = $('.notebook').attr("id");
+    if ('WebSocket' in window) {
+        websocket = new WebSocket("ws://localhost:8080/teamnote/chat");
+    } else if ('MozWebSocket' in window) {
+        websocket = new MozWebSocket("ws://localhost:8080/teamnote/chat");
+    } else {
+        websocket = new SockJS("http://localhost:8080/teamnote/chat/sockjs");
+    }
+
+    websocket.onopen = function (event) {
+        console.log("WebSocket:已连接");
+        console.log(event);
+    };
+    websocket.onclose = function (event) {
+        console.log("WebSocket:已关闭");
+        console.log(event);
+    };
+
+    websocket.onmessage = function (msg) {
+        var data = JSON.parse(msg.data);
+        console.log("WebSocket:收到一条消息",data);
+        $("#chatContent").append("<div>" +
+            "<img class='img-75px' src='/teamnote/" + data.avatar + "' style='margin-top: 15px; '>" +
+            "<label style='color:#0080ff'>"+data.fromName+" "+data.date+"</label>" +
+            "<div>"+data.text+"</div>" +
+            "</div>");
+        scrollToBottom()
+    };
     /* give ownership */
     $('.giveOwnership').click(function() {
         var notebookId = $('.notebook').attr('id');
@@ -151,35 +180,6 @@ $(document).ready(function() {
         })
     });
 
-    $('#showChat').click(function() {
-        var notebookId = $('.notebook').attr("id");
-        if ('WebSocket' in window) {
-            websocket = new WebSocket("ws://localhost:8080/teamnote/chat");
-        } else if ('MozWebSocket' in window) {
-            websocket = new MozWebSocket("ws://localhost:8080/teamnote/chat");
-        } else {
-            websocket = new SockJS("http://localhost:8080/teamnote/chat/sockjs");
-        }
-
-        websocket.onopen = function (event) {
-            console.log("WebSocket:已连接");
-            console.log(event);
-        };
-        websocket.onclose = function (event) {
-            console.log("WebSocket:已关闭");
-            console.log(event);
-        };
-
-        websocket.onmessage = function (msg) {
-            var data = JSON.parse(msg.data);
-            console.log("WebSocket:收到一条消息",data);
-            $("#chatContent").append("<div>" +
-                                            "<label style='color:#0080ff'>"+data.fromName+" "+data.date+"</label>" +
-                                            "<div>"+data.text+"</div>" +
-                                      "</div>");
-        }
-    });
-
     Date.prototype.Format = function (fmt) {
         var o = {
             "M+": this.getMonth() + 1,
@@ -196,6 +196,34 @@ $(document).ready(function() {
         return fmt;
     };
 
+    function scrollToBottom(){
+        var div = document.getElementById('chatContent');
+        console.log(div.scrollTop, div.scrollHeight);
+        div.scrollTop = div.scrollHeight;
+        console.log(div.scrollTop, div.scrollHeight);
+    }
+
+    $("#showChat").click(function() {
+        var notebookId = $('.notebook').attr("id");
+        var chat, chatContent;
+        $.ajax({
+            url : "/teamnote/cooperate/getGroupChat",
+            processData : true,
+            dataType : "text",
+            data : {
+                notebookId : notebookId
+            },
+            success : function(data) {
+                var chatList = JSON.parse(data);
+                console.log(chatList);
+                for (var i = 0; i < chatList.length; i++) {
+                    chatContent = JSON.parse(chatList[i]);
+
+                }
+            }
+        })
+    });
+
     $('#sendMsg').click(function(){
         var notebookId = $('.notebook').attr("id");
         var text = $("#msg").val();
@@ -203,7 +231,7 @@ $(document).ready(function() {
             return;
         } else {
             $.ajax({
-                url : "/teamnote/sendMsg",
+                url : "/teamnote/cooperate/sendMsg",
                 processData : true,
                 dataType : "text",
                 type : "post",
@@ -218,6 +246,7 @@ $(document).ready(function() {
                                                         "<label style='color:#00cc7d'>" + json.sender + " " + new Date().Format("yyyy/MM/dd hh:mm:ss") + "</label>" +
                                                         "<div >" + text + "</div>" +
                                                   "</div>");
+                        scrollToBottom();
                         $("#msg").val("");
                     } else {
                         alert("error in sending");
