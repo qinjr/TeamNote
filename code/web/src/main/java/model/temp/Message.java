@@ -17,9 +17,12 @@ public class Message {
     //发送日期
     public Date date;
 
-    public Message(int from, String fromName, int notebookId, String text, Date date) {
+    public String avatar;
+
+    public Message(int from, String fromName, String avatar, int notebookId, String text, Date date) {
         this.from = from;
         this.fromName = fromName;
+        this.avatar = avatar;
         this.notebookId = notebookId;
         this.text = text;
         this.date = date;
@@ -64,4 +67,13 @@ public class Message {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
 }

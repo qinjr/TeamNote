@@ -59,7 +59,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            <img src="<%=path%>/icon/favicon-white.png" :src="'<%=path%>/' + avatar" style="height: 30px; width: 30px;">
+                            <img src="<%=path%>/icon/favicon-white.png" :src="'<%=path%>/' + avatar" id="user_avatar" style="height: 30px; width: 30px;">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <p class="dropdown-item username" style="margin-bottom: 0;">
