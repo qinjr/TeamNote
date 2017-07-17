@@ -67,7 +67,6 @@ $(document).ready(function() {
                 console.log(chatList);
                 for (var i = 0; i < chatList.length; i++) {
                     chatContent = JSON.parse(chatList[i]);
-
                 }
             }
         })
@@ -83,7 +82,7 @@ $(document).ready(function() {
             "</div>" +
             "</div>" +
             "</label>" +
-            "<div>" + text.replace('\n', '<br>') + "</div>" +
+            "<div>" + text.replace(/\n/g, '<br>') + "</div>" +
             "</div>");
     }
 

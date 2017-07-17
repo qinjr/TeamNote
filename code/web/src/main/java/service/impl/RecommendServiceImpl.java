@@ -1,6 +1,7 @@
 package service.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import dao.mongodbDao.NotebookDao;
 import dao.mongodbDao.TagDao;
 import dao.mongodbDao.UserDao;
@@ -51,10 +52,25 @@ public class RecommendServiceImpl implements RecommendService {
 
         //get final result
         ArrayList<Integer> notebookIds = new ArrayList<Integer>(candidates.keySet());
-        ArrayList<Notebook> notebooks = new ArrayList<Notebook>();
+        ArrayList<String> notebooks = new ArrayList<String>();
         for (Integer notebookId : notebookIds) {
             if (candidates.get(notebookId) >= threshold) {
-                notebooks.add(notebookDao.getNotebookById(notebookId));
+                JsonObject json = new JsonObject();
+                Notebook notebook = notebookDao.getNotebookById(notebookId);
+                json.addProperty("owner", userDao.getUserById(notebook.getOwner()).getUsername());
+                json.addProperty("creator", userDao.getUserById(notebook.getCreator()).getUsername());
+                json.addProperty("title", notebook.getTitle());
+                json.addProperty("description", notebook.getDescription());
+                json.addProperty("createTime", notebook.getCreateTime().toString());
+                json.addProperty("star", notebook.getStar());
+
+                ArrayList<String> tagsOfBook = new ArrayList<String>();
+                for (Integer tagId : notebook.getTags()) {
+                    tagsOfBook.add(tagDao.getTagById(tagId).getTagName());
+                }
+
+                json.addProperty("tags", new Gson().toJson(tagsOfBook));
+                notebooks.add(json.toString());
             }
         }
 
@@ -67,7 +83,21 @@ public class RecommendServiceImpl implements RecommendService {
                 notebookIdSet.add(notebookId);
             }
             for (Object aNotebookIdSet : notebookIdSet) {
-                notebooks.add(notebookDao.getNotebookById((Integer) aNotebookIdSet));
+                JsonObject json = new JsonObject();
+                Notebook notebook = notebookDao.getNotebookById((Integer) aNotebookIdSet);
+                json.addProperty("owner", userDao.getUserById(notebook.getOwner()).getUsername());
+                json.addProperty("creator", userDao.getUserById(notebook.getCreator()).getUsername());
+                json.addProperty("title", notebook.getTitle());
+                json.addProperty("description", notebook.getDescription());
+                json.addProperty("createTime", notebook.getCreateTime().toString());
+                json.addProperty("star", notebook.getStar());
+
+                ArrayList<String> tagsOfBook = new ArrayList<String>();
+                for (Integer tagId : notebook.getTags()) {
+                    tagsOfBook.add(tagDao.getTagById(tagId).getTagName());
+                }
+                json.addProperty("tags", new Gson().toJson(tagsOfBook));
+                notebooks.add(json.toString());
             }
         }
 
