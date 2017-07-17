@@ -83,7 +83,7 @@ $(document).ready(function() {
             "</div>" +
             "</div>" +
             "</label>" +
-            "<div>" + text.replace('\n', '<br>') + "</div>" +
+            "<div>" + text.replace(/\n/g, '<br>') + "</div>" +
             "</div>");
     }
 
