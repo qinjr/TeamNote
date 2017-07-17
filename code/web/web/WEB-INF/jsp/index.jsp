@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <p style="color: #D8D8D8"><small>来自标签 <strong>Spring</strong></small></p>
-                    <div class="row">
+                    <div class="row" style="margin-right: 0; margin-left: 0;">
                         <div class="col-md-2 text-center mx-auto">
                             <img src="" :src="'<%=path%>/' + _note.cover" style="height: 100px; width: 100px;">
                         </div>

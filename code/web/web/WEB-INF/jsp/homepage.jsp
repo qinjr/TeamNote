@@ -13,7 +13,7 @@
         <div class="card-block">
             <div class="row">
                 <div class="col-md-2 text-center mx-auto">
-                    <img :src="'<%=path%>/' + avatar" style="height: 100px; width: 100px;">
+                    <img src="" :src="'<%=path%>/' + avatar" style="height: 100px; width: 100px;">
                 </div>
                 <div class="col-md-7">
                     <h4 class="card-title">{{ username }}</h4>
@@ -68,7 +68,7 @@
                 <!-- TODO: notebook -->
                 <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">
                     <div v-for="_note in note">
-                        <div class="row" style="margin-top: 20px;">
+                        <div class="row" style="margin: 20px 0;">
                             <div class="col-md-2 text-center mx-auto">
                                 <img src="" :src="'<%=path%>/' + _note.cover" style="height: 75px; width: 75px;">
                             </div>
@@ -82,7 +82,7 @@
                                     {{ _note.description }}
                                 </p>
                                 <footer>
-                                    <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ _note.createTime }}</small>
+                                    <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ n_date(_note.createTime) }}</small>
                                     <br><br>
                                     <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
                                         <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;{{ _note.star }}
@@ -135,7 +135,7 @@
                                         <kbd class="card-subtitle">{{ tag.tagName }}</kbd>&nbsp;
                                     </div>
                                     <div style="margin-top: 5px; margin-bottom: 5px;">
-                                        <small>创建者 <strong>{{ notebookdetail.creator.username }}</strong> · 所有者 <strong>{{ notebookdetail.owner.username }}</strong> · 创建时间 {{ notebookdetail.notebook.createTime }}</small>
+                                        <small>创建者 <strong>{{ notebookdetail.creator.username }}</strong> · 所有者 <strong>{{ notebookdetail.owner.username }}</strong> · 创建时间 {{ w_date(notebookdetail.notebook.createTime) }}</small>
                                     </div>
                                     <div style="margin: 10px auto; display: inline;" v-for="collaborator in notebookdetail.collaborators">
                                         <img :src="'<%=path%>/' + collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
@@ -199,7 +199,7 @@
     var notebooks = new Vue({
         el: '#workgroup',
         data: {
-            notebooksdetails: null,
+            notebooksdetails: [],
             loading: true
         },
         created: function () {
@@ -210,6 +210,11 @@
             }, function() {
                 console.log("workgroup error");
             });
+        },
+        methods: {
+            w_date: function(date) {
+                return moment(date, "MMM D, YYYY h:mm:ss A").format("YYYY-MM-DD HH:mm:ss")
+            },
         }
     });
 
@@ -271,6 +276,9 @@
         methods: {
             json: function(tag) {
                 return JSON.parse(tag);
+            },
+            n_date: function(date) {
+                return moment(date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
             }
         }
     });
