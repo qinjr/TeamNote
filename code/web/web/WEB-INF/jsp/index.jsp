@@ -25,16 +25,18 @@
                             <div style="display: inline;" v-for="tag in json(_note.tags)">
                                 <kbd class="card-subtitle">{{ tag }}</kbd>&nbsp;
                             </div>
-                            <p class="card-text" style="word-break: break-all;">
+                            <p class="card-text" style="word-break: break-all; margin-top: 16px;">
                                 {{ _note.description }}
                             </p>
                             <footer>
-                                <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ _note.createTime }}</small>
+                                <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ date(_note.createTime) }}</small>
                                 <br><br>
                                 <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
                                     <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;{{ _note.star }}
                                 </button>
-                                <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
+                                <!-- TODO: comment -->
+                                <button class="btn btn-outline-secondary center-block" type="button" style="border: none;"
+                                        data-toggle="collapse" :data-target="'#comment_' + _note.title" aria-expanded="false" :aria-controls="'comment_' + _note.title">
                                     <i class="fa fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论
                                 </button>
                                 <button class="btn btn-outline-secondary center-block btn-collection" type="button" style="border: none;">
@@ -43,6 +45,11 @@
                                 <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
                                     <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>&nbsp;举报
                                 </button>
+                                <div class="collapse" :id="'comment_' + _note.title">
+                                    <div class="card card-block" style="width: inherit;">
+                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                    </div>
+                                </div>
                             </footer>
                         </div>
                     </div>
@@ -103,6 +110,9 @@
         methods: {
             json: function(tag) {
                 return JSON.parse(tag);
+            },
+            date: function(_date) {
+                return moment(_date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
             }
         }
     });
