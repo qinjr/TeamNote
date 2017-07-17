@@ -22,7 +22,7 @@
                         <div class="col-md-10">
                             <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>
                             <i class="fa fa-tag" aria-hidden="true"></i>
-                            <div style="display: inline;" v-for="tag in _note.tags">
+                            <div style="display: inline;" v-for="tag in json(_note.tags)">
                                 <kbd class="card-subtitle">{{ tag }}</kbd>&nbsp;
                             </div>
                             <p class="card-text" style="word-break: break-all;">
@@ -99,6 +99,11 @@
         el: '#index',
         data: {
             note: []
+        },
+        methods: {
+            json: function(tag) {
+                return JSON.parse(tag);
+            }
         }
     });
 </script>
