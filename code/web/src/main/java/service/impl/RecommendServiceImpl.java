@@ -52,7 +52,7 @@ public class RecommendServiceImpl implements RecommendService {
 
         //get final result
         ArrayList<Integer> notebookIds = new ArrayList<Integer>(candidates.keySet());
-        ArrayList<String> notebooks = new ArrayList<String>();
+        ArrayList<JsonObject> notebooks = new ArrayList<JsonObject>();
         for (Integer notebookId : notebookIds) {
             if (candidates.get(notebookId) >= threshold) {
                 JsonObject json = new JsonObject();
@@ -63,6 +63,7 @@ public class RecommendServiceImpl implements RecommendService {
                 json.addProperty("description", notebook.getDescription());
                 json.addProperty("createTime", notebook.getCreateTime().toString());
                 json.addProperty("star", notebook.getStar());
+                json.addProperty("cover", notebook.getCover());
 
                 ArrayList<String> tagsOfBook = new ArrayList<String>();
                 for (Integer tagId : notebook.getTags()) {
@@ -70,7 +71,7 @@ public class RecommendServiceImpl implements RecommendService {
                 }
 
                 json.addProperty("tags", new Gson().toJson(tagsOfBook));
-                notebooks.add(json.toString());
+                notebooks.add(json);
             }
         }
 
@@ -91,16 +92,16 @@ public class RecommendServiceImpl implements RecommendService {
                 json.addProperty("description", notebook.getDescription());
                 json.addProperty("createTime", notebook.getCreateTime().toString());
                 json.addProperty("star", notebook.getStar());
+                json.addProperty("cover", notebook.getCover());
 
                 ArrayList<String> tagsOfBook = new ArrayList<String>();
                 for (Integer tagId : notebook.getTags()) {
                     tagsOfBook.add(tagDao.getTagById(tagId).getTagName());
                 }
                 json.addProperty("tags", new Gson().toJson(tagsOfBook));
-                notebooks.add(json.toString());
+                notebooks.add(json);
             }
         }
-
         return new Gson().toJson(notebooks);
     }
 }
