@@ -213,7 +213,7 @@ public class CooperateServiceImpl implements CooperateService {
         groupChat.setContents(contents);
         groupChatDao.updateGroupChat(groupChat);
         //broadcast
-        websocketHandler.sendMessageToGroup(userId, notebookId, new TextMessage(new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss").create().toJson(msg)));
+        websocketHandler.sendMessageToGroup(userId, notebookId, new TextMessage(new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(msg)));
         return 0;
     }
 

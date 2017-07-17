@@ -53,8 +53,13 @@ $(document).ready(function() {
 
     $('#showChat').click(function() {
         $('#chat_icon').removeAttr('style');
-        var notebookId = $('.notebook').attr("id");
+        //var notebookId = $('.notebook').attr("id");
         var chat, chatContent;
+        if($("#chatContent").html == "") {
+            console.log("is 0");
+        } else {
+            console.log("is not 0");
+        }
         $.ajax({
             url : "/teamnote/cooperate/getGroupChat",
             processData : true,
@@ -83,12 +88,12 @@ $(document).ready(function() {
             "</div>" +
             "</div>" +
             "</label>" +
-            "<div>" + text + "</div>" +
+            "<div>" + text.replace('\n', '<br>') + "</div>" +
             "</div>");
     }
 
     $('#sendMsg').click(function() {
-        var notebookId = $('.notebook').attr("id");
+        //var notebookId = $('.notebook').attr("id");
         var text = $("#msg").val();
         var re = /\n/g;
         var check = text.replace(re, "");
@@ -120,7 +125,7 @@ $(document).ready(function() {
     });
 
     /* keyup */
-    $(document).keyup(function(event){
+    $(document).keydown(function(event){
         if(event.shiftKey && event.keyCode === 13) {
             return;
         }
@@ -237,6 +242,7 @@ $(document).ready(function() {
         }
     });
 
+    /* export note */
     $('#chooseType').click(function(){
         //TODO
         CKEDITOR.instances.editor.resetDirty();
@@ -255,6 +261,7 @@ $(document).ready(function() {
         $('#exportModal').modal('hide');
     });
 
+    /* import note */
     $('#uploadNote').click(function () {
         $('#uploadModalTitle').html("选择文件");
         $('#uploadModal').modal('show');
