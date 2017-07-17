@@ -8,34 +8,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="header.jsp"%>
 
-<div class="container">
+<div class="container" id="index">
     <!-- test card -->
-    <div class="card">
+    <div class="card" v-for="_note in note">
         <div class="card-block">
             <div class="row">
                 <div class="col-md-12">
                     <p style="color: #D8D8D8"><small>来自标签 <strong>Spring</strong></small></p>
                     <div class="row">
                         <div class="col-md-2 text-center mx-auto">
-                            <img src="<%=path%>/image/cover/notebook_2.png" style="height: 100px; width: 100px;">
+                            <img src="" :src="'<%=path%>/' + _note.cover" style="height: 100px; width: 100px;">
                         </div>
                         <div class="col-md-10">
-                            <h4 class="card-title" style="margin-bottom: 6px;">Spring Security 笔记</h4>
+                            <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>
                             <i class="fa fa-tag" aria-hidden="true"></i>
-                            <kbd class="card-subtitle">Spring</kbd>&nbsp;<kbd class="card-subtitle">Spring Security</kbd>
+                            <div style="display: inline;" v-for="tag in _note.tags">
+                                <kbd class="card-subtitle">{{ tag }}</kbd>&nbsp;
+                            </div>
                             <p class="card-text" style="word-break: break-all;">
-                                Spring Security is a framework that focuses on providing both authentication and authorization to Java applications. Like all Spring projects, the real power of Spring Security is found in how easily it can be extended to meet custom requirements.
+                                {{ _note.description }}
                             </p>
                             <footer>
-                                <small>创建者 <strong>rudeigerc</strong> · 所有者 <strong>rudeigerc</strong> · 创建时间 2017-06-04 11:32:37</small>
+                                <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ _note.createTime }}</small>
                                 <br><br>
-                                <button class="btn btn-outline-secondary center-block" :class="star.selected? 'active' : ''" @click="star_select()" type="button" style="border: none;">
-                                    <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;{{ star.star }}
+                                <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
+                                    <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;{{ _note.star }}
                                 </button>
                                 <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
                                     <i class="fa fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论
                                 </button>
-                                <button class="btn btn-outline-secondary center-block btn-collection" :class="collection.selected? 'active' : ''" @click="collection_select()" type="button" style="border: none;">
+                                <button class="btn btn-outline-secondary center-block btn-collection" type="button" style="border: none;">
                                     <i class="fa fa-flag fa-fw" aria-hidden="true"></i>&nbsp;收藏
                                 </button>
                                 <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
@@ -56,6 +58,8 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript">
+
+    /*
     vm = new Vue({
         el: '.card',
         data: {
@@ -80,5 +84,27 @@
             },
             collection_select: function() { this.collection.selected = !this.collection.selected; }
         }
-    })
+    });*/
+
+    $.ajax({
+        url: "/teamnote/recommend",
+        type: "get",
+        dataType: "json",
+        success: function(data) {
+            index.note = data;
+        }
+    });
+
+    var index = new Vue({
+        el: '#index',
+        data: {
+            note: []
+        }
+    });
+
+
+
+
+
+
 </script>
