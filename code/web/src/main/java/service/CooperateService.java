@@ -96,6 +96,13 @@ public interface CooperateService {
      */
     ArrayList<String> getGroupChat(int notebookId);
 
+    /**
+     *
+     * @param notebookId 笔记本id
+     * @param lastChat 需要的最后一条聊天记录的index
+     * @return  由index向前得到的10条聊天记录的JSONArray String
+     */
+    String getGroupChatChunk(int notebookId, int lastChat);
 
     /**
      * giveOwnership

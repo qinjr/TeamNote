@@ -15,6 +15,7 @@ import model.mysql.UserInfo;
 import model.temp.Message;
 import org.springframework.web.socket.TextMessage;
 import service.CooperateService;
+import util.ConvertUtil;
 import util.NoticeUtil;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.Date;
  */
 public class CooperateServiceImpl implements CooperateService {
     private NoticeUtil noticeUtil;
+    private ConvertUtil convertUtil;
     private NotebookDao notebookDao;
     private NoteDao noteDao;
     private GroupChatDao groupChatDao;
@@ -43,6 +45,10 @@ public class CooperateServiceImpl implements CooperateService {
 
     public void setNoticeUtil(NoticeUtil noticeUtil) {
         this.noticeUtil = noticeUtil;
+    }
+
+    public void setConvertUtil(ConvertUtil convertUtil) {
+        this.convertUtil = convertUtil;
     }
 
     public void setNotebookDao(NotebookDao notebookDao) {
@@ -114,6 +120,16 @@ public class CooperateServiceImpl implements CooperateService {
             result = groupChat.getContents();
         }
         return result;
+    }
+
+    public String getGroupChatChunk(int notebookId, int lastChat) {
+        ArrayList<String> resultList = new ArrayList<String>();
+        ArrayList<String> contents = getGroupChat(notebookId);
+        int iterator;
+        for(iterator = lastChat; (iterator > lastChat - 10) && (iterator >= 0); iterator--) {
+            resultList.add(convertUtil.formMessage(contents.get(iterator)));
+        }
+        return resultList.toString();
     }
 
     public int giveOwnership(int oldOwnerId, int newOwnerId, int notebookId) {
@@ -230,4 +246,5 @@ public class CooperateServiceImpl implements CooperateService {
         suggestion.setStatus("ignored");
         suggestionDao.updateSuggestion(suggestion);
     }
+
 }

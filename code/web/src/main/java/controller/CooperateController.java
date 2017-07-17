@@ -179,8 +179,20 @@ public class CooperateController {
 
     @RequestMapping("/getGroupChat")
     @ResponseBody
-    String getGroupChat(@RequestParam("notebookId") int notebookId) {
-        ArrayList<String> contents = cooperateService.getGroupChat(notebookId);
-        return new Gson().toJson(contents);
+    String getGroupChat(@RequestParam("notebookId") int notebookId, @RequestParam("lastChat") int lastChat) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        int userId = userInfo.getUserId();
+
+        int length = cooperateService.getGroupChat(notebookId).size();
+        if(lastChat == -1) lastChat = length - 1;
+        String resultList = cooperateService.getGroupChatChunk(notebookId, lastChat);
+        lastChat = lastChat >= 10 ? lastChat - 10 : -2;
+        JsonObject json = new JsonObject();
+        json.addProperty("result", resultList);
+        json.addProperty("currentUser", userId);
+        json.addProperty("lastChat", lastChat);
+        return json.toString();
     }
 }

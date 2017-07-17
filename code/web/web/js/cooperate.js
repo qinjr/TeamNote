@@ -7,6 +7,8 @@ var websocket;
 $(document).ready(function() {
     var notebookId = $('.notebook').attr("id");
     var avatar = $('#user_avatar').attr('src');
+    /* chatting record */
+    var lastChat = -1;
 
     /* WebSocket */
     if ('WebSocket' in window) {
@@ -53,29 +55,32 @@ $(document).ready(function() {
 
     $('#showChat').click(function() {
         $('#chat_icon').removeAttr('style');
-        //var notebookId = $('.notebook').attr("id");
         var chat, chatContent;
-        if($("#chatContent").html == "") {
-            console.log("is 0");
-        } else {
-            console.log("is not 0");
-        }
-        $.ajax({
-            url : "/teamnote/cooperate/getGroupChat",
-            processData : true,
-            dataType : "text",
-            data : {
-                notebookId : notebookId
-            },
-            success : function(data) {
-                var chatList = JSON.parse(data);
-                console.log(chatList);
-                for (var i = 0; i < chatList.length; i++) {
-                    chatContent = JSON.parse(chatList[i]);
-
+        if(document.getElementById("chatContent").innerHTML === "") {
+            $.ajax({
+                url: "/teamnote/cooperate/getGroupChat",
+                processData: true,
+                dataType: "text",
+                data: {
+                    notebookId: notebookId,
+                    lastChat : lastChat
+                },
+                success: function (data) {
+                    var json = JSON.parse(data);
+                    lastChat = json.lastChat;
+                    var currentUser = json.currentUser;
+                    var chatList = JSON.parse(json.result);
+                    for (var i = 0; i < chatList.length; i++) {
+                        if(chatList[i].uid === currentUser){
+                            prependContent("#00cc7d", "/teamnote/" +chatList[i].avatar, chatList[i].username, chatList[i].datetime, chatList[i].content);
+                        } else {
+                            prependContent("#4A90E2", "/teamnote/" +chatList[i].avatar, chatList[i].username, chatList[i].datetime, chatList[i].content);
+                        }
+                    }
+                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
                 }
-            }
-        })
+            })
+        }
     });
 
     function addContent(colorCode, avatar, name, date, text) {
@@ -88,7 +93,21 @@ $(document).ready(function() {
             "</div>" +
             "</div>" +
             "</label>" +
-            "<div>" + text.replace('\n', '<br>') + "</div>" +
+            "<div>" + text.replace(/\n/g, '<br>') + "</div>" +
+            "</div>");
+    }
+
+    function prependContent(colorCode, avatar, name, date, text) {
+        $("#chatContent").prepend("<div style='margin-bottom: 10px;'>" +
+            "<label style='color:" + colorCode + "'>" +
+            "<div class='media'>" +
+            "<img class='d-flex mr-3 img-50px' src='" + avatar + "'>" +
+            "<div class='media-body'>" +
+            name + "<br>" + "<small style='color: lightgrey'>" + date + "</small>" +
+            "</div>" +
+            "</div>" +
+            "</label>" +
+            "<div>" + text.replace(/\n/g, '<br>') + "</div>" +
             "</div>");
     }
 
