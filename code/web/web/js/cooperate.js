@@ -124,9 +124,9 @@ $(document).ready(function() {
         }
     });
 
-    /* keyup */
+    /* keydown */
     $(document).keydown(function(event){
-        if(event.shiftKey && event.keyCode === 13) {
+        if (event.shiftKey && event.keyCode === 13) {
             return;
         }
 
@@ -207,7 +207,7 @@ $(document).ready(function() {
                     if (json.result === "success") {
                         location.reload();
                     } else if(json.result === "sensitive") {
-                        alert("政治敏感");
+                        alert("根据相关法规政策，无法进行该操作，请修改您的笔记内容。");
                     } else {
                         alert("操作失败，请稍后再试。");
                     }
@@ -232,7 +232,7 @@ $(document).ready(function() {
                     if (json.result === "success") {
                         location.reload();
                     } else if(json.result === "sensitive") {
-                        alert("政治敏感");
+                        alert("根据相关法规政策，无法进行该操作，请修改您的笔记内容。");
                     } else {
                         alert("操作失败，请稍后再试。");
                     }

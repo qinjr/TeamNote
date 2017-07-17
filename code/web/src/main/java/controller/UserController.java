@@ -25,10 +25,17 @@ import java.io.IOException;
 @Controller
 public class UserController {
     private final UserBasicService userBasicService;
-    @Autowired
 
+    @Autowired
     public UserController(UserBasicService userBasicService) {
         this.userBasicService = userBasicService;
+    }
+
+    private int getUserId() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        return userInfo.getUserId();
     }
 
     @RequestMapping("/settings")
@@ -59,10 +66,7 @@ public class UserController {
     @ResponseBody
     public String updateUserProfile(@RequestParam("email") String email, @RequestParam("phone") String phone,
                                     @RequestParam("ps") String ps) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
         userBasicService.updateUserProfile(userId, email, phone, ps);
 
         JsonObject json = new JsonObject();
@@ -74,10 +78,7 @@ public class UserController {
     @ResponseBody
     public String updateUserPassword(@RequestParam("originalRawPassword") String originalRawPassword,
                                      @RequestParam("newRawPassword") String newRawPassword) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
 
         JsonObject json = new JsonObject();
         if (userBasicService.updatePassword(userId, originalRawPassword, newRawPassword) == 1) {
@@ -95,10 +96,7 @@ public class UserController {
         String destPath = servletContext.getRealPath("/image/avatar/") + avatarName;
         file.transferTo(new File(destPath));
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
 
         userBasicService.updateavatar(userId, "/image/avatar/" + avatarName, servletContext.getRealPath("/"));
         return "redirect:/settings";
@@ -111,10 +109,7 @@ public class UserController {
         String destPath = servletContext.getRealPath("/image/qrcode/") + qrcodeName;
         qrcode.transferTo(new File(destPath));
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
 
         userBasicService.updateQrcode(userId, "/image/qrcode/" + qrcodeName, servletContext.getRealPath("/"));
         return "redirect:/settings";
@@ -123,11 +118,7 @@ public class UserController {
     @RequestMapping("/deleteQrcode")
     public String deleteQrcode(HttpServletRequest request) {
         ServletContext servletContext = request.getServletContext();
-
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
 
         userBasicService.deleteQrcode(userId, servletContext.getRealPath("/"));
         return "redirect:/settings";

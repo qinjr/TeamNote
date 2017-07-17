@@ -1,6 +1,9 @@
 package service;
 
+import model.mongodb.Comment;
+
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by qjr on 2017/6/27.
@@ -57,5 +60,12 @@ public interface EvaluateService {
      * @param noteId 评论的笔记Id
      * @return 1为成功评论，0为出错
      */
-    int comment(int userId, String content, int noteId);
+    int newComment(int userId, String content, int noteId);
+
+    /**
+     * getCommentsByNote
+     * @param noteId noteId
+     * @return 这个note所有的comments
+     */
+    ArrayList<Comment> getCommentsByNote(int noteId);
 }

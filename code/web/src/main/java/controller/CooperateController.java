@@ -43,6 +43,13 @@ public class CooperateController {
         this.noteManageService = noteManageService;
     }
 
+    private int getUserId() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        return userInfo.getUserId();
+    }
+
     @RequestMapping("/getCollaborators")
     @ResponseBody
     public String getCollaborators(@RequestParam(value = "notebookId") int notebookId) {
@@ -55,10 +62,7 @@ public class CooperateController {
     public String giveOwnership(@RequestParam(value = "newOwnerName")String newOwnerName,
                                 @RequestParam(value = "notebookId")int notebookId) {
         //get username from spring security
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int oldOwnerId = userInfo.getUserId();
+        int oldOwnerId = getUserId();
 
         //get new owner userId
         UserInfo newOwnerInfo = userBasicService.getUserInfoByUsername(newOwnerName);
@@ -79,11 +83,7 @@ public class CooperateController {
     @RequestMapping("/allworkgroups")
     @ResponseBody
     public String allworkgroups() {
-        //get username from spring security
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
 
         //get notebooks
         String response = noteManageService.getNotebooksDetailsByUserId(userId);
@@ -114,10 +114,7 @@ public class CooperateController {
                                      @RequestParam(value = "notebookId") int notebookId,
                                      @RequestParam("inviteDescription") String description) {
         //get invitor from spring security
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
 
         UserInfo target = userBasicService.getUserInfoByUsername(inviteUsername);
         int targetId = target.getUserId();
@@ -147,10 +144,7 @@ public class CooperateController {
     @RequestMapping("/mergeSuggestion")
     @ResponseBody
     public String mergeSuggestion(@RequestParam(value = "suggestionId") int suggestionId, @RequestParam(value = "noteId") int noteId) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
         cooperateService.mergeSuggestion(userId, noteId, suggestionId);
 
         JsonObject json = new JsonObject();

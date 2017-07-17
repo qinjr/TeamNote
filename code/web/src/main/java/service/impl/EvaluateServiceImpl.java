@@ -101,7 +101,7 @@ public class EvaluateServiceImpl implements EvaluateService {
         return user.getQrcode();
     }
 
-    public int comment(int userId, String content, int noteId) {
+    public int newComment(int userId, String content, int noteId) {
         Comment comment = new Comment(userId, new Date(), content, 0, 1);
         int commentId = commentDao.addComment(comment);
 
@@ -111,5 +111,15 @@ public class EvaluateServiceImpl implements EvaluateService {
         note.setComments(comments);
         noteDao.updateNote(note);
         return 1;
+    }
+
+    public ArrayList<Comment> getCommentsByNote(int noteId) {
+        Note note = noteDao.getNoteById(noteId);
+        ArrayList<Integer> commentsIds = note.getComments();
+        ArrayList<Comment> comments = new ArrayList<Comment>();
+        for (Integer commentId : commentsIds) {
+            comments.add(commentDao.getCommentById(commentId));
+        }
+        return comments;
     }
 }

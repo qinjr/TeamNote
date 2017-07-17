@@ -24,15 +24,18 @@ public class RecommendController {
         this.userBasicService = userBasicService;
     }
 
+    private int getUserId() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        return userInfo.getUserId();
+    }
+
 
     @RequestMapping("/recommend")
     @ResponseBody
     public String getRecommendNotebooks() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+        int userId = getUserId();
         return recommendService.getRecommendNotebooks(userId);
-
     }
 }
