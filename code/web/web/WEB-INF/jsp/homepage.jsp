@@ -23,7 +23,7 @@
                     <p class="card-subtitle mb-2 text-muted">
                         <i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp;{{ email }}
                     </p>
-                    <p><a href="#">关注人 {{ followingsnum }}</a> · <a href="#">关注者 {{ followersnum }}</a></p>
+                    <p><a href="javascript:void(0)" @click="following()">关注人 {{ followingsnum }}</a> · <a href="javascript:void(0)" @click="followed()">关注者 {{ followersnum }}</a></p>
                 </div>
                 <div class="col-md-3"></div>
             </div>
@@ -45,7 +45,7 @@
                     <a class="nav-link" id="collection-tab" data-toggle="tab" href="#collection" role="tab" aria-controls="collection">收藏</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">关注</a>
+                    <a class="nav-link dropdown-toggle" id="follow-tab" data-toggle="dropdown" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">关注</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" data-toggle="tab" id="following-tab" role="tab" href="#following" aria-controls="following">
                             <i class="fa fa-paper-plane fa-fw" aria-hidden="true"></i>&nbsp;关注人
@@ -87,22 +87,12 @@
                                     <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
                                         <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;{{ _note.star }}
                                     </button>
-                                    <!-- TODO: comment -->
-                                    <button class="btn btn-outline-secondary center-block" type="button" style="border: none;"
-                                            data-toggle="collapse" :data-target="'#comment_' + _note.title" aria-expanded="false" :aria-controls="'comment_' + _note.title">
-                                        <i class="fa fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论
-                                    </button>
                                     <button class="btn btn-outline-secondary center-block btn-collection" type="button" style="border: none;">
                                         <i class="fa fa-flag fa-fw" aria-hidden="true"></i>&nbsp;收藏
                                     </button>
                                     <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
                                         <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>&nbsp;举报
                                     </button>
-                                    <div class="collapse" :id="'comment_' + _note.title">
-                                        <div class="card card-block" style="width: inherit;">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                                        </div>
-                                    </div>
                                 </footer>
                             </div>
                         </div>
@@ -193,6 +183,61 @@
             }, function() {
                 console.log("user info error")
             });
+        },
+        methods: {
+            following: function() {
+                $('div.tab-content > div.tab-pane').each(function() {
+                    $(this).removeClass('active');
+                    $(this).removeClass('show');
+                    $(this).attr('aria-expanded', false);
+                });
+                if ($('#follow-tab').hasClass('active')) {
+                    $('div.dropdown-menu > a.dropdown-item').each(function() {
+                        $(this).removeClass('active');
+                        $(this).attr('aria-expanded', false);
+                    })
+                } else {
+                    $('li.nav-item > a.nav-link').each(function() {
+                        $(this).removeClass('active');
+                        $(this).attr('aria-expanded', false);
+                    });
+                    $tab = $('#follow-tab');
+                    $tab.addClass('active');
+                    $tab.attr('aria-expanded', true);
+                }
+                $('#following-tab').addClass('active');
+                $el = $('#following');
+                $el.addClass('active');
+                $el.addClass('show');
+                $el.attr('aria-expanded', true);
+
+            },
+            followed: function() {
+                $('div.tab-content > div.tab-pane').each(function() {
+                    $(this).removeClass('active');
+                    $(this).removeClass('show');
+                    $(this).attr('aria-expanded', false);
+                });
+                if ($('#follow-tab').hasClass('active')) {
+                    $('div.dropdown-menu > a.dropdown-item').each(function() {
+                        $(this).removeClass('active');
+                        $(this).attr('aria-expanded', false);
+                    })
+                } else {
+                    $('li.nav-item > a.nav-link').each(function() {
+                        $(this).removeClass('active');
+                        $(this).attr('aria-expanded', false);
+                    });
+                    $tab = $('#follow-tab');
+                    $tab.addClass('active');
+                    $tab.attr('aria-expanded', true);
+                }
+                $('#follower-tab').addClass('active');
+                $el = $('#follower');
+                $el.addClass('active');
+                $el.addClass('show');
+                $el.attr('aria-expanded', true);
+            }
         }
     });
 
@@ -214,7 +259,7 @@
         methods: {
             w_date: function(date) {
                 return moment(date, "MMM D, YYYY h:mm:ss A").format("YYYY-MM-DD HH:mm:ss")
-            },
+            }
         }
     });
 
@@ -252,11 +297,15 @@
                 break;
             }
         }
-        $tab.addClass('active');
-        $tab.attr('aria-expanded', true);
-        $el.addClass('active');
-        $el.addClass('show');
-        $el.attr('aria-expanded', true);
+        if ($tab !== null) {
+            $tab.addClass('active');
+            $tab.attr('aria-expanded', true);
+        }
+        if ($el !== null) {
+            $el.addClass('active');
+            $el.addClass('show');
+            $el.attr('aria-expanded', true);
+        }
     }
 
     $.ajax({
@@ -282,5 +331,7 @@
             }
         }
     });
+
+
 
 </script>
