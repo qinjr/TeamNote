@@ -77,10 +77,44 @@ $(document).ready(function() {
                             prependContent("#4A90E2", "/teamnote/" +chatList[i].avatar, chatList[i].username, chatList[i].datetime, chatList[i].content);
                         }
                     }
+                    $("#chatContent").prepend("<div><button type='button' class='btn btn-link' id='moreChat'>更多</button></div>")
                     $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
                 }
             })
         }
+    });
+
+    $("#chatContent").on("click","#moreChat",function(){
+        $("#moreChat").remove();
+        $.ajax({
+            url: "/teamnote/cooperate/getGroupChat",
+            processData: true,
+            dataType: "text",
+            data: {
+                notebookId: notebookId,
+                lastChat : lastChat
+            },
+            success: function (data) {
+                var json = JSON.parse(data);
+                lastChat = json.lastChat;
+                var currentUser = json.currentUser;
+                var chatList = JSON.parse(json.result);
+                var originScrollHeight = $('#chatbox')[0].scrollHeight;
+                for (var i = 0; i < chatList.length; i++) {
+                    if(chatList[i].uid === currentUser){
+                        prependContent("#00cc7d", "/teamnote/" +chatList[i].avatar, chatList[i].username, chatList[i].datetime, chatList[i].content);
+                    } else {
+                        prependContent("#4A90E2", "/teamnote/" +chatList[i].avatar, chatList[i].username, chatList[i].datetime, chatList[i].content);
+                    }
+                }
+                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight - originScrollHeight);
+                if(lastChat !== -2) {
+                    $("#chatContent").prepend("<div><button type='button' class='btn btn-link' id='moreChat'>更多</button></div>");
+                } else {
+                    $("#chatContent").prepend("<div>没有更多记录</div>");
+                }
+            }
+        })
     });
 
     function addContent(colorCode, avatar, name, date, text) {
