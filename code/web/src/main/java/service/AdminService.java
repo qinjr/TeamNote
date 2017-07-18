@@ -268,9 +268,4 @@ public interface AdminService {
      * @return 所有需要被管理员审核的Comment
      */
     ArrayList<Comment> verifyCommentList();
-
-
-
-
-
 }

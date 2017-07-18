@@ -64,12 +64,24 @@ public class RecommendServiceImpl implements RecommendService {
                 json.addProperty("createTime", notebook.getCreateTime().toString());
                 json.addProperty("star", notebook.getStar());
                 json.addProperty("cover", notebook.getCover());
+                json.addProperty("notebookId", notebook.getNotebookId());
+
+                if (notebook.getStarers().contains(userId)) {
+                    json.addProperty("stared", 1);
+                } else {
+                    json.addProperty("stared", 0);
+                }
+
+                if (user.getCollections().contains(notebook.getNotebookId())) {
+                    json.addProperty("collected", 1);
+                } else {
+                    json.addProperty("collected", 0);
+                }
 
                 ArrayList<String> tagsOfBook = new ArrayList<String>();
                 for (Integer tagId : notebook.getTags()) {
                     tagsOfBook.add(tagDao.getTagById(tagId).getTagName());
                 }
-
                 json.addProperty("tags", new Gson().toJson(tagsOfBook));
                 notebooks.add(json);
             }
@@ -93,6 +105,19 @@ public class RecommendServiceImpl implements RecommendService {
                 json.addProperty("createTime", notebook.getCreateTime().toString());
                 json.addProperty("star", notebook.getStar());
                 json.addProperty("cover", notebook.getCover());
+                json.addProperty("notebookId", notebook.getNotebookId());
+
+                if (notebook.getStarers().contains(userId)) {
+                    json.addProperty("stared", 1);
+                } else {
+                    json.addProperty("stared", 0);
+                }
+
+                if (user.getCollections().contains(notebook.getNotebookId())) {
+                    json.addProperty("collected", 1);
+                } else {
+                    json.addProperty("collected", 0);
+                }
 
                 ArrayList<String> tagsOfBook = new ArrayList<String>();
                 for (Integer tagId : notebook.getTags()) {

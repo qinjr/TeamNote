@@ -21,11 +21,19 @@ public interface NoteManageService {
 
 
     /**
-     * @param userId 用户
      * getAllNotebooks
-     * @return 用户所有的所有笔记本
+     * @param userId 用户
+     * @return 用户所有的所有笔记本(工作组)
      */
     ArrayList<Notebook> getAllNotebooksByUserId(int userId);
+
+
+    /**
+     * getNotebooksOfUser
+     * @param userId 用户
+     * @return 用户拥有的所有笔记本,json形式
+     */
+    String getNotebooksOfUser(int userId);
 
 
     /**
@@ -71,6 +79,11 @@ public interface NoteManageService {
     String getNotebookDetail(int notebookId);
     void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription);
     String getCollaborators(int notebookId);
+
+
+    void collectNotebook(int userId, int notebookId);
+    void uncollectNotebook(int userId, int notebookId);
+    String getCollectedNotebooks(int userId);
 
 
 }

@@ -1,8 +1,5 @@
 package controller;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import model.mongodb.GroupChat;
 import model.mongodb.Note;
 import model.mongodb.Notebook;
 import model.mongodb.User;

@@ -135,4 +135,31 @@ public class EvaluateController {
         json.addProperty("qrcode", evaluateService.reward(noteId));
         return json.toString();
     }
+
+    @RequestMapping("/evaluate/star")
+    @ResponseBody
+    public String star(@RequestParam("notebookId") int notebookId) {
+        int userId = getUserId();
+        JsonObject json = new JsonObject();
+        if (evaluateService.star(userId, notebookId) == 1) {
+            json.addProperty("result", "success");
+        } else {
+            json.addProperty("result", "failed");
+        }
+        return json.toString();
+    }
+
+    @RequestMapping("/evaluate/unstar")
+    @ResponseBody
+    public String unstar(@RequestParam("notebookId") int notebookId) {
+        int userId = getUserId();
+
+        JsonObject json = new JsonObject();
+        if (evaluateService.unstar(userId, notebookId) == 1) {
+            json.addProperty("result", "success");
+        } else {
+            json.addProperty("result", "failed");
+        }
+        return json.toString();
+    }
 }
