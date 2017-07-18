@@ -99,7 +99,6 @@
                 } else {
                     $(e.srcElement.nextElementSibling.children).removeAttr('disabled');
                 }
-
             },
             // report
             report: function(event) {
@@ -118,7 +117,6 @@
                     }
                 })
             }
-
         }
     });
 

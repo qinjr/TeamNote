@@ -277,4 +277,31 @@ public class NoteManageServiceImpl implements NoteManageService {
         }
         return new Gson().toJson(result);
     }
+
+    public void collectNotebook(int userId, int notebookId) {
+        User user = userDao.getUserById(userId);
+        ArrayList<Integer> collections = user.getCollections();
+        if (!collections.contains(notebookId))
+            collections.add(notebookId);
+        user.setCollections(collections);
+        userDao.updateUser(user);
+    }
+
+    public void uncollectNotebook(int userId, int notebookId) {
+        User user = userDao.getUserById(userId);
+        ArrayList<Integer> collections = user.getCollections();
+        if (collections.contains(notebookId))
+            collections.remove((Integer) notebookId);
+        user.setCollections(collections);
+        userDao.updateUser(user);
+    }
+
+    public String getCollectedNotebooks(int userId) {
+        User user = userDao.getUserById(userId);
+        ArrayList<Notebook> notebooks = new ArrayList<Notebook>();
+        for (Integer notebookId : user.getCollections()) {
+            notebooks.add(notebookDao.getNotebookById(notebookId));
+        }
+        return new Gson().toJson(notebooks);
+    }
 }

@@ -9,7 +9,6 @@ import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +22,6 @@ import service.DownloadService;
 import service.NoteManageService;
 import service.UserBasicService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.Date;
@@ -205,5 +203,33 @@ public class NoteController {
         int userId = getUserId();
         String notebooks = noteManageService.getNotebooksOfUser(userId);
         return notebooks;
+    }
+
+    @RequestMapping(value = "/collectNotebook")
+    @ResponseBody
+    public String collectNotebook(@RequestParam("notebookId") int notebookId) {
+        int userId = getUserId();
+        noteManageService.collectNotebook(userId, notebookId);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
+    }
+
+    @RequestMapping(value = "/uncollectNotebook")
+    @ResponseBody
+    public String uncollectNotebook(@RequestParam("notebookId") int notebookId) {
+        int userId = getUserId();
+        noteManageService.uncollectNotebook(userId, notebookId);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
+    }
+
+    @RequestMapping(value = "/getCollectedNotebooks")
+    @ResponseBody
+    public String getCollectedNotebooks() {
+        int userId = getUserId();
+        String collectedNotebooks = noteManageService.getCollectedNotebooks(userId);
+        return collectedNotebooks;
     }
 }

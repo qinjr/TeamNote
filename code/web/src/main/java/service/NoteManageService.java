@@ -81,4 +81,9 @@ public interface NoteManageService {
     String getCollaborators(int notebookId);
 
 
+    void collectNotebook(int userId, int notebookId);
+    void uncollectNotebook(int userId, int notebookId);
+    String getCollectedNotebooks(int userId);
+
+
 }
