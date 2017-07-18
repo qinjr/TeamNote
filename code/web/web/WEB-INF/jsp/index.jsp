@@ -34,20 +34,24 @@
                                 <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
                                     <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;{{ _note.star }}
                                 </button>
-                                <!-- TODO: comment -->
-                                <button class="btn btn-outline-secondary center-block" type="button" style="border: none;"
-                                        data-toggle="collapse" :data-target="'#comment_' + _note.title" aria-expanded="false" :aria-controls="'comment_' + _note.title">
-                                    <i class="fa fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论
-                                </button>
                                 <button class="btn btn-outline-secondary center-block btn-collection" type="button" style="border: none;">
                                     <i class="fa fa-flag fa-fw" aria-hidden="true"></i>&nbsp;收藏
                                 </button>
-                                <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
+                                <button class="btn btn-outline-secondary center-block btn-report" type="button" style="border: none;"
+                                        data-toggle="collapse" data-target="#report-area" aria-expanded="false" aria-controls="report-area">
                                     <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>&nbsp;举报
                                 </button>
-                                <div class="collapse" :id="'comment_' + _note.title">
+                                <div class="collapse" id="report-area">
                                     <div class="card card-block" style="width: inherit;">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                        <div class="input-group">
+                                            <span class="input-group-addon" id="basic-addon">
+                                                <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="report" name="report" placeholder="请输入您的举报理由" aria-describedby="basic-addon">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-secondary" type="button">提交</button>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </footer>
@@ -65,33 +69,6 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript">
-
-    /*
-    vm = new Vue({
-        el: '.card',
-        data: {
-            star: {
-                star: 20,
-                selected: false
-            },
-            collection: {
-                selected: false
-            }
-        },
-        methods: {
-            star_select: function() {
-                if (!this.star.selected) {
-                    this.star.selected = true;
-                    this.star.star++;
-                }
-                else {
-                    this.star.selected = false;
-                    this.star.star--;
-                }
-            },
-            collection_select: function() { this.collection.selected = !this.collection.selected; }
-        }
-    });*/
 
     $.ajax({
         url: "/teamnote/recommend",
@@ -114,6 +91,8 @@
             date: function(_date) {
                 return moment(_date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
             }
+
         }
     });
+
 </script>
