@@ -21,11 +21,19 @@ public interface NoteManageService {
 
 
     /**
-     * @param userId 用户
      * getAllNotebooks
-     * @return 用户所有的所有笔记本
+     * @param userId 用户
+     * @return 用户所有的所有笔记本(工作组)
      */
     ArrayList<Notebook> getAllNotebooksByUserId(int userId);
+
+
+    /**
+     * getNotebooksOfUser
+     * @param userId 用户
+     * @return 用户拥有的所有笔记本,json形式
+     */
+    String getNotebooksOfUser(int userId);
 
 
     /**

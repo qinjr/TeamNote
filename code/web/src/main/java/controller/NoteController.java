@@ -198,4 +198,12 @@ public class NoteController {
          }
         return json.toString();
     }
+
+    @RequestMapping(value = "/getNotebooksOfUser")
+    @ResponseBody
+    public String getNotebooksOfUser() {
+        int userId = getUserId();
+        String notebooks = noteManageService.getNotebooksOfUser(userId);
+        return notebooks;
+    }
 }

@@ -61,18 +61,46 @@ public class EvaluateServiceImpl implements EvaluateService {
     public int upvote(int userId, int noteId) {
         Note note = noteDao.getNoteById(noteId);
         ArrayList<Integer> upvoters = note.getUpvoters();
+        ArrayList<Integer> downvoters = note.getDownvoters();
+        if (downvoters.contains(userId))
+            downvoters.remove((Integer) userId);
         upvoters.add(userId);
         note.setUpvoters(upvoters);
+        note.setDownvoters(downvoters);
         noteDao.updateNote(note);
         return 1;
     }
 
     public int downvote(int userId, int noteId) {
         Note note = noteDao.getNoteById(noteId);
+        ArrayList<Integer> upvoters = note.getUpvoters();
         ArrayList<Integer> downvoters = note.getDownvoters();
+        if (upvoters.contains(userId))
+            upvoters.remove((Integer) userId);
         downvoters.add(userId);
         note.setDownvoters(downvoters);
+        note.setUpvoters(upvoters);
         noteDao.updateNote(note);
+        return 1;
+    }
+
+    public int star(int userId, int notebookId) {
+        Notebook notebook = notebookDao.getNotebookById(notebookId);
+        notebook.setStar(notebook.getStar() + 1);
+        ArrayList<Integer> starers = notebook.getStarers();
+        starers.add(userId);
+        notebook.setStarers(starers);
+        notebookDao.updateNotebook(notebook);
+        return 1;
+    }
+
+    public int unstar(int userId, int notebookId) {
+        Notebook notebook = notebookDao.getNotebookById(notebookId);
+        notebook.setStar(notebook.getStar() - 1);
+        ArrayList<Integer> starers = notebook.getStarers();
+        starers.remove((Integer) userId);
+        notebook.setStarers(starers);
+        notebookDao.updateNotebook(notebook);
         return 1;
     }
 

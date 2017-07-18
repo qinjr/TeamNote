@@ -25,6 +25,16 @@ public interface EvaluateService {
      */
     int downvote(int userId, int noteId);
 
+    /**
+     * star
+     * @param userId 用户
+     * @param notebookId 笔记本
+     * @return 1为成功，0为错误
+     */
+    int star(int userId, int notebookId);
+
+    int unstar(int userId, int notebookId);
+
 
     /**
      * report

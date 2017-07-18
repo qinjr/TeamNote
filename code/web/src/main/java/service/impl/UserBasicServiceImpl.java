@@ -1,5 +1,6 @@
 package service.impl;
 
+import com.google.gson.Gson;
 import dao.mongodbDao.UserDao;
 import dao.mysqlDao.UserInfoDao;
 import model.mongodb.User;
@@ -168,5 +169,27 @@ public class UserBasicServiceImpl implements UserBasicService {
                 userDao.updateUser(user);
             }
         }
+    }
+
+    public String getFollowers(int userId) {
+        User user = userDao.getUserById(userId);
+        ArrayList<Integer> followersIds = user.getFollowers();
+        ArrayList<User> followers = new ArrayList<User>();
+        for (Integer followerId : followersIds) {
+            User follower = userDao.getUserById(followerId);
+            followers.add(follower);
+        }
+        return new Gson().toJson(followers);
+    }
+
+    public String getFollowings(int userId) {
+        User user = userDao.getUserById(userId);
+        ArrayList<Integer> followingsIds = user.getFollowings();
+        ArrayList<User> followings = new ArrayList<User>();
+        for (Integer followingId : followingsIds) {
+            User following = userDao.getUserById(followingId);
+            followings.add(following);
+        }
+        return new Gson().toJson(followings);
     }
 }

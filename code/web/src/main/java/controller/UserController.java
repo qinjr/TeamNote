@@ -123,4 +123,20 @@ public class UserController {
         userBasicService.deleteQrcode(userId, servletContext.getRealPath("/"));
         return "redirect:/settings";
     }
+
+    @RequestMapping("/getFollowers")
+    @ResponseBody
+    public String getFollowers() {
+        int userId = getUserId();
+        String followers = userBasicService.getFollowers(userId);
+        return followers;
+    }
+
+    @RequestMapping("/getFollowings")
+    @ResponseBody
+    public String getFollowings() {
+        int userId = getUserId();
+        String followers = userBasicService.getFollowings(userId);
+        return followers;
+    }
 }

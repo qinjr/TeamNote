@@ -62,6 +62,47 @@ public class NoteManageServiceImpl implements NoteManageService {
         return notebooks;
     }
 
+    public String getNotebooksOfUser(int userId) {
+        User user = userDao.getUserById(userId);
+        ArrayList<Integer> notebookIds = user.getNotebooks();
+        ArrayList<JsonObject> notebooks = new ArrayList<JsonObject>();
+        for (int notebookId : notebookIds) {
+            Notebook notebook = notebookDao.getNotebookById(notebookId);
+            if (notebook.getOwner() == userId) {
+                JsonObject json = new JsonObject();
+                json.addProperty("owner", userDao.getUserById(notebook.getOwner()).getUsername());
+                json.addProperty("creator", userDao.getUserById(notebook.getCreator()).getUsername());
+                json.addProperty("title", notebook.getTitle());
+                json.addProperty("description", notebook.getDescription());
+                json.addProperty("createTime", notebook.getCreateTime().toString());
+                json.addProperty("star", notebook.getStar());
+                json.addProperty("cover", notebook.getCover());
+                json.addProperty("notebookId", notebook.getNotebookId());
+
+                if (notebook.getStarers().contains(userId)) {
+                    json.addProperty("stared", 1);
+                } else {
+                    json.addProperty("stared", 0);
+                }
+
+                if (user.getCollections().contains(notebook.getNotebookId())) {
+                    json.addProperty("collected", 1);
+                } else {
+                    json.addProperty("collected", 0);
+                }
+
+                ArrayList<String> tagsOfBook = new ArrayList<String>();
+                for (Integer tagId : notebook.getTags()) {
+                    tagsOfBook.add(tagDao.getTagById(tagId).getTagName());
+                }
+                json.addProperty("tags", new Gson().toJson(tagsOfBook));
+                notebooks.add(json);
+            }
+        }
+        return new Gson().toJson(notebooks);
+
+    }
+
     public Note getNoteById(int noteId) {
         return noteDao.getNoteById(noteId);
     }

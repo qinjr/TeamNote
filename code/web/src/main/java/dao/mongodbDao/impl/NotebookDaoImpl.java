@@ -52,6 +52,7 @@ public class NotebookDaoImpl implements NotebookDao{
         update.set("contributors", notebook.getContributors());
         update.set("notes", notebook.getNotes());
         update.set("createTime", notebook.getCreateTime());
+        update.set("starers", notebook.getStarers());
         mongoTemplate.updateFirst(query, update, Notebook.class,"Notebook");
     }
 
