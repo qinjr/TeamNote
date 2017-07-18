@@ -130,6 +130,12 @@ footer .btn .active {
     color: #4A90E2;
 }
 
+footer .btn.active:hover,
+footer .btn.active:visited {
+    color: #CCCCCC;
+}
+
+
 .dropdown-menu .username:active {
     color: inherit;
     background-color: inherit;
