@@ -12,6 +12,6 @@ public interface RuleDao {
     void addRule(Rule rule);
     void deleteRule(Rule rule);
     void updateRule(Rule rule);
-    Rule getRuleById(int userId);
+    Rule getRuleById(int ruleId);
     List<Rule> getAllRules();
 }

@@ -21,13 +21,14 @@ public class Notebook {
     private Date createTime;
     private String cover;
     private ArrayList<Integer> tags;
+    private ArrayList<Integer> starers;
 
     public Notebook() {}
 
     public Notebook(String title, String description, int creator, int owner,
                     int star, int collected, int clickCount, ArrayList<Integer> collaborators,
                     ArrayList<Integer> contributors, ArrayList<Integer> notes, Date createTime,
-                    String cover, ArrayList<Integer> tags) {
+                    String cover, ArrayList<Integer> tags, ArrayList<Integer> starers) {
         this.title = title;
         this.description = description;
         this.creator = creator;
@@ -41,6 +42,7 @@ public class Notebook {
         this.createTime = createTime;
         this.cover = cover;
         this.tags = tags;
+        this.starers = starers;
     }
 
     public int getNotebookId() {
@@ -153,5 +155,13 @@ public class Notebook {
 
     public void setTags(ArrayList<Integer> tags) {
         this.tags = tags;
+    }
+
+    public ArrayList<Integer> getStarers() {
+        return starers;
+    }
+
+    public void setStarers(ArrayList<Integer> starers) {
+        this.starers = starers;
     }
 }

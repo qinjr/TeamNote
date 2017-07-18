@@ -7,8 +7,12 @@ import model.mysql.UserInfo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import model.mysql.Auth;
 import model.mysql.UserInfo;
+
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  * Created by qjr on 2017/6/27.
@@ -47,24 +51,22 @@ public interface AdminService {
      * RComment
      * @return 所有评论
      */
-    ArrayList<Comment> RComment();
+    List<Comment> RComment();
 
 
     /**
      * CUDGroupChat
      * @param notebookId 操作对象
      * @param op 操作类型
-     * @param userId table field
-     * @param content table field
-     * @param datetime table field
+     * @param contents table field
      * @return 1/0
      */
-    int CUDGroupChat(int notebookId, String op, int userId, String content, Date datetime);
+    int CUDGroupChat(int notebookId, String op, ArrayList<String> contents);
     /**
      * RGroupChat
      * @return 所有group chat
      */
-    ArrayList<GroupChat> RGroupChat();
+    List<GroupChat> RGroupChat();
 
 
     /**
@@ -77,12 +79,12 @@ public interface AdminService {
      * @param datetime table field
      * @return 1/0
      */
-    int CUDLetter(int letterId, String op, int senderId, int receiverId, String content, Date datetime);
+    int CUDLetter(int letterId, String op, int senderId, int receiverId, String content, Date datetime, int read);
     /**
      * RLetter
      * @return 所有Letter
      */
-    ArrayList<Letter> RLetter();
+    List<Letter> RLetter();
 
 
     /**
@@ -91,25 +93,26 @@ public interface AdminService {
      * @param op 操作类型
      * @param notebookId table field
      * @param title table field
-     * @param editTime table field
-     * @param message table field
-     * @param content table field
-     * @param editerId table field
-     * @param comment table field
-     * @param upvoteUserId table field
-     * @param downvoteUserId table field
+     * @param history table field
+     * @param comments table field
+     * @param upvoters table field
+     * @param downvoters table field
      * @param report table field
      * @param valid table field
+     * @param versionPointer table field
      * @return 1/0
      */
-    int CUDNote(int noteId, String op, int notebookId, String title, Date editTime, String message, String content, int editerId,
-                String comment, int upvoteUserId, int downvoteUserId, int report, int valid);
+    int CUDNote(int noteId, String op, int notebookId, String title, ArrayList<String> history,
+                ArrayList<Integer> comments, ArrayList<Integer> upvoters, ArrayList<Integer> downvoters, int report, int valid, int versionPointer);
+    //TODO
+    /*需要粒度更细的Service，如对某个historyVersion的操作*/
+
     /**
      * RNoteOfNotebook
      * @param notebookId notebook id
      * @return 该笔记本所有的note
      */
-    ArrayList<Note> RNoteOfNotebook(int notebookId);
+    List<Note> RNoteOfNotebook(int notebookId);
 
 
     /**
@@ -123,52 +126,49 @@ public interface AdminService {
      * @param star table field
      * @param collected table field
      * @param count table field
-     * @param collobrator table field
-     * @param contributor table field
-     * @param noteId table field
+     * @param collobrators table field
+     * @param contributors table field
+     * @param notes table field
      * @param createTime table field
      * @return 1/0
      */
     int CUDNotebook(int notebookId, String op, String title, String description, int creator, int owner, int star, int collected,
-                    int count, int collobrator, int contributor, int noteId, Date createTime);
+                    int count, ArrayList<Integer> collobrators, ArrayList<Integer> contributors, ArrayList<Integer> notes, Date createTime, String cover, ArrayList<Integer> tags, ArrayList<Integer> starers);
     /**
      * Rnotebooks
      * @return 所有notebook
      */
-    ArrayList<Notebook> RNotebooks();
+    List<Notebook> RNotebooks();
 
 
     /**
      * CUDNotice
-     * @param noticeId 操作对象
      * @param op 操作类型
      * @param userId table field
-     * @param read table field
-     * @param content table field
+     * @param notices table field
      * @return 1/0
      */
-    int CUDNotice(int noticeId, String op, int userId, int read, String content);
+    int CUDNotice(int userId, String op, ArrayList<String> notices);
     /**
      * RNotice
      * @return 所有用户的通知
      */
-    ArrayList<Notice> RNotice();
+    List<Notice> RNotice();
 
 
     /**
      * CUDRule
      * @param ruleId 操作对象
      * @param op 操作类型
-     * @param rule table field
-     * @param datetime table field
+     * @param rules table field
      * @return 1/0
      */
-    int CUDRule(int ruleId, String op, String rule, Date datetime);
+    int CUDRule(int ruleId, String op, String rules);
     /**
      * RRule
      * @return 所有rules
      */
-    ArrayList<Rule> RRule();
+    List<Rule> RRule();
 
 
     /**
@@ -179,16 +179,18 @@ public interface AdminService {
      * @param notebookId table field
      * @param content table field
      * @param issue table field
-     * @param datetime table field
+     * @param raiseTime table field
      * @param status table field
+     * @param userId table field
+     * @param username table field
      * @return 1/0
      */
-    int CUDSuggestion(int suggestionId, String op, int noteId, int notebookId, String content, String issue, Date datetime, String status);
+    int CUDSuggestion(int suggestionId, String op, int noteId, int notebookId, int userId, String username, String content, String issue, Date raiseTime, String status);
     /**
      * RSuggestion
      * @return 所有suggestion
      */
-    ArrayList<Suggestion> RSuggestion();
+    List<Suggestion> RSuggestion();
 
 
     /**
@@ -196,16 +198,16 @@ public interface AdminService {
      * @param tagId 操作对象
      * @param op 操作类型
      * @param tagName table field
-     * @param notebookId table field
+     * @param booksOfTag table field
      * @return 1/0
      */
-    int CUDTag(int tagId, String op, String tagName, int notebookId);
+    int CUDTag(int tagId, String op, String tagName, ArrayList<Integer> booksOfTag);
 
     /**
      * RTag
      * @return 所有tags
      */
-    ArrayList<Tag> RTag();
+    List<Tag> RTag();
 
 
     /**
@@ -214,27 +216,26 @@ public interface AdminService {
      * @param op 操作类型
      * @param username table field
      * @param personalStatus table field
-     * @param notebookId table field
-     * @param followerId table field
-     * @param followeeId table field
-     * @param tagId table field
+     * @param notebooks table field
+     * @param followers table field
+     * @param followings table field
+     * @param tags table field
      * @param avatar table field
-     * @param collectionId table field
+     * @param collections table field
      * @param valid table field
-     * @param deleteTime table field
-     * @param honor table field
-     * @param reward table field
+     * @param deleteCount table field
+     * @param reputation table field
      * @param qrcode table field
      * @return 1/0
      */
-    int CUDUser(int userId, String op, String username, String personalStatus, int notebookId,
-                int followerId, int followeeId, int tagId, File avatar, int collectionId, int valid, Date deleteTime,
-                int honor, int reward, File qrcode);
+    int CUDUser(int userId, String op, String username, String personalStatus, ArrayList<Integer> notebooks,
+                ArrayList<Integer> followers, ArrayList<Integer> followings, ArrayList<Integer> tags, String avatar, ArrayList<Integer> collections, int valid, int deleteCount,
+                int reputation, String qrcode);
     /**
      * RUser
      * @return 所有User
      */
-    ArrayList<User> RUser();
+    List<User> RUser();
 
 
     /**
