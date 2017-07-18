@@ -7,6 +7,8 @@ var websocket;
 $(document).ready(function() {
     var notebookId = $('.notebook').attr("id");
     var avatar = $('#user_avatar').attr('src');
+    /* chatting record */
+    var lastChat = -1;
 
     /* WebSocket */
     if ('WebSocket' in window) {
@@ -53,20 +55,63 @@ $(document).ready(function() {
 
     $('#showChat').click(function() {
         $('#chat_icon').removeAttr('style');
-        var notebookId = $('.notebook').attr("id");
         var chat, chatContent;
+        if(document.getElementById("chatContent").innerHTML === "") {
+            $.ajax({
+                url: "/teamnote/cooperate/getGroupChat",
+                processData: true,
+                dataType: "text",
+                data: {
+                    notebookId: notebookId,
+                    lastChat : lastChat
+                },
+                success: function (data) {
+                    var json = JSON.parse(data);
+                    lastChat = json.lastChat;
+                    var currentUser = json.currentUser;
+                    var chatList = JSON.parse(json.result);
+                    for (var i = 0; i < chatList.length; i++) {
+                        if(chatList[i].uid === currentUser){
+                            prependContent("#00cc7d", "/teamnote/" +chatList[i].avatar, chatList[i].username, chatList[i].datetime, chatList[i].content);
+                        } else {
+                            prependContent("#4A90E2", "/teamnote/" +chatList[i].avatar, chatList[i].username, chatList[i].datetime, chatList[i].content);
+                        }
+                    }
+                    $("#chatContent").prepend("<div><button type='button' class='btn btn-link' id='moreChat'>更多</button></div>")
+                    $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+                }
+            })
+        }
+    });
+
+    $("#chatContent").on("click","#moreChat",function(){
+        $("#moreChat").remove();
         $.ajax({
-            url : "/teamnote/cooperate/getGroupChat",
-            processData : true,
-            dataType : "text",
-            data : {
-                notebookId : notebookId
+            url: "/teamnote/cooperate/getGroupChat",
+            processData: true,
+            dataType: "text",
+            data: {
+                notebookId: notebookId,
+                lastChat : lastChat
             },
-            success : function(data) {
-                var chatList = JSON.parse(data);
-                console.log(chatList);
+            success: function (data) {
+                var json = JSON.parse(data);
+                lastChat = json.lastChat;
+                var currentUser = json.currentUser;
+                var chatList = JSON.parse(json.result);
+                var originScrollHeight = $('#chatbox')[0].scrollHeight;
                 for (var i = 0; i < chatList.length; i++) {
-                    chatContent = JSON.parse(chatList[i]);
+                    if(chatList[i].uid === currentUser){
+                        prependContent("#00cc7d", "/teamnote/" +chatList[i].avatar, chatList[i].username, chatList[i].datetime, chatList[i].content);
+                    } else {
+                        prependContent("#4A90E2", "/teamnote/" +chatList[i].avatar, chatList[i].username, chatList[i].datetime, chatList[i].content);
+                    }
+                }
+                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight - originScrollHeight);
+                if(lastChat !== -2) {
+                    $("#chatContent").prepend("<div><button type='button' class='btn btn-link' id='moreChat'>更多</button></div>");
+                } else {
+                    $("#chatContent").prepend("<div>没有更多记录</div>");
                 }
             }
         })
@@ -86,8 +131,22 @@ $(document).ready(function() {
             "</div>");
     }
 
+    function prependContent(colorCode, avatar, name, date, text) {
+        $("#chatContent").prepend("<div style='margin-bottom: 10px;'>" +
+            "<label style='color:" + colorCode + "'>" +
+            "<div class='media'>" +
+            "<img class='d-flex mr-3 img-50px' src='" + avatar + "'>" +
+            "<div class='media-body'>" +
+            name + "<br>" + "<small style='color: lightgrey'>" + date + "</small>" +
+            "</div>" +
+            "</div>" +
+            "</label>" +
+            "<div>" + text.replace(/\n/g, '<br>') + "</div>" +
+            "</div>");
+    }
+
     $('#sendMsg').click(function() {
-        var notebookId = $('.notebook').attr("id");
+        //var notebookId = $('.notebook').attr("id");
         var text = $("#msg").val();
         var re = /\n/g;
         var check = text.replace(re, "");
@@ -236,6 +295,7 @@ $(document).ready(function() {
         }
     });
 
+    /* export note */
     $('#chooseType').click(function(){
         //TODO
         CKEDITOR.instances.editor.resetDirty();
@@ -254,6 +314,7 @@ $(document).ready(function() {
         $('#exportModal').modal('hide');
     });
 
+    /* import note */
     $('#uploadNote').click(function () {
         $('#uploadModalTitle').html("选择文件");
         $('#uploadModal').modal('show');
