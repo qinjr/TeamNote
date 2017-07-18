@@ -13,7 +13,7 @@
         <div class="card-block">
             <div class="row">
                 <div class="col-md-2 text-center mx-auto">
-                    <img :src="'<%=path%>/' + avatar" style="height: 100px; width: 100px;">
+                    <img src="" :src="'<%=path%>/' + avatar" style="height: 100px; width: 100px;">
                 </div>
                 <div class="col-md-7">
                     <h4 class="card-title">{{ username }}</h4>
@@ -64,21 +64,65 @@
             <div class="tab-content" id="homepageTabContent">
                 <!-- TODO: activity -->
                 <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab" aria-expanded="true">activity</div>
+
                 <!-- TODO: notebook -->
-                <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">notebook</div>
+                <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">
+                    <div v-for="_note in note">
+                        <div class="row" style="margin: 20px 0;">
+                            <div class="col-md-2 text-center mx-auto">
+                                <img src="" :src="'<%=path%>/' + _note.cover" style="height: 75px; width: 75px;">
+                            </div>
+                            <div class="col-md-10">
+                                <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>
+                                <i class="fa fa-tag" aria-hidden="true"></i>
+                                <div style="display: inline;" v-for="tag in json(_note.tags)">
+                                    <kbd class="card-subtitle">{{ tag }}</kbd>&nbsp;
+                                </div>
+                                <p class="card-text" style="word-break: break-all; margin-top: 16px;">
+                                    {{ _note.description }}
+                                </p>
+                                <footer>
+                                    <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ n_date(_note.createTime) }}</small>
+                                    <br><br>
+                                    <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
+                                        <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;{{ _note.star }}
+                                    </button>
+                                    <!-- TODO: comment -->
+                                    <button class="btn btn-outline-secondary center-block" type="button" style="border: none;"
+                                            data-toggle="collapse" :data-target="'#comment_' + _note.title" aria-expanded="false" :aria-controls="'comment_' + _note.title">
+                                        <i class="fa fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论
+                                    </button>
+                                    <button class="btn btn-outline-secondary center-block btn-collection" type="button" style="border: none;">
+                                        <i class="fa fa-flag fa-fw" aria-hidden="true"></i>&nbsp;收藏
+                                    </button>
+                                    <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
+                                        <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>&nbsp;举报
+                                    </button>
+                                    <div class="collapse" :id="'comment_' + _note.title">
+                                        <div class="card card-block" style="width: inherit;">
+                                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                        </div>
+                                    </div>
+                                </footer>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </div>
+
                 <!-- TODO: workgroup loading / null-->
                 <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab">
                     <div v-if="loading" style="text-align: center; padding-top: 20px;">
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">Loading...</span>
                     </div>
-                    <div v-if="notebooksdetails === null">
+                    <div v-if="notebooksdetails.length === 0">
                         <div class="alert alert-success" role="alert" style="margin-top: 16px;">
                             <i class="fa fa-info-circle" aria-hidden="true"></i>
                             该用户没有加入的工作组
                         </div>
                     </div>
-                    <div class="row" v-for="notebookdetail in notebooksdetails">
+                    <div class="row" v-else="" v-for="notebookdetail in notebooksdetails">
                         <div class="col-md-12" style="margin-top: 20px;">
                             <div class="row">
                                 <div class="col-md-2 text-center mx-auto">
@@ -90,10 +134,9 @@
                                     <div style="display: inline;" v-for="tag in notebookdetail.tags">
                                         <kbd class="card-subtitle">{{ tag.tagName }}</kbd>&nbsp;
                                     </div>
-
-                                    <br>
-                                    <small>创建者 <strong>{{ notebookdetail.creator.username }}</strong> · 所有者 <strong>{{ notebookdetail.owner.username }}</strong> · 创建时间 {{ notebookdetail.notebook.createTime }}</small>
-                                    <br>
+                                    <div style="margin-top: 5px; margin-bottom: 5px;">
+                                        <small>创建者 <strong>{{ notebookdetail.creator.username }}</strong> · 所有者 <strong>{{ notebookdetail.owner.username }}</strong> · 创建时间 {{ w_date(notebookdetail.notebook.createTime) }}</small>
+                                    </div>
                                     <div style="margin: 10px auto; display: inline;" v-for="collaborator in notebookdetail.collaborators">
                                         <img :src="'<%=path%>/' + collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
                                     </div>
@@ -111,8 +154,10 @@
                     </div>
                     <div class="dropdown-divider"></div>
                 </div>
+
                 <!-- TODO: collection -->
                 <div class="tab-pane fade" id="collection" role="tabpanel" aria-labelledby="collection-tab">collection</div>
+
                 <!-- TODO: follow -->
                 <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">following</div>
                 <div class="tab-pane fade" id="follower" role="tabpanel" aria-labelledby="follower-tab">follower</div>
@@ -154,7 +199,7 @@
     var notebooks = new Vue({
         el: '#workgroup',
         data: {
-            notebooksdetails: null,
+            notebooksdetails: [],
             loading: true
         },
         created: function () {
@@ -165,6 +210,11 @@
             }, function() {
                 console.log("workgroup error");
             });
+        },
+        methods: {
+            w_date: function(date) {
+                return moment(date, "MMM D, YYYY h:mm:ss A").format("YYYY-MM-DD HH:mm:ss")
+            },
         }
     });
 
@@ -208,5 +258,29 @@
         $el.addClass('show');
         $el.attr('aria-expanded', true);
     }
+
+    $.ajax({
+        url: "/teamnote/recommend",
+        type: "get",
+        dataType: "json",
+        success: function(data) {
+            index.note = data;
+        }
+    });
+
+    var index = new Vue({
+        el: '#notebook',
+        data: {
+            note: []
+        },
+        methods: {
+            json: function(tag) {
+                return JSON.parse(tag);
+            },
+            n_date: function(date) {
+                return moment(date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
+            }
+        }
+    });
 
 </script>

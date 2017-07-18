@@ -9,7 +9,7 @@ import java.util.Date;
 public class Verify {
     private int verifyId;
     private Date date;
-    private int type;//comment:0, note:1
+    private int type;//comment:0, note:1, notebook:2
     private int targetId;
     private String reason;
     private int checked;//checked:1, unchecked:0

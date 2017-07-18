@@ -153,11 +153,16 @@
             $('#phone').val(phone);
             $('#description').val(description);
             $('#avatar').attr('src', '<%=path%>'+ avatar);
-            $('#reward').bootstrapSwitch('state', (qrcode.length !== 0));
-            if (qrcode.length === 0) {
+            if (qrcode === undefined) {
+                $('#reward').bootstrapSwitch('state', false);
                 $('#qrcode').hide();
             } else {
-                $('#qrcode').attr('src', '<%=path%>'+ qrcode);
+                $('#reward').bootstrapSwitch('state', (qrcode.length !== 0));
+                if (qrcode.length === 0) {
+                    $('#qrcode').hide();
+                } else {
+                    $('#qrcode').attr('src', '<%=path%>'+ qrcode);
+                }
             }
         }
     });

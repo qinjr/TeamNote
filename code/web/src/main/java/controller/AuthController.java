@@ -46,6 +46,6 @@ public class AuthController {
         if (userBasicService.usernameValidate(username)) {
             return ResponseEntity.status(200).body(null);
         }
-        else return ResponseEntity.status(406).body(null);
+        else return ResponseEntity.status(409).body(null);
     }
 }
