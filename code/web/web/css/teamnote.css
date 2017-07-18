@@ -167,6 +167,10 @@ footer .btn .active {
     color: #4A90E2;
 }
 
+.none:focus {
+    box-shadow: none;
+}
+
 .nav-tabs .nav-link.active {
     border-top: 3px solid #4A90E2;
 }
@@ -228,3 +232,24 @@ a.nav-item.nav-link:hover {
     margin-top: 10px;
 }
 
+.no-more-record {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #DADADA;
+    text-align: center;
+}
+
+.more-record {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: #000000;
+    text-align: center;
+    border: none;
+}
+
+.more-record:hover {
+    text-decoration: inherit;
+    color: #4A90E2;
+}

@@ -78,9 +78,9 @@ $(document).ready(function() {
                         }
                     }
                     if(lastChat !== -2) {
-                        $("#chatContent").prepend("<div><button type='button' class='btn btn-link' id='moreChat'>更多</button></div>");
+                        $("#chatContent").prepend("<div style='text-align: center;'><button type='button' class='btn btn-link more-record' id='moreChat'>更多记录</button></div>");
                     } else {
-                        $("#chatContent").prepend("<div>没有更多记录</div>");
+                        $("#chatContent").prepend("<div class='no-more-record'>没有更多记录</div>");
                     }
                     $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
                 }
@@ -113,9 +113,9 @@ $(document).ready(function() {
                 }
                 $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight - originScrollHeight);
                 if(lastChat !== -2) {
-                    $("#chatContent").prepend("<div><button type='button' class='btn btn-link' id='moreChat'>更多</button></div>");
+                    $("#chatContent").prepend("<div style='text-align: center;'><button type='button' class='btn btn-link more-record' id='moreChat'>更多记录</button></div>");
                 } else {
-                    $("#chatContent").prepend("<div>没有更多记录</div>");
+                    $("#chatContent").prepend("<div class='no-more-record'>没有更多记录</div>");
                 }
             }
         })

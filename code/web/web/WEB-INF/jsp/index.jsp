@@ -10,7 +10,7 @@
 
 <div class="container" id="index">
     <!-- test card -->
-    <div class="card" v-for="_note in note">
+    <div class="card" v-for="_note in note" id="'NB' + _note.notebookId">
         <div class="card-block">
             <div class="row">
                 <div class="col-md-12">
@@ -31,25 +31,25 @@
                             <footer>
                                 <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ date(_note.createTime) }}</small>
                                 <br><br>
-                                <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
+                                <button class="btn btn-outline-secondary center-block none" :class="_note.stared? 'active' : ''" type="button">
                                     <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;{{ _note.star }}
                                 </button>
-                                <button class="btn btn-outline-secondary center-block btn-collection" type="button" style="border: none;">
+                                <button class="btn btn-outline-secondary center-block btn-collection none" :class="_note.collected? 'active' : ''" type="button">
                                     <i class="fa fa-flag fa-fw" aria-hidden="true"></i>&nbsp;收藏
                                 </button>
-                                <button class="btn btn-outline-secondary center-block btn-report" type="button" style="border: none;"
-                                        data-toggle="collapse" data-target="#report-area" aria-expanded="false" aria-controls="report-area">
+                                <button class="btn btn-outline-secondary center-block btn-report none" type="button"
+                                        data-toggle="collapse" :data-target="'#report-area_' + _note.notebookId" aria-expanded="false" :aria-controls="'report-area_' + _note.notebookId">
                                     <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>&nbsp;举报
                                 </button>
-                                <div class="collapse" id="report-area">
+                                <div class="collapse" :id="'report-area_' + _note.notebookId">
                                     <div class="card card-block" style="width: inherit;">
                                         <div class="input-group">
                                             <span class="input-group-addon" id="basic-addon">
                                                 <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>
                                             </span>
-                                            <input type="text" class="form-control" id="report" name="report" placeholder="请输入您的举报理由" aria-describedby="basic-addon">
+                                            <input type="text" class="form-control" id="report" name="report" @input="observe($event)" placeholder="请输入您的举报理由" aria-describedby="basic-addon">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-secondary" type="button">提交</button>
+                                                <button class="btn btn-secondary" type="button" disabled="disabled" @click="report($event)">提交</button>
                                             </span>
                                         </div>
                                     </div>
@@ -61,7 +61,6 @@
             </div>
         </div>
     </div>
-
     <footer>
         <p>&copy; 2017 TeamNote Team</p>
     </footer>
@@ -85,11 +84,39 @@
             note: []
         },
         methods: {
+            // parse tag string to json
             json: function(tag) {
                 return JSON.parse(tag);
             },
+            // normalize date format
             date: function(_date) {
                 return moment(_date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
+            },
+            // functio to observe the input of report
+            observe: function(e) {
+                if ($(e.srcElement).val() === "") {
+                    $(e.srcElement.nextElementSibling.children).attr('disabled', 'disabled');
+                } else {
+                    $(e.srcElement.nextElementSibling.children).removeAttr('disabled');
+                }
+
+            },
+            // report
+            report: function(event) {
+                var report = $(event.srcElement.parentElement.previousElementSibling).val();
+                var notebookId = event.srcElement.parentElement.parentElement.parentElement.parentElement.id.replace('report-area_', '');
+                $.ajax({
+                    url: "/teamnote/evaluate/reportNotebook",
+                    type: "post",
+                    data: {
+                        notebookId: notebookId,
+                        reason: report
+                    },
+                    success: function() {
+                        alert("您的举报已被管理员受理，请耐心等候，谢谢。");
+                        $('#' + event.srcElement.parentElement.parentElement.parentElement.parentElement.id).hide();
+                    }
+                })
             }
 
         }

@@ -186,57 +186,11 @@
         },
         methods: {
             following: function() {
-                $('div.tab-content > div.tab-pane').each(function() {
-                    $(this).removeClass('active');
-                    $(this).removeClass('show');
-                    $(this).attr('aria-expanded', false);
-                });
-                if ($('#follow-tab').hasClass('active')) {
-                    $('div.dropdown-menu > a.dropdown-item').each(function() {
-                        $(this).removeClass('active');
-                        $(this).attr('aria-expanded', false);
-                    })
-                } else {
-                    $('li.nav-item > a.nav-link').each(function() {
-                        $(this).removeClass('active');
-                        $(this).attr('aria-expanded', false);
-                    });
-                    $tab = $('#follow-tab');
-                    $tab.addClass('active');
-                    $tab.attr('aria-expanded', true);
-                }
-                $('#following-tab').addClass('active');
-                $el = $('#following');
-                $el.addClass('active');
-                $el.addClass('show');
-                $el.attr('aria-expanded', true);
+                $('#following-tab').tab('show');
 
             },
             followed: function() {
-                $('div.tab-content > div.tab-pane').each(function() {
-                    $(this).removeClass('active');
-                    $(this).removeClass('show');
-                    $(this).attr('aria-expanded', false);
-                });
-                if ($('#follow-tab').hasClass('active')) {
-                    $('div.dropdown-menu > a.dropdown-item').each(function() {
-                        $(this).removeClass('active');
-                        $(this).attr('aria-expanded', false);
-                    })
-                } else {
-                    $('li.nav-item > a.nav-link').each(function() {
-                        $(this).removeClass('active');
-                        $(this).attr('aria-expanded', false);
-                    });
-                    $tab = $('#follow-tab');
-                    $tab.addClass('active');
-                    $tab.attr('aria-expanded', true);
-                }
-                $('#follower-tab').addClass('active');
-                $el = $('#follower');
-                $el.addClass('active');
-                $el.addClass('show');
-                $el.attr('aria-expanded', true);
+                $('#follower-tab').tab('show');
             }
         }
     });
@@ -266,45 +220,22 @@
 
     var tag = location.href.split('#')[1];
     if (tag !== undefined) {
-        $('li.nav-item > a.nav-link').each(function() {
-            $(this).removeClass('active');
-            $(this).attr('aria-expanded', false);
-        });
-        $('div.tab-content > div.tab-pane').each(function() {
-            $(this).removeClass('active');
-            $(this).removeClass('show');
-            $(this).attr('aria-expanded', false);
-        });
-        var $tab = null;
-        var $el = null;
         switch(tag) {
             case "notebook": {
-                $tab = $('#notebook-tab');
-                $el = $('#notebook');
+                $('#notebook-tab').tab('show');
                 break;
             }
             case "workgroup": {
-                $tab = $('#workgroup-tab');
-                $el = $('#workgroup');
+                $('#workgroup-tab').tab('show');
                 break;
             }
             case "collection": {
-                $tab = $('#collection-tab');
-                $el = $('#collection');
+                $('#collection-tab').tab('show');
                 break;
             }
             default: {
                 break;
             }
-        }
-        if ($tab !== null) {
-            $tab.addClass('active');
-            $tab.attr('aria-expanded', true);
-        }
-        if ($el !== null) {
-            $el.addClass('active');
-            $el.addClass('show');
-            $el.attr('aria-expanded', true);
         }
     }
 
