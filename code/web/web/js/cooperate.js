@@ -77,7 +77,11 @@ $(document).ready(function() {
                             prependContent("#4A90E2", "/teamnote/" +chatList[i].avatar, chatList[i].username, chatList[i].datetime, chatList[i].content);
                         }
                     }
-                    $("#chatContent").prepend("<div><button type='button' class='btn btn-link' id='moreChat'>更多</button></div>")
+                    if(lastChat !== -2) {
+                        $("#chatContent").prepend("<div><button type='button' class='btn btn-link' id='moreChat'>更多</button></div>");
+                    } else {
+                        $("#chatContent").prepend("<div>没有更多记录</div>");
+                    }
                     $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
                 }
             })
