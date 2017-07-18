@@ -35,6 +35,7 @@ public interface EvaluateService {
      */
     int reportNote(int userId, int noteId, String reason);
 
+    int reportNotebook(int userId, int notebookId, String reason);
 
     /**
      *

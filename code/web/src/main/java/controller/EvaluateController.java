@@ -76,6 +76,21 @@ public class EvaluateController {
         return json.toString();
     }
 
+    @RequestMapping("/evaluate/reportNotebook")
+    @ResponseBody
+    public String reportNotebook(@RequestParam("notebookId") int notebookId, @RequestParam("reason") String reason) {
+        int userId = getUserId();
+
+        JsonObject json = new JsonObject();
+        if (evaluateService.reportNotebook(userId, notebookId, reason) == 1) {
+            json.addProperty("result", "success");
+        } else {
+            json.addProperty("result", "failed");
+        }
+        return json.toString();
+    }
+
+
     @RequestMapping("/evaluate/reportComment")
     @ResponseBody
     public String reportComment(@RequestParam("commentId") int commentId, @RequestParam("reason") String reason) {

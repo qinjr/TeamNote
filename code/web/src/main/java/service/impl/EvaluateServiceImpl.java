@@ -85,6 +85,12 @@ public class EvaluateServiceImpl implements EvaluateService {
         return 1;
     }
 
+    public int reportNotebook(int userId, int notebookId, String reason) {
+        Verify verify = new Verify(new Date(), 2, notebookId, reason, 0, userId);
+        verifyDao.addVerify(verify);
+        return 1;
+    }
+
     public int reportComment(int userId, int commentId, String reason) {
         Verify verify = new Verify(new Date(), 0, commentId, reason, 0, userId);
         verifyDao.addVerify(verify);
