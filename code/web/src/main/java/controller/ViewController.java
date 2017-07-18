@@ -22,4 +22,9 @@ public class ViewController {
     public String homepage() {
         return "homepage";
     }
+
+    @RequestMapping("/notebook")
+    public String notebook() {
+        return "notebook";
+    }
 }
