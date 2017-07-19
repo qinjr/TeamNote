@@ -110,60 +110,89 @@
                 </div>
 
                 <!-- TODO: workgroup loading / null-->
-                <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab" v-if="self">
-                    <div v-if="loading" style="text-align: center; padding-top: 20px;">
-                        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                    <div v-if="workgroupsdetails.length === 0">
-                        <div class="alert alert-success" role="alert" style="margin-top: 16px;">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                            该用户没有加入的工作组
+                <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab">
+                    <div v-if="self">
+                        <div v-if="loading" style="text-align: center; padding-top: 20px;">
+                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                            <span class="sr-only">Loading...</span>
                         </div>
-                    </div>
-                    <div class="row" v-else="" v-for="workgroupdetail in workgroupsdetails">
-                        <div class="col-md-12" style="margin-top: 20px;">
-                            <div class="row">
-                                <div class="col-md-2 text-center mx-auto">
-                                    <img :src="workgroupdetail.notebook.cover" style="height: 75px; width: 75px;">
-                                </div>
-                                <div class="col-md-7">
-                                    <h4 class="card-title" style="margin-bottom: 6px;">{{ workgroupdetail.notebook.title }}</h4>
-                                    <i class="fa fa-tag" aria-hidden="true"></i>
-                                    <div style="display: inline;" v-for="tag in workgroupdetail.tags">
-                                        <kbd class="card-subtitle">{{ tag.tagName }}</kbd>&nbsp;
-                                    </div>
-                                    <div style="margin-top: 5px; margin-bottom: 5px;">
-                                        <small>创建者 <strong>{{ workgroupdetail.creator.username }}</strong> · 所有者 <strong>{{ workgroupdetail.owner.username }}</strong> · 创建时间 {{ w_date(workgroupdetail.notebook.createTime) }}</small>
-                                    </div>
-                                    <div style="margin: 10px auto; display: inline;" v-for="collaborator in workgroupdetail.collaborators">
-                                        <img :src="'<%=path%>/' + collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
-                                    </div>
-                                </div>
-                                <div class="col-md-3 workgroup-btn">
-                                    <a class="btn btn-outline-primary center-block" role="button" :href="'<%=path%>/cooperate/workgroup?notebookId=' + workgroupdetail.notebook.notebookId">
-                                        <i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组
-                                    </a>
-                                    <button class="btn btn-outline-warning center-block" type="button">
-                                        <i class="fa fa-envelope-open fa-fw" aria-hidden="true"></i>&nbsp;邀请用户
-                                    </button>
-                                </div>
+                        <div v-if="workgroupsdetails.length === 0">
+                            <div class="alert alert-success" role="alert" style="margin-top: 16px;">
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                该用户没有加入的工作组
                             </div>
                         </div>
-                        <div class="dropdown-divider"></div>
+                        <div v-else="" v-for="workgroupdetail in workgroupsdetails">
+                            <div class="row">
+                                <div class="col-md-12" style="margin-top: 20px; margin-bottom: 20px;">
+                                    <div class="row">
+                                        <div class="col-md-2 text-center mx-auto">
+                                            <img src="" :src="workgroupdetail.notebook.cover" style="height: 75px; width: 75px;">
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h4 class="card-title" style="margin-bottom: 6px;">{{ workgroupdetail.notebook.title }}</h4>
+                                            <i class="fa fa-tag" aria-hidden="true"></i>
+                                            <div style="display: inline;" v-for="tag in workgroupdetail.tags">
+                                                <kbd class="card-subtitle">{{ tag.tagName }}</kbd>&nbsp;
+                                            </div>
+                                            <div style="margin-top: 5px; margin-bottom: 5px;">
+                                                <small>创建者 <strong>{{ workgroupdetail.creator.username }}</strong> · 所有者 <strong>{{ workgroupdetail.owner.username }}</strong> · 创建时间 {{ w_date(workgroupdetail.notebook.createTime) }}</small>
+                                            </div>
+                                            <div style="margin: 10px auto; display: inline;" v-for="collaborator in workgroupdetail.collaborators">
+                                                <img :src="'<%=path%>/' + collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 workgroup-btn">
+                                            <a class="btn btn-outline-primary center-block" role="button" :href="'<%=path%>/cooperate/workgroup?notebookId=' + workgroupdetail.notebook.notebookId">
+                                                <i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组
+                                            </a>
+                                            <button class="btn btn-outline-warning center-block" type="button">
+                                                <i class="fa fa-envelope-open fa-fw" aria-hidden="true"></i>&nbsp;邀请用户
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                        </div>
                     </div>
 
                 </div>
 
                 <!-- TODO: collection -->
-                <div class="tab-pane fade" id="collection" role="tabpanel" aria-labelledby="collection-tab">collection</div>
+                <div class="tab-pane fade" id="collection" role="tabpanel" aria-labelledby="collection-tab">
+                    <div v-if="collection.length === 0">
+                        <div class="alert alert-success" role="alert" style="margin-top: 16px;">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            该用户没有收藏的笔记本
+                        </div>
+                    </div>
+                    <div v-else="" v-for="(_note, index) in collection">
+                        <div class="row" style="margin: 20px 0;">
+                            <div class="col-md-2 text-center mx-auto">
+                                <img src="" :src="'<%=path%>/' + _note.cover" style="height: 75px; width: 75px;">
+                            </div>
+                            <div class="col-md-10" :id="'CT_NB_' + _note.notebookId">
+                                <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>
+                                <i class="fa fa-tag" aria-hidden="true"></i>
+                                <div style="display: inline;" v-for="tag in json(_note.tags)">
+                                    <kbd class="card-subtitle">{{ tag }}</kbd>&nbsp;
+                                </div>
+                                <footer :index="index">
+                                    <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ n_date(_note.createTime) }}</small>
+                                </footer>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </div>
 
                 <!-- TODO: follow -->
                 <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">
                     <div v-if="followings.length === 0">
                         <div class="alert alert-success" role="alert" style="margin-top: 16px;">
                             <i class="fa fa-info-circle" aria-hidden="true"></i>
-                            该用户没有关注的人
+                            该用户没有关注人
                         </div>
                     </div>
                     <div v-else="" class="card-columns">
@@ -246,7 +275,7 @@
             self : null
         },
         created: function() {
-            this.$http.get('/teamnote/userdetail', {params: {userId: <%=userId%>}}).then(function(response){
+            this.$http.get('/teamnote/userdetail', { params: { userId: <%=userId%> } }).then(function(response){
                 info.username = JSON.parse(response.body.userInfo).username;
                 info.personalStatus = JSON.parse(response.body.user).personalStatus;
                 info.email = JSON.parse(response.body.userInfo).email;
@@ -277,7 +306,7 @@
             loading: true
         },
         created: function () {
-            this.$http.get('/teamnote/cooperate/allworkgroups', {params: {userId: <%=userId%>}}).then(function(response){
+            this.$http.get('/teamnote/cooperate/allworkgroups', { params: { userId: <%=userId%> } }).then(function(response){
                 this.loading = false;
                 workgroups.workgroupsdetails = JSON.parse(response.body.workgroups);
                 workgroups.self = response.body.self;
@@ -298,7 +327,12 @@
             note: []
         },
         created: function () {
-            this.$http.get('/teamnote/getNotebooksOfUser', { responseType: "json" }).then(function(response) {
+            this.$http.get('/teamnote/getNotebooksOfUser', {
+                responseType: "json",
+                params: {
+                    userId: <%=userId%>
+                }
+            }).then(function(response) {
                 this.note = response.body;
             });
         },
@@ -372,13 +406,44 @@
         }
     });
 
+    var collection = new Vue({
+        el: '#collection',
+        data: {
+            collection: [],
+            self: null
+        },
+        created: function () {
+            this.$http.get('/teamnote//getCollectedNotebooks', {
+                responseType: "json",
+                params: {
+                    userId: <%=userId%>
+                }
+            }).then(function(response) {
+                this.collection = response.body;
+            });
+        },
+        methods: {
+            json: function(tag) {
+                return JSON.parse(tag);
+            },
+            n_date: function(date) {
+                return moment(date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
+            }
+        }
+    });
+
     var following = new Vue({
         el: '#following',
         data: {
             followings: []
         },
         created: function () {
-            this.$http.get('/teamnote/getFollowings', { responseType: "json" }).then(function(response) {
+            this.$http.get('/teamnote/getFollowings', {
+                responseType: "json",
+                params: {
+                    userId: <%=userId%>
+                }
+            }).then(function(response) {
                 this.followings = response.body;
             });
         }
@@ -390,7 +455,12 @@
             followers: []
         },
         created: function () {
-            this.$http.get('/teamnote/getFollowers', { responseType: "json" }).then(function(response) {
+            this.$http.get('/teamnote/getFollowers', {
+                responseType: "json",
+                params: {
+                    userId: <%=userId%>
+                }
+            }).then(function(response) {
                 this.followers = response.body;
             });
         }
