@@ -135,6 +135,9 @@
 <script>
     $.ajax({
         url: "/teamnote/userdetail",
+        data: {
+            userId: user.userId
+        },
         dataType: "json",
         type: "get",
         success: function(data) {
