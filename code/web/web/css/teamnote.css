@@ -31,8 +31,11 @@ body {
 }
 
 .container .card {
-    width: 1000px;
     margin: 20px auto;
+}
+
+.container-card {
+    width: 1000px;
 }
 
 .container-center {
@@ -259,3 +262,30 @@ a.nav-item.nav-link:hover {
     text-decoration: inherit;
     color: #4A90E2;
 }
+
+div.col-md-7 > p a {
+    color: #636C72;
+}
+
+div.col-md-7 > p a:hover {
+    color: #4A90E2;
+    text-decoration: inherit;
+}
+
+div.col-md-7 > p a:focus {
+    color: #636C72;
+    text-decoration: inherit;
+}
+
+.user-card {
+    display: inline-block;
+    margin-top: 1.25rem !important;
+    margin-bottom: 0 !important;
+}
+
+.btn-user-card {
+    margin-top: 20px;
+    margin-right: 40px;
+}
+
+

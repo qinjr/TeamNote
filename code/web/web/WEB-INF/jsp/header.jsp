@@ -96,9 +96,7 @@
                 this.$http.get('/teamnote/userdetail').then(function(response) {
                     user.avatar = JSON.parse(response.body.user).avatar;
                     user.username = JSON.parse(response.body.userInfo).username;
-                }, function(response) {
-                    console.log("navbar error");
-                });
+                })
             }
         });
     </script>

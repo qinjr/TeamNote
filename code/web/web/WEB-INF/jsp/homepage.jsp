@@ -9,7 +9,7 @@
 <%@ include file="header.jsp"%>
 
 <div class="container">
-    <div class="card" id="info">
+    <div class="card container-card" id="info">
         <div class="card-block">
             <div class="row">
                 <div class="col-md-2 text-center mx-auto">
@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <div class="card">
+    <div class="card container-card">
         <div class="card-block">
             <ul class="nav nav-tabs" id="homepageTab" role="tablist">
                 <li class="nav-item">
@@ -67,12 +67,18 @@
 
                 <!-- TODO: notebook -->
                 <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">
-                    <div v-for="_note in note">
+                    <div v-if="note.length === 0">
+                        <div class="alert alert-success" role="alert" style="margin-top: 16px;">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            该用户没有笔记本
+                        </div>
+                    </div>
+                    <div v-else="" v-for="(_note, index) in note">
                         <div class="row" style="margin: 20px 0;">
                             <div class="col-md-2 text-center mx-auto">
                                 <img src="" :src="'<%=path%>/' + _note.cover" style="height: 75px; width: 75px;">
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-10" :id="'CT_NB_' + _note.notebookId">
                                 <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>
                                 <i class="fa fa-tag" aria-hidden="true"></i>
                                 <div style="display: inline;" v-for="tag in json(_note.tags)">
@@ -81,13 +87,13 @@
                                 <p class="card-text" style="word-break: break-all; margin-top: 16px;">
                                     {{ _note.description }}
                                 </p>
-                                <footer>
+                                <footer :index="index">
                                     <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ n_date(_note.createTime) }}</small>
                                     <br><br>
-                                    <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
+                                    <button class="btn btn-outline-secondary center-block none" :class="_note.stared? 'active' : ''" type="button" @click="star($event)">
                                         <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;{{ _note.star }}
                                     </button>
-                                    <button class="btn btn-outline-secondary center-block btn-collection" type="button" style="border: none;">
+                                    <button class="btn btn-outline-secondary center-block btn-collection none" :class="_note.collected? 'active' : ''" type="button" @click="collect($event)">
                                         <i class="fa fa-flag fa-fw" aria-hidden="true"></i>&nbsp;收藏
                                     </button>
                                     <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
@@ -112,45 +118,86 @@
                             该用户没有加入的工作组
                         </div>
                     </div>
-                    <div class="row" v-else="" v-for="notebookdetail in notebooksdetails">
-                        <div class="col-md-12" style="margin-top: 20px;">
-                            <div class="row">
-                                <div class="col-md-2 text-center mx-auto">
-                                    <img :src="notebookdetail.notebook.cover" style="height: 75px; width: 75px;">
-                                </div>
-                                <div class="col-md-7">
-                                    <h4 class="card-title" style="margin-bottom: 6px;">{{ notebookdetail.notebook.title }}</h4>
-                                    <i class="fa fa-tag" aria-hidden="true"></i>
-                                    <div style="display: inline;" v-for="tag in notebookdetail.tags">
-                                        <kbd class="card-subtitle">{{ tag.tagName }}</kbd>&nbsp;
+                    <div v-else="" v-for="notebookdetail in notebooksdetails">
+                        <div class="row">
+                            <div class="col-md-12" style="margin-top: 20px; margin-bottom: 20px;">
+                                <div class="row">
+                                    <div class="col-md-2 text-center mx-auto">
+                                        <img :src="notebookdetail.notebook.cover" style="height: 75px; width: 75px;">
                                     </div>
-                                    <div style="margin-top: 5px; margin-bottom: 5px;">
-                                        <small>创建者 <strong>{{ notebookdetail.creator.username }}</strong> · 所有者 <strong>{{ notebookdetail.owner.username }}</strong> · 创建时间 {{ w_date(notebookdetail.notebook.createTime) }}</small>
+                                    <div class="col-md-7">
+                                        <h4 class="card-title" style="margin-bottom: 6px;">{{ notebookdetail.notebook.title }}</h4>
+                                        <i class="fa fa-tag" aria-hidden="true"></i>
+                                        <div style="display: inline;" v-for="tag in notebookdetail.tags">
+                                            <kbd class="card-subtitle">{{ tag.tagName }}</kbd>&nbsp;
+                                        </div>
+                                        <div style="margin-top: 5px; margin-bottom: 5px;">
+                                            <small>创建者 <strong>{{ notebookdetail.creator.username }}</strong> · 所有者 <strong>{{ notebookdetail.owner.username }}</strong> · 创建时间 {{ w_date(notebookdetail.notebook.createTime) }}</small>
+                                        </div>
+                                        <div style="margin: 10px auto; display: inline;" v-for="collaborator in notebookdetail.collaborators">
+                                            <img :src="'<%=path%>/' + collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
+                                        </div>
                                     </div>
-                                    <div style="margin: 10px auto; display: inline;" v-for="collaborator in notebookdetail.collaborators">
-                                        <img :src="'<%=path%>/' + collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
+                                    <div class="col-md-3 workgroup-btn">
+                                        <a class="btn btn-outline-primary center-block" role="button" :href="'<%=path%>/cooperate/workgroup?notebookId=' + notebookdetail.notebook.notebookId">
+                                            <i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组
+                                        </a>
+                                        <button class="btn btn-outline-warning center-block" type="button">
+                                            <i class="fa fa-envelope-open fa-fw" aria-hidden="true"></i>&nbsp;邀请用户
+                                        </button>
                                     </div>
-                                </div>
-                                <div class="col-md-3 workgroup-btn">
-                                    <a class="btn btn-outline-primary center-block" role="button" :href="'<%=path%>/cooperate/workgroup?notebookId=' + notebookdetail.notebook.notebookId">
-                                        <i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组
-                                    </a>
-                                    <button class="btn btn-outline-warning center-block" type="button">
-                                        <i class="fa fa-envelope-open fa-fw" aria-hidden="true"></i>&nbsp;邀请用户
-                                    </button>
                                 </div>
                             </div>
                         </div>
+                        <div class="dropdown-divider"></div>
                     </div>
-                    <div class="dropdown-divider"></div>
+
                 </div>
 
                 <!-- TODO: collection -->
                 <div class="tab-pane fade" id="collection" role="tabpanel" aria-labelledby="collection-tab">collection</div>
 
                 <!-- TODO: follow -->
-                <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">following</div>
-                <div class="tab-pane fade" id="follower" role="tabpanel" aria-labelledby="follower-tab">follower</div>
+                <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">
+                    <div v-if="followings.length === 0">
+                        <div class="alert alert-success" role="alert" style="margin-top: 16px;">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            该用户没有关注的人
+                        </div>
+                    </div>
+                    <div v-else="" class="card-columns">
+                        <div class="card user-card" v-for="user in followings">
+                            <div>
+                                <img class="card-img-top img-100px" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
+                                <button class="btn btn-outline-primary btn-user-card float-right">正在关注</button>
+                            </div>
+                            <div class="card-block" style="padding-top: 0;">
+                                <h4 class="card-title">{{ user.username }}</h4>
+                                <p class="card-text">{{ user.personalStatus }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="follower" role="tabpanel" aria-labelledby="follower-tab">
+                    <div v-if="followers.length === 0">
+                        <div class="alert alert-success" role="alert" style="margin-top: 16px;">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            该用户没有关注者
+                        </div>
+                    </div>
+                    <div v-else="" class="card-columns">
+                        <div class="card user-card" v-for="user in followers">
+                            <div>
+                                <img class="card-img-top img-100px" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
+                                <button class="btn btn-outline-primary btn-user-card float-right">正在关注</button>
+                            </div>
+                            <div class="card-block" style="padding-top: 0;">
+                                <h4 class="card-title">{{ user.username }}</h4>
+                                <p class="card-text">{{ user.personalStatus }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="tab-pane fade" id="following-tag" role="tabpanel" aria-labelledby="following-tag-tab">following tag</div>
             </div>
         </div>
@@ -162,6 +209,30 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript">
+
+    // parse tag
+    var tag = location.href.split('#')[1];
+    if (tag !== undefined) {
+        switch(tag) {
+            case "notebook": {
+                $('#notebook-tab').tab('show');
+                break;
+            }
+            case "workgroup": {
+                $('#workgroup-tab').tab('show');
+                break;
+            }
+            case "collection": {
+                $('#collection-tab').tab('show');
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+
+    // information
     var info = new Vue({
         el: '#info',
         data: {
@@ -195,6 +266,7 @@
         }
     });
 
+    // workgroup tab
     var notebooks = new Vue({
         el: '#workgroup',
         data: {
@@ -217,41 +289,15 @@
         }
     });
 
-
-    var tag = location.href.split('#')[1];
-    if (tag !== undefined) {
-        switch(tag) {
-            case "notebook": {
-                $('#notebook-tab').tab('show');
-                break;
-            }
-            case "workgroup": {
-                $('#workgroup-tab').tab('show');
-                break;
-            }
-            case "collection": {
-                $('#collection-tab').tab('show');
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    }
-
-    $.ajax({
-        url: "/teamnote/recommend",
-        type: "get",
-        dataType: "json",
-        success: function(data) {
-            index.note = data;
-        }
-    });
-
-    var index = new Vue({
+    var notebook = new Vue({
         el: '#notebook',
         data: {
             note: []
+        },
+        created: function () {
+            this.$http.get('/teamnote/getNotebooksOfUser', { responseType: "json" }).then(function(response) {
+                this.note = response.body;
+            });
         },
         methods: {
             json: function(tag) {
@@ -259,9 +305,94 @@
             },
             n_date: function(date) {
                 return moment(date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
+            },
+            star: function(e) {
+                var notebookId = e.currentTarget.parentElement.parentElement.id.replace('CT_NB_', '');
+                var _index = $(e.currentTarget.parentElement).attr('index');
+                if (this.note[_index].stared) {
+                    // unstar
+                    $.ajax({
+                        url: "/teamnote/evaluate/unstar",
+                        type: "post",
+                        data: {
+                            notebookId: notebookId
+                        },
+                        success: function() {
+                            notebook.note[_index].star--;
+                            notebook.note[_index].stared = 0;
+                        }
+                    })
+                } else {
+                    // star
+                    $.ajax({
+                        url: "/teamnote/evaluate/star",
+                        type: "post",
+                        data: {
+                            notebookId: notebookId
+                        },
+                        success: function() {
+                            notebook.note[_index].star++;
+                            notebook.note[_index].stared = 1;
+                        }
+                    })
+                }
+            },
+            collect: function(e) {
+                var notebookId = e.currentTarget.parentElement.parentElement.id.replace('CT_NB_', '');
+                var _index = $(e.currentTarget.parentElement).attr('index');
+                if (this.note[_index].collected) {
+                    // uncollect
+                    $.ajax({
+                        url: "/teamnote/uncollectNotebook",
+                        type: "post",
+                        data: {
+                            notebookId: notebookId
+                        },
+                        success: function() {
+                            notebook.note[_index].collected = 0;
+                        }
+                    })
+                } else {
+                    // collect
+                    $.ajax({
+                        url: "/teamnote/collectNotebook",
+                        type: "post",
+                        data: {
+                            notebookId: notebookId
+                        },
+                        success: function() {
+                            notebook.note[_index].collected = 1;
+                        }
+                    })
+                }
             }
         }
     });
+
+    var following = new Vue({
+        el: '#following',
+        data: {
+            followings: []
+        },
+        created: function () {
+            this.$http.get('/teamnote/getFollowings', { responseType: "json" }).then(function(response) {
+                this.followings = response.body;
+            });
+        }
+    });
+
+    var follower = new Vue({
+        el: '#follower',
+        data: {
+            followers: []
+        },
+        created: function () {
+            this.$http.get('/teamnote/getFollowers', { responseType: "json" }).then(function(response) {
+                this.followers = response.body;
+            });
+        }
+    });
+
 
 
 
