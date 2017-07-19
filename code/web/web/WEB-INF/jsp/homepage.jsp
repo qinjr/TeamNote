@@ -99,9 +99,6 @@
                                     <button class="btn btn-outline-secondary center-block btn-collection none" :class="_note.collected? 'active' : ''" type="button" @click="collect($event)">
                                         <i class="fa fa-flag fa-fw" aria-hidden="true"></i>&nbsp;收藏
                                     </button>
-                                    <button class="btn btn-outline-secondary center-block" type="button" style="border: none;">
-                                        <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>&nbsp;举报
-                                    </button>
                                 </footer>
                             </div>
                         </div>
@@ -109,7 +106,6 @@
                     </div>
                 </div>
 
-                <!-- TODO: workgroup loading / null-->
                 <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab">
                     <div v-if="self">
                         <div v-if="loading" style="text-align: center; padding-top: 20px;">
@@ -178,7 +174,7 @@
                                 <div style="display: inline;" v-for="tag in json(_note.tags)">
                                     <kbd class="card-subtitle">{{ tag }}</kbd>&nbsp;
                                 </div>
-                                <footer :index="index">
+                                <footer :index="index" style="margin-top: 5px;">
                                     <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ n_date(_note.createTime) }}</small>
                                 </footer>
                             </div>
@@ -187,7 +183,7 @@
                     </div>
                 </div>
 
-                <!-- TODO: follow -->
+                <!-- TODO: following -->
                 <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">
                     <div v-if="followings.length === 0">
                         <div class="alert alert-success" role="alert" style="margin-top: 16px;">
@@ -196,18 +192,20 @@
                         </div>
                     </div>
                     <div v-else="" class="card-columns">
-                        <div class="card user-card" v-for="user in followings">
+                        <div class="card user-card" v-for="(user, index) in followings" :index="index">
                             <div>
                                 <img class="card-img-top img-100px" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
-                                <button class="btn btn-outline-primary btn-user-card float-right">正在关注</button>
+                                <button class="btn btn-sm btn-primary btn-user-card float-right btn-following" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
                             </div>
                             <div class="card-block" style="padding-top: 0;">
-                                <h4 class="card-title">{{ user.username }}</h4>
+                                <a class="card-username" :href="'<%=path%>/homepage?userId=' + user.userId"><h5 class="card-title">{{ user.username }}</h5></a>
                                 <p class="card-text">{{ user.personalStatus }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- TODO: follower -->
                 <div class="tab-pane fade" id="follower" role="tabpanel" aria-labelledby="follower-tab">
                     <div v-if="followers.length === 0">
                         <div class="alert alert-success" role="alert" style="margin-top: 16px;">
@@ -216,18 +214,21 @@
                         </div>
                     </div>
                     <div v-else="" class="card-columns">
-                        <div class="card user-card" v-for="user in followers">
+                        <div class="card user-card" v-for="(user, index) in followers" :index="index">
                             <div>
                                 <img class="card-img-top img-100px" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
-                                <button class="btn btn-outline-primary btn-user-card float-right">正在关注</button>
+                                <button v-if="user.isFollowed" class="btn btn-sm btn-primary btn-user-card float-right" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
+                                <button v-else="" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;">关注</button>
                             </div>
                             <div class="card-block" style="padding-top: 0;">
-                                <h4 class="card-title">{{ user.username }}</h4>
+                                <a class="card-username" :href="'<%=path%>/homepage?userId=' + user.userId"><h5 class="card-title">{{ user.username }}</h5></a>
                                 <p class="card-text">{{ user.personalStatus }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- TODO: following tag -->
                 <div class="tab-pane fade" id="following-tag" role="tabpanel" aria-labelledby="following-tag-tab">following tag</div>
             </div>
         </div>
@@ -238,6 +239,7 @@
 </div>
 
 <%@ include file="footer.jsp"%>
+<script type="text/javascript" src="<%=path%>/js/bootbox.min.js"></script>
 <script type="text/javascript">
 
     // parse tag
@@ -446,6 +448,32 @@
             }).then(function(response) {
                 this.followings = response.body;
             });
+        },
+        methods: {
+            hover: function(e) {
+                var btn = e.currentTarget;
+                btn.textContent = "取消关注";
+                $(btn).removeClass('btn-primary');
+                $(btn).addClass('btn-danger');
+            },
+            _hover: function(e) {
+                var btn = e.currentTarget;
+                btn.textContent = "正在关注";
+                $(btn).removeClass('btn-danger');
+                $(btn).addClass('btn-primary');
+            },
+            unfollow: function(e) {
+                // TODO: url
+                var index = $(e.currentTarget.parentElement.parentElement).attr('index');
+                //var confirm = window.confirm("您将取消关注用户 " + this.followings[index].username);
+                bootbox.confirm("您将取消关注用户 " + this.followings[index].username, function(result){
+                    if (result) {
+                        this.$http.post('/teamnote/unfollow').then(function(response) {
+                            following.followings.splice(index, 1);
+                        })
+                    }
+                });
+            }
         }
     });
 
@@ -463,10 +491,40 @@
             }).then(function(response) {
                 this.followers = response.body;
             });
+        },
+        methods: {
+            hover: function(e) {
+                var btn = e.currentTarget;
+                btn.textContent = "取消关注";
+                $(btn).removeClass('btn-primary');
+                $(btn).addClass('btn-danger');
+            },
+            _hover: function(e) {
+                var btn = e.currentTarget;
+                btn.textContent = "正在关注";
+                $(btn).removeClass('btn-danger');
+                $(btn).addClass('btn-primary');
+            },
+            unfollow: function(e) {
+                // TODO: url
+                var index = $(e.currentTarget.parentElement.parentElement).attr('index');
+                //var confirm = window.confirm("您将取消关注用户 " + this.followings[index].username);
+                bootbox.confirm("您将取消关注用户 " + this.followers[index].username, function(result){
+                    if (result) {
+                        this.$http.post('/teamnote/unfollow').then(function(response) {
+                            follower.followers[index].isFollowed = 0;
+                        })
+                    }
+                });
+            },
+            follow: function(e) {
+                // TODO: url
+                var index = $(e.currentTarget.parentElement.parentElement).attr('index');
+                this.$http.post('/teamnote/follow').then(function(response) {
+                    follower.followers[index].isFollowed = 1;
+                })
+            }
+
         }
     });
-
-
-
-
 </script>

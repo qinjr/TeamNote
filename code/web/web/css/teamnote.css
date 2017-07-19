@@ -288,4 +288,9 @@ div.col-md-7 > p a:focus {
     margin-right: 40px;
 }
 
+.card-username,
+.card-username:hover {
+    color: #000000;
+}
+
 
