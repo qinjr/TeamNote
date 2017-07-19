@@ -46,7 +46,7 @@
             <%
                 for (User user : collaborators) {
             %>
-            <img class="img-50px" src="<%=path%>/<%=user.getAvatar()%>">
+            <img class="img-50px rounded" src="<%=path%>/<%=user.getAvatar()%>">
             <%
                 }
             %>
@@ -60,7 +60,7 @@
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="left-sidebar">
         <div class="pre-scrollable" id="left-sidebar-nav" style="padding-right: 10px;">
-            <img class="img-75px" src="<%=path%>/<%=notebook.getCover()%>" style="margin-top: 15px; ">
+            <img class="img-75px rounded" src="<%=path%>/<%=notebook.getCover()%>" style="margin-top: 15px; ">
             <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#left-sidebar">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
             </button>

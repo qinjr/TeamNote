@@ -17,7 +17,7 @@
                     <p style="color: #D8D8D8"><small>来自标签 <strong>Spring</strong></small></p>
                     <div class="row" style="margin-right: 0; margin-left: 0;">
                         <div class="col-md-2 text-center mx-auto">
-                            <img src="" :src="'<%=path%>/' + _note.cover" style="height: 100px; width: 100px;">
+                            <img class="rounded" src="" :src="'<%=path%>/' + _note.cover" style="height: 100px; width: 100px;">
                         </div>
                         <div class="col-md-10" :id="'CT_NB_' + _note.notebookId">
                             <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>

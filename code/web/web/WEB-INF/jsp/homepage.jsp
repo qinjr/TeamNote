@@ -16,7 +16,7 @@
         <div class="card-block">
             <div class="row">
                 <div class="col-md-2 text-center mx-auto">
-                    <img src="" :src="'<%=path%>/' + avatar" style="height: 100px; width: 100px;">
+                    <img class="rounded" src="" :src="'<%=path%>/' + avatar" style="height: 100px; width: 100px;">
                 </div>
                 <div class="col-md-7">
                     <h4 class="card-title">{{ username }}</h4>
@@ -28,7 +28,9 @@
                     </p>
                     <p><a href="javascript:void(0)" @click="following()">关注人 {{ followingsnum }}</a> · <a href="javascript:void(0)" @click="followed()">关注者 {{ followersnum }}</a></p>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <button class="btn btn-outline-primary info-follow" v-if="!self">关注用户</button>
+                </div>
             </div>
         </div>
     </div>
@@ -68,7 +70,7 @@
                 <!-- TODO: activity -->
                 <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab" aria-expanded="true">activity</div>
 
-                <!-- TODO: notebook -->
+                <!-- notebook -->
                 <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">
                     <div v-if="note.length === 0">
                         <div class="alert alert-success" role="alert" style="margin-top: 16px;">
@@ -79,7 +81,7 @@
                     <div v-else="" v-for="(_note, index) in note">
                         <div class="row" style="margin: 20px 0;">
                             <div class="col-md-2 text-center mx-auto">
-                                <img src="" :src="'<%=path%>/' + _note.cover" style="height: 75px; width: 75px;">
+                                <img class="rounded" src="" :src="'<%=path%>/' + _note.cover" style="height: 75px; width: 75px;">
                             </div>
                             <div class="col-md-10" :id="'CT_NB_' + _note.notebookId">
                                 <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>
@@ -106,6 +108,7 @@
                     </div>
                 </div>
 
+                <!-- workgroup -->
                 <div class="tab-pane fade" id="workgroup" role="tabpanel" aria-labelledby="workgroup-tab">
                     <div v-if="self">
                         <div v-if="loading" style="text-align: center; padding-top: 20px;">
@@ -123,7 +126,7 @@
                                 <div class="col-md-12" style="margin-top: 20px; margin-bottom: 20px;">
                                     <div class="row">
                                         <div class="col-md-2 text-center mx-auto">
-                                            <img src="" :src="workgroupdetail.notebook.cover" style="height: 75px; width: 75px;">
+                                            <img class="rounded" src="" :src="workgroupdetail.notebook.cover" style="height: 75px; width: 75px;">
                                         </div>
                                         <div class="col-md-7">
                                             <h4 class="card-title" style="margin-bottom: 6px;">{{ workgroupdetail.notebook.title }}</h4>
@@ -135,7 +138,7 @@
                                                 <small>创建者 <strong>{{ workgroupdetail.creator.username }}</strong> · 所有者 <strong>{{ workgroupdetail.owner.username }}</strong> · 创建时间 {{ w_date(workgroupdetail.notebook.createTime) }}</small>
                                             </div>
                                             <div style="margin: 10px auto; display: inline;" v-for="collaborator in workgroupdetail.collaborators">
-                                                <img :src="'<%=path%>/' + collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
+                                                <img class="rounded" :src="'<%=path%>/' + collaborator.avatar" style="width: 50px; height: 50px;">&nbsp;
                                             </div>
                                         </div>
                                         <div class="col-md-3 workgroup-btn">
@@ -155,7 +158,7 @@
 
                 </div>
 
-                <!-- TODO: collection -->
+                <!-- collection -->
                 <div class="tab-pane fade" id="collection" role="tabpanel" aria-labelledby="collection-tab">
                     <div v-if="collection.length === 0">
                         <div class="alert alert-success" role="alert" style="margin-top: 16px;">
@@ -166,7 +169,7 @@
                     <div v-else="" v-for="(_note, index) in collection">
                         <div class="row" style="margin: 20px 0;">
                             <div class="col-md-2 text-center mx-auto">
-                                <img src="" :src="'<%=path%>/' + _note.cover" style="height: 75px; width: 75px;">
+                                <img class="rounded" src="" :src="'<%=path%>/' + _note.cover" style="height: 75px; width: 75px;">
                             </div>
                             <div class="col-md-10" :id="'CT_NB_' + _note.notebookId">
                                 <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>
@@ -183,7 +186,7 @@
                     </div>
                 </div>
 
-                <!-- TODO: following -->
+                <!-- following -->
                 <div class="tab-pane fade" id="following" role="tabpanel" aria-labelledby="following-tab">
                     <div v-if="followings.length === 0">
                         <div class="alert alert-success" role="alert" style="margin-top: 16px;">
@@ -194,7 +197,7 @@
                     <div v-else="" class="card-columns">
                         <div class="card user-card" v-for="(user, index) in followings" :index="index">
                             <div>
-                                <img class="card-img-top img-100px" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
+                                <img class="card-img-top img-100px rounded" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
                                 <button class="btn btn-sm btn-primary btn-user-card float-right btn-following" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
                             </div>
                             <div class="card-block" style="padding-top: 0;">
@@ -205,7 +208,7 @@
                     </div>
                 </div>
 
-                <!-- TODO: follower -->
+                <!-- follower -->
                 <div class="tab-pane fade" id="follower" role="tabpanel" aria-labelledby="follower-tab">
                     <div v-if="followers.length === 0">
                         <div class="alert alert-success" role="alert" style="margin-top: 16px;">
@@ -216,7 +219,7 @@
                     <div v-else="" class="card-columns">
                         <div class="card user-card" v-for="(user, index) in followers" :index="index">
                             <div>
-                                <img class="card-img-top img-100px" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
+                                <img class="card-img-top img-100px rounded" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
                                 <button v-if="user.isFollowed" class="btn btn-sm btn-primary btn-user-card float-right" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
                                 <button v-else="" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;">关注</button>
                             </div>
@@ -228,8 +231,20 @@
                     </div>
                 </div>
 
-                <!-- TODO: following tag -->
-                <div class="tab-pane fade" id="following-tag" role="tabpanel" aria-labelledby="following-tag-tab">following tag</div>
+                <!-- following tag -->
+                <div class="tab-pane fade" id="following-tag" role="tabpanel" aria-labelledby="following-tag-tab">
+                    <div v-if="tags.length === 0">
+                        <div class="alert alert-success" role="alert" style="margin-top: 16px;">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                            该用户没有关注的标签
+                        </div>
+                    </div>
+                    <div v-else="" style="margin-top: 20px;">
+                        <div style="display: inline;" v-for="tag in tags">
+                            <kbd class="card-subtitle">{{ tag.tagName }}&nbsp;<span class="badge badge-pill badge-default">{{ tag.booksOfTag.length }}</span></kbd>&nbsp;
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -242,16 +257,12 @@
 <script type="text/javascript" src="<%=path%>/js/bootbox.min.js"></script>
 <script type="text/javascript">
 
-    // parse tag
+    // parse tag in url
     var tag = location.href.split('#')[1];
     if (tag !== undefined) {
         switch(tag) {
             case "notebook": {
                 $('#notebook-tab').tab('show');
-                break;
-            }
-            case "workgroup": {
-                $('#workgroup-tab').tab('show');
                 break;
             }
             case "collection": {
@@ -285,6 +296,9 @@
                 info.followersnum = JSON.parse(response.body.user).followers.length;
                 info.followingsnum = JSON.parse(response.body.user).followings.length;
                 info.self = response.body.self;
+                if (!info.self) {
+                    $('#workgroup-tab').remove();
+                }
             }, function() {
                 console.log("user info error")
             });
@@ -527,4 +541,21 @@
 
         }
     });
+
+    var following_tag = new Vue({
+        el: '#following-tag',
+        data: {
+            tags: []
+        },
+        created: function() {
+            this.$http.get('/teamnote/getTagsOfUser', {
+                responseType: "json",
+                params: {
+                    userId: <%=userId%>
+                }
+            }).then(function(response) {
+                this.tags = response.body;
+            });
+        }
+    })
 </script>

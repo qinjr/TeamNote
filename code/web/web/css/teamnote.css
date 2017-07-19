@@ -21,6 +21,11 @@ body {
     font-size: 24px;
 }
 
+.btn-navbar-collapse {
+    margin-right: 150px;
+    margin-top: 8px;
+}
+
 .nav-item > .nav-link,
 .nav-item > .nav-link:focus {
     color: #000000;
@@ -35,7 +40,7 @@ body {
 }
 
 .container-card {
-    width: 1000px;
+
 }
 
 .container-center {
@@ -291,6 +296,13 @@ div.col-md-7 > p a:focus {
 .card-username,
 .card-username:hover {
     color: #000000;
+}
+
+.info-follow {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 65px;
 }
 
 

@@ -27,7 +27,7 @@
     </head>
     <body>
         <nav class="navbar navbar-toggleable-md mb-4 bg-faded">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-right btn-navbar-collapse" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
             </button>
             <a class="navbar-brand" href="<%=path%>/index">TeamNote</a>
@@ -59,7 +59,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            <img src="<%=path%>/icon/favicon-white.png" :src="'<%=path%>/' + avatar" id="user_avatar" style="height: 30px; width: 30px;">
+                            <img class="rounded" src="<%=path%>/icon/favicon-white.png" :src="'<%=path%>/' + avatar" id="user_avatar" style="height: 30px; width: 30px;">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <p class="dropdown-item username" style="margin-bottom: 0;">

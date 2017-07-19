@@ -125,7 +125,7 @@ $(document).ready(function() {
         $("#chatContent").append("<div style='margin-bottom: 10px;'>" +
             "<label style='color:" + colorCode + "'>" +
             "<div class='media'>" +
-            "<img class='d-flex mr-3 img-50px' src='" + avatar + "'>" +
+            "<img class='d-flex mr-3 img-50px rounded' src='" + avatar + "'>" +
             "<div class='media-body'>" +
             name + "<br>" + "<small style='color: lightgrey'>" + date + "</small>" +
             "</div>" +
@@ -139,7 +139,7 @@ $(document).ready(function() {
         $("#chatContent").prepend("<div style='margin-bottom: 10px;'>" +
             "<label style='color:" + colorCode + "'>" +
             "<div class='media'>" +
-            "<img class='d-flex mr-3 img-50px' src='" + avatar + "'>" +
+            "<img class='d-flex mr-3 img-50px rounded' src='" + avatar + "'>" +
             "<div class='media-body'>" +
             name + "<br>" + "<small style='color: lightgrey'>" + date + "</small>" +
             "</div>" +

@@ -15,10 +15,9 @@
             <nav class="nav nav-tabs" id="settingsTab" role="tablist">
                 <a class="nav-item nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-expanded="true">个人信息</a>
                 <a class="nav-item nav-link" id="account-tab" data-toggle="tab" href="#account" role="tab" aria-controls="profile" aria-expanded="true">账号</a>
-                <a class="nav-item nav-link" id="notification-tab" data-toggle="tab" href="#notification" role="tab" aria-controls="notification">通知</a>
             </nav>
             <div class="tab-content" id="settings-tabContent">
-                <!-- TODO: profile -->
+                <!-- profile -->
                 <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <div class="row">
                         <div class="col-md-8">
@@ -76,7 +75,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- TODO: account -->
+                <!-- account -->
                 <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
                     <!-- modify password -->
                     <h5 class="card-title" style="margin-top: 12px;">
@@ -116,10 +115,6 @@
                     <div class="dropdown-divider"></div>
                     <small id="delete_warning" class="form-text text-muted" style="margin-bottom: 4px;">警告：账号删除后将会失去所有记录，请谨慎执行此命令。</small>
                     <button type="button" class="btn btn-outline-danger" aria-describedby="delete_warning" disabled="disabled">删除账号</button>
-                </div>
-                <!-- TODO: notification -->
-                <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
-                    notification
                 </div>
             </div>
         </div>
