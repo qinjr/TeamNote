@@ -1,8 +1,10 @@
 package service.impl;
 
 import com.google.gson.Gson;
+import dao.mongodbDao.TagDao;
 import dao.mongodbDao.UserDao;
 import dao.mysqlDao.UserInfoDao;
+import model.mongodb.Tag;
 import model.mongodb.User;
 import model.mysql.UserInfo;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,12 +21,16 @@ public class UserBasicServiceImpl implements UserBasicService {
     private UserDao userDao;
     private UserInfoDao userInfoDao;
     private AuthUtil authUtil;
+    private TagDao tagDao;
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
     public void setUserInfoDao(UserInfoDao userInfoDao) { this.userInfoDao = userInfoDao; }
     public void setAuthUtil(AuthUtil authUtil) { this.authUtil = authUtil; }
+    public void setTagDao(TagDao tagDao) {
+        this.tagDao = tagDao;
+    }
 
     /**
      * register
@@ -191,5 +197,15 @@ public class UserBasicServiceImpl implements UserBasicService {
             followings.add(following);
         }
         return new Gson().toJson(followings);
+    }
+
+    public String getTagsOfUser(int userId) {
+        User user = userDao.getUserById(userId);
+        ArrayList<Integer> tagIds = user.getTags();
+        ArrayList<Tag> tags = new ArrayList<Tag>();
+        for (Integer tagId : tagIds) {
+            tags.add(tagDao.getTagById(tagId));
+        }
+        return new Gson().toJson(tags);
     }
 }

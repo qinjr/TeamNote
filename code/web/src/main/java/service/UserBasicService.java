@@ -69,4 +69,6 @@ public interface UserBasicService {
     String getFollowers(int userId);
 
     String getFollowings(int userId);
+
+    String getTagsOfUser(int userId);
 }

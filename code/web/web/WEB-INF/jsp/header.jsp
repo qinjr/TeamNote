@@ -66,10 +66,10 @@
                                 <i class="fa fa-user fa-fw" aria-hidden="true"></i>&nbsp;{{ username }}
                             </p>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<%=path%>/homepage">
+                            <a class="dropdown-item" :href="'<%=path%>/homepage?userId=' + userId">
                                 <i class="fa fa-map fa-fw" aria-hidden="true"></i>&nbsp;我的主页
                             </a>
-                            <a class="dropdown-item" href="<%=path%>/homepage#notebook">
+                            <a class="dropdown-item" :href="'<%=path%>/homepage?userId=' + userId + '#notebook'">
                                 <i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp;我的笔记
                             </a>
                             <a class="dropdown-item" href="<%=path%>/settings">
@@ -90,12 +90,14 @@
             el: '.dropdown',
             data: {
                 avatar: null,
-                username: null
+                username: null,
+                userId : null
             },
             created : function () {
-                this.$http.get('/teamnote/userdetail').then(function(response) {
-                    user.avatar = JSON.parse(response.body.user).avatar;
-                    user.username = JSON.parse(response.body.userInfo).username;
+                this.$http.get('/teamnote/loginUserDetail').then(function(response) {
+                    user.userId = response.body.userId;
+                    user.avatar = response.body.avatar;
+                    user.username = response.body.username;
                 }, function(response) {
                     console.log("navbar error");
                 });

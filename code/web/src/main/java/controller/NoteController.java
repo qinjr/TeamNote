@@ -199,8 +199,7 @@ public class NoteController {
 
     @RequestMapping(value = "/getNotebooksOfUser")
     @ResponseBody
-    public String getNotebooksOfUser() {
-        int userId = getUserId();
+    public String getNotebooksOfUser(@RequestParam("userId") int userId) {
         String notebooks = noteManageService.getNotebooksOfUser(userId);
         return notebooks;
     }
@@ -227,8 +226,7 @@ public class NoteController {
 
     @RequestMapping(value = "/getCollectedNotebooks")
     @ResponseBody
-    public String getCollectedNotebooks() {
-        int userId = getUserId();
+    public String getCollectedNotebooks(@RequestParam("userId") int userId) {
         String collectedNotebooks = noteManageService.getCollectedNotebooks(userId);
         return collectedNotebooks;
     }

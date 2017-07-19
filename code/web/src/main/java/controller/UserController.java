@@ -38,6 +38,17 @@ public class UserController {
         return userInfo.getUserId();
     }
 
+    private int checkSelf(int userId) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        int loginUserId = userInfo.getUserId();
+        if (userId == loginUserId)
+            return 1;
+        else
+            return 0;
+    }
+
     @RequestMapping("/settings")
     public String settings() {
         return "settings";
@@ -45,12 +56,9 @@ public class UserController {
 
     @RequestMapping("/userdetail")
     @ResponseBody
-    public String getUserDetail() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = userDetails.getUsername();
-        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
-        int userId = userInfo.getUserId();
+    public String getUserDetail(@RequestParam("userId") int userId) {
         User user = userBasicService.getUserById(userId);
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(user.getUsername());
         Gson gson = new Gson();
         String userInfoString = gson.toJson(userInfo);
         String userString = gson.toJson(user);
@@ -58,7 +66,23 @@ public class UserController {
         JsonObject json = new JsonObject();
         json.addProperty("userInfo", userInfoString);
         json.addProperty("user", userString);
+        if (checkSelf(userId) == 1) {
+            json.addProperty("self", true);
+        } else {
+            json.addProperty("self", false);
+        }
+        return json.toString();
+    }
 
+    @RequestMapping("/loginUserDetail")
+    @ResponseBody
+    public String loginUserDetail() {
+        int userId = getUserId();
+        User user = userBasicService.getUserById(userId);
+        JsonObject json = new JsonObject();
+        json.addProperty("userId", userId);
+        json.addProperty("avatar", user.getAvatar());
+        json.addProperty("username", user.getUsername());
         return json.toString();
     }
 
@@ -126,17 +150,22 @@ public class UserController {
 
     @RequestMapping("/getFollowers")
     @ResponseBody
-    public String getFollowers() {
-        int userId = getUserId();
+    public String getFollowers(@RequestParam("userId") int userId) {
         String followers = userBasicService.getFollowers(userId);
         return followers;
     }
 
     @RequestMapping("/getFollowings")
     @ResponseBody
-    public String getFollowings() {
-        int userId = getUserId();
+    public String getFollowings(@RequestParam("userId") int userId) {
         String followers = userBasicService.getFollowings(userId);
         return followers;
+    }
+
+    @RequestMapping("/getTagsOfUser")
+    @ResponseBody
+    public String getTagsOfUser(@RequestParam("userId") int userId) {
+        String tags = userBasicService.getTagsOfUser(userId);
+        return tags;
     }
 }

@@ -2,6 +2,9 @@ package controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by qjr on 2017/7/13.
@@ -19,7 +22,8 @@ public class ViewController {
     }
 
     @RequestMapping("/homepage")
-    public String homepage() {
+    public String homepage(@RequestParam("userId") int userId, HttpServletRequest request) {
+        request.setAttribute("userId", userId);
         return "homepage";
     }
 

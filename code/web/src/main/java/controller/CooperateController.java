@@ -47,6 +47,17 @@ public class CooperateController {
         return userInfo.getUserId();
     }
 
+    private int checkSelf(int userId) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
+        int loginUserId = userInfo.getUserId();
+        if (userId == loginUserId)
+            return 1;
+        else
+            return 0;
+    }
+
     @RequestMapping("/getCollaborators")
     @ResponseBody
     public String getCollaborators(@RequestParam(value = "notebookId") int notebookId) {
@@ -79,12 +90,17 @@ public class CooperateController {
 
     @RequestMapping("/allworkgroups")
     @ResponseBody
-    public String allworkgroups() {
-        int userId = getUserId();
-
+    public String allworkgroups(@RequestParam("userId") int userId) {
         //get notebooks
-        String response = noteManageService.getNotebooksDetailsByUserId(userId);
-        return response;
+        String workgroups = noteManageService.getNotebooksDetailsByUserId(userId);
+        JsonObject json = new JsonObject();
+        json.addProperty("workgroups", workgroups);
+        if (checkSelf(userId) == 1) {
+            json.addProperty("self", true);
+        } else {
+            json.addProperty("self", false);
+        }
+        return json.toString();
     }
 
     @RequestMapping("/workgroup")
