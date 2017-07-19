@@ -10,7 +10,7 @@
 
 <div class="container" id="index">
     <!-- test card -->
-    <div class="card" v-for="(_note, index) in note" :id="'NB_' + _note.notebookId">
+    <div class="card container-card" v-for="(_note, index) in note" :id="'NB_' + _note.notebookId">
         <div class="card-block">
             <div class="row">
                 <div class="col-md-12">
@@ -68,20 +68,15 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript">
-
-    $.ajax({
-        url: "/teamnote/recommend",
-        type: "get",
-        dataType: "json",
-        success: function(data) {
-            index.note = data;
-        }
-    });
-
     var index = new Vue({
         el: '#index',
         data: {
             note: []
+        },
+        created: function () {
+            this.$http.get('/teamnote/recommend', { responseType: "json" }).then(function(response) {
+                this.note = response.body;
+            });
         },
         methods: {
             // parse tag string to json
