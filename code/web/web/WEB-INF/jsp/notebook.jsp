@@ -17,7 +17,8 @@
     </div>
     <div class="col-md-8">
         <div class="container">
-
+            <label for="editor"></label>
+            <textarea name="editor" id="editor"></textarea>
             <footer>
                 <p>&copy; 2017 TeamNote Team</p>
             </footer>
@@ -47,6 +48,7 @@
             <button class="btn btn-success" id="callDialog">保存</button>
             <button class="btn btn-outline-success" style="display:none" id="chooseType">导出</button>
             <button class="btn btn-outline-success" id="uploadNote">导入</button>
+            <button class="btn btn-outline-secondary" id="changeMode">读写</button>
         </div>
     </div>
 </nav>
@@ -77,3 +79,23 @@
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
+<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'editor', {
+        customConfig: '<%=path%>/ckeditor/js/config.js',
+        contentsCss: '<%=path%>/ckeditor/css/contents.css',
+        skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
+    });
+
+    $('#changeMode').click(function(){
+        if(!CKEDITOR.instances.editor.readOnly) {
+            CKEDITOR.instances.editor.setReadOnly(true);
+            $("#cke_1_top").hide();
+            $("#cke_1_bottom").hide();
+        } else {
+            CKEDITOR.instances.editor.setReadOnly(false);
+            $("#cke_1_top").show()
+            $("#cke_1_bottom").show();
+        }
+    });
+</script>

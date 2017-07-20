@@ -11,8 +11,44 @@
     <div>
         ADMIN PAGE TEST
     </div>
+        <button id="allNotebooks">allNotebooks</button>
+        <button id="allUsers">allUsers</button>
+        <button id="notesOfNotebook">notesOfNotebook</button>
     <footer>
         <p>&copy; 2017 TeamNote Team</p>
     </footer>
 </div>
 <%@ include file="footer.jsp"%>
+
+<script>
+    $("#allNotebooks").click(function(){
+        $.ajax({
+            url : "admin/getAllNotebooks",
+            dataType : "text",
+            success : function(data) {
+                console.log(data);
+            }
+        });
+    })
+    $("#allUsers").click(function(){
+        $.ajax({
+            url : "admin/getAllUsers",
+            dataType : "text",
+            success : function(data) {
+                console.log(data);
+            }
+        })
+    })
+    $("#notesOfNotebook").click(function(){
+        $.ajax({
+            url : "admin/getNotes",
+            dataType : "text",
+            data : {
+                notebookId : 1
+            },
+            success : function (data) {
+                console.log(data);
+            }
+        })
+    })
+</script>

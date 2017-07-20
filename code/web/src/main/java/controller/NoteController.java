@@ -167,7 +167,19 @@ public class NoteController {
         //在服务器端生成html文件
         File file = downloadService.downloadNote(noteId, type, leftPath);
         //将文件返回给用户
-        HttpHeaders headers = downloadService.genHttpHeaders(noteId, type);
+        HttpHeaders headers = downloadService.genHttpHeaders(noteId, type, "note");
+        ResponseEntity<byte[]> result = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+        file.delete();
+        return result;
+    }
+
+    @RequestMapping(value = "/exportNotebook")
+    public ResponseEntity<byte[]> downloadNotebook(@RequestParam(value = "type") String type, @RequestParam(value = "notebookId") int notebookId, HttpSession session) throws IOException, DocumentException{
+        String leftPath = session.getServletContext().getRealPath("/temp/");
+        //在服务器端生成zip文件
+        File file = downloadService.downloadNotebook(notebookId, type, leftPath);
+        //将文件返回给用户
+        HttpHeaders headers = downloadService.genHttpHeaders(notebookId, type, "notebook");
         ResponseEntity<byte[]> result = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
         file.delete();
         return result;

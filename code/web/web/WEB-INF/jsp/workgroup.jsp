@@ -33,9 +33,7 @@
     <div class="col-md-8">
         <div class="container">
             <label for="editor"></label>
-            <textarea name="editor" id="editor">
-
-            </textarea>
+            <textarea name="editor" id="editor"></textarea>
             <footer>
                 <p>&copy; 2017 TeamNote Team</p>
             </footer>
@@ -302,6 +300,11 @@
                     <option value="html">html</option>
                     <option value="pdf">pdf</option>
                     <option value="md">md</option>
+                </select>
+                <label for="exportContent">导出内容</label>
+                <select class="form-control" id="exportContent">
+                    <option value="note">当前笔记</option>
+                    <option value="notebook">该笔记本中的所有笔记</option>
                 </select>
             </div>
             <div class="modal-footer">

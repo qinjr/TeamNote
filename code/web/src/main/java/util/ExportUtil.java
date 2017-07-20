@@ -16,4 +16,6 @@ public interface ExportUtil {
      * @throws IOException
      */
     public void htmlToPdf(String htmlPath, File pdfFile) throws IOException, DocumentException;
+
+    public File compressExe(File srcDir, String destZipPath);
 }

@@ -165,6 +165,7 @@
 
     <bean id="downloadService" class="service.impl.DownloadServiceImpl">
         <property name="noteDao" ref="noteDao" />
+        <property name="notebookDao" ref="notebookDao" />
         <property name="exportUtil" ref="exportUtil" />
     </bean>
     <bean id="evaluateService" class="service.impl.EvaluateServiceImpl">
@@ -177,6 +178,21 @@
     </bean>
     <bean id="letterService" class="service.impl.LetterServiceImpl">
         <property name="letterDao" ref="letterDao" />
+    </bean>
+    <bean id="adminService" class="service.impl.AdminServiceImpl">
+        <property name="authDao" ref="authDao" />
+        <property name="commentDao" ref="commentDao" />
+        <property name="groupChatDao" ref="groupChatDao" />
+        <property name="letterDao" ref="letterDao" />
+        <property name="noteDao" ref="noteDao" />
+        <property name="notebookDao" ref="notebookDao" />
+        <property name="noticeDao" ref="noticeDao" />
+        <property name="ruleDao" ref="ruleDao" />
+        <property name="suggestionDao" ref="suggestionDao" />
+        <property name="tagDao" ref="tagDao" />
+        <property name="userDao" ref="userDao" />
+        <property name="userInfoDao" ref="userInfoDao" />
+        <property name="verifyDao" ref="verifyDao" />
     </bean>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">

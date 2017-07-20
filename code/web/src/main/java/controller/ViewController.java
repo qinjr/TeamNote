@@ -36,4 +36,9 @@ public class ViewController {
     public String explore() {
         return "explore";
     }
+
+    @RequestMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
 }

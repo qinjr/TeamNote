@@ -23,10 +23,10 @@ public interface DownloadService {
 
     /**
      * genHttpHeaders
-     * @param noteId 要下载的笔记Id
+     * @param id 要下载的笔记或笔记本Id
      * @return 生成的Http响应头
      */
-    HttpHeaders genHttpHeaders(int noteId, String type) throws IOException;
+    HttpHeaders genHttpHeaders(int id, String type, String noteOrNotebook) throws IOException;
 
     /**
      * downloadNotebook
@@ -34,5 +34,5 @@ public interface DownloadService {
      * @param type 导出格式
      * @return 笔记本中的所有笔记
      */
-    ArrayList<File> downloadNotebook(int notebookId, String type);
+    File downloadNotebook(int notebookId, String type, String leftPath)throws IOException, DocumentException;
 }
