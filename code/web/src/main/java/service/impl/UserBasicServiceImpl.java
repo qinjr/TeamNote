@@ -246,7 +246,14 @@ public class UserBasicServiceImpl implements UserBasicService {
         userDao.updateUser(followed);
         userDao.updateUser(following);
 
-        return new Gson().toJson(followed);
+        JsonObject json = new JsonObject();
+        json.addProperty("userId", followed.getUserId());
+        json.addProperty("username", followed.getUsername());
+        json.addProperty("avatar", followed.getAvatar());
+        json.addProperty("personalStatus", followed.getPersonalStatus());
+        json.addProperty("isFollowed", 1);
+
+        return json.toString();
     }
 
     public void unfollow(int unfollowingId, int unfollowedId) {
