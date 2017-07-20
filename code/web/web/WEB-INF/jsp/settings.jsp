@@ -113,6 +113,9 @@
                         <i class="fa fa-user-times" aria-hidden="true"></i>&nbsp;删除账号
                     </h5>
                     <div class="dropdown-divider"></div>
+                    <div class="alert alert-danger" role="alert">
+                        <strong>本功能暂不开放。</strong>
+                    </div>
                     <small id="delete_warning" class="form-text text-muted" style="margin-bottom: 4px;">警告：账号删除后将会失去所有记录，请谨慎执行此命令。</small>
                     <button type="button" class="btn btn-outline-danger" aria-describedby="delete_warning" disabled="disabled">删除账号</button>
                 </div>
