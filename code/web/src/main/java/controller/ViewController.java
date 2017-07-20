@@ -31,4 +31,9 @@ public class ViewController {
     public String notebook() {
         return "notebook";
     }
+
+    @RequestMapping("/explore")
+    public String explore() {
+        return "explore";
+    }
 }
