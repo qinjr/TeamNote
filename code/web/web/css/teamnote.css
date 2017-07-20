@@ -305,4 +305,12 @@ div.col-md-7 > p a:focus {
     margin-right: 65px;
 }
 
+.activity-label {
+    color: lightgrey;
+    margin-bottom: 0;
+}
 
+.activity-target,
+.activity-target:hover {
+    color: #000000;
+}
