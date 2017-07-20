@@ -66,6 +66,11 @@ public class UserController {
         JsonObject json = new JsonObject();
         json.addProperty("userInfo", userInfoString);
         json.addProperty("user", userString);
+        if (userBasicService.getUserById(getUserId()).getFollowings().contains(userId)) {
+            json.addProperty("isFollowed", 1);
+        } else {
+            json.addProperty("isFollowed", 0);
+        }
         if (checkSelf(userId) == 1) {
             json.addProperty("self", true);
         } else {
