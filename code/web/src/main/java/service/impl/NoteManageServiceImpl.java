@@ -250,7 +250,7 @@ public class NoteManageServiceImpl implements NoteManageService {
         System.out.println(notebook.getCover());
         ArrayList<Integer> tags = notebook.getTags();
 
-        String[] tagsArray=newTags.split(";");
+        String[] tagsArray=newTags.split("；");
         int out = 0;
         for(String tagName : tagsArray){
             //原来notebook就有这个tag

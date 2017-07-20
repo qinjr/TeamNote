@@ -298,14 +298,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="creatNotebookForm">
+                <form id="createNotebookForm">
                     <div class="form-group">
                         <label for="notebookTitle" class="form-control-label">笔记本标题</label>
                         <input type="text" class="form-control" id="notebookTitle" name="notebookTitle">
                     </div>
                     <div class="form-group">
                         <label for="tag" class="form-control-label">标签</label>
-                        <input type="text" class="form-control" id="tag" name="tag" placeholder="请用分号（；）分隔标签">
+                        <input type="text" class="form-control" id="tag" name="tag" placeholder="请用全角分号（；）分隔标签">
                     </div>
                     <div class="form-group">
                         <label for="description" class="form-control-label">简介</label>
@@ -483,7 +483,7 @@
         },
         methods: {
             self: function() {
-                return user.self;
+                return (user.userId === <%=userId%>);
             },
             json: function(tag) {
                 return JSON.parse(tag);
@@ -776,7 +776,7 @@
     };
 
     $('#newNotebook').click(function(){
-        var createNotebookForm = new FormData($('#creatNotebookForm')[0]);
+        var createNotebookForm = new FormData($('#createNotebookForm')[0]);
         $.ajax({
             url : "/teamnote/createNotebook",
             type : "post",

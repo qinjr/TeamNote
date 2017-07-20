@@ -69,9 +69,6 @@
                             <a class="dropdown-item" :href="'<%=path%>/homepage?userId=' + userId">
                                 <i class="fa fa-map fa-fw" aria-hidden="true"></i>&nbsp;我的主页
                             </a>
-                            <a class="dropdown-item" :href="'<%=path%>/homepage?userId=' + userId + '#notebook'">
-                                <i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp;我的笔记
-                            </a>
                             <a class="dropdown-item" href="<%=path%>/settings">
                                 <i class="fa fa-cog fa-spin fa-fw" aria-hidden="true"></i>&nbsp;设置
                             </a>
