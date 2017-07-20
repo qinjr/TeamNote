@@ -71,4 +71,8 @@ public interface UserBasicService {
     String getFollowings(int userId);
 
     String getTagsOfUser(int userId);
+
+    String follow(int followingId, int followedId);
+
+    void unfollow(int unfollowingId, int unfollowedId);
 }

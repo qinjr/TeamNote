@@ -219,4 +219,36 @@ public class UserBasicServiceImpl implements UserBasicService {
         }
         return new Gson().toJson(tags);
     }
+
+    public String follow(int followingId, int followedId) {
+        User following = userDao.getUserById(followingId);
+        ArrayList<Integer> followingList = following.getFollowings();
+        followingList.add(followedId);
+        following.setFollowings(followingList);
+
+        User followed = userDao.getUserById(followedId);
+        ArrayList<Integer> followerList = following.getFollowers();
+        followerList.add(followingId);
+        followed.setFollowers(followerList);
+
+        userDao.updateUser(followed);
+        userDao.updateUser(following);
+
+        return new Gson().toJson(followed);
+    }
+
+    public void unfollow(int unfollowingId, int unfollowedId) {
+        User unfollowing = userDao.getUserById(unfollowingId);
+        ArrayList<Integer> followingList = unfollowing.getFollowings();
+        followingList.remove((Integer) unfollowedId);
+        unfollowing.setFollowings(followingList);
+
+        User unfollowed = userDao.getUserById(unfollowedId);
+        ArrayList<Integer> followerList = unfollowed.getFollowers();
+        followerList.remove((Integer) unfollowingId);
+        unfollowed.setFollowers(followerList);
+
+        userDao.updateUser(unfollowing);
+        userDao.updateUser(unfollowed);
+    }
 }

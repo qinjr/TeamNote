@@ -129,10 +129,7 @@
 <script type="text/javascript" src="<%=path%>/js/bootstrap-switch.js"></script>
 <script>
     $.ajax({
-        url: "/teamnote/userdetail",
-        data: {
-            userId: user.userId
-        },
+        url: "/teamnote/loginUserDetail",
         dataType: "json",
         type: "get",
         success: function(data) {

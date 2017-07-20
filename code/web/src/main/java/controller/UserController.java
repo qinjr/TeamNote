@@ -79,10 +79,13 @@ public class UserController {
     public String loginUserDetail() {
         int userId = getUserId();
         User user = userBasicService.getUserById(userId);
+        UserInfo userInfo = userBasicService.getUserInfoByUsername(user.getUsername());
+        String userString = new Gson().toJson(user);
+        String userInfoString = new Gson().toJson(userInfo);
+
         JsonObject json = new JsonObject();
-        json.addProperty("userId", userId);
-        json.addProperty("avatar", user.getAvatar());
-        json.addProperty("username", user.getUsername());
+        json.addProperty("userInfo", userInfoString);
+        json.addProperty("user", userString);
         return json.toString();
     }
 
@@ -151,15 +154,29 @@ public class UserController {
     @RequestMapping("/getFollowers")
     @ResponseBody
     public String getFollowers(@RequestParam("userId") int userId) {
+        JsonObject json = new JsonObject();
         String followers = userBasicService.getFollowers(userId);
-        return followers;
+        json.addProperty("followers", followers);
+        if (checkSelf(userId) == 1) {
+            json.addProperty("self", true);
+        } else {
+            json.addProperty("self", false);
+        }
+        return json.toString();
     }
 
     @RequestMapping("/getFollowings")
     @ResponseBody
     public String getFollowings(@RequestParam("userId") int userId) {
-        String followers = userBasicService.getFollowings(userId);
-        return followers;
+        JsonObject json = new JsonObject();
+        String followings = userBasicService.getFollowings(userId);
+        json.addProperty("followings", followings);
+        if (checkSelf(userId) == 1) {
+            json.addProperty("self", true);
+        } else {
+            json.addProperty("self", false);
+        }
+        return json.toString();
     }
 
     @RequestMapping("/getTagsOfUser")
@@ -167,5 +184,22 @@ public class UserController {
     public String getTagsOfUser(@RequestParam("userId") int userId) {
         String tags = userBasicService.getTagsOfUser(userId);
         return tags;
+    }
+
+    @RequestMapping("/follow")
+    @ResponseBody
+    public String follow(@RequestParam("userId") int userId) {
+        int loginUserId = getUserId();
+        return userBasicService.follow(loginUserId, userId);
+    }
+
+    @RequestMapping("/unfollow")
+    @ResponseBody
+    public String unfollow(@RequestParam("userId") int userId) {
+        int loginUserId = getUserId();
+        userBasicService.unfollow(loginUserId, userId);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
     }
 }

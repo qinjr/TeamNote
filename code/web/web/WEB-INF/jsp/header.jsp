@@ -95,9 +95,9 @@
             },
             created : function () {
                 this.$http.get('/teamnote/loginUserDetail').then(function(response) {
-                    user.userId = response.body.userId;
-                    user.avatar = response.body.avatar;
-                    user.username = response.body.username;
+                    user.userId = JSON.parse(response.body.user).userId;
+                    user.avatar = JSON.parse(response.body.user).avatar;
+                    user.username = JSON.parse(response.body.user).username;
                 }, function(response) {
                     console.log("navbar error");
                 });
