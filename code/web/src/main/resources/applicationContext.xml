@@ -184,6 +184,7 @@
         <property name="tagDao" ref="tagDao" />
         <property name="userDao" ref="userDao" />
         <property name="userInfoDao" ref="userInfoDao" />
+        <property name="verifyDao" ref="verifyDao" />
     </bean>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">

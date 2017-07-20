@@ -27,4 +27,9 @@ public class ViewController {
     public String notebook() {
         return "notebook";
     }
+
+    @RequestMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
 }

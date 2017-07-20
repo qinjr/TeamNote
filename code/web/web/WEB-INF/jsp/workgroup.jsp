@@ -34,8 +34,6 @@
         <div class="container">
             <label for="editor"></label>
             <textarea name="editor" id="editor"></textarea>
-            <button class="btn btn-outline-secondary" id="changeMode">读写</button>
-            <textarea name="test" id="test"></textarea>
             <footer>
                 <p>&copy; 2017 TeamNote Team</p>
             </footer>
@@ -470,24 +468,6 @@
         customConfig: '<%=path%>/ckeditor/js/config.js',
         contentsCss: '<%=path%>/ckeditor/css/contents.css',
         skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
-    });
-
-    CKEDITOR.replace( 'test', {
-        customConfig: '<%=path%>/ckeditor/js/config.js',
-        contentsCss: '<%=path%>/ckeditor/css/contents.css',
-        skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
-    });
-
-    $('#changeMode').click(function(){
-        if(!CKEDITOR.instances.test.readOnly) {
-            CKEDITOR.instances.test.setReadOnly(true);
-            $("#cke_2_top").hide();
-            $("#cke_2_bottom").hide();
-        } else {
-            CKEDITOR.instances.test.setReadOnly(false);
-            $("#cke_2_top").show()
-            $("#cke_2_bottom").show();
-        }
     });
 
     var note = new Vue({

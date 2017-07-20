@@ -11,6 +11,7 @@ import model.mysql.Auth;
 import model.mysql.UserInfo;
 import service.AdminService;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +20,11 @@ import java.util.List;
 
 /**
  * Created by lxh on 2017/7/18.
+ * -------------------------------------------
+ * Delete note,notebook or user won't really delete them in database,
+ * only set valid as 0
  */
+
 public class AdminServiceImpl implements AdminService {
     private AuthDao authDao;
     private CommentDao commentDao;
@@ -33,6 +38,7 @@ public class AdminServiceImpl implements AdminService {
     private TagDao tagDao;
     private UserDao userDao;
     private UserInfoDao userInfoDao;
+    private VerifyDao verifyDao;
 
     public void setAuthDao(AuthDao authDao) {
         this.authDao = authDao;
@@ -82,13 +88,17 @@ public class AdminServiceImpl implements AdminService {
         this.userInfoDao = userInfoDao;
     }
 
+    public void setVerifyDao(VerifyDao verifyDao) {
+        this.verifyDao = verifyDao;
+    }
+
     public int CUDAuth(int authId, String op, int userId, int notebookId, String role){
         if(op.equals("create")) {
             authDao.addAuth(new Auth(userId, notebookId, role));
         } else if(op.equals("update")) {
             Auth auth = authDao.getAuthById(authId);
-            auth.setUserId(userId);
-            auth.setNotebookId(notebookId);
+            auth.setUserId(userId); //
+            auth.setNotebookId(notebookId); //
             auth.setAuth(role);
             authDao.updateAuth(auth);
         } else if(op.equals("delete")) {
@@ -170,10 +180,10 @@ public class AdminServiceImpl implements AdminService {
             //TODO
         } else if(op.equals("update")) {
             Note note = noteDao.getNoteById(noteId);
-            note.setNotebookId(notebookId);
+            note.setNotebookId(notebookId); //x
             note.setTitle(title);
             note.setHistory(history);
-            note.setComments(comments);
+            note.setComments(comments); //
             //TODO 更新对应comment
             note.setUpvoters(upvoters);
             note.setDownvoters(downvoters);
@@ -182,42 +192,98 @@ public class AdminServiceImpl implements AdminService {
             note.setVersionPointer(versionPointer);
             noteDao.updateNote(note);
         } else if(op.equals("delete")) {
-            noteDao.deleteNote(noteDao.getNoteById(noteId));
-            //TODO 对应的comment
+            Note note = noteDao.getNoteById(noteId);
+            comments = note.getComments();
+            for(int commentId : comments) {
+                commentDao.deleteComment(commentDao.getCommentById(commentId));
+            }
+            Notebook notebook = notebookDao.getNotebookById(notebookId);
+            ArrayList<Integer> notes = notebook.getNotes();
+            for(int i = 0;i < notes.size();i++){
+                if(notes.get(i) == noteId){
+                    notes.remove(i);
+                    break;
+                }
+            }
+            notebook.setNotes(notes);
+            notebookDao.updateNotebook(notebook);
+            note.setValid(0);
+            noteDao.updateNote(note);
         }
         return 1;
     }
 
-    public List<Note> RNoteOfNotebook(int notebookId){
-        return noteDao.getAllNotes();
+    public ArrayList<Note> RNoteOfNotebook(int notebookId){
+        ArrayList<Integer> notes = notebookDao.getNotebookById(notebookId).getNotes();
+        ArrayList<Note> result = new ArrayList<Note>();
+        for(int note : notes) {
+            result.add(noteDao.getNoteById(note));
+        }
+        return result;
     }
 
     public int CUDNotebook(int notebookId, String op, String title, String description, int creator, int owner, int star, int collected,
                     int count, ArrayList<Integer> collobrators, ArrayList<Integer> contributors, ArrayList<Integer> notes, Date createTime, String cover, ArrayList<Integer> tags, ArrayList<Integer> starers){
         if(op.equals("create")) {
             notebookDao.addNotebook(new Notebook(title, description, creator, owner, star, collected, count, collobrators, contributors, notes, createTime, cover, tags, starers));
-            //TODO
         } else if(op.equals("update")) {
             Notebook notebook = notebookDao.getNotebookById(notebookId);
             notebook.setTitle(title);
             notebook.setDescription(description);
-            notebook.setCreator(creator);
-            notebook.setOwner(owner);
+            notebook.setCreator(creator); //
+            notebook.setOwner(owner); //
             notebook.setStar(star);
             notebook.setCollected(collected);
             notebook.setClickCount(count);
-            notebook.setCollaborators(collobrators);
-            notebook.setContributors(contributors);
-            notebook.setNotes(notes);
+            notebook.setCollaborators(collobrators); //
+            notebook.setContributors(contributors); //
+            notebook.setNotes(notes); //
             //TODO 更新对应笔记
             notebook.setCreateTime(createTime);
             notebook.setCover(cover);
-            notebook.setTags(tags);
+            notebook.setTags(tags); //
             notebook.setStarers(starers);
             notebookDao.updateNotebook(notebook);
         } else if(op.equals("delete")) {
-            notebookDao.deleteNotebook(notebookDao.getNotebookById(notebookId));
-            //TODO 删除对应笔记
+            Notebook notebook = notebookDao.getNotebookById(notebookId);
+            //notes
+            notes = notebook.getNotes();
+            for(int noteId : notes){
+                CUDNote(noteId,"delete",notebookId,"",null,null,null,null,0,0,0);
+            }
+            //groupchat
+            CUDGroupChat(notebookId,"delete",null);
+            //collobrators including owner
+            collobrators = notebook.getCollaborators();
+            for(int userId : collobrators) {
+                User user = userDao.getUserById(userId);
+                ArrayList<Integer>notebooks = user.getNotebooks();
+                for(int i = 0;i < notebooks.size();i++){
+                    if(notebooks.get(i) == notebookId){
+                        notebooks.remove(i);
+                        break;
+                    }
+                }
+                user.setNotebooks(notebooks);
+                userDao.updateUser(user);
+            }
+            //tags
+            tags = notebook.getTags();
+            for(int tagId : tags){
+                Tag tag = tagDao.getTagById(tagId);
+                ArrayList<Integer> booksOfTag = tag.getBooksOfTag();
+                for(int i = 0;i < booksOfTag.size();i++){
+                    if(booksOfTag.get(i) == notebookId){
+                        booksOfTag.remove(i);
+                        break;
+                    }
+                }
+                tag.setBooksOfTag(booksOfTag);
+                tagDao.updateTag(tag);
+            }
+            //TODO collected users
+            //TODO verify
+            //notebookDao.deleteNotebook(notebook);
         }
         return 1;
     }
@@ -288,17 +354,26 @@ public class AdminServiceImpl implements AdminService {
 
     public int CUDTag(int tagId, String op, String tagName, ArrayList<Integer> booksOfTag){
         if(op.equals("create")) {
-            tagDao.addTag(new Tag(tagName, booksOfTag));
-            //TODO update notebook
+            int id = tagDao.addTag(new Tag(tagName, booksOfTag));   //add 只能是空值
         } else if(op.equals("update")) {
             Tag tag = tagDao.getTagById(tagId);
             tag.setTagName(tagName);
-            tag.setBooksOfTag(booksOfTag);
-            //TODO
+            tag.setBooksOfTag(booksOfTag);  //该属性不能在这里修改
             tagDao.updateTag(tag);
         } else if(op.equals("delete")) {
             tagDao.deleteTag(tagDao.getTagById(tagId));
-            //TODO
+            for(int bookId : booksOfTag) {
+                Notebook notebook = notebookDao.getNotebookById(bookId);
+                ArrayList<Integer> tags = notebook.getTags();
+                for(int i = 0;i < tags.size();i++) {
+                    if(tags.get(i) == tagId){
+                        tags.remove(i);
+                        break;
+                    }
+                }
+                notebook.setTags(tags);
+                notebookDao.updateNotebook(notebook);
+            }
         }
         return 1;
     }
@@ -316,19 +391,76 @@ public class AdminServiceImpl implements AdminService {
             User user = userDao.getUserById(userId);
             user.setUsername(username);
             user.setPersonalStatus(personalStatus);
-            user.setNotebooks(notebooks);
-            user.setFollowers(followers);
-            user.setFollowings(followings);
+            user.setNotebooks(notebooks); //
+            user.setFollowers(followers); //
+            user.setFollowings(followings); //
             user.setTags(tags);
             user.setAvatar(avatar);
-            user.setCollections(collections);
+            user.setCollections(collections); //
             user.setValid(valid);
             user.setDeleteCount(deleteCount);
             user.setReputation(reputation);
             user.setQrcode(qrcode);
             userDao.updateUser(user);
         } else if(op.equals("delete")) {
-            userDao.deleteUser(userDao.getUserById(userId));  //foreign key
+            // avoid deleting other objects by foreign key
+            User user = userDao.getUserById(userId);
+            //notebooks
+            notebooks = user.getNotebooks();
+            for(int notebookId : notebooks) {
+                Notebook notebook = notebookDao.getNotebookById(notebookId);
+                if(notebook.getOwner() == userId) {
+                    notebook.setOwner(-1);
+                }
+                ArrayList<Integer> collaborators = notebook.getCollaborators();
+                for(int i = 0; i < collaborators.size();i++){
+                    if(collaborators.get(i) == userId){
+                        collaborators.remove(i);
+                        break;
+                    }
+                }
+                ArrayList<Integer> contributors = notebook.getContributors();
+                for(int i = 0; i < contributors.size(); i++) {
+                    if(contributors.get(i) == userId) {
+                        contributors.remove(i);
+                        break;
+                    }
+                }
+                //TODO stars
+                //TODO contributors but not collaborators
+                notebookDao.updateNotebook(notebook);
+            }
+            //followers
+            followers = user.getFollowers();
+            for(int followerId : followers) {
+                User follower = userDao.getUserById(followerId);
+                ArrayList<Integer> hisFollowings = follower.getFollowings();
+                for(int i = 0;i < hisFollowings.size();i++) {
+                    if(hisFollowings.get(i) == userId) {
+                        hisFollowings.remove(i);
+                        break;
+                    }
+                }
+                userDao.updateUser(follower);
+            }
+            //following
+            followings = user.getFollowings();
+            for(int followingId : followings) {
+                User following = userDao.getUserById(followingId);
+                ArrayList<Integer>hisFollowers = following.getFollowers();
+                for(int i = 0;i < hisFollowers.size();i++) {
+                    if(hisFollowers.get(i) == userId){
+                        hisFollowers.remove(i);
+                        break;
+                    }
+                }
+                userDao.updateUser(following);
+            }
+
+            //userInfo
+            //userInfoDao.deleteUserInfo(userInfoDao.getUserInfoById(userId));
+            user.setValid(0);
+            userDao.updateUser(user);
         }
         return 1;
     }
@@ -337,13 +469,14 @@ public class AdminServiceImpl implements AdminService {
         return userDao.getAllUsers();
     }
 
+    /* add 和 delete 操作与 User 对应的操作同时执行 */
     public int CUDUserInfo(int userId, String op, String username, String password, String phone, String email, String role){
         if(op.equals("create")) {
             userInfoDao.addUserInfo(new UserInfo(username, password, phone, email, role));
         } else if(op.equals("update")) {
             UserInfo userInfo = userInfoDao.getUserInfoById(userId);
-            userInfo.setUsername(username);  //unique
-            userInfo.setPassword(password);  //encoded
+            userInfo.setUsername(username);  //unique controller确保
+            userInfo.setPassword(password);  //encoded controller加密
             userInfo.setPhone(phone);
             userInfo.setEmail(email);
             userInfo.setRole(role);
@@ -359,10 +492,35 @@ public class AdminServiceImpl implements AdminService {
     }
 
     public ArrayList<Note> verifyNoteList(){
-        return null;
+        List<Verify> verifies = verifyDao.getAllVerifies();
+        ArrayList<Note> result = new ArrayList<Note>();
+        for(Verify verify : verifies) {
+            if(verify.getType() == 1) {
+                result.add(noteDao.getNoteById(verify.getTargetId()));
+            }
+        }
+        return result;
     }
 
     public ArrayList<Comment> verifyCommentList(){
-        return null;
+        List<Verify> verifies = verifyDao.getAllVerifies();
+        ArrayList<Comment> result = new ArrayList<Comment>();
+        for(Verify verify : verifies) {
+            if(verify.getType() == 0) {
+                result.add(commentDao.getCommentById(verify.getTargetId()));
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Notebook> verifyNotebookList() {
+        List<Verify> verifies = verifyDao.getAllVerifies();
+        ArrayList<Notebook> result = new ArrayList<Notebook>();
+        for(Verify verify : verifies) {
+            if(verify.getType() == 2) {
+                result.add(notebookDao.getNotebookById(verify.getTargetId()));
+            }
+        }
+        return result;
     }
 }

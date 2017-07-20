@@ -112,7 +112,7 @@ public interface AdminService {
      * @param notebookId notebook id
      * @return 该笔记本所有的note
      */
-    List<Note> RNoteOfNotebook(int notebookId);
+    ArrayList<Note> RNoteOfNotebook(int notebookId);
 
 
     /**
@@ -268,4 +268,10 @@ public interface AdminService {
      * @return 所有需要被管理员审核的Comment
      */
     ArrayList<Comment> verifyCommentList();
+
+    /**
+     * verifyNotebookList
+     * @return 所有需要被管理员审核的Notebook
+     */
+    ArrayList<Notebook> verifyNotebookList();
 }
