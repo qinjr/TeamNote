@@ -371,7 +371,7 @@ $(document).ready(function() {
             },
             success : function(data) {
                 var json = JSON.parse(data);
-                CKEDITOR.instances.editor.setData(json.content,{
+                CKEDITOR.instances.editor.setData(json.content, {
                     callback: function() {
                         CKEDITOR.instances.editor.resetDirty();
                     }
