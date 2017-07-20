@@ -10,6 +10,7 @@ $(document).ready(function() {
     /* chatting record */
     var lastChat = -1;
 
+
     /* WebSocket */
     if ('WebSocket' in window) {
         websocket = new WebSocket("ws://localhost:8080/teamnote/chat");
@@ -245,7 +246,7 @@ $(document).ready(function() {
     /* savenote */
     $('.savenote').click(function () {
         var content = CKEDITOR.instances.editor.getData();
-        CKEDITOR.instances.editor.resetDirty();                //add
+        CKEDITOR.instances.editor.resetDirty();
         var notebookId = $('.notebook').attr('id');
         if (noteId === -1) {
             var noteTitle = $('input[name="noteTitle"]').val();
@@ -302,19 +303,24 @@ $(document).ready(function() {
     /* export note */
     $('#chooseType').click(function(){
         //TODO
-        CKEDITOR.instances.editor.resetDirty();
         if (CKEDITOR.instances.editor.checkDirty()) {
             alert("导出笔记前请先保存笔记");
         } else {
-            $('#exportModalTitle').html("选择导出格式");
-            $('#exportType').val("html");
+            $('#exportModalTitle').html("选择导出内容");
+            $('#exportType').val("pdf");
+            $('#exportContent').val("note");
             $('#exportModal').modal('show');
         }
     });
 
     $('.export').click(function () {
         var exportType = $('#exportType').val();
-        window.location.href="/teamnote/exportNote?type=" + exportType + "&noteId=" + noteId;
+        var exportContent = $('#exportContent').val();
+        if(exportContent === "note") {
+            window.location.href = "/teamnote/exportNote?type=" + exportType + "&noteId=" + noteId;
+        } else {
+            window.location.href = "/teamnote/exportNotebook?type=" + exportType + "&notebookId=" + notebookId;
+        }
         $('#exportModal').modal('hide');
     });
 
@@ -346,6 +352,13 @@ $(document).ready(function() {
     });
 
     $('.note').click(function(e) {
+        if(CKEDITOR.instances.editor.checkDirty()) {
+            if(confirm("转到其他笔记将会失去当前笔记未保存的内容，确认跳转吗？")){
+            }
+            else{
+                return;
+            }
+        }
         $('#chooseType').removeAttr("style");//add
         noteId = parseInt(e.target.id);
         $.ajax({
@@ -358,8 +371,11 @@ $(document).ready(function() {
             },
             success : function(data) {
                 var json = JSON.parse(data);
-                CKEDITOR.instances.editor.setData(json.content);
-                CKEDITOR.instances.editor.resetDirty();
+                CKEDITOR.instances.editor.setData(json.content,{
+                    callback: function() {
+                        CKEDITOR.instances.editor.resetDirty();
+                    }
+                });
             }
         });
     });

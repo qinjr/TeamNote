@@ -184,7 +184,6 @@ public class AdminServiceImpl implements AdminService {
             note.setTitle(title);
             note.setHistory(history);
             note.setComments(comments); //
-            //TODO 更新对应comment
             note.setUpvoters(upvoters);
             note.setDownvoters(downvoters);
             note.setReportCount(report);
@@ -238,7 +237,6 @@ public class AdminServiceImpl implements AdminService {
             notebook.setCollaborators(collobrators); //
             notebook.setContributors(contributors); //
             notebook.setNotes(notes); //
-            //TODO 更新对应笔记
             notebook.setCreateTime(createTime);
             notebook.setCover(cover);
             notebook.setTags(tags); //
@@ -354,7 +352,7 @@ public class AdminServiceImpl implements AdminService {
 
     public int CUDTag(int tagId, String op, String tagName, ArrayList<Integer> booksOfTag){
         if(op.equals("create")) {
-            int id = tagDao.addTag(new Tag(tagName, booksOfTag));   //add 只能是空值
+            tagDao.addTag(new Tag(tagName, booksOfTag));   //add 只能是空值
         } else if(op.equals("update")) {
             Tag tag = tagDao.getTagById(tagId);
             tag.setTagName(tagName);
@@ -409,7 +407,7 @@ public class AdminServiceImpl implements AdminService {
             notebooks = user.getNotebooks();
             for(int notebookId : notebooks) {
                 Notebook notebook = notebookDao.getNotebookById(notebookId);
-                if(notebook.getOwner() == userId) {
+                if(notebook.getOwner() == userId){
                     notebook.setOwner(-1);
                 }
                 ArrayList<Integer> collaborators = notebook.getCollaborators();
@@ -426,7 +424,7 @@ public class AdminServiceImpl implements AdminService {
                         break;
                     }
                 }
-                //TODO stars
+                //TODO starers
                 //TODO contributors but not collaborators
                 notebookDao.updateNotebook(notebook);
             }

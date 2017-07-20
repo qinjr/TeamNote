@@ -301,6 +301,11 @@
                     <option value="pdf">pdf</option>
                     <option value="md">md</option>
                 </select>
+                <label for="exportContent">导出内容</label>
+                <select class="form-control" id="exportContent">
+                    <option value="note">当前笔记</option>
+                    <option value="notebook">该笔记本中的所有笔记</option>
+                </select>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>

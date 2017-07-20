@@ -159,6 +159,7 @@
 
     <bean id="downloadService" class="service.impl.DownloadServiceImpl">
         <property name="noteDao" ref="noteDao" />
+        <property name="notebookDao" ref="notebookDao" />
         <property name="exportUtil" ref="exportUtil" />
     </bean>
     <bean id="evaluateService" class="service.impl.EvaluateServiceImpl">
