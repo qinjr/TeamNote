@@ -314,3 +314,18 @@ div.col-md-7 > p a:focus {
 .activity-target:hover {
     color: #000000;
 }
+
+.notebook-title,
+.notebook-title:hover {
+    color: #000000;
+}
+
+.notebook-username,
+.notebook-username:hover {
+    color: #000000;
+}
+
+.notebook-tag,
+.notebook-tag:hover {
+    color: #000000;
+}

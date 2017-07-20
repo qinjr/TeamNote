@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-md-2">
         <div style="padding-left: 24px;">
-            <button type="button" class="btn btn-outline-secondary navbar-toggle offcanvas-toggle is-open" data-toggle="offcanvas" data-target="#left-sidebar" style="width: 45px; height: 45px; border: none;">
+            <button type="button" class="btn btn-outline-secondary navbar-toggle offcanvas-toggle is-open" data-toggle="offcanvas" data-target="#function-bar" style="width: 45px; height: 45px; border: none;">
                 <i class="fa fa-chevron-right" aria-hidden="true"></i>
             </button>
         </div>
@@ -25,7 +25,7 @@
         </div>
     </div>
     <div class="col-md-2">
-        <button class="button btn-outline-secondary navbar-toggle offcanvas-toggle" id="showChat" data-toggle="offcanvas" data-target="#right-sidebar" style="border: none; float: right; width: 60px;">
+        <button class="button btn-outline-secondary navbar-toggle offcanvas-toggle" id="showChat" data-toggle="offcanvas" data-target="#comment-bar" style="border: none; float: right; width: 60px;">
             TMP
         </button>
 
@@ -34,7 +34,7 @@
 
 <!-- left sidebar -->
 <nav class="navbar navbar-default" role="navigation">
-    <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="left-sidebar">
+    <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="function-bar">
         <div class="pre-scrollable" id="left-sidebar-nav" style="padding-right: 10px;">
 
         </div>
@@ -55,23 +55,8 @@
 
 <!-- right sidebar -->
 <nav class="navbar navbar-default" role="navigation">
-    <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade navbar-offcanvas-right" id="right-sidebar">
-        <div class="pre-scrollable" id="chatbox" style="max-height: 70%;">
-            <div class="panel panel-primary" style="width: 100%; height: 70%;">
-                <div class="panel-body" id="chatContent"></div>
-            </div>
-        </div>
-        <div class="dropdown-divider" style="margin-bottom: 0;"></div>
-        <div>
-            <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle"
-                    data-toggle="offcanvas" data-target="#right-sidebar" style="width: auto; height: auto;">
-                <i class="fa fa-chevron-right" aria-hidden="true"></i>
-            </button>
-            <label for="msg"></label>
-            <textarea rows="4" class="form-control" id="msg"></textarea>
-            <input type="hidden" class="btn btn-outline-primary" value="发送" id="sendMsg">
-            <!-- <input type="button" class="btn btn-secondary" value="清空" id="clearMsg"> -->
-        </div>
+    <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade navbar-offcanvas-right" id="comment-bar">
+
     </div>
 </nav>
 
@@ -94,7 +79,7 @@
             $("#cke_1_bottom").hide();
         } else {
             CKEDITOR.instances.editor.setReadOnly(false);
-            $("#cke_1_top").show()
+            $("#cke_1_top").show();
             $("#cke_1_bottom").show();
         }
     });

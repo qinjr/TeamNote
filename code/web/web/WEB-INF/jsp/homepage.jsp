@@ -79,14 +79,14 @@
                             <!-- TODO: star notebook -->
                             <p v-else-if="_activity.type === 2" style="margin-bottom: 0;">
                                 <label class="activity-label">{{ date(_activity.time) }}</label>&nbsp;
-                                <strong>rudeigerc</strong>&nbsp;
-                                标星了笔记本<i class="fa fa-book" aria-hidden="true"></i>&nbsp;<a :href="'<%=path%>/notebook?notebook=' + _activity.targetId" class="activity-target"><strong>{{ _activity.targetName }}</strong></a>
+                                <strong>{{ username() }}</strong>&nbsp;
+                                标星了笔记本<i class="fa fa-book" aria-hidden="true"></i>&nbsp;<a :href="'<%=path%>/notebook?notebookId=' + _activity.targetId" class="activity-target"><strong>{{ _activity.targetName }}</strong></a>
                             </p>
                             <!-- TODO: collect notebook -->
                             <p v-else-if="_activity.type === 3" style="margin-bottom: 0;">
                                 <label class="activity-label">{{ date(_activity.time) }}</label>&nbsp;
-                                <strong>rudeigerc</strong>&nbsp;
-                                收藏了笔记本<i class="fa fa-book" aria-hidden="true"></i>&nbsp;<a :href="'<%=path%>/notebook?notebook=' + _activity.targetId" class="activity-target"><strong>{{ _activity.targetName }}</strong></a>
+                                <strong>{{ username() }}</strong>&nbsp;
+                                收藏了笔记本<i class="fa fa-book" aria-hidden="true"></i>&nbsp;<a :href="'<%=path%>/notebook?notebookId=' + _activity.targetId" class="activity-target"><strong>{{ _activity.targetName }}</strong></a>
                             </p>
                             <!-- TODO: follow tag -->
                             <p v-else-if="_activity.type === 4" style="margin-bottom: 0;">
@@ -99,7 +99,7 @@
 
                 <!-- notebook -->
                 <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">
-                    <div class="row flex-row-reverse" style="margin: 20px 0;">
+                    <div v-if="self()" class="row flex-row-reverse" style="margin: 20px 0;">
                         <button class="btn btn-success" data-toggle="modal" data-target="#newNotebookModal">
                             <i class="fa fa-sticky-note fa-fw" aria-hidden="true"></i>&nbsp;新建笔记本
                         </button>
@@ -459,6 +459,9 @@
         methods: {
             date: function(date) {
                 return moment(date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
+            },
+            username: function() {
+                return info.username;
             }
         }
     });

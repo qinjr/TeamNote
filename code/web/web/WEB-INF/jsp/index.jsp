@@ -9,8 +9,7 @@
 <%@ include file="header.jsp"%>
 
 <div class="container" id="index">
-    <!-- test card -->
-    <div class="card container-card" v-for="(_note, index) in note" :id="'NB_' + _note.notebookId">
+    <div class="card" v-for="(_note, index) in note" :id="'NB_' + _note.notebookId">
         <div class="card-block">
             <div class="row">
                 <div class="col-md-12">
@@ -20,7 +19,7 @@
                             <img class="rounded" src="" :src="'<%=path%>/' + _note.cover" style="height: 100px; width: 100px;">
                         </div>
                         <div class="col-md-10" :id="'CT_NB_' + _note.notebookId">
-                            <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>
+                            <a :href="'<%=path%>/notebook?notebookId=' + _note.notebookId"><h4 class="card-title notebook-title" style="margin-bottom: 6px;">{{ _note.title }}</h4></a>
                             <i class="fa fa-tag" aria-hidden="true"></i>
                             <div style="display: inline;" v-for="tag in json(_note.tags)">
                                 <kbd class="card-subtitle">{{ tag }}</kbd>&nbsp;
@@ -29,7 +28,7 @@
                                 {{ _note.description }}
                             </p>
                             <footer :index="index">
-                                <small>创建者 <strong>{{ _note.creator }}</strong> · 所有者 <strong>{{ _note.owner }}</strong> · 创建时间 {{ date(_note.createTime) }}</small>
+                                <small>创建者 <a :href="'<%=path%>/homepage?userId=' + _note.creatorId" class="notebook-username"><strong>{{ _note.creator }}</strong></a> · 所有者 <a :href="'<%=path%>/homepage?userId=' + _note.ownerId" class="notebook-username"><strong>{{ _note.owner }}</strong></a> · 创建时间 {{ date(_note.createTime) }}</small>
                                 <br><br>
                                 <button class="btn btn-outline-secondary center-block none" :class="_note.stared? 'active' : ''" type="button" @click="star($event)">
                                     <i class="fa fa-star fa-fw" aria-hidden="true"></i>&nbsp;{{ _note.star }}
