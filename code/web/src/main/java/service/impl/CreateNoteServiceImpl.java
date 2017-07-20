@@ -4,11 +4,13 @@ import com.google.gson.JsonObject;
 import dao.mongodbDao.NoteDao;
 import dao.mongodbDao.NotebookDao;
 import dao.mongodbDao.UserDao;
+import dao.mysqlDao.AuthDao;
 import dao.mysqlDao.NotebookInfoDao;
 import dao.mysqlDao.UserInfoDao;
 import model.mongodb.Note;
 import model.mongodb.Notebook;
 import model.mongodb.User;
+import model.mysql.Auth;
 import model.mysql.NotebookInfo;
 import model.mysql.UserInfo;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +34,7 @@ public class CreateNoteServiceImpl implements CreateNoteService{
     private NoteDao noteDao;
     private NotebookDao notebookDao;
     private NotebookInfoDao notebookInfoDao;
+    private AuthDao authDao;
     private UserDao userDao;
     private UserInfoDao userInfoDao;
 
@@ -50,6 +53,10 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         this.notebookInfoDao = notebookInfoDao;
     }
 
+    public void setAuthDao(AuthDao authDao) {
+        this.authDao = authDao;
+    }
+
     public void setQualityUtil(QualityUtil qualityUtil) {
         this.qualityUtil = qualityUtil;
     }
@@ -63,12 +70,6 @@ public class CreateNoteServiceImpl implements CreateNoteService{
 
     }
 
-    /**
-     * createNotebook
-     * @param userId 创建者Id
-     * @param notebookName 笔记本名称
-     * @return 1为成功，0为失败
-     */
     public int createNotebook(int userId, String notebookName) {
         NotebookInfo notebookInfo= new NotebookInfo();
         ArrayList<Integer> collaborators = new ArrayList<Integer>();
@@ -78,8 +79,10 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         Date createTime = new Date();
         Notebook notebook = new Notebook(notebookName, new String(), userId, userId, 0, 0, 0,
                 collaborators, contributors, new ArrayList<Integer>(), createTime, "default_notecover.png",
-                new ArrayList<Integer>(), new ArrayList<Integer>());
+                new ArrayList<Integer>(), new ArrayList<Integer>());//TODO tags, cover, description
         int notebookId = notebookInfoDao.addNotebookInfo(notebookInfo);
+        Auth auth = new Auth(userId, notebookId, "owner");
+        authDao.addAuth(auth);
         notebook.setNotebookId(notebookId);
         notebookDao.addNotebook(notebook);
 
@@ -88,7 +91,7 @@ public class CreateNoteServiceImpl implements CreateNoteService{
         notebooks.add(notebookId);
         user.setNotebooks(notebooks);
         userDao.updateUser(user);
-        return 1;
+        return notebookId;
     }
 
     /**

@@ -77,7 +77,7 @@ public interface NoteManageService {
 
 
     String getNotebookDetail(int notebookId);
-    void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription);
+    void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription, String newCover, String newTags);
     String getCollaborators(int notebookId);
 
 

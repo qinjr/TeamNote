@@ -298,21 +298,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form role="form">
+                <form id="creatNotebookForm">
                     <div class="form-group">
                         <label for="notebookTitle" class="form-control-label">笔记本标题</label>
-                        <input type="text" class="form-control" id="notebookTitle">
+                        <input type="text" class="form-control" id="notebookTitle" name="notebookTitle">
                     </div>
                     <div class="form-group">
                         <label for="tag" class="form-control-label">标签</label>
-                        <input type="text" class="form-control" id="tag" placeholder="请用分号（；）分隔标签">
+                        <input type="text" class="form-control" id="tag" name="tag" placeholder="请用分号（；）分隔标签">
                     </div>
                     <div class="form-group">
                         <label for="description" class="form-control-label">简介</label>
-                        <textarea rows="3" class="form-control" id="description"></textarea>
+                        <textarea rows="3" class="form-control" id="description" name="description"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="notebookCover" class="form-control-label">笔记本封面</label>
+                        <label for="notebookCover" class="form-control-label" id="nootbookCoverLabel">笔记本封面</label>
                         <div>
                             <img src="" id="avatar" class="img-150px">
                             <br>
@@ -327,7 +327,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-primary" id="newNotebook">确认</button>
             </div>
         </div>
     </div>
@@ -761,5 +761,36 @@
                 this.tags = response.body;
             });
         }
+    });
+
+    document.getElementById("notebookCover").onchange = function() {
+        var path = $('#notebookCover').val();
+        var $input = document.getElementById("notebookCover");
+        var $label = $('#nootbookCoverLabel');
+        var file_name = path.split("\\")[2];
+        if (file_name.length > 12) {
+            file_name = file_name.substr(0, 12) + "...";
+        }
+        $label[0].innerText = file_name;
+        $label.append($input);
+    };
+
+    $('#newNotebook').click(function(){
+        var createNotebookForm = new FormData($('#creatNotebookForm')[0]);
+        $.ajax({
+            url : "/teamnote/createNotebook",
+            type : "post",
+            data : createNotebookForm,
+            processData : false,
+            contentType : false,
+            success : function(data) {
+                var json = JSON.parse(data);
+                if (json.result === "success")
+                    location.reload();
+                else {
+                    alert("Error during creating notebook.")
+                }
+            }
+        })
     })
 </script>

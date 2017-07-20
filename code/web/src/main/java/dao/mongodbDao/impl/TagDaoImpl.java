@@ -34,7 +34,8 @@ public class TagDaoImpl implements TagDao{
                     maxTag = entry;
                 }
             }
-            tag.setTagId(maxTag.getTagId() + 1);
+            id = maxTag.getTagId() + 1;
+            tag.setTagId(id);
         }
         mongoTemplate.insert(tag, "Tag");
         return id;
@@ -58,6 +59,12 @@ public class TagDaoImpl implements TagDao{
     public Tag getTagById(int tagId){
         Query query = new Query();
         query.addCriteria(new Criteria("tagId").is(tagId));
+        return mongoTemplate.findOne(query, Tag.class,"Tag");
+    }
+
+    public Tag getTagByName(String tagName){
+        Query query = new Query();
+        query.addCriteria(new Criteria("tagName").is(tagName));
         return mongoTemplate.findOne(query, Tag.class,"Tag");
     }
 
