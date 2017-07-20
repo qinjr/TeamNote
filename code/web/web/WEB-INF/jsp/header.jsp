@@ -37,7 +37,7 @@
                         <a class="nav-link" href="<%=path%>/index"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp;首页</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#"><i class="fa fa-paint-brush fa-fw" aria-hidden="true"></i>&nbsp;探索</a>
+                        <a class="nav-link" href="<%=path%>/explore"><i class="fa fa-paint-brush fa-fw" aria-hidden="true"></i>&nbsp;探索</a>
                     </li>
                 </ul>
                 <div class="col-lg-4">
