@@ -26,10 +26,11 @@
         <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/index" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/explore" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/homepage" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/settings" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/workgroup" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/test" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/notebook" access="hasRole('ROLE_USER')"/>
 
         <form-login
                 username-parameter="username"
