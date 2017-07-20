@@ -28,8 +28,9 @@
                     </p>
                     <p><a href="javascript:void(0)" @click="following()">关注人 {{ followingsnum }}</a> · <a href="javascript:void(0)" @click="followed()">关注者 {{ followersnum }}</a></p>
                 </div>
-                <div class="col-md-3">
-                    <button class="btn btn-outline-primary info-follow" v-if="!self">关注用户</button>
+                <div class="col-md-3" :index="userId">
+                    <button v-if="isFollowed && !self" class="btn btn-primary info-follow" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
+                    <button v-else-if="!isFollowed && !self" class="btn btn-outline-primary info-follow" style="width: 98px;" @click="follow()">关注</button>
                 </div>
             </div>
         </div>
@@ -198,8 +199,8 @@
                         <div class="card user-card" v-for="(user, index) in followings" :index="index">
                             <div>
                                 <img class="card-img-top img-100px rounded" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
-                                <button v-if="user.isFollowed" class="btn btn-sm btn-primary btn-user-card float-right btn-following" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
-                                <button v-else-if="!user.isFollowed" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;" @click="follow($event)">关注</button>
+                                <button v-if="user.isFollowed && !_self(user.userId)" class="btn btn-sm btn-primary btn-user-card float-right btn-following" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
+                                <button v-else-if="!user.isFollowed && !_self(user.userId)" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;" @click="follow($event)">关注</button>
                             </div>
                             <div class="card-block" style="padding-top: 0;">
                                 <a class="card-username" :href="'<%=path%>/homepage?userId=' + user.userId"><h5 class="card-title">{{ user.username }}</h5></a>
@@ -221,8 +222,8 @@
                         <div class="card user-card" v-for="(user, index) in followers" :index="index">
                             <div>
                                 <img class="card-img-top img-100px rounded" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
-                                <button v-if="user.isFollowed" class="btn btn-sm btn-primary btn-user-card float-right" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
-                                <button v-else-if="!user.isFollowed" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;" @click="follow($event)">关注</button>
+                                <button v-if="user.isFollowed && !_self(user.userId)" class="btn btn-sm btn-primary btn-user-card float-right" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
+                                <button v-else-if="!user.isFollowed && !_self(user.userId)" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;" @click="follow($event)">关注</button>
                             </div>
                             <div class="card-block" style="padding-top: 0;">
                                 <a class="card-username" :href="'<%=path%>/homepage?userId=' + user.userId"><h5 class="card-title">{{ user.username }}</h5></a>
@@ -284,9 +285,11 @@
             personalStatus: null,
             email: null,
             avatar : null,
+            userId: null,
             followersnum : null,
             followingsnum : null,
-            self : null
+            self : null,
+            isFollowed: null
         },
         created: function() {
             this.$http.get('/teamnote/userdetail', { params: { userId: <%=userId%> } }).then(function(response){
@@ -294,11 +297,13 @@
                 info.personalStatus = JSON.parse(response.body.user).personalStatus;
                 info.email = JSON.parse(response.body.userInfo).email;
                 info.avatar = JSON.parse(response.body.user).avatar;
+                info.userId = JSON.parse(response.body.user).userId;
                 info.followersnum = JSON.parse(response.body.user).followers.length;
                 info.followingsnum = JSON.parse(response.body.user).followings.length;
                 info.self = response.body.self;
                 if (!info.self) {
                     $('#workgroup-tab').remove();
+                    info.isFollowed = response.body.isFollowed;
                 }
             }, function() {
                 console.log("user info error")
@@ -311,6 +316,47 @@
             },
             followed: function() {
                 $('#follower-tab').tab('show');
+            },
+            hover: function(e) {
+                var btn = e.currentTarget;
+                btn.textContent = "取消关注";
+                $(btn).removeClass('btn-primary');
+                $(btn).addClass('btn-danger');
+            },
+            _hover: function(e) {
+                var btn = e.currentTarget;
+                btn.textContent = "正在关注";
+                $(btn).removeClass('btn-danger');
+                $(btn).addClass('btn-primary');
+            },
+            unfollow: function(e) {
+                var confirm = window.confirm("您将取消关注用户 " + this.username);
+                if (confirm) {
+                    var userId = this.userId;
+                    this.$http.post('/teamnote/unfollow', {
+                        userId: userId
+                    }, {
+                        responseType: "json",
+                        emulateJSON: true
+                    }).then(function(response) {
+                        info.followingsnum--;
+                        this.isFollowed = 0;
+                        e.target.textContent = "关注";
+
+                    })
+                }
+            },
+            follow: function() {
+                var userId = this.userId;
+                this.$http.post('/teamnote/follow', {
+                    userId: userId
+                }, {
+                    responseType: "json",
+                    emulateJSON: true
+                }).then(function(response) {
+                    info.followingsnum++;
+                    this.isFollowed = 1;
+                })
             }
         }
     });
@@ -468,6 +514,9 @@
             });
         },
         methods: {
+            _self: function(userId) {
+                return (userId === user.userId)
+            },
             hover: function(e) {
                 var btn = e.currentTarget;
                 btn.textContent = "取消关注";
@@ -535,6 +584,9 @@
             });
         },
         methods: {
+            _self: function(userId) {
+                return (userId === user.userId)
+            },
             hover: function(e) {
                 var btn = e.currentTarget;
                 btn.textContent = "取消关注";
