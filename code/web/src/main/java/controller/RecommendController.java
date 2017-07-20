@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import service.RecommendService;
 import service.UserBasicService;
@@ -37,5 +38,17 @@ public class RecommendController {
     public String getRecommendNotebooks() {
         int userId = getUserId();
         return recommendService.getRecommendNotebooks(userId);
+    }
+
+    @RequestMapping("/recommendTag")
+    @ResponseBody
+    public String getRecommendTags() {
+        return recommendService.getRecommendTags(getUserId());
+    }
+
+    @RequestMapping("/getBooksOfTag")
+    @ResponseBody
+    public String getBooksOfTag(@RequestParam("tagId") int tagId) {
+        return recommendService.getBooksOfTag(tagId, getUserId());
     }
 }

@@ -42,7 +42,7 @@ public interface CooperateService {
 
 
     /**
-     * raiseAdvice
+     * raiseSuggestion
      * @param userId 提意见者Id
      * @param noteId 提出意见的noteId
      * @param content 修改后的笔记内容
@@ -50,7 +50,7 @@ public interface CooperateService {
      * @param datetime 提交修改建议的时间
      * @return 1为提交成功，0为提交失败
      */
-    int raiseAdvice(int userId, int noteId, String content, String issue, Date datetime, String username);
+    int raiseSuggestion(int userId, int noteId, String content, String issue, Date datetime, String username);
 
 
     /**

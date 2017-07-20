@@ -91,7 +91,7 @@ public class RecommendServiceImpl implements RecommendService {
 
         //cold start
         if (notebooks.size() == 0) {
-            ArrayList<Tag> allTags = (ArrayList<Tag>)tagDao.getAllTags();
+            ArrayList<Tag> allTags = (ArrayList<Tag>) tagDao.getAllTags();
             Set<Integer> notebookIdSet = new HashSet<Integer>();
             for (Tag tag : allTags) {
                 int notebookId = tag.getBooksOfTag().get(0);
@@ -132,5 +132,51 @@ public class RecommendServiceImpl implements RecommendService {
             }
         }
         return new Gson().toJson(notebooks);
+    }
+
+    public String getRecommendTags(int userId) {
+        ArrayList<Tag> tags = (ArrayList<Tag>) tagDao.getAllTags();
+        return new Gson().toJson(tags);
+    }
+
+    public String getBooksOfTag(int tagId, int userId) {
+        User user = userDao.getUserById(userId);
+        Tag tag = tagDao.getTagById(tagId);
+        ArrayList<JsonObject> booksOfTag = new ArrayList<JsonObject>();
+
+        for (Integer notebookId : tag.getBooksOfTag()) {
+            Notebook notebook = notebookDao.getNotebookById(notebookId);
+            JsonObject json = new JsonObject();
+            json.addProperty("owner", userDao.getUserById(notebook.getOwner()).getUsername());
+            json.addProperty("ownerId", userDao.getUserById(notebook.getOwner()).getUserId());
+            json.addProperty("creator", userDao.getUserById(notebook.getCreator()).getUsername());
+            json.addProperty("creatorId", userDao.getUserById(notebook.getCreator()).getUserId());
+            json.addProperty("title", notebook.getTitle());
+            json.addProperty("description", notebook.getDescription());
+            json.addProperty("createTime", notebook.getCreateTime().toString());
+            json.addProperty("star", notebook.getStar());
+            json.addProperty("cover", notebook.getCover());
+            json.addProperty("notebookId", notebook.getNotebookId());
+
+            if (notebook.getStarers().contains(userId)) {
+                json.addProperty("stared", 1);
+            } else {
+                json.addProperty("stared", 0);
+            }
+
+            if (user.getCollections().contains(notebook.getNotebookId())) {
+                json.addProperty("collected", 1);
+            } else {
+                json.addProperty("collected", 0);
+            }
+
+            ArrayList<String> tagsOfBook = new ArrayList<String>();
+            for (Integer tagIdOfBook : notebook.getTags()) {
+                tagsOfBook.add(tagDao.getTagById(tagIdOfBook).getTagName());
+            }
+            json.addProperty("tags", new Gson().toJson(tagsOfBook));
+            booksOfTag.add(json);
+        }
+        return new Gson().toJson(booksOfTag);
     }
 }

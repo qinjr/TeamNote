@@ -1,5 +1,6 @@
 package controller;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.itextpdf.text.DocumentException;
 import model.mongodb.Note;
@@ -156,7 +157,7 @@ public class NoteController {
     @ResponseBody
     public String getNote(@RequestParam(value = "noteId") int noteId) {
         Note note = noteManageService.getNoteById(noteId);
-        return note.getHistory().get(note.getVersionPointer());
+        return new Gson().toJson(note);
     }
 
     @RequestMapping(value = "/deleteNote")

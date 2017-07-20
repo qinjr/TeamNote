@@ -184,7 +184,7 @@ public class CooperateController {
 
     @RequestMapping("/sendMsg")
     @ResponseBody
-    String sendMsg(@RequestParam("notebookId") int notebookId, @RequestParam("text") String text) {
+    public String sendMsg(@RequestParam("notebookId") int notebookId, @RequestParam("text") String text) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
@@ -200,7 +200,7 @@ public class CooperateController {
 
     @RequestMapping("/getGroupChat")
     @ResponseBody
-    String getGroupChat(@RequestParam("notebookId") int notebookId, @RequestParam("lastChat") int lastChat) {
+    public String getGroupChat(@RequestParam("notebookId") int notebookId, @RequestParam("lastChat") int lastChat) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         UserInfo userInfo = userBasicService.getUserInfoByUsername(username);
@@ -214,6 +214,21 @@ public class CooperateController {
         json.addProperty("result", resultList);
         json.addProperty("currentUser", userId);
         json.addProperty("lastChat", lastChat);
+        return json.toString();
+    }
+
+    @RequestMapping("/raiseSuggestion")
+    @ResponseBody
+    public String raiseSuggestion(@RequestParam("noteId") int noteId, @RequestParam("content") String content,
+                                  @RequestParam("issue") String issue) {
+        int userId = getUserId();
+        User user = userBasicService.getUserById(userId);
+        JsonObject json = new JsonObject();
+        if (cooperateService.raiseSuggestion(userId, noteId, content, issue, new Date(), user.getUsername()) == 1) {
+            json.addProperty("result", "success");
+        } else {
+            json.addProperty("result", "failed");
+        }
         return json.toString();
     }
 }

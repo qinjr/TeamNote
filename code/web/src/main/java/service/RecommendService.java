@@ -14,4 +14,20 @@ public interface RecommendService {
      * @return 推荐系统选出的笔记本，以Json List的形式返回
      */
     String getRecommendNotebooks(int userId);
+
+
+    /**
+     * getRecommendTags
+     * @param userId 发起请求的Id
+     * @return 推荐系统选出的tag
+     */
+    String getRecommendTags(int userId);
+
+    /**
+     * getBooksOfTag
+     * @param tagId tagId
+     * @param userId login userId
+     * @return 这个tag的书
+     */
+    String getBooksOfTag(int tagId, int userId);
 }

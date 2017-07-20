@@ -181,7 +181,7 @@ public class CooperateServiceImpl implements CooperateService {
         return 1;
     }
 
-    public int raiseAdvice(int userId, int noteId, String content, String issue, Date datetime, String username) {
+    public int raiseSuggestion(int userId, int noteId, String content, String issue, Date datetime, String username) {
         int notebookId = noteDao.getNoteById(noteId).getNotebookId();
         Suggestion suggestion = new Suggestion(userId, noteId, notebookId, content, issue, datetime, "not accepted", username);
         int suggestionId = suggestionDao.addSuggestion(suggestion);
