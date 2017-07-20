@@ -198,8 +198,8 @@
                         <div class="card user-card" v-for="(user, index) in followings" :index="index">
                             <div>
                                 <img class="card-img-top img-100px rounded" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
-                                <button v-if="user.isFollowed  && !user.self" class="btn btn-sm btn-primary btn-user-card float-right btn-following" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
-                                <button v-else-if="!user.isFollowed && !user.self" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;" @click="follow($event)">关注</button>
+                                <button v-if="user.isFollowed" class="btn btn-sm btn-primary btn-user-card float-right btn-following" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
+                                <button v-else-if="!user.isFollowed" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;" @click="follow($event)">关注</button>
                             </div>
                             <div class="card-block" style="padding-top: 0;">
                                 <a class="card-username" :href="'<%=path%>/homepage?userId=' + user.userId"><h5 class="card-title">{{ user.username }}</h5></a>
@@ -221,8 +221,8 @@
                         <div class="card user-card" v-for="(user, index) in followers" :index="index">
                             <div>
                                 <img class="card-img-top img-100px rounded" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
-                                <button v-if="user.isFollowed && !user.self" class="btn btn-sm btn-primary btn-user-card float-right" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
-                                <button v-else-if="!user.isFollowed && !user.self" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;" @click="follow($event)">关注</button>
+                                <button v-if="user.isFollowed" class="btn btn-sm btn-primary btn-user-card float-right" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
+                                <button v-else-if="!user.isFollowed" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;" @click="follow($event)">关注</button>
                             </div>
                             <div class="card-block" style="padding-top: 0;">
                                 <a class="card-username" :href="'<%=path%>/homepage?userId=' + user.userId"><h5 class="card-title">{{ user.username }}</h5></a>
@@ -486,14 +486,14 @@
                 if (confirm) {
                     var userId = this.followings[index].userId;
                     this.$http.post('/teamnote/unfollow', {
+                        userId: userId
+                    }, {
                         responseType: "json",
-                        params: {
-                            userId: userId
-                        },
                         emulateJSON: true
                     }).then(function(response) {
                         if (following.self) {
                             following.followings.splice(index, 1);
+                            info.followingsnum--;
                         }
                     })
                 }
@@ -502,13 +502,15 @@
                 var index = $(e.currentTarget.parentElement.parentElement).attr('index');
                 var userId = this.followings[index].userId;
                 this.$http.post('/teamnote/follow', {
+                    userId: userId
+                }, {
                     responseType: "json",
-                    params: {
-                        userId: userId
-                    },
                     emulateJSON: true
                 }).then(function(response) {
-                    follower.followers[index].isFollowed = 1;
+                    following.followings[index].isFollowed = 1;
+                    if (following.self) {
+                        info.followingsnum++;
+                    }
                 })
             }
         }
@@ -557,7 +559,10 @@
                         emulateJSON: true
                     }).then(function(response) {
                         follower.followers[index].isFollowed = 0;
-                        e.currentTarget.textContent = "关注";
+                        e.target.textContent = "关注";
+                        if (following.self) {
+                            info.followingsnum--;
+                        }
                     })
                 }
             },
@@ -573,6 +578,7 @@
                     follower.followers[index].isFollowed = 1;
                     if (follower.self) {
                         following.followings.push(response.body);
+                        info.followingsnum++;
                     }
                 })
             }
