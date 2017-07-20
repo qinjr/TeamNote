@@ -14,7 +14,7 @@ public class NotebookInfoDaoImpl extends HibernateDaoSupport implements Notebook
     public Integer addNotebookInfo(NotebookInfo notebookInfo) {
         getHibernateTemplate().save(notebookInfo);
         List<NotebookInfo> notebookInfos = (List<NotebookInfo>) getHibernateTemplate().find(
-                "from NotebookInfo as n where n.notebookId=(select max(notebookId) from NoteBookInfo)");
+                "from NotebookInfo as n where n.notebookId=(select max(notebookId) from NotebookInfo)");
         return notebookInfos.size() > 0 ? notebookInfos.get(0).getNotebookId() : -1;
     }
 

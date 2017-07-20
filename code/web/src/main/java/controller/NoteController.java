@@ -24,6 +24,7 @@ import service.UserBasicService;
 
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -56,9 +57,17 @@ public class NoteController {
     //Notebook operations:
     @RequestMapping("/createNotebook")
     @ResponseBody
-    public String createNotebook(@RequestParam(value = "notebookName") String notebookName) {
+    public String createNotebook(@RequestParam(value = "notebookTitle") String notebookTitle, @RequestParam(value = "description") String description,
+                                 @RequestParam(value = "tag") String tag, @RequestParam(value = "notebookCover") MultipartFile notebookCover, HttpSession session) throws IOException{
         int userId = getUserId();
-        createNoteService.createNotebook(userId, notebookName);
+        int notebookId = createNoteService.createNotebook(userId, notebookTitle);
+
+        String coverName = Long.toString(System.currentTimeMillis()) + notebookCover.getOriginalFilename();
+        String destPath = session.getServletContext().getRealPath("/image/cover/") + coverName;
+        notebookCover.transferTo(new File(destPath));
+
+        noteManageService.updateNotebookDetail(notebookId, notebookTitle, description, "image/cover/" + coverName, tag);
+
         JsonObject json = new JsonObject();
         json.addProperty("result", "success");
         return json.toString();
@@ -73,8 +82,8 @@ public class NoteController {
     @RequestMapping(value = "/updateNotebookDetail")
     @ResponseBody
     public String updateNotebookDetail(@RequestParam(value = "notebookId") int notebookId, @RequestParam(value = "newTitle") String newTitle,
-                                       @RequestParam(value = "newDescription") String newDescription) {
-        noteManageService.updateNotebookDetail(notebookId, newTitle, newDescription);
+                                       @RequestParam(value = "newDescription") String newDescription, @RequestParam("newCover") String newCover, @RequestParam("newTags") String newTags) {
+        noteManageService.updateNotebookDetail(notebookId, newTitle, newDescription, newCover, newTags);
         JsonObject json = new JsonObject();
         json.addProperty("result", "success");
         return json.toString();

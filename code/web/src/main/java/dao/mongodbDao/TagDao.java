@@ -12,5 +12,6 @@ public interface TagDao {
     void deleteTag(Tag tag);
     void updateTag(Tag tag);
     Tag getTagById(int tagId);
+    Tag getTagByName(String tagName);
     List<Tag> getAllTags();
 }

@@ -235,12 +235,47 @@ public class NoteManageServiceImpl implements NoteManageService {
         noteDao.updateNote(note);
     }
 
-    public void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription) {
+    public void updateNotebookDetail(int notebookId, String newNotebookTitle, String newDescription, String newCover, String newTags) {
         Notebook notebook = notebookDao.getNotebookById(notebookId);
         notebook.setTitle(newNotebookTitle);
         notebook.setDescription(newDescription);
+        notebook.setCover(newCover);
+        System.out.println(notebook.getCover());
+        ArrayList<Integer> tags = notebook.getTags();
+
+        String[] tagsArray=newTags.split(";");
+        int out = 0;
+        for(String tagName : tagsArray){
+            //原来notebook就有这个tag
+            for(int tagId : tags){
+                if(tagDao.getTagById(tagId).getTagName().equals(tagName)) {
+                    out = 1;
+                    break;
+                }
+            }
+            if(out == 1) continue;
+            //数据库中有没有这个tag
+            if(tagDao.getTagByName(tagName) == null) {
+                //新建tag
+                ArrayList<Integer> booksOfTag = new ArrayList<Integer>();
+                booksOfTag.add(notebookId);
+                int tagId = tagDao.addTag(new Tag(tagName, booksOfTag));
+                tags.add(tagId);
+            } else {
+                Tag tag = tagDao.getTagByName(tagName);
+                ArrayList<Integer> booksOfTag = tag.getBooksOfTag();
+                booksOfTag.add(notebookId);
+                tag.setBooksOfTag(booksOfTag);
+                tagDao.updateTag(tag);
+                tags.add(tag.getTagId());
+            }
+        }
+
+        notebook.setTags(tags);
         notebookDao.updateNotebook(notebook);
     }
+
+
 
     public String getHistory(int noteId) {
         Note note = noteDao.getNoteById(noteId);
