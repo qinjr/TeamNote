@@ -11,10 +11,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class ViewController {
-    @RequestMapping("/test")
-    public String test() {
-        return "test";
-    }
 
     @RequestMapping(path = {"/index", "/"})
     public String index() {
