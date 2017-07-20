@@ -35,4 +35,9 @@ public class AuthDaoImpl extends HibernateDaoSupport implements AuthDao {
         ArrayList<Auth> auths = (ArrayList<Auth>) getHibernateTemplate().find("from Auth");
         return auths;
     }
+
+    public Auth getAuthByUserAndNotebook(int userId, int notebookId) {
+        List<Auth> auths = (List<Auth>) getHibernateTemplate().find("from Auth as a where a.userId=? and a.notebookId=?", userId, notebookId);
+        return auths.size() > 0 ? auths.get(0) : null;
+    }
 }

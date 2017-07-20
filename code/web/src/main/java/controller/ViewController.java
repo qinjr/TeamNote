@@ -27,11 +27,6 @@ public class ViewController {
         return "homepage";
     }
 
-    @RequestMapping("/notebook")
-    public String notebook() {
-        return "notebook";
-    }
-
     @RequestMapping("/explore")
     public String explore() {
         return "explore";

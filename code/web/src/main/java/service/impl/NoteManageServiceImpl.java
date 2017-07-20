@@ -3,8 +3,10 @@ package service.impl;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import dao.mongodbDao.*;
+import dao.mysqlDao.AuthDao;
 import dao.mysqlDao.UserInfoDao;
 import model.mongodb.*;
+import model.mysql.Auth;
 import model.mysql.UserInfo;
 import service.NoteManageService;
 
@@ -22,6 +24,11 @@ public class NoteManageServiceImpl implements NoteManageService {
     private TagDao tagDao;
     private UserInfoDao userInfoDao;
     private UserBehaviorDao userBehaviorDao;
+    private AuthDao authDao;
+
+    public void setAuthDao(AuthDao authDao) {
+        this.authDao = authDao;
+    }
 
     public void setUserBehaviorDao(UserBehaviorDao userBehaviorDao) {
         this.userBehaviorDao = userBehaviorDao;
@@ -343,5 +350,14 @@ public class NoteManageServiceImpl implements NoteManageService {
             notebooks.add(json);
         }
         return new Gson().toJson(notebooks);
+    }
+
+    public String relation(int userId, int notebookId) {
+        Auth auth = authDao.getAuthByUserAndNotebook(userId, notebookId);
+        if (auth != null) {
+            return auth.getAuth();
+        } else {
+            return "vistor";
+        }
     }
 }

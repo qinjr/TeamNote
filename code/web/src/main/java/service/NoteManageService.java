@@ -85,5 +85,7 @@ public interface NoteManageService {
     void uncollectNotebook(int userId, int notebookId);
     String getCollectedNotebooks(int userId);
 
+    String relation(int userId, int noteookId);
+
 
 }

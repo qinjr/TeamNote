@@ -118,6 +118,14 @@ public class CooperateController {
         request.setAttribute("notebook", notebook);
         request.setAttribute("notes", notes);
         request.setAttribute("collaborators", collaborators);
+        String relation = noteManageService.relation(getUserId(), notebookId);
+        if (relation.equals("owner")) {
+            request.setAttribute("relation", "owner");
+        } else if (relation.equals("collaborator")) {
+            request.setAttribute("relation", "collaborator");
+        } else {
+            request.setAttribute("relation", "visitor");
+        }
         return "workgroup";
     }
 

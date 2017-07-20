@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.JsonObject;
 import com.itextpdf.text.DocumentException;
 import model.mongodb.Note;
+import model.mongodb.Notebook;
 import model.mysql.UserInfo;
 
 import org.apache.commons.io.FileUtils;
@@ -22,8 +23,10 @@ import service.DownloadService;
 import service.NoteManageService;
 import service.UserBasicService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -68,6 +71,28 @@ public class NoteController {
     @ResponseBody
     public String getNotebookDetail(@RequestParam(value = "notebookId") int notebookId) {
         return noteManageService.getNotebookDetail(notebookId);
+    }
+
+    @RequestMapping(value = "/notebook")
+    public String enterNotebook(@RequestParam(value = "notebookId") int notebookId, HttpServletRequest request) {
+        Notebook notebook = noteManageService.getNotebookById(notebookId);
+        ArrayList<Note> notes = new ArrayList<Note>();
+        for (Integer noteId : notebook.getNotes()) {
+            notes.add(noteManageService.getNoteById(noteId));
+        }
+
+        String relation = noteManageService.relation(getUserId(), notebookId);
+        if (relation.equals("owner")) {
+            request.setAttribute("relation", "owner");
+        } else if (relation.equals("collaborator")) {
+            request.setAttribute("relation", "collaborator");
+        } else {
+            request.setAttribute("relation", "visitor");
+        }
+        request.setAttribute("notebook", notebook);
+        request.setAttribute("notes", notes);
+
+        return "notebook";
     }
 
     @RequestMapping(value = "/updateNotebookDetail")

@@ -12,5 +12,6 @@ public interface AuthDao {
     void deleteAuth(Auth auth);
     void updateAuth(Auth auth);
     Auth getAuthById(int authId);
+    Auth getAuthByUserAndNotebook(int userId, int notebookId);
     ArrayList<Auth> getAllAuths();
 }

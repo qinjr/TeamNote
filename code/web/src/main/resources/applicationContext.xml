@@ -156,6 +156,7 @@
         <property name="tagDao" ref="tagDao" />
         <property name="userInfoDao" ref="userInfoDao" />
         <property name="userBehaviorDao" ref="userBehaviorDao" />
+        <property name="authDao" ref="authDao" />
     </bean>
     <bean id="recommendService" class="service.impl.RecommendServiceImpl">
         <property name="userDao" ref="userDao" />
