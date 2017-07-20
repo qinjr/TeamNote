@@ -7,6 +7,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="header.jsp"%>
+<%@ page import="model.mongodb.Notebook" %>
+<%@ page import="model.mongodb.Note" %>
+<%@ page import="java.util.ArrayList" %>
+<%
+    Notebook notebook = (Notebook) request.getAttribute("notebook");
+    ArrayList<Note> notes = (ArrayList<Note>) request.getAttribute("notes");
+    String relation = (String) request.getAttribute("relation");
+%>
 <div class="row">
     <div class="col-md-2">
         <div style="padding-left: 24px;">
@@ -35,20 +43,42 @@
 <!-- left sidebar -->
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="function-bar">
-        <div class="pre-scrollable" id="left-sidebar-nav" style="padding-right: 10px;">
-
+        <div class="pre-scrollable" style="padding-right: 10px;">
+            <img class="img-75px rounded" src="<%=path%>/<%=notebook.getCover()%>" style="margin-top: 15px; ">
+            <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#left-sidebar">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <br><br>
+            <%
+                if (notes != null) {
+            %>
+            <h5 class="card-title notebook" id="<%=notebook.getNotebookId()%>">
+                <%=notebook.getTitle()%>
+            </h5>
+            <ul style="padding-left: 0;">
+                <%
+                    for (Note note : notes) {
+                        int id = note.getNoteId();
+                %>
+                <li class="bar-note" style="padding-left: 10px; margin-top: 5px; margin-bottom: 5px;">
+                    <a class="note" id="<%=id%>" style="word-break: break-all;" href="javascript:void(0)"><%=note.getTitle()%></a>
+                </li>
+                <%
+                        }
+                    }
+                %>
+            </ul>
         </div>
         <div class="dropdown-divider"></div>
-        <div class="sidebar-btn">
-            <button class="btn btn-outline-warning" id="giveOwnership" style="padding: 8px">转让所有权</button>
-            <button class="btn btn-outline-primary" id="inviteCollaborator">邀请用户</button>
-            <button class="btn btn-secondary" id="newNote">新建笔记</button>
-            <button class="btn btn-outline-primary" id="config" data-toggle="modal" data-target="#configModal">设置</button>
-            <button class="btn btn-danger">取消</button>
-            <button class="btn btn-success" id="callDialog">保存</button>
-            <button class="btn btn-outline-success" style="display:none" id="chooseType">导出</button>
-            <button class="btn btn-outline-success" id="uploadNote">导入</button>
-            <button class="btn btn-outline-secondary" id="changeMode">读写</button>
+        <div class="sidebar-btn" id="function-btn" style="display: none;" >
+            <button class="btn btn-secondary">
+                <i class="fa fa-chevron-up fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)"></i>
+                23
+                <i class="fa fa-chevron-down fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)"></i>
+            </button>
+            <button class="btn btn-outline-primary">评论</button>
+            <button class="btn btn-outline-primary">举报</button>
+            <button class="btn btn-outline-secondary" id="changeMode" @click="changeMode()">读写</button>
         </div>
     </div>
 </nav>
@@ -69,18 +99,41 @@
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',
         contentsCss: '<%=path%>/ckeditor/css/contents.css',
-        skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
+        skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/',
     });
 
-    $('#changeMode').click(function(){
-        if(!CKEDITOR.instances.editor.readOnly) {
-            CKEDITOR.instances.editor.setReadOnly(true);
-            $("#cke_1_top").hide();
-            $("#cke_1_bottom").hide();
-        } else {
-            CKEDITOR.instances.editor.setReadOnly(false);
-            $("#cke_1_top").show();
-            $("#cke_1_bottom").show();
-        }
+
+    $('.note').click(function () {
+        $('#function-btn').show();
     });
+
+    var f_btn = new Vue({
+        el: '#function-btn',
+        data: {
+            count: 0
+        },
+        methods: {
+            hover: function (e) {
+                var icon = e.currentTarget;
+                $(icon).css('color', '#4A90E2')
+            },
+            _hover: function (e) {
+                var icon = e.currentTarget;
+                $(icon).css('color', '')
+            },
+            changeMode: function () {
+                if(!CKEDITOR.instances.editor.readOnly) {
+                    CKEDITOR.instances.editor.setReadOnly(true);
+                    $("#cke_1_top").hide();
+                    $("#cke_1_bottom").hide();
+                } else {
+                    CKEDITOR.instances.editor.setReadOnly(false);
+                    $("#cke_1_top").show();
+                    $("#cke_1_bottom").show();
+                }
+            }
+        }
+
+    })
+
 </script>
