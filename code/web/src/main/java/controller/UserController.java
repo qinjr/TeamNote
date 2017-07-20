@@ -155,7 +155,7 @@ public class UserController {
     @ResponseBody
     public String getFollowers(@RequestParam("userId") int userId) {
         JsonObject json = new JsonObject();
-        String followers = userBasicService.getFollowers(userId);
+        String followers = userBasicService.getFollowers(userId, getUserId());
         json.addProperty("followers", followers);
         if (checkSelf(userId) == 1) {
             json.addProperty("self", true);
@@ -169,7 +169,7 @@ public class UserController {
     @ResponseBody
     public String getFollowings(@RequestParam("userId") int userId) {
         JsonObject json = new JsonObject();
-        String followings = userBasicService.getFollowings(userId);
+        String followings = userBasicService.getFollowings(userId, getUserId());
         json.addProperty("followings", followings);
         if (checkSelf(userId) == 1) {
             json.addProperty("self", true);

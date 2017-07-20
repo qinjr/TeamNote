@@ -66,9 +66,9 @@ public interface UserBasicService {
 
     void deleteQrcode(int userId, String path);
 
-    String getFollowers(int userId);
+    String getFollowers(int userId, int loginUserId);
 
-    String getFollowings(int userId);
+    String getFollowings(int userId, int loginUserId);
 
     String getTagsOfUser(int userId);
 

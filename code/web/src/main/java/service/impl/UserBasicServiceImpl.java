@@ -178,10 +178,11 @@ public class UserBasicServiceImpl implements UserBasicService {
         }
     }
 
-    public String getFollowers(int userId) {
+    public String getFollowers(int userId, int loginUserId) {
         User user = userDao.getUserById(userId);
+        User loginUser = userDao.getUserById(loginUserId);
         ArrayList<Integer> followersIds = user.getFollowers();
-        ArrayList<Integer> followings = user.getFollowings();
+        ArrayList<Integer> loginFollowings = loginUser.getFollowings();
         ArrayList<JsonObject> followers = new ArrayList<JsonObject>();
         for (Integer followerId : followersIds) {
             User follower = userDao.getUserById(followerId);
@@ -190,7 +191,7 @@ public class UserBasicServiceImpl implements UserBasicService {
             json.addProperty("username", follower.getUsername());
             json.addProperty("avatar", follower.getAvatar());
             json.addProperty("personalStatus", follower.getPersonalStatus());
-            if (followings.contains(follower.getUserId()))
+            if (loginFollowings.contains(follower.getUserId()))
                 json.addProperty("isFollowed", 1);
             else
                 json.addProperty("isFollowed", 0);
@@ -199,13 +200,24 @@ public class UserBasicServiceImpl implements UserBasicService {
         return new Gson().toJson(followers);
     }
 
-    public String getFollowings(int userId) {
+    public String getFollowings(int userId, int loginUserId) {
         User user = userDao.getUserById(userId);
+        User loginUser = userDao.getUserById(loginUserId);
+        ArrayList<Integer> loginFollowings = loginUser.getFollowings();
         ArrayList<Integer> followingsIds = user.getFollowings();
-        ArrayList<User> followings = new ArrayList<User>();
+        ArrayList<JsonObject> followings = new ArrayList<JsonObject>();
         for (Integer followingId : followingsIds) {
             User following = userDao.getUserById(followingId);
-            followings.add(following);
+            JsonObject json = new JsonObject();
+            json.addProperty("userId", following.getUserId());
+            json.addProperty("username", following.getUsername());
+            json.addProperty("avatar", following.getAvatar());
+            json.addProperty("personalStatus", following.getPersonalStatus());
+            if (loginFollowings.contains(following.getUserId()))
+                json.addProperty("isFollowed", 1);
+            else
+                json.addProperty("isFollowed", 0);
+            followings.add(json);
         }
         return new Gson().toJson(followings);
     }
@@ -227,7 +239,7 @@ public class UserBasicServiceImpl implements UserBasicService {
         following.setFollowings(followingList);
 
         User followed = userDao.getUserById(followedId);
-        ArrayList<Integer> followerList = following.getFollowers();
+        ArrayList<Integer> followerList = followed.getFollowers();
         followerList.add(followingId);
         followed.setFollowers(followerList);
 
