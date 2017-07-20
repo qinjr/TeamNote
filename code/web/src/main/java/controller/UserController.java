@@ -3,7 +3,6 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import model.mongodb.User;
-import model.mongodb.UserBehavior;
 import model.mysql.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
