@@ -69,7 +69,33 @@
 
             <div class="tab-content" id="homepageTabContent">
                 <!-- TODO: activity -->
-                <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab" aria-expanded="true">activity</div>
+                <div class="tab-pane fade show active" id="activity" role="tabpanel" aria-labelledby="activity-tab" aria-expanded="true">
+                    <div style="margin-top: 10px; margin-bottom: 10px;">
+                        <div v-for="_activity in activity">
+                            <!-- TODO: upvote note -->
+                            <p v-if="_activity.type === 1" style="margin-bottom: 0;">
+
+                            </p>
+                            <!-- TODO: star notebook -->
+                            <p v-else-if="_activity.type === 2" style="margin-bottom: 0;">
+                                <label class="activity-label">{{ date(_activity.time) }}</label>&nbsp;
+                                <strong>rudeigerc</strong>&nbsp;
+                                标星了笔记本<i class="fa fa-book" aria-hidden="true"></i>&nbsp;<a :href="'<%=path%>/notebook?notebook=' + _activity.targetId" class="activity-target"><strong>{{ _activity.targetName }}</strong></a>
+                            </p>
+                            <!-- TODO: collect notebook -->
+                            <p v-else-if="_activity.type === 3" style="margin-bottom: 0;">
+                                <label class="activity-label">{{ date(_activity.time) }}</label>&nbsp;
+                                <strong>rudeigerc</strong>&nbsp;
+                                收藏了笔记本<i class="fa fa-book" aria-hidden="true"></i>&nbsp;<a :href="'<%=path%>/notebook?notebook=' + _activity.targetId" class="activity-target"><strong>{{ _activity.targetName }}</strong></a>
+                            </p>
+                            <!-- TODO: follow tag -->
+                            <p v-else-if="_activity.type === 4" style="margin-bottom: 0;">
+
+                            </p>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- notebook -->
                 <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">
@@ -283,8 +309,19 @@
                     </div>
                     <div class="form-group">
                         <label for="description" class="form-control-label">简介</label>
-                        <textarea rows="3" class="form-control" id="description">
-                        </textarea>
+                        <textarea rows="3" class="form-control" id="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="notebookCover" class="form-control-label">笔记本封面</label>
+                        <div>
+                            <img src="" id="avatar" class="img-150px">
+                            <br>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-secondary file-chooser-label" id="file_upload_label" style="margin-top: 0;">选择上传的图片
+                                    <input type="file" class="form-control-file file-chooser" id="notebookCover" name="notebookCover">
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -402,25 +439,26 @@
         }
     });
 
-    var workgroups = new Vue({
-        el: '#workgroup',
+    var activity = new Vue({
+        el: '#activity',
         data: {
-            workgroupsdetails: [],
-            self : null,
-            loading: true
+            activity: []
         },
-        created: function () {
-            this.$http.get('/teamnote/cooperate/allworkgroups', { params: { userId: <%=userId%> } }).then(function(response){
-                this.loading = false;
-                workgroups.workgroupsdetails = JSON.parse(response.body.workgroups);
-                workgroups.self = response.body.self;
-            }, function() {
-                console.log("workgroup error");
-            });
+        created: function() {
+            this.$http.get('/teamnote/getUserBehaviors', {
+                responseType: "json",
+                params: {
+                    userId: <%=userId%>
+                }
+            }).then(function(response){
+                for (var json in response.body) {
+                    this.activity.push(JSON.parse(response.body[json]))
+                }
+            })
         },
         methods: {
-            w_date: function(date) {
-                return moment(date, "MMM D, YYYY h:mm:ss A").format("YYYY-MM-DD HH:mm:ss")
+            date: function(date) {
+                return moment(date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
             }
         }
     });
@@ -509,6 +547,29 @@
                         }
                     })
                 }
+            }
+        }
+    });
+
+    var workgroups = new Vue({
+        el: '#workgroup',
+        data: {
+            workgroupsdetails: [],
+            self : null,
+            loading: true
+        },
+        created: function () {
+            this.$http.get('/teamnote/cooperate/allworkgroups', { params: { userId: <%=userId%> } }).then(function(response){
+                this.loading = false;
+                workgroups.workgroupsdetails = JSON.parse(response.body.workgroups);
+                workgroups.self = response.body.self;
+            }, function() {
+                console.log("workgroup error");
+            });
+        },
+        methods: {
+            w_date: function(date) {
+                return moment(date, "MMM D, YYYY h:mm:ss A").format("YYYY-MM-DD HH:mm:ss")
             }
         }
     });
