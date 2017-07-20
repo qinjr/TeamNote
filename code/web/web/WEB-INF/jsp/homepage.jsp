@@ -198,7 +198,8 @@
                         <div class="card user-card" v-for="(user, index) in followings" :index="index">
                             <div>
                                 <img class="card-img-top img-100px rounded" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
-                                <button class="btn btn-sm btn-primary btn-user-card float-right btn-following" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
+                                <button v-if="user.isFollowed  && !user.self" class="btn btn-sm btn-primary btn-user-card float-right btn-following" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
+                                <button v-else-if="!user.isFollowed && !user.self" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;" @click="follow($event)">关注</button>
                             </div>
                             <div class="card-block" style="padding-top: 0;">
                                 <a class="card-username" :href="'<%=path%>/homepage?userId=' + user.userId"><h5 class="card-title">{{ user.username }}</h5></a>
@@ -220,8 +221,8 @@
                         <div class="card user-card" v-for="(user, index) in followers" :index="index">
                             <div>
                                 <img class="card-img-top img-100px rounded" src="" :src="'<%=path%>' + user.avatar" :alt="user.username" style="margin: 20px;">
-                                <button v-if="user.isFollowed" class="btn btn-sm btn-primary btn-user-card float-right" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
-                                <button v-else="" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;">关注</button>
+                                <button v-if="user.isFollowed && !user.self" class="btn btn-sm btn-primary btn-user-card float-right" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="unfollow($event)">正在关注</button>
+                                <button v-else-if="!user.isFollowed && !user.self" class="btn btn-sm btn-outline-primary btn-user-card float-right" style="width: 74px;" @click="follow($event)">关注</button>
                             </div>
                             <div class="card-block" style="padding-top: 0;">
                                 <a class="card-username" :href="'<%=path%>/homepage?userId=' + user.userId"><h5 class="card-title">{{ user.username }}</h5></a>
@@ -451,16 +452,19 @@
     var following = new Vue({
         el: '#following',
         data: {
-            followings: []
+            followings: [],
+            self: false
         },
         created: function () {
             this.$http.get('/teamnote/getFollowings', {
                 responseType: "json",
                 params: {
                     userId: <%=userId%>
-                }
+                },
+                emulateJSON: true
             }).then(function(response) {
-                this.followings = response.body;
+                this.followings = JSON.parse(response.body.followings);
+                this.self = response.body.self;
             });
         },
         methods: {
@@ -477,16 +481,35 @@
                 $(btn).addClass('btn-primary');
             },
             unfollow: function(e) {
-                // TODO: url
                 var index = $(e.currentTarget.parentElement.parentElement).attr('index');
-                //var confirm = window.confirm("您将取消关注用户 " + this.followings[index].username);
-                bootbox.confirm("您将取消关注用户 " + this.followings[index].username, function(result){
-                    if (result) {
-                        this.$http.post('/teamnote/unfollow').then(function(response) {
+                var confirm = window.confirm("您将取消关注用户 " + this.followings[index].username);
+                if (confirm) {
+                    var userId = this.followings[index].userId;
+                    this.$http.post('/teamnote/unfollow', {
+                        responseType: "json",
+                        params: {
+                            userId: userId
+                        },
+                        emulateJSON: true
+                    }).then(function(response) {
+                        if (following.self) {
                             following.followings.splice(index, 1);
-                        })
-                    }
-                });
+                        }
+                    })
+                }
+            },
+            follow: function(e) {
+                var index = $(e.currentTarget.parentElement.parentElement).attr('index');
+                var userId = this.followings[index].userId;
+                this.$http.post('/teamnote/follow', {
+                    responseType: "json",
+                    params: {
+                        userId: userId
+                    },
+                    emulateJSON: true
+                }).then(function(response) {
+                    follower.followers[index].isFollowed = 1;
+                })
             }
         }
     });
@@ -494,16 +517,19 @@
     var follower = new Vue({
         el: '#follower',
         data: {
-            followers: []
+            followers: [],
+            self: false
         },
         created: function () {
             this.$http.get('/teamnote/getFollowers', {
                 responseType: "json",
                 params: {
                     userId: <%=userId%>
-                }
+                },
+                emulateJSON: true
             }).then(function(response) {
-                this.followers = response.body;
+                this.followers = JSON.parse(response.body.followers);
+                this.self = response.body.self;
             });
         },
         methods: {
@@ -520,22 +546,34 @@
                 $(btn).addClass('btn-primary');
             },
             unfollow: function(e) {
-                // TODO: url
                 var index = $(e.currentTarget.parentElement.parentElement).attr('index');
-                //var confirm = window.confirm("您将取消关注用户 " + this.followings[index].username);
-                bootbox.confirm("您将取消关注用户 " + this.followers[index].username, function(result){
-                    if (result) {
-                        this.$http.post('/teamnote/unfollow').then(function(response) {
-                            follower.followers[index].isFollowed = 0;
-                        })
-                    }
-                });
+                var confirm = window.confirm("您将取消关注用户 " + this.followers[index].username);
+                if (confirm) {
+                    var userId = this.followers[index].userId;
+                    this.$http.post('/teamnote/unfollow', {
+                        userId: userId
+                    }, {
+                        responseType: "json",
+                        emulateJSON: true
+                    }).then(function(response) {
+                        follower.followers[index].isFollowed = 0;
+                        e.currentTarget.textContent = "关注";
+                    })
+                }
             },
             follow: function(e) {
-                // TODO: url
                 var index = $(e.currentTarget.parentElement.parentElement).attr('index');
-                this.$http.post('/teamnote/follow').then(function(response) {
+                var userId = this.followers[index].userId;
+                this.$http.post('/teamnote/follow', {
+                    userId: userId
+                }, {
+                    responseType: "json",
+                    emulateJSON: true
+                }).then(function(response) {
                     follower.followers[index].isFollowed = 1;
+                    if (follower.self) {
+                        following.followings.push(response.body);
+                    }
                 })
             }
 
