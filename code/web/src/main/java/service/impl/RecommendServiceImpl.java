@@ -136,7 +136,14 @@ public class RecommendServiceImpl implements RecommendService {
 
     public String getRecommendTags(int userId) {
         ArrayList<Tag> tags = (ArrayList<Tag>) tagDao.getAllTags();
-        return new Gson().toJson(tags);
+        ArrayList<Integer> userTags = userDao.getUserById(userId).getTags();
+        ArrayList<Tag> recommendTags = new ArrayList<Tag>();
+        for (Tag tag : tags) {
+            if (!userTags.contains(tag.getTagId())) {
+                recommendTags.add(tag);
+            }
+        }
+        return new Gson().toJson(recommendTags);
     }
 
     public String getBooksOfTag(int tagId, int userId) {

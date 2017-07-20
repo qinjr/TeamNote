@@ -77,4 +77,6 @@ public interface UserBasicService {
     void unfollow(int unfollowingId, int unfollowedId);
 
     String getUserBehaviors(int userId);
+
+    void followTag(int userId, int tagId);
 }

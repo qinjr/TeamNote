@@ -186,7 +186,9 @@ public class UserController {
 
     @RequestMapping("/getTagsOfUser")
     @ResponseBody
-    public String getTagsOfUser(@RequestParam("userId") int userId) {
+    public String getTagsOfUser(@RequestParam(value = "userId", required = false, defaultValue = "-1") int userId) {
+        if (Integer.toString(userId).equals("-1"))
+            userId = getUserId();
         String tags = userBasicService.getTagsOfUser(userId);
         return tags;
     }
@@ -212,6 +214,15 @@ public class UserController {
     @ResponseBody
     public String getUserBehaviors(@RequestParam("userId") int userId) {
         return userBasicService.getUserBehaviors(userId);
+    }
+
+    @RequestMapping("/followTag")
+    @ResponseBody
+    public String followTag(@RequestParam("tagId") int tagId) {
+        userBasicService.followTag(getUserId(), tagId);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
     }
 
 }

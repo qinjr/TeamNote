@@ -288,4 +288,12 @@ public class UserBasicServiceImpl implements UserBasicService {
         }
         return new Gson().toJson(reverseBehaviors);
     }
+
+    public void followTag(int userId, int tagId) {
+        User user = userDao.getUserById(userId);
+        ArrayList<Integer> tags = user.getTags();
+        tags.add(tagId);
+        user.setTags(tags);
+        userDao.updateUser(user);
+    }
 }
