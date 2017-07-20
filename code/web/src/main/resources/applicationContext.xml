@@ -103,6 +103,9 @@
     <bean id="ruleDao" class="dao.mongodbDao.impl.RuleDaoImpl">
         <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
+    <bean id="userBehaviorDao" class="dao.mongodbDao.impl.UserBehaviorDaoImpl">
+        <property name="mongoTemplate" ref="mongoTemplate" />
+    </bean>
 
     <!-- Utilities -->
     <bean id="noticeUtil" class="util.impl.NoticeUtilImpl">
@@ -135,6 +138,7 @@
         <property name="authUtil" ref="authUtil" />
         <property name="userInfoDao" ref="userInfoDao" />
         <property name="tagDao" ref="tagDao" />
+        <property name="userBehaviorDao" ref="userBehaviorDao" />
     </bean>
     <bean id="createNoteService" class="service.impl.CreateNoteServiceImpl">
         <property name="noteDao" ref="noteDao" />
@@ -151,6 +155,7 @@
         <property name="userDao" ref="userDao" />
         <property name="tagDao" ref="tagDao" />
         <property name="userInfoDao" ref="userInfoDao" />
+        <property name="userBehaviorDao" ref="userBehaviorDao" />
     </bean>
     <bean id="recommendService" class="service.impl.RecommendServiceImpl">
         <property name="userDao" ref="userDao" />
@@ -168,6 +173,7 @@
         <property name="verifyDao" ref="verifyDao" />
         <property name="userDao" ref="userDao" />
         <property name="commentDao" ref="commentDao" />
+        <property name="userBehaviorDao" ref="userBehaviorDao" />
     </bean>
     <bean id="letterService" class="service.impl.LetterServiceImpl">
         <property name="letterDao" ref="letterDao" />

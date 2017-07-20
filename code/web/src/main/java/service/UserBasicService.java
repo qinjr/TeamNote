@@ -75,4 +75,6 @@ public interface UserBasicService {
     String follow(int followingId, int followedId);
 
     void unfollow(int unfollowingId, int unfollowedId);
+
+    String getUserBehaviors(int userId);
 }

@@ -2,15 +2,9 @@ package service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import dao.mongodbDao.NoteDao;
-import dao.mongodbDao.NotebookDao;
-import dao.mongodbDao.TagDao;
-import dao.mongodbDao.UserDao;
+import dao.mongodbDao.*;
 import dao.mysqlDao.UserInfoDao;
-import model.mongodb.Note;
-import model.mongodb.Notebook;
-import model.mongodb.Tag;
-import model.mongodb.User;
+import model.mongodb.*;
 import model.mysql.UserInfo;
 import service.NoteManageService;
 
@@ -27,6 +21,11 @@ public class NoteManageServiceImpl implements NoteManageService {
     private UserDao userDao;
     private TagDao tagDao;
     private UserInfoDao userInfoDao;
+    private UserBehaviorDao userBehaviorDao;
+
+    public void setUserBehaviorDao(UserBehaviorDao userBehaviorDao) {
+        this.userBehaviorDao = userBehaviorDao;
+    }
 
     public void setUserInfoDao(UserInfoDao userInfoDao) {
         this.userInfoDao = userInfoDao;
@@ -285,6 +284,19 @@ public class NoteManageServiceImpl implements NoteManageService {
             collections.add(notebookId);
         user.setCollections(collections);
         userDao.updateUser(user);
+
+        //user behavior
+        UserBehavior userBehavior = userBehaviorDao.getUserBehaviorById(userId);
+        JsonObject behavior = new JsonObject();
+        behavior.addProperty("time", new Date().toString());
+        behavior.addProperty("type", 3);
+        behavior.addProperty("targetId", notebookId);
+        behavior.addProperty("targetName", notebookDao.getNotebookById(notebookId).getTitle());
+
+        ArrayList<String> behaviors = userBehavior.getBehaviors();
+        behaviors.add(behavior.toString());
+        userBehavior.setBehaviors(behaviors);
+        userBehaviorDao.updateUserBehavior(userBehavior);
     }
 
     public void uncollectNotebook(int userId, int notebookId) {

@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import model.mongodb.User;
+import model.mongodb.UserBehavior;
 import model.mysql.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -207,4 +208,11 @@ public class UserController {
         json.addProperty("result", "success");
         return json.toString();
     }
+
+    @RequestMapping("/getUserBehaviors")
+    @ResponseBody
+    public String getUserBehaviors(@RequestParam("userId") int userId) {
+        return userBasicService.getUserBehaviors(userId);
+    }
+
 }

@@ -3,10 +3,12 @@ package service.impl;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import dao.mongodbDao.TagDao;
+import dao.mongodbDao.UserBehaviorDao;
 import dao.mongodbDao.UserDao;
 import dao.mysqlDao.UserInfoDao;
 import model.mongodb.Tag;
 import model.mongodb.User;
+import model.mongodb.UserBehavior;
 import model.mysql.UserInfo;
 import org.springframework.web.multipart.MultipartFile;
 import service.UserBasicService;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 public class UserBasicServiceImpl implements UserBasicService {
     private UserDao userDao;
     private UserInfoDao userInfoDao;
+    private UserBehaviorDao userBehaviorDao;
     private AuthUtil authUtil;
     private TagDao tagDao;
 
@@ -31,6 +34,9 @@ public class UserBasicServiceImpl implements UserBasicService {
     public void setAuthUtil(AuthUtil authUtil) { this.authUtil = authUtil; }
     public void setTagDao(TagDao tagDao) {
         this.tagDao = tagDao;
+    }
+    public void setUserBehaviorDao(UserBehaviorDao userBehaviorDao) {
+        this.userBehaviorDao = userBehaviorDao;
     }
 
     /**
@@ -49,10 +55,12 @@ public class UserBasicServiceImpl implements UserBasicService {
             String finalPassword = authUtil.encrypt(password);
             UserInfo userInfo = new UserInfo(username, finalPassword, phone, email, "ROLE_USER");
             User user = new User(username, ps, new ArrayList<Integer>(), new ArrayList<Integer>(), new ArrayList<Integer>(), feeds, avatar, new ArrayList<Integer>(),
-                    1, 0, 0, "{ \"valid\": 1, \"qrcode\": \"null\"}");
+                    1, 0, 0, "");
             int userId = userInfoDao.addUserInfo(userInfo);
             user.setUserId(userId);
             userDao.addUser(user);
+            UserBehavior userBehavior = new UserBehavior(userId, new ArrayList<String>());
+            userBehaviorDao.addUserBehavior(userBehavior);
             return 1;
         } catch(Exception e) {
             return 0;
@@ -269,5 +277,15 @@ public class UserBasicServiceImpl implements UserBasicService {
 
         userDao.updateUser(unfollowing);
         userDao.updateUser(unfollowed);
+    }
+
+    public String getUserBehaviors(int userId) {
+        UserBehavior userBehavior = userBehaviorDao.getUserBehaviorById(userId);
+        ArrayList<String> reverseBehaviors = new ArrayList<String>();
+        ArrayList<String> behaviors = userBehavior.getBehaviors();
+        for (int i = behaviors.size() - 1; i >= 0; -- i) {
+            reverseBehaviors.add(behaviors.get(i));
+        }
+        return new Gson().toJson(reverseBehaviors);
     }
 }

@@ -1,5 +1,6 @@
 package service.impl;
 
+import com.google.gson.JsonObject;
 import dao.mongodbDao.*;
 import model.mongodb.*;
 import service.EvaluateService;
@@ -16,6 +17,11 @@ public class EvaluateServiceImpl implements EvaluateService {
     private VerifyDao verifyDao;
     private UserDao userDao;
     private CommentDao commentDao;
+    private UserBehaviorDao userBehaviorDao;
+
+    public void setUserBehaviorDao(UserBehaviorDao userBehaviorDao) {
+        this.userBehaviorDao = userBehaviorDao;
+    }
 
     public CommentDao getCommentDao() {
         return commentDao;
@@ -68,6 +74,19 @@ public class EvaluateServiceImpl implements EvaluateService {
         note.setUpvoters(upvoters);
         note.setDownvoters(downvoters);
         noteDao.updateNote(note);
+
+        //user behavior
+        UserBehavior userBehavior = userBehaviorDao.getUserBehaviorById(userId);
+        JsonObject behavior = new JsonObject();
+        behavior.addProperty("time", new Date().toString());
+        behavior.addProperty("type", 1);
+        behavior.addProperty("targetId", noteId);
+        behavior.addProperty("targetName", note.getTitle());
+
+        ArrayList<String> behaviors = userBehavior.getBehaviors();
+        behaviors.add(behavior.toString());
+        userBehavior.setBehaviors(behaviors);
+        userBehaviorDao.updateUserBehavior(userBehavior);
         return 1;
     }
 
@@ -91,6 +110,19 @@ public class EvaluateServiceImpl implements EvaluateService {
         starers.add(userId);
         notebook.setStarers(starers);
         notebookDao.updateNotebook(notebook);
+
+        //userBehavior
+        UserBehavior userBehavior = userBehaviorDao.getUserBehaviorById(userId);
+        JsonObject behavior = new JsonObject();
+        behavior.addProperty("time", new Date().toString());
+        behavior.addProperty("type", 2);
+        behavior.addProperty("targetId", notebookId);
+        behavior.addProperty("targetName", notebook.getTitle());
+
+        ArrayList<String> behaviors = userBehavior.getBehaviors();
+        behaviors.add(behavior.toString());
+        userBehavior.setBehaviors(behaviors);
+        userBehaviorDao.updateUserBehavior(userBehavior);
         return 1;
     }
 
