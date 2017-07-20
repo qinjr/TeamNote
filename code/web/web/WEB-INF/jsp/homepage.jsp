@@ -73,6 +73,11 @@
 
                 <!-- notebook -->
                 <div class="tab-pane fade" id="notebook" role="tabpanel" aria-labelledby="notebook-tab">
+                    <div class="row flex-row-reverse" style="margin: 20px 0;">
+                        <button class="btn btn-success" data-toggle="modal" data-target="#newNotebookModal">
+                            <i class="fa fa-sticky-note fa-fw" aria-hidden="true"></i>&nbsp;新建笔记本
+                        </button>
+                    </div>
                     <div v-if="note.length === 0">
                         <div class="alert alert-success" role="alert" style="margin-top: 16px;">
                             <i class="fa fa-info-circle" aria-hidden="true"></i>
@@ -255,6 +260,42 @@
     </footer>
 </div>
 
+<div class="modal fade" id="newNotebookModal" tabindex="-1" role="dialog" aria-labelledby="newNotebookModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newNotebookModalLabel">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;新建笔记本
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="notebookTitle" class="form-control-label">笔记本标题</label>
+                        <input type="text" class="form-control" id="notebookTitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="tag" class="form-control-label">标签</label>
+                        <input type="text" class="form-control" id="tag" placeholder="请用分号（；）分隔标签">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="form-control-label">简介</label>
+                        <textarea rows="3" class="form-control" id="description">
+                        </textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/bootbox.min.js"></script>
 <script type="text/javascript">
@@ -400,6 +441,9 @@
             });
         },
         methods: {
+            self: function() {
+                return user.self;
+            },
             json: function(tag) {
                 return JSON.parse(tag);
             },
