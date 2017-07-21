@@ -13,4 +13,5 @@ public interface UserDao {
     void updateUser(User user);
     User getUserById(int userId);
     List<User> getAllUsers();
+    List<User> getUsersByKey(String keyWord);
 }
