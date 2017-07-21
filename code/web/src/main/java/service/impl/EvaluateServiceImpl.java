@@ -70,7 +70,8 @@ public class EvaluateServiceImpl implements EvaluateService {
         ArrayList<Integer> downvoters = note.getDownvoters();
         if (downvoters.contains(userId))
             downvoters.remove((Integer) userId);
-        upvoters.add(userId);
+        if (!upvoters.contains(userId))
+            upvoters.add(userId);
         note.setUpvoters(upvoters);
         note.setDownvoters(downvoters);
         noteDao.updateNote(note);
@@ -96,7 +97,8 @@ public class EvaluateServiceImpl implements EvaluateService {
         ArrayList<Integer> downvoters = note.getDownvoters();
         if (upvoters.contains(userId))
             upvoters.remove((Integer) userId);
-        downvoters.add(userId);
+        if (!downvoters.contains(userId))
+            downvoters.add(userId);
         note.setDownvoters(downvoters);
         note.setUpvoters(upvoters);
         noteDao.updateNote(note);
