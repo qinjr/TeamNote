@@ -67,4 +67,9 @@ public class NotebookDaoImpl implements NotebookDao{
     public List<Notebook> getAllNotebooks(){
         return mongoTemplate.findAll(Notebook.class, "Notebook");
     }
+
+    public List<Notebook> getNotebooksByKey(String keyWord) {
+        Query query = Query.query(Criteria.where("title").regex(keyWord,"i"));
+        return mongoTemplate.find(query, Notebook.class, "Notebook");
+    }
 }

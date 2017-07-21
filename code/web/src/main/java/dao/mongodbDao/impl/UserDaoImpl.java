@@ -63,4 +63,9 @@ public class UserDaoImpl implements UserDao{
     public List<User> getAllUsers(){
         return mongoTemplate.findAll(User.class, "User");
     }
+
+    public List<User> getUsersByKey(String keyWord){
+        Query query = Query.query(Criteria.where("username").regex(keyWord,"i"));
+        return mongoTemplate.find(query, User.class, "User");
+    }
 }

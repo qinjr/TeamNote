@@ -13,4 +13,5 @@ public interface NotebookDao {
     void updateNotebook(Notebook notebook);
     Notebook getNotebookById(int notebookId);
     List<Notebook> getAllNotebooks();
+    List<Notebook> getNotebooksByKey(String keyWord);
 }

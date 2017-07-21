@@ -10,9 +10,9 @@ import java.util.ArrayList;
 public interface SearchService {
     /**
      * search
-     * @param userId 发起搜索的用户
+     * @param type 搜索类型
      * @param keyWord 搜索关键词
-     * @return 返回搜索结果
+     * @return 返回搜索结果JSONArray
      */
-    ArrayList<Notebook> search(int userId, String keyWord);
+    String search(String type, String keyWord);
 }
