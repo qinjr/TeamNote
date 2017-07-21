@@ -124,7 +124,11 @@
     var f_btn = new Vue({
         el: '#function-btn',
         data: {
-            count: 0
+            count: 0,
+            status: null
+        },
+        created: function() {
+
         },
         methods: {
             hover: function (e) {
