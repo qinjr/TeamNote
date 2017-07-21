@@ -70,7 +70,8 @@ public class EvaluateServiceImpl implements EvaluateService {
         ArrayList<Integer> downvoters = note.getDownvoters();
         if (downvoters.contains(userId))
             downvoters.remove((Integer) userId);
-        upvoters.add(userId);
+        if (!upvoters.contains(userId))
+            upvoters.add(userId);
         note.setUpvoters(upvoters);
         note.setDownvoters(downvoters);
         noteDao.updateNote(note);
@@ -80,7 +81,7 @@ public class EvaluateServiceImpl implements EvaluateService {
         JsonObject behavior = new JsonObject();
         behavior.addProperty("time", new Date().toString());
         behavior.addProperty("type", 1);
-        behavior.addProperty("targetId", noteId);
+        behavior.addProperty("targetId", note.getNotebookId());
         behavior.addProperty("targetName", note.getTitle());
 
         ArrayList<String> behaviors = userBehavior.getBehaviors();
@@ -96,7 +97,8 @@ public class EvaluateServiceImpl implements EvaluateService {
         ArrayList<Integer> downvoters = note.getDownvoters();
         if (upvoters.contains(userId))
             upvoters.remove((Integer) userId);
-        downvoters.add(userId);
+        if (!downvoters.contains(userId))
+            downvoters.add(userId);
         note.setDownvoters(downvoters);
         note.setUpvoters(upvoters);
         noteDao.updateNote(note);

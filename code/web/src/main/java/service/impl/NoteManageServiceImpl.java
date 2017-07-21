@@ -2,6 +2,7 @@ package service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import dao.mongodbDao.*;
 import dao.mysqlDao.AuthDao;
 import dao.mysqlDao.UserInfoDao;
@@ -111,6 +112,20 @@ public class NoteManageServiceImpl implements NoteManageService {
 
     public Note getNoteById(int noteId) {
         return noteDao.getNoteById(noteId);
+    }
+
+    public String getNoteDetail(int noteId, int userId) {
+        Note note = noteDao.getNoteById(noteId);
+        JsonObject json = new JsonParser().parse(new Gson().toJson(note)).getAsJsonObject();
+
+        if (note.getUpvoters().contains(userId)) {
+            json.addProperty("evaluate", 1);
+        } else if (note.getDownvoters().contains(userId)) {
+            json.addProperty("evaluate", 2);
+        } else {
+            json.addProperty("evaluate", 3);
+        }
+        return json.toString();
     }
 
     public int deleteNote(int noteId) {

@@ -164,8 +164,8 @@ public class NoteController {
     @RequestMapping(value = "/getNote")
     @ResponseBody
     public String getNote(@RequestParam(value = "noteId") int noteId) {
-        Note note = noteManageService.getNoteById(noteId);
-        return new Gson().toJson(note);
+        int userId = getUserId();
+        return noteManageService.getNoteDetail(noteId, userId);
     }
 
     @RequestMapping(value = "/deleteNote")
