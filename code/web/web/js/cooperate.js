@@ -374,6 +374,7 @@ $(document).ready(function() {
                 var version = json.versionPointer;
                 var history = json.history[version];
                 var content = JSON.parse(history).content;
+                f_btn.count = json.upvoters.length - json.downvoters.length;
                 CKEDITOR.instances.editor.setData(content,{
                     callback: function() {
                         CKEDITOR.instances.editor.resetDirty();

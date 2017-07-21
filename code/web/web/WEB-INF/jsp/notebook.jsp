@@ -32,12 +32,6 @@
             </footer>
         </div>
     </div>
-    <div class="col-md-2">
-        <button class="button btn-outline-secondary navbar-toggle offcanvas-toggle" id="showChat" data-toggle="offcanvas" data-target="#comment-bar" style="border: none; float: right; width: 60px;">
-            TMP
-        </button>
-
-    </div>
 </div>
 
 <!-- left sidebar -->
@@ -45,7 +39,7 @@
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade in" id="function-bar">
         <div class="pre-scrollable" style="padding-right: 10px;">
             <img class="img-75px rounded" src="<%=path%>/<%=notebook.getCover()%>" style="margin-top: 15px; ">
-            <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#left-sidebar">
+            <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#function-bar">
                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
             </button>
             <br><br>
@@ -72,12 +66,12 @@
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn" id="function-btn" style="display: none;" >
             <button class="btn btn-secondary">
-                <i class="fa fa-chevron-up fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)"></i>
-                23
-                <i class="fa fa-chevron-down fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)"></i>
+                <i class="fa fa-chevron-up fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="upvote()"></i>
+                {{ count }}
+                <i class="fa fa-chevron-down fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="downvote()"></i>
             </button>
-            <button class="btn btn-outline-primary">评论</button>
-            <button class="btn btn-outline-primary">举报</button>
+            <button class="btn btn-outline-primary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#comment-bar">评论</button>
+            <button class="btn btn-outline-primary" id="btn-report" data-toggle="modal" data-target="#reportModal">举报</button>
             <button class="btn btn-outline-secondary" id="changeMode" @click="changeMode()">读写</button>
         </div>
     </div>
@@ -90,6 +84,25 @@
     </div>
 </nav>
 
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card card-block" style="width: inherit;">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon">
+                            <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>
+                        </span>
+                        <input type="text" class="form-control" id="report" name="report" @input="observe($event)" placeholder="请输入您的举报理由" aria-describedby="basic-addon">
+                        <span class="input-group-btn">
+                            <button class="btn btn-secondary" type="button" disabled="disabled" @click="report($event)">提交</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
@@ -105,6 +118,7 @@
 
     $('.note').click(function () {
         $('#function-btn').show();
+        $('#btn-report').removeAttr('disabled');
     });
 
     var f_btn = new Vue({
@@ -131,9 +145,62 @@
                     $("#cke_1_top").show();
                     $("#cke_1_bottom").show();
                 }
+            },
+            upvote: function () {
+                /*
+                this.$http.post('/teamnote/evaluate/upvoteNote', {
+                    noteId: noteId
+                }, {
+                    responseType: "text"
+                }).then(function (response) {
+                    f_btn.count++;
+                });
+                */
+                this.$http.get('/teamnote/evaluate/upvoteNote', { params: { noteId: noteId }}).then(function () {
+                    f_btn.count++;
+                })
+            },
+            downvote: function () {
+                this.$http.post('/teamnote/evaluate/downvoteNote', {
+                    noteId: noteId
+                }, {
+                    responseType: "text"
+                }).then(function (response) {
+                    f_btn.count--;
+                })
             }
+
         }
 
+    });
+
+    var report = new Vue({
+        el: '#reportModal',
+        methods: {
+            observe: function(e) {
+                if ($(e.srcElement).val() === "") {
+                    $(e.srcElement.nextElementSibling.children).attr('disabled', 'disabled');
+                } else {
+                    $(e.srcElement.nextElementSibling.children).removeAttr('disabled');
+                }
+            },
+            report: function(e) {
+                var report = $(e.srcElement.parentElement.previousElementSibling).val();
+                $.ajax({
+                    url: "/teamnote/evaluate/reportNote",
+                    type: "post",
+                    data: {
+                        noteId: noteId,
+                        reason: report
+                    },
+                    success: function() {
+                        alert("您的举报已被管理员受理，请耐心等候，谢谢。");
+                        $('#reportModal').modal('hide');
+                        $('#btn-report').attr('disabled', 'disabled');
+                    }
+                })
+            }
+        }
     })
 
 </script>
