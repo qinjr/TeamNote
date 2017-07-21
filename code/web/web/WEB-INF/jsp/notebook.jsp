@@ -127,9 +127,6 @@
             count: 0,
             status: null
         },
-        created: function() {
-
-        },
         methods: {
             hover: function (e) {
                 var icon = e.currentTarget;
@@ -151,29 +148,29 @@
                 }
             },
             upvote: function () {
-                /*
-                this.$http.post('/teamnote/evaluate/upvoteNote', {
-                    noteId: noteId
-                }, {
-                    responseType: "text"
-                }).then(function (response) {
-                    f_btn.count++;
-                });
-                */
-                this.$http.get('/teamnote/evaluate/upvoteNote', { params: { noteId: noteId }}).then(function () {
-                    f_btn.count++;
-                })
+                if (f_btn.status !== 1) {
+                    this.$http.get('/teamnote/evaluate/upvoteNote', { params: { noteId: noteId }}).then(function () {
+                        if (f_btn.status === 3) {
+                            f_btn.count++;
+                        } else if (f_btn.status === 2) {
+                            f_btn.count += 2;
+                        }
+                        f_btn.status = 1;
+                    })
+                }
             },
             downvote: function () {
-                this.$http.post('/teamnote/evaluate/downvoteNote', {
-                    noteId: noteId
-                }, {
-                    responseType: "text"
-                }).then(function (response) {
-                    f_btn.count--;
-                })
+                if (f_btn.status !== 2) {
+                    this.$http.get('/teamnote/evaluate/downvoteNote', { params: { noteId: noteId }}).then(function () {
+                        if (f_btn.status === 3) {
+                            f_btn.count--;
+                        } else if (f_btn.status === 1) {
+                            f_btn.count -= 2;
+                        }
+                        f_btn.status = 2;
+                    })
+                }
             }
-
         }
 
     });
