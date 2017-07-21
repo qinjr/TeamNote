@@ -45,6 +45,15 @@ public interface NoteManageService {
 
 
     /**
+     * getNoteDetail
+     * @param noteId 笔记本Id
+     * @param userId 用户Id
+     * @return 包括是否upvote的信息
+     */
+    String getNoteDetail(int noteId, int userId);
+
+
+    /**
      * deleteNote
      * @param noteId 要删除的note的Id
      * @return 1为成功删除，0为出错

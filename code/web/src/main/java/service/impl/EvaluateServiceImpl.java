@@ -80,7 +80,7 @@ public class EvaluateServiceImpl implements EvaluateService {
         JsonObject behavior = new JsonObject();
         behavior.addProperty("time", new Date().toString());
         behavior.addProperty("type", 1);
-        behavior.addProperty("targetId", noteId);
+        behavior.addProperty("targetId", note.getNotebookId());
         behavior.addProperty("targetName", note.getTitle());
 
         ArrayList<String> behaviors = userBehavior.getBehaviors();
