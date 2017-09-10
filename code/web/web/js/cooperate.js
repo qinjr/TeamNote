@@ -324,6 +324,19 @@ $(document).ready(function() {
         $('#exportModal').modal('hide');
     });
 
+    /* upload image */
+    /*CKEDITOR.instances["editor"].on("instanceReady", function() {
+        this.addCommand("image", {
+            modes : {
+                wysiwyg : 1,
+                source : 1
+            },
+            exec : function() {
+                $('#uploadImageModal').modal('show');
+            }
+        });
+    });*/
+
     /* import note */
     $('#uploadNote').click(function () {
         $('#uploadModalTitle').html("选择文件");
@@ -374,8 +387,6 @@ $(document).ready(function() {
                 var version = json.versionPointer;
                 var history = json.history[version];
                 var content = JSON.parse(history).content;
-                f_btn.count = json.upvoters.length - json.downvoters.length;
-                f_btn.status = json.evaluate;
                 CKEDITOR.instances.editor.setData(content,{
                     callback: function() {
                         CKEDITOR.instances.editor.resetDirty();

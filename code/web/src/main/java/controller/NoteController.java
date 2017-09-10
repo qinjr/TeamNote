@@ -276,4 +276,11 @@ public class NoteController {
         String collectedNotebooks = noteManageService.getCollectedNotebooks(userId);
         return collectedNotebooks;
     }
+
+    @RequestMapping("/uploadNoteImage")
+    @ResponseBody
+    public String upladNoteImage(@RequestParam("upload") MultipartFile file){
+        //TODO
+        return "";
+    }
 }
