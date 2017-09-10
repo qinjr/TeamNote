@@ -88,7 +88,7 @@
                             <p v-else-if="_activity.type === 3" style="margin-bottom: 0;">
                                 <label class="activity-label">{{ date(_activity.time) }}</label>&nbsp;
                                 <strong>{{ username() }}</strong>&nbsp;
-                                收藏了笔记本&nbsp;<i class="fa fa-book" aria-hidden="true"></i>&nbsp;<a :href="'<%=path%>/notebook?notebookId=' + _activity.targetId" class="activity-target"><strong>{{ _activity.targetName }}</strong></a>
+                                收藏了笔记本<i class="fa fa-book" aria-hidden="true"></i>&nbsp;<a :href="'<%=path%>/notebook?notebookId=' + _activity.targetId" class="activity-target"><strong>{{ _activity.targetName }}</strong></a>
                             </p>
                             <!-- TODO: follow tag -->
                             <p v-else-if="_activity.type === 4" style="margin-bottom: 0;">
@@ -118,7 +118,7 @@
                                 <img class="rounded" src="" :src="'<%=path%>/' + _note.cover" style="height: 75px; width: 75px;">
                             </div>
                             <div class="col-md-10" :id="'CT_NB_' + _note.notebookId">
-                                <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>
+                                <a :href="'<%=path%>/notebook?notebookId=' + _note.notebookId"><h4 class="card-title notebook-title" style="margin-bottom: 6px;">{{ _note.title }}</h4></a>
                                 <i class="fa fa-tag" aria-hidden="true"></i>
                                 <div style="display: inline;" v-for="tag in json(_note.tags)">
                                     <kbd class="card-subtitle">{{ tag }}</kbd>&nbsp;

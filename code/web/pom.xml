@@ -306,7 +306,6 @@
         </dependency>
 
     </dependencies>
-
     <build>
         <finalName>TeamNote</finalName>
     </build>
