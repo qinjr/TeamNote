@@ -329,3 +329,8 @@ div.col-md-7 > p a:focus {
 .notebook-tag:hover {
     color: #000000;
 }
+
+.custom-select {
+    height: 46px;
+    width: 100px;
+}
