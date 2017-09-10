@@ -65,7 +65,7 @@
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn" id="function-btn" style="display: none;" >
-            <button class="btn btn-secondary">
+            <button class="btn" :class="count >= 0? 'btn-secondary' : 'btn-outline-danger'">
                 <i class="fa fa-chevron-up fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="upvote()"></i>
                 {{ count }}
                 <i class="fa fa-chevron-down fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="downvote()"></i>
