@@ -14,5 +14,5 @@ public interface SearchService {
      * @param keyWord 搜索关键词
      * @return 返回搜索结果JSONArray
      */
-    String search(String type, String keyWord);
+    String search(String type, String keyWord, int userId);
 }
