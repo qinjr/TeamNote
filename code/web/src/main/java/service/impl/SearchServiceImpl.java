@@ -32,6 +32,7 @@ public class SearchServiceImpl implements SearchService{
     public String search(String type, String keyWord, int userId) {
         User user = userDao.getUserById(userId);
         String result;
+        if (keyWord.equals("") || keyWord.equals(" ")) return "[]";
         if(type.equals("notebook")) {
             List<Notebook> notebooks = notebookDao.getNotebooksByKey(keyWord);
             ArrayList<JsonObject> notebooksRet = new ArrayList<JsonObject>();
