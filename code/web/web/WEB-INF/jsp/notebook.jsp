@@ -65,7 +65,7 @@
         </div>
         <div class="dropdown-divider"></div>
         <div class="sidebar-btn" id="function-btn" style="display: none;" >
-            <button class="btn btn-secondary">
+            <button class="btn" :class="count >= 0? 'btn-secondary' : 'btn-outline-danger'">
                 <i class="fa fa-chevron-up fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="upvote()"></i>
                 {{ count }}
                 <i class="fa fa-chevron-down fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="downvote()"></i>
@@ -106,19 +106,47 @@
 
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
-<script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
 <script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
 <script>
     CKEDITOR.replace( 'editor', {
         customConfig: '<%=path%>/ckeditor/js/config.js',
         contentsCss: '<%=path%>/ckeditor/css/contents.css',
-        skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/',
+        skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
     });
 
-
-    $('.note').click(function () {
+    $('.note').click(function(e) {
+        if (CKEDITOR.instances.editor.checkDirty()) {
+            if (confirm("转到其他笔记将会失去当前笔记未保存的内容，确认跳转吗？")){
+            } else {
+                return;
+            }
+        }
         $('#function-btn').show();
         $('#btn-report').removeAttr('disabled');
+        $('#chooseType').removeAttr("style");//add
+        noteId = parseInt(e.target.id);
+        $.ajax({
+            url : "/teamnote/getNote",
+            processData : true,
+            dataType : "text",
+            type : "post",
+            data : {
+                noteId : noteId
+            },
+            success : function(data) {
+                var json = JSON.parse(data);
+                var version = json.versionPointer;
+                var history = json.history[version];
+                var content = JSON.parse(history).content;
+                f_btn.count = json.upvoters.length - json.downvoters.length;
+                f_btn.status = json.evaluate;
+                CKEDITOR.instances.editor.setData(content,{
+                    callback: function() {
+                        CKEDITOR.instances.editor.resetDirty();
+                    }
+                });
+            }
+        });
     });
 
     var f_btn = new Vue({
