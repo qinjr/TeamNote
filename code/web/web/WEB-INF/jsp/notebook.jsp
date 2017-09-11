@@ -218,7 +218,7 @@
                     },
                     responseType: "json"
                 }).then(function(response) {
-                    comment.comments = JSON.parse(response.body.comments)c;
+                    comment.comments = JSON.parse(response.body.comments);
                 });
             }
         }
