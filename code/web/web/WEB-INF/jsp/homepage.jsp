@@ -272,8 +272,8 @@
                         </div>
                     </div>
                     <div v-else="" style="margin-top: 20px;">
-                        <div style="display: inline;" v-for="tag in tags">
-                            <kbd class="card-subtitle">{{ tag.tagName }}&nbsp;<span class="badge badge-pill badge-default">{{ tag.booksOfTag.length }}</span></kbd>&nbsp;
+                        <div style="display: inline;" v-for="(tag, index) in tags">
+                            <kbd class="card-subtitle" :id="index" @click="unfollowTag($event)">{{ tag.tagName }}&nbsp;<span class="badge badge-pill badge-default">{{ tag.booksOfTag.length }}</span></kbd>&nbsp;
                         </div>
                     </div>
                 </div>
@@ -759,6 +759,17 @@
             }).then(function(response) {
                 this.tags = response.body;
             });
+        },
+        methods: {
+            unfollowTag: function(e) {
+                var confirm = window.confirm("您确定要取消关注该标签吗？");
+                if (confirm) {
+                    var tagId = e.srcElement.id;
+                    this.$http.get('/teamnote/unfollowTag', { params: { tagId: tagId } }).then(function() {
+                        location.reload();
+                    });
+                }
+            }
         }
     });
 
