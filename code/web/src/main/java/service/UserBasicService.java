@@ -80,5 +80,7 @@ public interface UserBasicService {
 
     void followTag(int userId, int tagId);
 
+    void unfollowTag(int userId, int tagId);
+
     ArrayList<String> getNotices(int userId);
 }

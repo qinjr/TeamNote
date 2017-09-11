@@ -18,6 +18,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by qjr on 2017/7/7.
@@ -225,10 +226,26 @@ public class UserController {
         return json.toString();
     }
 
+    @RequestMapping("/unfollowTag")
+    @ResponseBody
+    public String unfollowTag(@RequestParam("tagId") int tagId){
+        userBasicService.unfollowTag(getUserId(), tagId);
+        JsonObject json = new JsonObject();
+        json.addProperty("result", "success");
+        return json.toString();
+    }
+
     @RequestMapping("/getNotices")
     @ResponseBody
     public String getNotices() {
         int userId = getUserId();
-        return new Gson().toJson(userBasicService.getNotices(userId));
+        ArrayList<String> notices = userBasicService.getNotices(userId);
+        JsonObject json = new JsonObject();
+        if (notices != null) {
+            json.addProperty("result", new Gson().toJson(notices));
+        } else {
+            json.addProperty("result", "no notice");
+        }
+        return json.toString();
     }
 }

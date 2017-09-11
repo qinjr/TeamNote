@@ -298,13 +298,29 @@ public class UserBasicServiceImpl implements UserBasicService {
     public void followTag(int userId, int tagId) {
         User user = userDao.getUserById(userId);
         ArrayList<Integer> tags = user.getTags();
-        tags.add(tagId);
+        if (!tags.contains(tagId))
+            tags.add(tagId);
         user.setTags(tags);
+        userDao.updateUser(user);
+    }
+
+    public void unfollowTag(int userId, int tagId) {
+        User user = userDao.getUserById(userId);
+        ArrayList<Integer> tags = user.getTags();
+        ArrayList<Integer> newTags = new ArrayList<Integer>();
+        for (Integer tId : tags) {
+            if (tId != tagId)
+                newTags.add(tId);
+        }
+        user.setTags(newTags);
         userDao.updateUser(user);
     }
 
     public ArrayList<String> getNotices(int userId) {
         Notice notice = noticeDao.getNoticeById(userId);
-        return notice.getNotices();
+        if (notice != null)
+            return notice.getNotices();
+        else
+            return null;
     }
 }
