@@ -179,9 +179,6 @@
                                             <a class="btn btn-outline-primary center-block" role="button" :href="'<%=path%>/cooperate/workgroup?notebookId=' + workgroupdetail.notebook.notebookId">
                                                 <i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp;进入工作组
                                             </a>
-                                            <button class="btn btn-outline-warning center-block" type="button">
-                                                <i class="fa fa-envelope-open fa-fw" aria-hidden="true"></i>&nbsp;邀请用户
-                                            </button>
                                         </div>
                                     </div>
                                 </div>

@@ -127,8 +127,10 @@ public class CreateNoteServiceImpl implements CreateNoteService{
      */
     public int newTextNote(int userId, int notebookId, String noteTitle, String content, Date datetime) throws IOException {
         //check where have sensitive word
+        /*
         if (qualityUtil.checkTextContent(userId, content) == 0)
             return 0;
+        */
 
         String username = userInfoDao.getUserInfoById(userId).getUsername();
         JsonObject firstEdition = new JsonObject();
