@@ -20,7 +20,7 @@
     <div class="card" id="recommend-tags">
         <div class="card-block">
             <h4 class="card-title">推荐的标签</h4>
-            <p v-for="tag in tags" class="card-text h5" style="display: inline;" :id="'RT_' + tag.tagId" @click="getNotebooks($event)">
+            <p v-for="tag in tags" class="card-text h5" style="display: inline;" :id="'RT_' + tag.tagId" @click="followTag($event)">
                 <a href="javascript:void(0);"><kbd class="card-subtitle">{{ tag.tagName }}&nbsp;<span class="badge badge-pill badge-default">{{ tag.booksOfTag.length }}</span></kbd></a>&nbsp;
             </p>
         </div>
@@ -128,6 +128,17 @@
             this.$http.get('/teamnote/recommendTag', { responseType: "json" }).then(function(response) {
                 this.tags = response.body;
             });
+        },
+        methods: {
+            followTag: function(e) {
+                var confirm = window.confirm("您确定关注此标签？");
+                if (confirm) {
+                    var tagId = e.srcElement.parentElement.parentElement.id.replace('RT_', '');
+                    this.$http.get('/teamnote/followTag', { params: { tagId: tagId } }).then(function() {
+                        location.reload();
+                    });
+                }
+            }
         }
     });
 
