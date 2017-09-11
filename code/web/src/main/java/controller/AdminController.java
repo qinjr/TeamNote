@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,5 +39,20 @@ public class AdminController {
     @ResponseBody
     public String getNotesOfNotebook(@RequestParam("notebookId") int notebookId) {
         return new Gson().toJson(adminService.RNoteOfNotebook(notebookId));
+    }
+
+    @RequestMapping("/getVerifyNotes")
+    @ResponseBody
+    public String getVerifyNotes() {
+        return adminService.verifyNoteList().toString();
+    }
+
+    @RequestMapping("/banNote")
+    @ResponseBody
+    public String banNote(@RequestParam("verifyId") int verifyId) {
+        adminService.banNote(verifyId);
+        JsonObject obj = new JsonObject();
+        obj.addProperty("result","success");
+        return new Gson().toJson(obj);
     }
 }

@@ -57,6 +57,8 @@ public class VerifyDaoImpl implements VerifyDao{
         update.set("type", verify.getType());
         update.set("targetId", verify.getTargetId());
         update.set("reason", verify.getReason());
+        update.set("checked", verify.getChecked());
+        update.set("reporterId", verify.getReporterId());
         mongoTemplate.updateFirst(query, update, Verify.class,"Verify");
     }
 

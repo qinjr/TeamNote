@@ -196,6 +196,7 @@ public class AdminServiceImpl implements AdminService {
             for(int commentId : comments) {
                 commentDao.deleteComment(commentDao.getCommentById(commentId));
             }
+            notebookId = note.getNotebookId();
             Notebook notebook = notebookDao.getNotebookById(notebookId);
             ArrayList<Integer> notes = notebook.getNotes();
             for(int i = 0;i < notes.size();i++){
@@ -489,12 +490,22 @@ public class AdminServiceImpl implements AdminService {
         return userInfoDao.getAllUserInfos();
     }
 
-    public ArrayList<Note> verifyNoteList(){
+    public ArrayList<JsonObject> verifyNoteList(){
         List<Verify> verifies = verifyDao.getAllVerifies();
-        ArrayList<Note> result = new ArrayList<Note>();
+        ArrayList<JsonObject> result = new ArrayList<JsonObject>();
         for(Verify verify : verifies) {
-            if(verify.getType() == 1) {
-                result.add(noteDao.getNoteById(verify.getTargetId()));
+            if(verify.getType() == 1 && verify.getChecked() == 0) {
+                JsonObject obj = new JsonObject();
+                Note note = noteDao.getNoteById(verify.getTargetId());
+                obj.addProperty("verifyId", verify.getVerifyId());
+                obj.addProperty("noteId", note.getNoteId());
+                obj.addProperty("title", note.getTitle());
+                obj.addProperty("content", note.getHistory().get(note.getVersionPointer()));
+                obj.addProperty("reporterId", verify.getReporterId());
+                obj.addProperty("reason", verify.getReason());
+                obj.addProperty("date", verify.getDate().toString());
+                obj.addProperty("checked", verify.getChecked());
+                result.add(obj);
             }
         }
         return result;
@@ -520,5 +531,13 @@ public class AdminServiceImpl implements AdminService {
             }
         }
         return result;
+    }
+
+    public void banNote(int verifyId) {
+        Verify verify = verifyDao.getVerifyById(verifyId);
+        verify.setChecked(1);
+        verifyDao.updateVerify(verify);
+        int noteId = verify.getTargetId();
+        CUDNote(noteId, "delete", 0,"",null,null,null,null,0,0,0 );
     }
 }
