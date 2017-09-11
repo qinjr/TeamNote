@@ -70,7 +70,7 @@
                 {{ count }}
                 <i class="fa fa-chevron-down fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="downvote()"></i>
             </button>
-            <button class="btn btn-outline-primary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#comment-bar">评论</button>
+            <button class="btn btn-outline-primary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#comment-bar" @click="getComments()">评论</button>
             <button class="btn btn-outline-primary" id="btn-report" data-toggle="modal" data-target="#reportModal">举报</button>
             <button class="btn btn-outline-secondary" id="changeMode" @click="changeMode()">读写</button>
         </div>
@@ -80,7 +80,19 @@
 <!-- right sidebar -->
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade navbar-offcanvas-right" id="comment-bar">
-
+        <div class="dropdown-divider" style="margin-bottom: 0;"></div>
+        <div>
+            <div v-for="comment in comments">
+                {{ comment.content }}
+            </div>
+            <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle"
+                    data-toggle="offcanvas" data-target="#comment-bar" style="width: auto; height: auto;">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </button>
+            <label for="comment"></label>
+            <textarea rows="4" class="form-control" id="comment"></textarea>
+            <input type="button" class="btn btn-outline-success" value="发送评论" id="newComment" @click="comment()">
+        </div>
     </div>
 </nav>
 
@@ -198,6 +210,16 @@
                         f_btn.status = 2;
                     })
                 }
+            },
+            getComments: function() {
+                this.$http.get('/teamnote/evaluate/getComments', {
+                    params: {
+                        noteId: noteId
+                    },
+                    responseType: "json"
+                }).then(function(response) {
+                    comment.comments = JSON.parse(response.body.comments)c;
+                });
             }
         }
 
@@ -230,6 +252,31 @@
                 })
             }
         }
+    });
+
+    var comment = new Vue({
+        el: '#comment-bar',
+        data: {
+            comments: []
+        },
+        methods: {
+            comment: function() {
+                $.ajax({
+                    url: "/teamnote/evaluate/newComment",
+                    type: "post",
+                    data: {
+                        noteId: noteId,
+                        content: $('#comment').val()
+                    },
+                    success: function() {
+                        console.log("success");
+                    }
+
+                })
+            }
+        }
     })
+
+
 
 </script>
