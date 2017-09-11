@@ -23,7 +23,7 @@
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/teamnote.css"/>
 
         <script type="text/javascript" src="https://unpkg.com/vue/dist/vue.min.js"></script>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
     </head>
     <body>
@@ -41,20 +41,24 @@
                         <a class="nav-link" href="<%=path%>/explore"><i class="fa fa-paint-brush fa-fw" aria-hidden="true"></i>&nbsp;探索</a>
                     </li>
                 </ul>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="input-group" style="height: 46px;">
                         <input type="text" id="keyWord" class="form-control" placeholder="搜索" aria-label="search">
+                        <select class="custom-select" id="search-filter">
+                            <option selected value="notebook">笔记本</option>
+                            <option value="user">用户</option>
+                        </select>
                         <span class="input-group-btn">
-                            <button class="btn btn-outline-secondary" id="search"　type="button">
+                            <button class="btn btn-outline-secondary" id="search" type="button">
                                 <i class="fa fa-search" aria-hidden="true"></i>
                             </button>
                         </span>
                     </div>
                 </div>
-                <button class="btn btn-outline-secondary disabled" type="button" style="border: none">
+                <button class="btn btn-outline-secondary" type="button" style="border: none">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-outline-secondary disabled" type="button" style="border: none">
+                <button class="btn btn-outline-secondary" type="button" style="border: none">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                 </button>
                 <ul class="navbar-nav">
@@ -104,17 +108,22 @@
 
         $('#search').click(function(){
             var keyWord = $('#keyWord').val();
+            var type = $('#search-filter').val();
             $.ajax({
                 url : "/teamnote/search",
-                processData : true,
-                dataType : "text",
-                type : "post",
+                dataType : "json",
+                type : "get",
                 data : {
                     keyWord : keyWord,
-                    type : "notebook"
+                    type : type
                 },
                 success : function(data) {
-                    console.log(data);
+                    if (type === 'notebook') {
+                        index.note = data;
+                    } else if (type === 'user') {
+                        index.user = data;
+                    }
+
                 }
             })
         });

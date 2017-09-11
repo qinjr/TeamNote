@@ -156,6 +156,20 @@ public class CooperateController {
         else return ResponseEntity.status(406).body(null);
     }
 
+    @RequestMapping("/takeInvitation")
+    @ResponseBody
+    public String takeInvitation(@RequestParam(value = "userId") int userId,
+                                 @RequestParam(value = "notebookId") int notebookId,
+                                 @RequestParam(value = "identifycode") int identifyCode) {
+        JsonObject json = new JsonObject();
+        if (getUserId() == userId && cooperateService.takeInvitation(userId, identifyCode, notebookId) == 1) {
+            json.addProperty("result", "success");
+        } else {
+            json.addProperty("result", "fail");
+        }
+        return json.toString();
+    }
+
     @RequestMapping("/getSuggestions")
     @ResponseBody
     public String getSuggestions(@RequestParam(value = "noteId") int noteId) {

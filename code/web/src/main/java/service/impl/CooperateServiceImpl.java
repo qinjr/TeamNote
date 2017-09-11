@@ -7,10 +7,7 @@ import com.google.gson.JsonParser;
 import dao.mongodbDao.*;
 import dao.mysqlDao.UserInfoDao;
 import handler.WebsocketHandler;
-import model.mongodb.GroupChat;
-import model.mongodb.Note;
-import model.mongodb.Notebook;
-import model.mongodb.Suggestion;
+import model.mongodb.*;
 import model.mysql.UserInfo;
 import model.temp.Message;
 import org.springframework.web.socket.TextMessage;
@@ -34,6 +31,11 @@ public class CooperateServiceImpl implements CooperateService {
     private UserInfoDao userInfoDao;
     private UserDao userDao;
     private WebsocketHandler websocketHandler;
+
+
+    private int identifyCode(int targetId, int notebookId) {
+        return targetId * targetId + notebookId;
+    }
 
     public void setUserInfoDao(UserInfoDao userInfoDao) {
         this.userInfoDao = userInfoDao;
@@ -72,8 +74,11 @@ public class CooperateServiceImpl implements CooperateService {
     }
 
     public int inviteCooperator(int inviterId, int targetId, int notebookId, String description) {
-        String content = "/viewInvitation?inviterId=" + Integer.toString(inviterId) +
-                "&notebookId=" + Integer.toString(notebookId) + "&description=" + description;
+        User inviter = userDao.getUserById(inviterId);
+        int identifyCode = identifyCode(targetId, notebookId);
+        String link = String.format("/cooperate/takeInvitation?userId=%d&notebookId=%d&identifycode=%d", targetId, notebookId, identifyCode);
+        Notebook notebook = notebookDao.getNotebookById(notebookId);
+        String content = inviter.getUsername() + " 邀请您加入工作组：" + notebook.getTitle() + " 他对您说：" + description + " 同意加入请点击：" + link;
         noticeUtil.sendNotice(targetId, content, new Date());
         return 1;
     }
@@ -86,31 +91,29 @@ public class CooperateServiceImpl implements CooperateService {
         return json.toString();
     }
 
-    public int takeInvitation(int userId, int decision, int notebookId) {
-        UserInfo userInfo = userInfoDao.getUserInfoById(userId);
-        Notebook notebook = notebookDao.getNotebookById(notebookId);
-        Date datetime = new Date();
+    public int takeInvitation(int userId, int identifyCode, int notebookId) {
+        if (identifyCode(userId, notebookId) == identifyCode) {
+            UserInfo userInfo = userInfoDao.getUserInfoById(userId);
+            Notebook notebook = notebookDao.getNotebookById(notebookId);
+            Date datetime = new Date();
 
-        if (decision == 1) {
-            //notify every body in the working group to know that userId has take the invitation
+            //old collaborators
             ArrayList<Integer> collaborators = notebook.getCollaborators();
-            for (int collaborator : collaborators) {
-                noticeUtil.sendNotice(collaborator, "User" + userInfo.getUsername() + "decided to attend our work group",
-                        datetime);
-            }
+
             //add userId to collaborators
-            collaborators.add(userId);
-            notebook.setCollaborators(collaborators);
-            notebookDao.updateNotebook(notebook);
-        } else {
-            //notify every body in the working group to know that userId don't want to take the invitation
-            ArrayList<Integer> collaborators = notebook.getCollaborators();
-            for (int collaborator : collaborators) {
-                noticeUtil.sendNotice(collaborator, "User" + userInfo.getUsername() + "decided not to attend to our work group",
-                        datetime);
+            if (!collaborators.contains(userId)) {
+                for (int collaborator : collaborators) {
+                    noticeUtil.sendNotice(collaborator, "用户 " + userInfo.getUsername() + " 决定加入我们的工作组：" + notebook.getTitle(),
+                            datetime);
+                }
+                collaborators.add(userId);
+                notebook.setCollaborators(collaborators);
+                notebookDao.updateNotebook(notebook);
             }
+            return 1;
+        } else {
+            return 0;
         }
-        return 0;
     }
 
     public ArrayList<String> getGroupChat(int notebookId) {

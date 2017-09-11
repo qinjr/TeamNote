@@ -34,11 +34,11 @@ public interface CooperateService {
     /**
      * takeInvitation
      * @param userId 受邀者Id
-     * @param decision 是否接受邀请，1为接受，0不接受
+     * @param identifycode 验证码
      * @param notebookId 笔记本
      * @return 1为接受，0为拒绝
      */
-    int takeInvitation(int userId, int decision, int notebookId);
+    int takeInvitation(int userId, int identifyCode, int notebookId);
 
 
     /**
