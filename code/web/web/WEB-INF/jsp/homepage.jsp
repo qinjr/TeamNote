@@ -265,15 +265,30 @@
 
                 <!-- following tag -->
                 <div class="tab-pane fade" id="following-tag" role="tabpanel" aria-labelledby="following-tag-tab">
-                    <div v-if="tags.length === 0">
-                        <div class="alert alert-success" role="alert" style="margin-top: 16px;">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                            该用户没有关注的标签
+                    <div v-if="self">
+                        <div v-if="tags.length === 0">
+                            <div class="alert alert-success" role="alert" style="margin-top: 16px;">
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                该用户没有关注的标签
+                            </div>
+                        </div>
+                        <div v-else="" style="margin-top: 20px;">
+                            <div style="display: inline;" v-for="(tag, index) in tags" :id="tag.tagId" @click="unfollowTag($event)">
+                                <a href="javascript:void(0);"><kbd class="card-subtitle">{{ tag.tagName }}&nbsp;<span class="badge badge-pill badge-default">{{ tag.booksOfTag.length }}</span></kbd></a>&nbsp;
+                            </div>
                         </div>
                     </div>
-                    <div v-else="" style="margin-top: 20px;">
-                        <div style="display: inline;" v-for="(tag, index) in tags">
-                            <kbd class="card-subtitle" :id="index" @click="unfollowTag($event)">{{ tag.tagName }}&nbsp;<span class="badge badge-pill badge-default">{{ tag.booksOfTag.length }}</span></kbd>&nbsp;
+                    <div v-else="">
+                        <div v-if="tags.length === 0">
+                            <div class="alert alert-success" role="alert" style="margin-top: 16px;">
+                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                该用户没有关注的标签
+                            </div>
+                        </div>
+                        <div v-else="" style="margin-top: 20px;">
+                            <div style="display: inline;" v-for="(tag, index) in tags" :id="tag.tagId">
+                                <kbd class="card-subtitle">{{ tag.tagName }}&nbsp;<span class="badge badge-pill badge-default">{{ tag.booksOfTag.length }}</span></kbd>&nbsp;
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -748,7 +763,8 @@
     var following_tag = new Vue({
         el: '#following-tag',
         data: {
-            tags: []
+            tags: [],
+            self: null
         },
         created: function() {
             this.$http.get('/teamnote/getTagsOfUser', {
@@ -758,13 +774,14 @@
                 }
             }).then(function(response) {
                 this.tags = response.body;
+                this.self = info.self;
             });
         },
         methods: {
             unfollowTag: function(e) {
                 var confirm = window.confirm("您确定要取消关注该标签吗？");
                 if (confirm) {
-                    var tagId = e.srcElement.id;
+                    var tagId = e.srcElement.parentElement.parentElement.id;
                     this.$http.get('/teamnote/unfollowTag', { params: { tagId: tagId } }).then(function() {
                         location.reload();
                     });
