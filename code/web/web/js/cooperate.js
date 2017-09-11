@@ -324,6 +324,19 @@ $(document).ready(function() {
         $('#exportModal').modal('hide');
     });
 
+    /* upload image */
+    /*CKEDITOR.instances["editor"].on("instanceReady", function() {
+        this.addCommand("image", {
+            modes : {
+                wysiwyg : 1,
+                source : 1
+            },
+            exec : function() {
+                $('#uploadImageModal').modal('show');
+            }
+        });
+    });*/
+
     /* import note */
     $('#uploadNote').click(function () {
         $('#uploadModalTitle').html("选择文件");

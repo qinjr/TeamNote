@@ -1,5 +1,6 @@
 package service;
 
+import com.google.gson.JsonObject;
 import model.mongodb.*;
 import model.mysql.Auth;
 import model.mysql.UserInfo;
@@ -261,7 +262,7 @@ public interface AdminService {
      * verifyNoteList
      * @return 所有需要被管理员审核的Note
      */
-    ArrayList<Note> verifyNoteList();
+    ArrayList<JsonObject> verifyNoteList();
 
     /**
      * verifyCommentList
@@ -274,4 +275,6 @@ public interface AdminService {
      * @return 所有需要被管理员审核的Notebook
      */
     ArrayList<Notebook> verifyNotebookList();
+
+    void banNote(int noteId);
 }

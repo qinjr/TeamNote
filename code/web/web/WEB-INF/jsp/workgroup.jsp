@@ -343,6 +343,39 @@
 <!-- /uploadModal -->
 
 <!-- note related modals -->
+<!-- uploadImageModal -->
+<div class="modal fade" id="uploadImageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="uploadImageModalTitle">选择图片</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <form id="uploadImageForm">
+                <div class="form-group">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <img src="" id="avatar" class="img-150px">
+                            <br>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-secondary file-chooser-label" id="file_upload_label" style="margin-top: 0;">选择上传的图片
+                                    <input type="file" class="form-control-file file-chooser" id="Image" name="Image">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-primary" id="uploadImage">确定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /uploadImageModal -->
 <!-- editModal -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -465,16 +498,11 @@
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
-<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
+<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/standard-all/ckeditor.js"></script>
 <script type="text/javascript" src="<%=path%>/js/validator.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
+<script type="text/javascript" src="<%=path%>/js/editor.js" />
 <script type="text/javascript">
-    CKEDITOR.replace( 'editor', {
-        customConfig: '<%=path%>/ckeditor/js/config.js',
-        contentsCss: '<%=path%>/ckeditor/css/contents.css',
-        skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
-    });
-
     var note = new Vue({
         el: '#left-sidebar',
         data: {
@@ -490,7 +518,6 @@
     $('#historyModal').on('hidden.bs.modal', function() {
         $(this).removeData('bs.modal');
     });
-
 
     //window.onbeforeunload = function() {
         //return "";
