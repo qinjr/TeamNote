@@ -1,5 +1,6 @@
 package service;
 
+import com.google.gson.JsonObject;
 import model.mongodb.Comment;
 
 import java.io.File;
@@ -78,5 +79,5 @@ public interface EvaluateService {
      * @param noteId noteId
      * @return 这个note所有的comments
      */
-    ArrayList<Comment> getCommentsByNote(int noteId);
+    ArrayList<JsonObject> getCommentsByNote(int noteId);
 }

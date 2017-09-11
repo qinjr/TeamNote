@@ -139,6 +139,7 @@
         <property name="userInfoDao" ref="userInfoDao" />
         <property name="tagDao" ref="tagDao" />
         <property name="userBehaviorDao" ref="userBehaviorDao" />
+        <property name="noticeDao" ref="noticeDao" />
     </bean>
     <bean id="createNoteService" class="service.impl.CreateNoteServiceImpl">
         <property name="noteDao" ref="noteDao" />

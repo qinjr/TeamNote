@@ -2,10 +2,12 @@ package service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import dao.mongodbDao.NoticeDao;
 import dao.mongodbDao.TagDao;
 import dao.mongodbDao.UserBehaviorDao;
 import dao.mongodbDao.UserDao;
 import dao.mysqlDao.UserInfoDao;
+import model.mongodb.Notice;
 import model.mongodb.Tag;
 import model.mongodb.User;
 import model.mongodb.UserBehavior;
@@ -26,6 +28,7 @@ public class UserBasicServiceImpl implements UserBasicService {
     private UserBehaviorDao userBehaviorDao;
     private AuthUtil authUtil;
     private TagDao tagDao;
+    private NoticeDao noticeDao;
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -37,6 +40,9 @@ public class UserBasicServiceImpl implements UserBasicService {
     }
     public void setUserBehaviorDao(UserBehaviorDao userBehaviorDao) {
         this.userBehaviorDao = userBehaviorDao;
+    }
+    public void setNoticeDao(NoticeDao noticeDao) {
+        this.noticeDao = noticeDao;
     }
 
     /**
@@ -295,5 +301,10 @@ public class UserBasicServiceImpl implements UserBasicService {
         tags.add(tagId);
         user.setTags(tags);
         userDao.updateUser(user);
+    }
+
+    public ArrayList<String> getNotices(int userId) {
+        Notice notice = noticeDao.getNoticeById(userId);
+        return notice.getNotices();
     }
 }

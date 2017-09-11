@@ -181,12 +181,22 @@ public class EvaluateServiceImpl implements EvaluateService {
         return 1;
     }
 
-    public ArrayList<Comment> getCommentsByNote(int noteId) {
+    public ArrayList<JsonObject> getCommentsByNote(int noteId) {
         Note note = noteDao.getNoteById(noteId);
         ArrayList<Integer> commentsIds = note.getComments();
-        ArrayList<Comment> comments = new ArrayList<Comment>();
+        ArrayList<JsonObject> comments = new ArrayList<JsonObject>();
         for (Integer commentId : commentsIds) {
-            comments.add(commentDao.getCommentById(commentId));
+            Comment comment = commentDao.getCommentById(commentId);
+            User sender = userDao.getUserById(comment.getUserId());
+            JsonObject json = new JsonObject();
+            json.addProperty("commentId", comment.getCommentId());
+            json.addProperty("content", comment.getContent());
+            json.addProperty("userId", comment.getUserId());
+            json.addProperty("sentTime", comment.getSentTime().toString());
+            json.addProperty("username", sender.getUsername());
+            json.addProperty("avatar", sender.getAvatar());
+
+            comments.add(json);
         }
         return comments;
     }

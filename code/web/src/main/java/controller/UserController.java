@@ -225,4 +225,10 @@ public class UserController {
         return json.toString();
     }
 
+    @RequestMapping("/getNotices")
+    @ResponseBody
+    public String getNotices() {
+        int userId = getUserId();
+        return new Gson().toJson(userBasicService.getNotices(userId));
+    }
 }

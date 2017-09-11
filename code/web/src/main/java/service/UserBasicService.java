@@ -79,4 +79,6 @@ public interface UserBasicService {
     String getUserBehaviors(int userId);
 
     void followTag(int userId, int tagId);
+
+    ArrayList<String> getNotices(int userId);
 }

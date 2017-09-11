@@ -187,11 +187,13 @@ public class CooperateServiceImpl implements CooperateService {
     public int raiseSuggestion(int userId, int noteId, String content, String issue, Date datetime, String username) {
         int notebookId = noteDao.getNoteById(noteId).getNotebookId();
         Suggestion suggestion = new Suggestion(userId, noteId, notebookId, content, issue, datetime, "not accepted", username);
-        int suggestionId = suggestionDao.addSuggestion(suggestion);
+        suggestionDao.addSuggestion(suggestion);
+
+        User raiser = userDao.getUserById(userId);
 
         ArrayList<Integer> collaborators = notebookDao.getNotebookById(notebookId).getCollaborators();
         for (int collaborator : collaborators) {
-            noticeUtil.sendNotice(collaborator, "viewSuggestion?suggestionId=" + Integer.toString(suggestionId),
+            noticeUtil.sendNotice(collaborator, raiser.getUsername() + "向您的工作组：" + notebookDao.getNotebookById(notebookId).getTitle() + "提出了修改建议",
                     datetime);
         }
         return 1;
