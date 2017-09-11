@@ -9,12 +9,10 @@
 <%@ include file="header.jsp"%>
 <div class="container">
     <div>
-        ADMIN PAGE TEST
+        <div class="alert alert-danger" role="alert">
+            <strong>本页面暂不开放。</strong>
+        </div>
     </div>
-        <button id="allNotebooks">allNotebooks</button>
-        <button id="allUsers">allUsers</button>
-        <button id="notesOfNotebook">notesOfNotebook</button>
-    <footer>
         <p>&copy; 2017 TeamNote Team</p>
     </footer>
 </div>
