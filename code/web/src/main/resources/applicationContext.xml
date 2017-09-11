@@ -199,6 +199,7 @@
     <bean id="searchService" class="service.impl.SearchServiceImpl">
         <property name="notebookDao" ref="notebookDao" />
         <property name="userDao" ref="userDao" />
+        <property name="tagDao" ref="tagDao" />
     </bean>
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
