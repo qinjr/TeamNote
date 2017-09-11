@@ -41,6 +41,9 @@
                                             data-toggle="collapse" :data-target="'#report-area_' + _note.notebookId" aria-expanded="false" :aria-controls="'report-area_' + _note.notebookId">
                                         <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>&nbsp;举报
                                     </button>
+                                    <button class="btn btn-outline-secondary center-block btn-award none" type="button" @click="award($event)" data-toggle="modal">
+                                        <i class="fa fa-money fa-fw" aria-hidden="true"></i>&nbsp;打赏
+                                    </button>
                                     <div class="collapse" :id="'report-area_' + _note.notebookId">
                                         <div class="card card-block" style="width: inherit;">
                                             <div class="input-group">
@@ -83,6 +86,22 @@
     <footer>
         <p>&copy; 2017 TeamNote Team</p>
     </footer>
+</div>
+
+<div class="modal fade" id="qrcodeModal" tabindex="-1" role="dialog" aria-labelledby="qrcodeModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 265px;">
+            <div class="modal-header">
+                <i class="fa fa-money" aria-hidden="true"></i>打赏
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="" :src="'<%=path%>/' + src" style="max-width: 233px; height: 349px;">
+            </div>
+        </div>
+    </div>
 </div>
 
 <%@ include file="footer.jsp"%>
@@ -191,8 +210,26 @@
                         }
                     })
                 }
+            },
+            award: function(e) {
+                var _index = $(e.currentTarget.parentElement).attr('index');
+                var src = index.note[_index].qrcode;
+                if (src.length !== 0) {
+                    modal.src = src;
+                    $('#qrcodeModal').modal('show');
+                } else {
+                    alert("该用户未开启该功能。");
+                }
+
             }
         }
     });
+
+    var modal = new Vue({
+        el: '#qrcodeModal',
+        data: {
+            src: null
+        }
+    })
 
 </script>
