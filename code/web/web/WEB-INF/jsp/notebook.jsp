@@ -80,18 +80,32 @@
 <!-- right sidebar -->
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-fade navbar-offcanvas-right" id="comment-bar">
+        <div class="pre-scrollable" style="max-height: 70%;">
+            <div v-for="comment in comments">
+                <div style='margin-bottom: 10px;'>
+                    <label>
+                        <div class='media'>
+                            <img class='d-flex mr-3 img-50px rounded' src="" :src="'<%=path%>/' + comment.avatar">
+                            <div class='media-body'>
+                                {{ comment.username }}<br><small style='color: lightgrey'>{{ date(comment.sentTime) }}</small>
+                            </div>
+                        </div>
+                    </label>
+                    <div>
+                        {{ comment.content }}
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="dropdown-divider" style="margin-bottom: 0;"></div>
         <div>
-            <div v-for="comment in comments">
-                {{ comment.content }}
-            </div>
             <button type="button" class="btn btn-outline-secondary btn-back navbar-toggle offcanvas-toggle"
                     data-toggle="offcanvas" data-target="#comment-bar" style="width: auto; height: auto;">
                 <i class="fa fa-chevron-right" aria-hidden="true"></i>
             </button>
             <label for="comment"></label>
             <textarea rows="4" class="form-control" id="comment"></textarea>
-            <input type="button" class="btn btn-outline-success" value="发送评论" id="newComment" @click="comment()">
+            <input type="button" class="btn btn-outline-primary" value="发送评论" id="newComment" @click="comment()" style="width: 100%;">
         </div>
     </div>
 </nav>
@@ -261,18 +275,25 @@
         },
         methods: {
             comment: function() {
-                $.ajax({
-                    url: "/teamnote/evaluate/newComment",
-                    type: "post",
-                    data: {
-                        noteId: noteId,
-                        content: $('#comment').val()
-                    },
-                    success: function() {
-                        console.log("success");
-                    }
+                var confirm = window.confirm("是否提交该评论？");
+                if (confirm) {
+                    $.ajax({
+                        url: "/teamnote/evaluate/newComment",
+                        type: "post",
+                        data: {
+                            noteId: noteId,
+                            content: $('#comment').val()
+                        },
+                        success: function() {
+                            $('#comment').val("");
+                            location.reload();
+                        }
 
-                })
+                    })
+                }
+            },
+            date: function(_date) {
+                return moment(_date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
             }
         }
     })
