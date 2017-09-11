@@ -118,6 +118,8 @@
                     type : type
                 },
                 success : function(data) {
+                    index.note = [];
+                    index.user = [];
                     if (type === 'notebook') {
                         index.note = data;
                     } else if (type === 'user') {
