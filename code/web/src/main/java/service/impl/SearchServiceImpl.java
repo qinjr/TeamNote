@@ -40,6 +40,7 @@ public class SearchServiceImpl implements SearchService{
                 JsonObject json = new JsonObject();
                 json.addProperty("owner", userDao.getUserById(notebook.getOwner()).getUsername());
                 json.addProperty("ownerId", userDao.getUserById(notebook.getOwner()).getUserId());
+                json.addProperty("qrcode", userDao.getUserById(notebook.getOwner()).getQrcode());
                 json.addProperty("creator", userDao.getUserById(notebook.getCreator()).getUsername());
                 json.addProperty("creatorId", userDao.getUserById(notebook.getCreator()).getUserId());
                 json.addProperty("title", notebook.getTitle());
