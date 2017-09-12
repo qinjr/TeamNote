@@ -4,6 +4,10 @@ body {
     height: 100%;
 }
 
+a:hover {
+    text-decoration: inherit;
+}
+
 .navbar-toggleable-md {
     position: relative;
     margin-left: auto;
