@@ -55,10 +55,10 @@
                         </span>
                     </div>
                 </div>
-                <button class="btn btn-outline-secondary" type="button" style="border: none">
+                <button class="btn btn-outline-secondary" type="button" style="border: none" data-toggle="modal" data-target="#notificationModal">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                 </button>
-                <button class="btn btn-outline-secondary" type="button" style="border: none">
+                <button class="btn btn-outline-secondary disabled" type="button" style="border: none">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                 </button>
                 <ul class="navbar-nav">
@@ -86,6 +86,41 @@
                 </ul>
             </div>
         </nav>
+
+        <div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="notificationModalLabel">
+                            <i class="fa fa-bell" aria-hidden="true"></i>&nbsp;通知
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="list-group">
+                            <div v-for="(_notification, index) in notification">
+                                <a class="list-group-item list-group-item-action flex-column align-items-start"
+                                   :href="'#notification_collapse_' + index" data-toggle="collapse" aria-expanded="false" :aria-controls="'notification_collapse_' + index" :key="index">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">
+                                            <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;系统管理员
+                                        </h5>
+                                        <small>{{ date(_notification.datetime) }}</small>
+                                    </div>
+                                </a>
+                                <div class="collapse" :id="'notification_collapse_' + index">
+                                    <div class="card card-block">
+                                        {{ link(_notification.content) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     <script type="text/javascript">
         var user = new Vue({
@@ -129,4 +164,31 @@
                 }
             })
         });
+
+        var notification = new Vue({
+            el: '#notificationModal',
+            data: {
+                notification: []
+            },
+            created : function () {
+                this.$http.get('/teamnote/getNotices').then(function(response) {
+                    var json = JSON.parse(response.body.result);
+                    for (var _json in json) {
+                        this.notification.push(JSON.parse(json[_json]));
+                    }
+                }, function(response) {
+                    console.log(response);
+                });
+            },
+            methods: {
+                link: function(content) {
+                    var index = content.indexOf("请点击：") + 4;
+                    var link = content.substring(0, index) + "http://localhost:8080/teamnote/" + content.substring(index + 1, content.length);
+                    return link;
+                },
+                date: function(_date) {
+                    return moment(_date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
+                }
+            }
+        })
     </script>
