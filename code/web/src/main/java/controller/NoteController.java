@@ -24,7 +24,9 @@ import service.DownloadService;
 import service.NoteManageService;
 import service.UserBasicService;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
@@ -279,8 +281,20 @@ public class NoteController {
 
     @RequestMapping("/uploadNoteImage")
     @ResponseBody
-    public String upladNoteImage(@RequestParam("upload") MultipartFile file){
-        //TODO
-        return "";
+    public void upladNoteImage(@RequestParam("upload") MultipartFile img, HttpServletRequest request, HttpServletResponse response)throws IOException{
+        ServletContext servletContext = request.getServletContext();
+        response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
+        PrintWriter out = response.getWriter();
+        String CKEditorFuncNum = request.getParameter("CKEditorFuncNum");
+        String imgName = Long.toString(System.currentTimeMillis()) + img.getOriginalFilename();
+        String destPath = servletContext.getRealPath("/image/note/") + imgName;
+        img.transferTo(new File(destPath));
+        out.println("<script type=\"text/javascript\">");
+        out.println("window.parent.CKEDITOR.tools.callFunction("
+                + CKEditorFuncNum + ",'" + "/teamnote/image/note/" + imgName
+                + "','')");
+        out.println("</script>");
     }
+
 }
