@@ -72,7 +72,8 @@
             </button>
             <button class="btn btn-outline-primary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#comment-bar">评论</button>
             <button class="btn btn-outline-primary" id="btn-report" data-toggle="modal" data-target="#reportModal">举报</button>
-            <button class="btn btn-outline-secondary" id="changeMode" @click="changeMode()">读写</button>
+            <button class="btn btn-outline-secondary" id="giveAdvice" @click="giveAdvice()">提出建议</button>
+            <button class="btn btn-outline-success" id="saveAdvice" style="display:none;" @click="saveAdvice()">提交建议</button>
         </div>
     </div>
 </nav>
@@ -104,14 +105,44 @@
     </div>
 </div>
 
+<div class="modal fade" id="issueModal" tabindex="-1" role="dialog" aria-labelledby="issueModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="issueModalTitle"></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span><span class="sr-only"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <label for="issue" class="form-control-label">建议</label>
+                        <input class="form-control" name="issue" id="issue">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                <button type="button" class="btn btn-primary sendAdvice">发送</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
-<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
+<script type="text/javascript" src="<%=path%>/ckeditor/ckeditor.js"></script>
 <script>
     CKEDITOR.replace( 'editor', {
-        customConfig: '<%=path%>/ckeditor/js/config.js',
-        contentsCss: '<%=path%>/ckeditor/css/contents.css',
-        skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
+        readOnly: 'true',
+        customConfig: '<%=path%>/ckeditor/config.js',
+        height: 600
+    });
+
+    CKEDITOR.instances.editor.on('instanceReady', function (e) {
+        $("#cke_1_top").hide();
+        $("#cke_1_bottom").hide();
     });
 
     $('.note').click(function(e) {
@@ -121,7 +152,12 @@
                 return;
             }
         }
+        $("#saveAdvice").hide();
+        CKEDITOR.instances.editor.setReadOnly(true);
+        $("#giveAdvice").show();
         $('#function-btn').show();
+        $("#cke_1_top").hide();
+        $("#cke_1_bottom").hide();
         $('#btn-report').removeAttr('disabled');
         $('#chooseType').removeAttr("style");//add
         noteId = parseInt(e.target.id);
@@ -164,16 +200,12 @@
                 var icon = e.currentTarget;
                 $(icon).css('color', '')
             },
-            changeMode: function () {
-                if(!CKEDITOR.instances.editor.readOnly) {
-                    CKEDITOR.instances.editor.setReadOnly(true);
-                    $("#cke_1_top").hide();
-                    $("#cke_1_bottom").hide();
-                } else {
-                    CKEDITOR.instances.editor.setReadOnly(false);
-                    $("#cke_1_top").show();
-                    $("#cke_1_bottom").show();
-                }
+            giveAdvice: function () {
+                CKEDITOR.instances.editor.setReadOnly(false);
+                $("#cke_1_top").show();
+                $("#cke_1_bottom").show();
+                $("#giveAdvice").hide();
+                $("#saveAdvice").show();
             },
             upvote: function () {
                 if (f_btn.status !== 1) {
@@ -198,11 +230,60 @@
                         f_btn.status = 2;
                     })
                 }
+            },
+            saveAdvice: function() {
+                $('#issueModal').modal('show').attr("content", CKEDITOR.instances.editor.getData());
+                CKEDITOR.instances.editor.resetDirty();
+                $.ajax({
+                    url : "/teamnote/cooperate/raiseSuggestion",
+                    processData : true,
+                    dataType : "text",
+                    type : "post",
+                    data : {
+                        noteId : noteId
+                    },
+                    success : function(data) {
+                        var json = JSON.parse(data);
+                        var version = json.versionPointer;
+                        var history = json.history[version];
+                        var content = JSON.parse(history).content;
+                        f_btn.count = json.upvoters.length - json.downvoters.length;
+                        f_btn.status = json.evaluate;
+                        CKEDITOR.instances.editor.setData(content,{
+                            callback: function() {
+                                CKEDITOR.instances.editor.resetDirty();
+                            }
+                        });
+                    }
+                });
             }
         }
-
     });
 
+    $(".sendAdvice").click(function(){
+        var content = CKEDITOR.instances.editor.getData();
+        var issue = $('input[name="issue"]').val();
+        $.ajax({
+            url : "/teamnote/cooperate/raiseSuggestion",
+            processData : true,
+            dataType : "text",
+            type : "post",
+            data : {
+                noteId : noteId,
+                issue: issue,
+                content: content
+            },
+            success : function(data) {
+                var json = JSON.parse(data);
+                if (json.result === "success") {
+                    alert("建议提交成功。");
+                    location.reload();
+                } else {
+                    alert("系统故障，提交失败。");
+                }
+            }
+        });
+    });
     var report = new Vue({
         el: '#reportModal',
         methods: {

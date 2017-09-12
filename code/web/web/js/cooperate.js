@@ -397,6 +397,13 @@ $(document).ready(function() {
     });
 
     $('#newNote').click(function() {
+        if(CKEDITOR.instances.editor.checkDirty()) {
+            if(confirm("转到其他笔记将会失去当前笔记未保存的内容，确认跳转吗？")){
+            }
+            else{
+                return;
+            }
+        }
         $('#chooseType').attr("style","display:none");   // add
         noteId = -1;
         $('a.note').each(function() {
@@ -404,7 +411,11 @@ $(document).ready(function() {
                 $(this).removeClass("active");
             }
         });
-        CKEDITOR.instances.editor.setData("");
+        CKEDITOR.instances.editor.setData("",{
+            callback: function() {
+                CKEDITOR.instances.editor.resetDirty();
+            }
+        });
     });
 
     /* invite */
