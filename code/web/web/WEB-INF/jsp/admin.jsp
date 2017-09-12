@@ -29,7 +29,7 @@
                     <div id="noteContent" style="word-break: break-all"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-success" id="ignore">忽略</button>
                     <button type="button" class="btn btn-danger" id="ban">封禁</button>
                 </div>
             </div>

@@ -55,4 +55,13 @@ public class AdminController {
         obj.addProperty("result","success");
         return new Gson().toJson(obj);
     }
+
+    @RequestMapping("/ignoreNote")
+    @ResponseBody
+    public String ignoreNote(@RequestParam("verifyId") int verifyId) {
+        adminService.ignoreNote(verifyId);
+        JsonObject obj = new JsonObject();
+        obj.addProperty("result","success");
+        return new Gson().toJson(obj);
+    }
 }

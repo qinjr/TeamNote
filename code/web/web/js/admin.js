@@ -1,6 +1,7 @@
 $(document).ready(function() {
-    var list=[];
+    var list;
     $("#verifyNotes").click(function() {
+        list=[];
         $.ajax({
             url:"admin/getVerifyNotes",
             dataType: "text",
@@ -16,6 +17,7 @@ $(document).ready(function() {
                 console.log(list);
                 $('#reportedNotes').DataTable( {
                     data: list,
+                    destroy:true,
                     columns: [
                         { title: "VerifyId"},
                         { title: "NoteId"},
@@ -38,6 +40,7 @@ $(document).ready(function() {
             }
         }
     });
+
     $("#ban").click(function(){
         var verifyId = $("#contentModal").attr("verifyId");
         $.ajax({
@@ -52,7 +55,7 @@ $(document).ready(function() {
                 var json = JSON.parse(data);
                 if (json.result === "success") {
                     alert("封禁成功！");
-                    location.reload();
+                    $("#verifyNotes").click();
                 } else {
                     alert("封禁失败。");
                 }
@@ -60,6 +63,30 @@ $(document).ready(function() {
             }
         });
     });
+
+    $("#ignore").click(function(){
+        var verifyId = $("#contentModal").attr("verifyId");
+        $.ajax({
+            url: "/teamnote/admin/ignoreNote",
+            processData: true,
+            dataType: "text",
+            type: "post",
+            data: {
+                verifyId: verifyId
+            },
+            success: function (data) {
+                var json = JSON.parse(data);
+                if (json.result === "success") {
+                    alert("举报已忽略");
+                    $("#verifyNotes").click();
+                } else {
+                    alert("错误");
+                }
+                $("#contentModal").modal("hide");
+            }
+        });
+    });
+
     $("#allNotebooks").click(function () {
         $.ajax({
             url: "admin/getAllNotebooks",

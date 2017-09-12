@@ -276,5 +276,6 @@ public interface AdminService {
      */
     ArrayList<Notebook> verifyNotebookList();
 
-    void banNote(int noteId);
+    void banNote(int verifyId);
+    void ignoreNote(int verifyId);
 }

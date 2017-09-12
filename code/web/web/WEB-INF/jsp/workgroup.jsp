@@ -501,7 +501,6 @@
 <script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
 <script type="text/javascript" src="<%=path%>/js/validator.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
-<script type="text/javascript" src="<%=path%>/js/editor.js" />
 <script type="text/javascript">
 
     CKEDITOR.replace( 'editor', {
