@@ -71,7 +71,7 @@
                 <i class="fa fa-chevron-down fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="downvote()"></i>
             </button>
             <button class="btn btn-outline-primary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#comment-bar" @click="getComments()">评论</button>
-            <button class="btn btn-outline-primary" id="btn-report" data-toggle="modal" data-target="#reportModal">举报</button>
+            <button class="btn btn-outline-primary" id="btn-report" data-toggle="modal" @click="reportNote($event)">举报</button>
             <button class="btn btn-outline-secondary" id="changeMode" @click="changeMode()">读写</button>
         </div>
     </div>
@@ -87,7 +87,9 @@
                         <div class='media'>
                             <img class='d-flex mr-3 img-50px rounded' src="" :src="'<%=path%>/' + comment.avatar">
                             <div class='media-body'>
-                                {{ comment.username }}<br><small style='color: lightgrey'>{{ date(comment.sentTime) }}</small>
+                                {{ comment.username }}&nbsp;
+                                <a href="javascript:void(0);" @click="reportComment($event)"><small style="color: lightgrey" :id="comment.commentId">举报</small></a>
+                                <br><small style="color: lightgrey">{{ date(comment.sentTime) }}</small>
                             </div>
                         </div>
                     </label>
@@ -119,6 +121,8 @@
                         <span class="input-group-addon" id="basic-addon">
                             <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>
                         </span>
+                        <input type="hidden" id="report-type" value="0">
+                        <input type="hidden" id="report-id" value="-1">
                         <input type="text" class="form-control" id="report" name="report" @input="observe($event)" placeholder="请输入您的举报理由" aria-describedby="basic-addon">
                         <span class="input-group-btn">
                             <button class="btn btn-secondary" type="button" disabled="disabled" @click="report($event)">提交</button>
@@ -234,6 +238,10 @@
                 }).then(function(response) {
                     comment.comments = JSON.parse(response.body.comments);
                 });
+            },
+            reportNote: function(e) {
+                $('#report-type').val(1);
+                $('#reportModal').modal('show');
             }
         }
 
@@ -251,19 +259,37 @@
             },
             report: function(e) {
                 var report = $(e.srcElement.parentElement.previousElementSibling).val();
-                $.ajax({
-                    url: "/teamnote/evaluate/reportNote",
-                    type: "post",
-                    data: {
-                        noteId: noteId,
-                        reason: report
-                    },
-                    success: function() {
-                        alert("您的举报已被管理员受理，请耐心等候，谢谢。");
-                        $('#reportModal').modal('hide');
-                        $('#btn-report').attr('disabled', 'disabled');
-                    }
-                })
+                var type = $('#report-type').val();
+                if (type === "2") {
+                    $.ajax({
+                        url: "/teamnote/evaluate/reportComment",
+                        type: "post",
+                        data: {
+                            commentId: $('#report-id').val(),
+                            reason: report
+                        },
+                        success: function() {
+                            alert("您的举报已被管理员受理，请耐心等候，谢谢。");
+                            $('#reportModal').modal('hide');
+                            $('#report-type').val(0);
+                        }
+                    })
+                } else if (type === "1") {
+                    $.ajax({
+                        url: "/teamnote/evaluate/reportNote",
+                        type: "post",
+                        data: {
+                            noteId: noteId,
+                            reason: report
+                        },
+                        success: function() {
+                            alert("您的举报已被管理员受理，请耐心等候，谢谢。");
+                            $('#reportModal').modal('hide');
+                            $('#btn-report').attr('disabled', 'disabled');
+                            $('#report-type').val(0);
+                        }
+                    })
+                }
             }
         }
     });
@@ -294,6 +320,12 @@
             },
             date: function(_date) {
                 return moment(_date, "ddd MMM DD HH:mm:ss z YYYY").format("YYYY-MM-DD HH:mm:ss");
+            },
+            reportComment: function(e) {
+                var commentId = e.srcElement.id;
+                $('#report-type').val(2);
+                $('#report-id').val(commentId);
+                $('#reportModal').modal('show');
             }
         }
     })

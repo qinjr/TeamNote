@@ -22,7 +22,7 @@
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/font-awesome.min.css"/>
         <link type="text/css" rel="stylesheet" href="<%=path%>/css/teamnote.css"/>
 
-        <script type="text/javascript" src="https://unpkg.com/vue/dist/vue.min.js"></script>
+        <script type="text/javascript" src="https://vuejs.org/js/vue.js"></script>
         <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
     </head>

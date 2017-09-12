@@ -37,10 +37,12 @@
                                     <button class="btn btn-outline-secondary center-block btn-collection none" :class="_note.collected? 'active' : ''" type="button" @click="collect($event)">
                                         <i class="fa fa-flag fa-fw" aria-hidden="true"></i>&nbsp;收藏
                                     </button>
+                                    <!--
                                     <button class="btn btn-outline-secondary center-block btn-report none" type="button"
                                             data-toggle="collapse" :data-target="'#report-area_' + _note.notebookId" aria-expanded="false" :aria-controls="'report-area_' + _note.notebookId">
                                         <i class="fa fa-exclamation-triangle fa-fw" aria-hidden="true"></i>&nbsp;举报
                                     </button>
+                                    -->
                                     <button class="btn btn-outline-secondary center-block btn-award none" type="button" @click="award($event)" data-toggle="modal">
                                         <i class="fa fa-money fa-fw" aria-hidden="true"></i>&nbsp;打赏
                                     </button>

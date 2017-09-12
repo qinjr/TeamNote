@@ -21,9 +21,12 @@
     </head>
     <body>
         <div id="particles-js">
-            <div class="container container-center nbs">
+            <div class="container container-center">
                 <img src="<%=path%>/icon/favicon-200px-error.png">
                 <h1 style="text-align: center;">403 FORBIDDEN</h1>
+                <div>
+                    <h5 style="text-align: center;">如果您有任何疑问，请联系<a href="mailto:rudeigerc@gmail.com" style="text-decoration: none; color: inherit;">管理员</a>。</h5>
+                </div>
             </div>
         </div>
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
