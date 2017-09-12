@@ -464,8 +464,22 @@ public class AdminServiceImpl implements AdminService {
         return 1;
     }
 
-    public List<User> RUser(){
-        return userDao.getAllUsers();
+    public ArrayList<JsonObject> RUser() {
+        List<User> users = userDao.getAllUsers();
+        ArrayList<JsonObject> result = new ArrayList<JsonObject>();
+        for (User user : users) {
+            UserInfo userInfo = userInfoDao.getUserInfoById(user.getUserId());
+            if (userInfo.getRole().equals("ROLE_ADMIN"))
+                continue;
+            JsonObject json = new JsonObject();
+            json.addProperty("userId", user.getUserId());
+            json.addProperty("username", user.getUsername());
+            json.addProperty("deleteCount", user.getDeleteCount());
+            json.addProperty("role", userInfo.getRole());
+            result.add(json);
+        }
+
+        return result;
     }
 
     /* add 和 delete 操作与 User 对应的操作同时执行 */
@@ -545,5 +559,16 @@ public class AdminServiceImpl implements AdminService {
         Verify verify = verifyDao.getVerifyById(verifyId);
         verify.setChecked(1);
         verifyDao.updateVerify(verify);
+    }
+
+    public int changeUserRole(int userId) {
+        UserInfo userInfo = userInfoDao.getUserInfoById(userId);
+        if (userInfo.getRole().equals("ROLE_USER")) {
+            userInfo.setRole("ROLE_BLOCKED");
+        } else {
+            userInfo.setRole("ROLE_USER");
+        }
+        userInfoDao.updateUserInfo(userInfo);
+        return 1;
     }
 }

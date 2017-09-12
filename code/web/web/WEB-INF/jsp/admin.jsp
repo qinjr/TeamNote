@@ -10,10 +10,7 @@
 <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 <div class="container">
     <table id="reportedNotes" class="display" width="100%"></table>
-    <button id="verifyNotes">verifyNotes</button>
-    <button id="allNotebooks">allNotebooks</button>
-    <button id="allUsers">allUsers</button>
-    <button id="notesOfNotebook">notesOfNotebook</button>
+    <table id="users" class="display" width="100%"></table>
 
     <!-- contentModal -->
     <div class="modal fade" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

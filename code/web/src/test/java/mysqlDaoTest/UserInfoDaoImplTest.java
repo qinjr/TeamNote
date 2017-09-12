@@ -47,6 +47,7 @@ public class UserInfoDaoImplTest {
         userInfoDao.addUserInfo(userInfo);
         userInfo = userInfoDao.getAllUserInfos().get(0);
         userInfo.setUsername("haha");
+        userInfoDao.updateUserInfo(userInfo);
         Assert.assertEquals(userInfoDao.getAllUserInfos().get(0).getUsername(), "haha");
     }
 

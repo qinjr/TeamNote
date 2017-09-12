@@ -236,7 +236,7 @@ public interface AdminService {
      * RUser
      * @return 所有User
      */
-    List<User> RUser();
+    ArrayList<JsonObject> RUser();
 
 
     /**
@@ -278,4 +278,6 @@ public interface AdminService {
 
     void banNote(int verifyId);
     void ignoreNote(int verifyId);
+
+    int changeUserRole(int userId);
 }

@@ -64,4 +64,16 @@ public class AdminController {
         obj.addProperty("result","success");
         return new Gson().toJson(obj);
     }
+
+    @RequestMapping("/changeUserStatus")
+    @ResponseBody
+    public String changeUserStatus(@RequestParam("userId") int userId) {
+        JsonObject json = new JsonObject();
+        if (adminService.changeUserRole(userId) == 1) {
+            json.addProperty("result", "success");
+        } else {
+            json.addProperty("result", "failed");
+        }
+        return json.toString();
+    }
 }
