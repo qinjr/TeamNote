@@ -268,7 +268,9 @@ public interface AdminService {
      * verifyCommentList
      * @return 所有需要被管理员审核的Comment
      */
-    ArrayList<Comment> verifyCommentList();
+    ArrayList<JsonObject> verifyCommentList();
+    void banComment(int verifyId);
+    void ignoreComment(int verifyId);
 
     /**
      * verifyNotebookList

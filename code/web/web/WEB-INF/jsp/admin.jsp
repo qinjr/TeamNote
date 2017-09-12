@@ -9,7 +9,13 @@
 <%@ include file="header.jsp"%>
 <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 <div class="container">
+    <h3>审核举报笔记</h3>
     <table id="reportedNotes" class="display" width="100%"></table>
+    <br>
+    <h3>审核举报评论</h3>
+    <table id="comments" class="display" width="100%"></table>
+    <br>
+    <h3>用户管理</h3>
     <table id="users" class="display" width="100%"></table>
 
     <!-- contentModal -->

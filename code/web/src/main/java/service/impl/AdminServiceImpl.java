@@ -123,7 +123,9 @@ public class AdminServiceImpl implements AdminService {
             comment.setValid(valid);
             commentDao.updateComment(comment);
         } else if(op.equals("delete")) {
-           commentDao.deleteComment(commentDao.getCommentById(commentId));
+            Comment comment = commentDao.getCommentById(commentId);
+            comment.setValid(0);
+            commentDao.updateComment(comment);
         }
         return 1;
     }
@@ -194,7 +196,9 @@ public class AdminServiceImpl implements AdminService {
             Note note = noteDao.getNoteById(noteId);
             comments = note.getComments();
             for(int commentId : comments) {
-                commentDao.deleteComment(commentDao.getCommentById(commentId));
+                Comment comment = commentDao.getCommentById(commentId);
+                comment.setValid(0);
+                commentDao.updateComment(comment);
             }
             notebookId = note.getNotebookId();
             Notebook notebook = notebookDao.getNotebookById(notebookId);
@@ -525,26 +529,54 @@ public class AdminServiceImpl implements AdminService {
         return result;
     }
 
-    public ArrayList<Comment> verifyCommentList(){
+    public ArrayList<JsonObject> verifyCommentList(){
         List<Verify> verifies = verifyDao.getAllVerifies();
-        ArrayList<Comment> result = new ArrayList<Comment>();
+        ArrayList<JsonObject> result = new ArrayList<JsonObject>();
         for(Verify verify : verifies) {
-            if(verify.getType() == 0) {
-                result.add(commentDao.getCommentById(verify.getTargetId()));
+            if(verify.getType() == 0 && verify.getChecked() == 0) {
+                JsonObject json = new JsonObject();
+                Comment comment = commentDao.getCommentById(verify.getTargetId());
+                if (comment == null)
+                    continue;
+                json.addProperty("verifyId", verify.getVerifyId());
+                json.addProperty("commentId", comment.getCommentId());
+                json.addProperty("content", comment.getContent());
+                json.addProperty("reporterId", verify.getReporterId());
+                json.addProperty("reason", verify.getReason());
+                json.addProperty("date", verify.getDate().toString());
+                result.add(json);
             }
         }
         return result;
     }
 
-    public ArrayList<Notebook> verifyNotebookList() {
-        List<Verify> verifies = verifyDao.getAllVerifies();
-        ArrayList<Notebook> result = new ArrayList<Notebook>();
-        for(Verify verify : verifies) {
-            if(verify.getType() == 2) {
-                result.add(notebookDao.getNotebookById(verify.getTargetId()));
-            }
+    public void ignoreComment(int verifyId) {
+        Verify verify = verifyDao.getVerifyById(verifyId);
+        verify.setChecked(1);
+        verifyDao.updateVerify(verify);
+    }
+
+    public void banComment(int verifyId) {
+        Verify verify = verifyDao.getVerifyById(verifyId);
+        verify.setChecked(1);
+        verifyDao.updateVerify(verify);
+        int commentId = verify.getTargetId();
+        CUDComment(commentId, "delete", 0, null, null, 0, 0);
+        User user = userDao.getUserById(commentDao.getCommentById(commentId).getUserId());
+        user.setDeleteCount(user.getDeleteCount() + 1);
+        userDao.updateUser(user);
+
+        for (Verify toIgnore : verifyDao.getAllVerifies()) {
+            if (toIgnore.getType() == 0 && toIgnore.getTargetId() == commentId)
+                ignoreComment(toIgnore.getVerifyId());
         }
-        return result;
+
+    }
+
+    public void ignoreNote(int verifyId) {
+        Verify verify = verifyDao.getVerifyById(verifyId);
+        verify.setChecked(1);
+        verifyDao.updateVerify(verify);
     }
 
     public void banNote(int verifyId) {
@@ -553,12 +585,16 @@ public class AdminServiceImpl implements AdminService {
         verifyDao.updateVerify(verify);
         int noteId = verify.getTargetId();
         CUDNote(noteId, "delete", 0,"",null,null,null,null,0,0,0 );
-    }
+        Notebook notebook = notebookDao.getNotebookById(noteDao.getNoteById(noteId).getNotebookId());
+        int ownerId = notebook.getOwner();
+        User owner = userDao.getUserById(ownerId);
+        owner.setDeleteCount(owner.getDeleteCount() + 1);
+        userDao.updateUser(owner);
 
-    public void ignoreNote(int verifyId) {
-        Verify verify = verifyDao.getVerifyById(verifyId);
-        verify.setChecked(1);
-        verifyDao.updateVerify(verify);
+        for (Verify toIgnore : verifyDao.getAllVerifies()) {
+            if (toIgnore.getType() == 1 && toIgnore.getTargetId() == noteId)
+                ignoreNote(toIgnore.getVerifyId());
+        }
     }
 
     public int changeUserRole(int userId) {
@@ -570,5 +606,16 @@ public class AdminServiceImpl implements AdminService {
         }
         userInfoDao.updateUserInfo(userInfo);
         return 1;
+    }
+
+    public ArrayList<Notebook> verifyNotebookList() {
+        List<Verify> verifies = verifyDao.getAllVerifies();
+        ArrayList<Notebook> result = new ArrayList<Notebook>();
+        for(Verify verify : verifies) {
+            if(verify.getType() == 2) {
+                result.add(notebookDao.getNotebookById(verify.getTargetId()));
+            }
+        }
+        return result;
     }
 }

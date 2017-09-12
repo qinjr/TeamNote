@@ -187,6 +187,8 @@ public class EvaluateServiceImpl implements EvaluateService {
         ArrayList<JsonObject> comments = new ArrayList<JsonObject>();
         for (Integer commentId : commentsIds) {
             Comment comment = commentDao.getCommentById(commentId);
+            if(comment.getValid() == 0)
+                continue;
             User sender = userDao.getUserById(comment.getUserId());
             JsonObject json = new JsonObject();
             json.addProperty("commentId", comment.getCommentId());

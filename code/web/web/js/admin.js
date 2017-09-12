@@ -5,7 +5,6 @@ $(document).ready(function() {
         dataType: "text",
         success: function(data){
             var json = JSON.parse(data);
-            console.log(json);
             for(var i=0;i < json.length;i++){
                 if(json[i].checked === 0){
                     var oneReport = [json[i].verifyId, json[i].noteId, json[i].title, json[i].reason, json[i].reporterId, json[i].date,JSON.parse(json[i].content).content];
@@ -16,13 +15,13 @@ $(document).ready(function() {
                 data: vnlist,
                 destroy:true,
                 columns: [
-                    { title: "VerifyId"},
-                    { title: "NoteId"},
-                    { title: "Title" },
-                    { title: "Reason" },
-                    { title: "ReporterId" },
-                    { title: "date" },
-                    { title: "content", render:function(data, type, row) { return '<button class="btn btn-link info" type="button">' + 'view' + '</a>'; } }
+                    { title: "审核ID"},
+                    { title: "笔记ID"},
+                    { title: "笔记标题" },
+                    { title: "举报原因" },
+                    { title: "举报者ID" },
+                    { title: "举报时间" },
+                    { title: "笔记内容", render:function(data, type, row) { return '<button class="btn btn-link info" type="button">' + 'view' + '</a>'; } }
                 ]
             } );
         }
@@ -52,22 +51,30 @@ $(document).ready(function() {
         }
     });
 
+    var vclist = [];
     $.ajax({
-        url: "admin/getAllNotebooks",
+        url:"admin/getVerifyComments",
         dataType: "text",
-        success: function (data) {
-            console.log(data);
-        }
-    });
-
-    $.ajax({
-        url: "admin/getNotes",
-        dataType: "text",
-        data: {
-            notebookId: 1
-        },
-        success: function (data) {
-            console.log(data);
+        success: function(data){
+            var json = JSON.parse(data);
+            for(var i=0;i < json.length;i++){
+                var oneReport = [json[i].verifyId, json[i].commentId, json[i].content, json[i].reporterId, json[i].reason, json[i].date];
+                vclist.push(oneReport);
+            }
+            $('#comments').DataTable( {
+                data: vclist,
+                destroy:true,
+                columns: [
+                    { title: "审核ID"},
+                    { title: "评论ID"},
+                    { title: "内容" },
+                    { title: "举报者ID" },
+                    { title: "举报原因" },
+                    { title: "举报事件" },
+                    { title: "处理", render:function(data, type, row) { return '<button class="btn btn-link bc" id="banComment" type="button">' + '封禁' + '</button>'
+                                                                        + '<button class="btn btn-link ic" id="ignoreComment" type="button">' + '忽略' + '</button>'; } }
+                ]
+            } );
         }
     });
 
@@ -95,7 +102,7 @@ $(document).ready(function() {
                 var json = JSON.parse(data);
                 if (json.result === "success") {
                     alert("封禁成功！");
-                    $("#verifyNotes").click();
+                    location.reload();
                 } else {
                     alert("封禁失败。");
                 }
@@ -118,7 +125,7 @@ $(document).ready(function() {
                 var json = JSON.parse(data);
                 if (json.result === "success") {
                     alert("举报已忽略");
-                    $("#verifyNotes").click();
+                    location.reload();
                 } else {
                     alert("错误");
                 }
@@ -126,6 +133,51 @@ $(document).ready(function() {
             }
         });
     });
+
+    $(document.body).on('click','.bc',function() {
+        var verifyId = $(this).parent().prev().prev().prev().prev().prev().prev().text();
+        $.ajax({
+            url: "/teamnote/admin/banComment",
+            processData: true,
+            dataType: "text",
+            type: "post",
+            data: {
+                verifyId: verifyId
+            },
+            success: function (data) {
+                var json = JSON.parse(data);
+                if (json.result === "success") {
+                    alert("封禁成功");
+                    location.reload();
+                } else {
+                    alert("错误");
+                }
+            }
+        });
+    });
+
+    $(document.body).on('click','.ic',function() {
+        var verifyId = $(this).parent().prev().prev().prev().prev().prev().prev().text();
+        $.ajax({
+            url: "/teamnote/admin/ignoreComment",
+            processData: true,
+            dataType: "text",
+            type: "post",
+            data: {
+                verifyId: verifyId
+            },
+            success: function (data) {
+                var json = JSON.parse(data);
+                if (json.result === "success") {
+                    alert("举报已忽略");
+                    location.reload();
+                } else {
+                    alert("错误");
+                }
+            }
+        });
+    });
+
 
     $(document.body).on('click','.userban',function(){
         var userId = $(this).parent().prev().prev().prev().prev().text();
