@@ -540,4 +540,10 @@ public class AdminServiceImpl implements AdminService {
         int noteId = verify.getTargetId();
         CUDNote(noteId, "delete", 0,"",null,null,null,null,0,0,0 );
     }
+
+    public void ignoreNote(int verifyId) {
+        Verify verify = verifyDao.getVerifyById(verifyId);
+        verify.setChecked(1);
+        verifyDao.updateVerify(verify);
+    }
 }

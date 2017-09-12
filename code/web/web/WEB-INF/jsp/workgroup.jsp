@@ -498,11 +498,16 @@
 <%@ include file="footer.jsp"%>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <script type="text/javascript" src="<%=path%>/js/bootstrap.offcanvas.js"></script>
-<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/standard-all/ckeditor.js"></script>
+<script type="text/javascript" src="https://cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
 <script type="text/javascript" src="<%=path%>/js/validator.js"></script>
 <script type="text/javascript" src="<%=path%>/js/cooperate.js"></script>
-<script type="text/javascript" src="<%=path%>/js/editor.js" />
 <script type="text/javascript">
+    CKEDITOR.replace( 'editor', {
+        customConfig: '<%=path%>/ckeditor/js/config.js',
+        contentsCss: '<%=path%>/ckeditor/css/contents.css',
+        skin: 'bootstrapck,<%=path%>/ckeditor/skins/bootstrapck/'
+    });
+
     var note = new Vue({
         el: '#left-sidebar',
         data: {
