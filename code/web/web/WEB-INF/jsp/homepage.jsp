@@ -203,7 +203,7 @@
                                 <img class="rounded" src="" :src="'<%=path%>/' + _note.cover" style="height: 75px; width: 75px;">
                             </div>
                             <div class="col-md-10" :id="'CT_NB_' + _note.notebookId">
-                                <h4 class="card-title" style="margin-bottom: 6px;">{{ _note.title }}</h4>
+                                <a :href="'<%=path%>/notebook?notebookId=' + _note.notebookId"><h4 class="card-title notebook-title" style="margin-bottom: 6px;">{{ _note.title }}</h4></a>
                                 <i class="fa fa-tag" aria-hidden="true"></i>
                                 <div style="display: inline;" v-for="tag in json(_note.tags)">
                                     <kbd class="card-subtitle">{{ tag }}</kbd>&nbsp;

@@ -70,7 +70,7 @@
                 {{ count }}
                 <i class="fa fa-chevron-down fa-fw" aria-hidden="true" @mouseenter="hover($event)" @mouseleave="_hover($event)" @click="downvote()"></i>
             </button>
-            <button class="btn btn-outline-primary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#comment-bar">评论</button>
+            <button class="btn btn-outline-primary navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#comment-bar" @click="getComments()">评论</button>
             <button class="btn btn-outline-primary" id="btn-report" data-toggle="modal" data-target="#reportModal">举报</button>
             <button class="btn btn-outline-secondary" id="giveAdvice" @click="giveAdvice()">提出建议</button>
             <button class="btn btn-outline-success" id="saveAdvice" style="display:none;" @click="saveAdvice()">提交建议</button>
