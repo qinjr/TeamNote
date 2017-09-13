@@ -112,7 +112,7 @@
                                 </a>
                                 <div class="collapse" :id="'notification_collapse_' + index">
                                     <div class="card card-block">
-                                        {{ link(_notification.content) }}
+                                        {{ _notification.content }}
                                     </div>
                                 </div>
                             </div>
