@@ -93,6 +93,13 @@ public class CooperateServiceImpl implements CooperateService {
 
     public int takeInvitation(int userId, int identifyCode, int notebookId) {
         if (identifyCode(userId, notebookId) == identifyCode) {
+            User user = userDao.getUserById(userId);
+            ArrayList<Integer> notebooks = user.getNotebooks();
+            if (!notebooks.contains(notebookId))
+                notebooks.add(notebookId);
+            user.setNotebooks(notebooks);
+            userDao.updateUser(user);
+
             UserInfo userInfo = userInfoDao.getUserInfoById(userId);
             Notebook notebook = notebookDao.getNotebookById(notebookId);
             Date datetime = new Date();
