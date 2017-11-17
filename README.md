@@ -1,5 +1,6 @@
 ![TeamNote](code/web/web/image/header.png)
 # TeamNote
+[![version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/qinjr/TeamNote/releases/tag/v1.0.0)
 [![license:mit](https://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT)
 
 **TeamNote** is a summer project of Software Engineering, Shanghai Jiao Tong University, a platform for people to share and create notes together.
