@@ -355,7 +355,7 @@
                             $('#report-type').val(0);
                         }
                     })
-                } else if (type === "1") {
+                } else if (type === "0") {
                     $.ajax({
                         url: "/teamnote/evaluate/reportNote",
                         type: "post",
